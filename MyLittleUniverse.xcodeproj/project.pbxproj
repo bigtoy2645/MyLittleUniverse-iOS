@@ -3,10 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A46168D2781B0F100D2A090 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46168C2781B0F100D2A090 /* DetailViewController.swift */; };
+		1A4616912787120E00D2A090 /* Moment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616902787120E00D2A090 /* Moment.swift */; };
+		1A461694278715C800D2A090 /* MomentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A461692278715C800D2A090 /* MomentTableViewCell.swift */; };
+		1A461695278715C800D2A090 /* MomentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A461693278715C800D2A090 /* MomentTableViewCell.xib */; };
+		1A4616972787222500D2A090 /* MomentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616962787222500D2A090 /* MomentViewModel.swift */; };
 		1A8D9B62273AAA7400A1BA53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D9B61273AAA7400A1BA53 /* AppDelegate.swift */; };
 		1A8D9B64273AAA7400A1BA53 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D9B63273AAA7400A1BA53 /* SceneDelegate.swift */; };
 		1A8D9B66273AAA7400A1BA53 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D9B65273AAA7400A1BA53 /* ViewController.swift */; };
@@ -14,9 +19,17 @@
 		1A8D9B6B273AAA7500A1BA53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D9B6A273AAA7500A1BA53 /* Assets.xcassets */; };
 		1A8D9B6E273AAA7500A1BA53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D9B6C273AAA7500A1BA53 /* LaunchScreen.storyboard */; };
 		1ACFA3062740F7E400821337 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA3052740F7E400821337 /* GoogleService-Info.plist */; };
+		1ACFA30827410ED600821337 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFA30727410ED600821337 /* HomeViewController.swift */; };
+		40723D8C2CCFBBF8A1456761 /* Pods_MyLittleUniverse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F4EFFE17AD84DD3D0F6EFDC /* Pods_MyLittleUniverse.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A6F0C37FEE78B171AB619AE /* Pods-MyLittleUniverse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyLittleUniverse.release.xcconfig"; path = "Target Support Files/Pods-MyLittleUniverse/Pods-MyLittleUniverse.release.xcconfig"; sourceTree = "<group>"; };
+		1A46168C2781B0F100D2A090 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		1A4616902787120E00D2A090 /* Moment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Moment.swift; sourceTree = "<group>"; };
+		1A461692278715C800D2A090 /* MomentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentTableViewCell.swift; sourceTree = "<group>"; };
+		1A461693278715C800D2A090 /* MomentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MomentTableViewCell.xib; sourceTree = "<group>"; };
+		1A4616962787222500D2A090 /* MomentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentViewModel.swift; sourceTree = "<group>"; };
 		1A8D9B5E273AAA7400A1BA53 /* MyLittleUniverse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLittleUniverse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8D9B61273AAA7400A1BA53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A8D9B63273AAA7400A1BA53 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -26,6 +39,9 @@
 		1A8D9B6D273AAA7500A1BA53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A8D9B6F273AAA7500A1BA53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1ACFA3052740F7E400821337 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1ACFA30727410ED600821337 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		1F4EFFE17AD84DD3D0F6EFDC /* Pods_MyLittleUniverse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyLittleUniverse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF768548D43ADD10F60DC76E /* Pods-MyLittleUniverse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyLittleUniverse.debug.xcconfig"; path = "Target Support Files/Pods-MyLittleUniverse/Pods-MyLittleUniverse.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,18 +49,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40723D8C2CCFBBF8A1456761 /* Pods_MyLittleUniverse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A46168E2787118F00D2A090 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1A4616902787120E00D2A090 /* Moment.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		1A46168F2787119600D2A090 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				1A4616962787222500D2A090 /* MomentViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		1A8D9B55273AAA7400A1BA53 = {
 			isa = PBXGroup;
 			children = (
 				1A8D9B60273AAA7400A1BA53 /* MyLittleUniverse */,
 				1A8D9B5F273AAA7400A1BA53 /* Products */,
 				AD9EF0A3AF173DF3203F2F47 /* Frameworks */,
+				C63DD2F913075CBAA5106B14 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -59,6 +93,8 @@
 		1A8D9B60273AAA7400A1BA53 /* MyLittleUniverse */ = {
 			isa = PBXGroup;
 			children = (
+				1A46168E2787118F00D2A090 /* Models */,
+				1A46168F2787119600D2A090 /* ViewModels */,
 				1ACFA2FF2740F17B00821337 /* ViewControllers */,
 				1ACFA3042740F3E200821337 /* Resources */,
 				1A8D9B61273AAA7400A1BA53 /* AppDelegate.swift */,
@@ -73,6 +109,9 @@
 			isa = PBXGroup;
 			children = (
 				1A8D9B65273AAA7400A1BA53 /* ViewController.swift */,
+				1ACFA30727410ED600821337 /* HomeViewController.swift */,
+				1A46168C2781B0F100D2A090 /* DetailViewController.swift */,
+				1A461692278715C800D2A090 /* MomentTableViewCell.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -83,6 +122,7 @@
 				1A8D9B67273AAA7400A1BA53 /* Main.storyboard */,
 				1A8D9B6A273AAA7500A1BA53 /* Assets.xcassets */,
 				1A8D9B6C273AAA7500A1BA53 /* LaunchScreen.storyboard */,
+				1A461693278715C800D2A090 /* MomentTableViewCell.xib */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -90,8 +130,18 @@
 		AD9EF0A3AF173DF3203F2F47 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1F4EFFE17AD84DD3D0F6EFDC /* Pods_MyLittleUniverse.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C63DD2F913075CBAA5106B14 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EF768548D43ADD10F60DC76E /* Pods-MyLittleUniverse.debug.xcconfig */,
+				0A6F0C37FEE78B171AB619AE /* Pods-MyLittleUniverse.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -101,9 +151,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1A8D9B72273AAA7500A1BA53 /* Build configuration list for PBXNativeTarget "MyLittleUniverse" */;
 			buildPhases = (
+				C35AC124B88A975B0A9DB724 /* [CP] Check Pods Manifest.lock */,
 				1A8D9B5A273AAA7400A1BA53 /* Sources */,
 				1A8D9B5B273AAA7400A1BA53 /* Frameworks */,
 				1A8D9B5C273AAA7400A1BA53 /* Resources */,
+				C4E55FC0AE6328068E10BB10 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -153,12 +205,55 @@
 			files = (
 				1A8D9B6E273AAA7500A1BA53 /* LaunchScreen.storyboard in Resources */,
 				1ACFA3062740F7E400821337 /* GoogleService-Info.plist in Resources */,
+				1A461695278715C800D2A090 /* MomentTableViewCell.xib in Resources */,
 				1A8D9B6B273AAA7500A1BA53 /* Assets.xcassets in Resources */,
 				1A8D9B69273AAA7400A1BA53 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C35AC124B88A975B0A9DB724 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MyLittleUniverse-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C4E55FC0AE6328068E10BB10 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyLittleUniverse/Pods-MyLittleUniverse-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyLittleUniverse/Pods-MyLittleUniverse-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyLittleUniverse/Pods-MyLittleUniverse-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1A8D9B5A273AAA7400A1BA53 /* Sources */ = {
@@ -167,7 +262,12 @@
 			files = (
 				1A8D9B66273AAA7400A1BA53 /* ViewController.swift in Sources */,
 				1A8D9B62273AAA7400A1BA53 /* AppDelegate.swift in Sources */,
+				1A461694278715C800D2A090 /* MomentTableViewCell.swift in Sources */,
+				1A46168D2781B0F100D2A090 /* DetailViewController.swift in Sources */,
+				1A4616972787222500D2A090 /* MomentViewModel.swift in Sources */,
 				1A8D9B64273AAA7400A1BA53 /* SceneDelegate.swift in Sources */,
+				1ACFA30827410ED600821337 /* HomeViewController.swift in Sources */,
+				1A4616912787120E00D2A090 /* Moment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,7 +344,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -299,7 +399,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -311,12 +411,14 @@
 		};
 		1A8D9B73273AAA7500A1BA53 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF768548D43ADD10F60DC76E /* Pods-MyLittleUniverse.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = MyLittleUniverse/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -330,12 +432,14 @@
 		};
 		1A8D9B74273AAA7500A1BA53 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A6F0C37FEE78B171AB619AE /* Pods-MyLittleUniverse.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = MyLittleUniverse/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
