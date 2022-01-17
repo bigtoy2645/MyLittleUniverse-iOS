@@ -30,6 +30,11 @@ class HomeViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        guard let todayVC = self.storyboard?.instantiateViewController(withIdentifier: TodayViewController.storyboardID) else { return }
+        present(todayVC, animated: true, completion: nil)
+    }
+    
     // MARK: - InterfaceBuilder Links
     
     @IBOutlet weak var btnMainStatus: UIButton!

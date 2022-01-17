@@ -30,9 +30,16 @@ class DetailViewController: UIViewController {
                 cell.onData.onNext(item)
             }
             .disposed(by: disposeBag)
+        
+        btnBack.rx.tap
+            .bind {
+                self.dismiss(animated: false, completion: nil)
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - InterfaceBuilder Links
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var btnBack: UIButton!
 }

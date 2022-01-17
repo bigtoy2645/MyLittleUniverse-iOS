@@ -7,6 +7,7 @@
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -331,12 +332,129 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnBack" destination="IBh-tJ-wNw" id="NBt-ag-utZ"/>
                         <outlet property="tableView" destination="V4G-4c-FmY" id="y3o-tL-wIr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sso-iz-Wfe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1524.6376811594205" y="103.79464285714285"/>
+        </scene>
+        <!--Today View Controller-->
+        <scene sceneID="bV6-gK-bu4">
+            <objects>
+                <viewController storyboardIdentifier="todayView" id="nh5-ah-aXV" customClass="TodayViewController" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="THB-P3-8vc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="today_planet" translatesAutoresizingMaskIntoConstraints="NO" id="fuX-jr-6J8">
+                                <rect key="frame" x="103" y="128" width="208" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="sLq-fD-fbx"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lg8-RI-ZyJ">
+                                <rect key="frame" x="124" y="258" width="166" height="61"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5월 10일" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pV-p7-FwX">
+                                        <rect key="frame" x="54" y="0.0" width="58.5" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="textColor" name="PointYellow"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="오늘은 어때요?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JUD-B8-I1p">
+                                        <rect key="frame" x="0.0" y="27.5" width="166" height="33.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                        <color key="textColor" name="PointPurple"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xve-iR-OFR">
+                                <rect key="frame" x="100" y="803" width="214" height="29"/>
+                                <string key="text">지나간 순간도 의미있도록
+그 때의 진짜 내 모습을 발견해보세요</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZWY-q2-Y8w">
+                                <rect key="frame" x="360" y="76" width="24" height="19.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="RUe-gB-u7y"/>
+                                    <constraint firstAttribute="width" constant="24" id="azM-M3-s42"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" backgroundImage="xmark" catalog="system"/>
+                            </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="QZp-aP-8gG">
+                                <rect key="frame" x="30" y="349" width="354" height="354"/>
+                                <color key="backgroundColor" name="BackgroundGreen"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="QZp-aP-8gG" secondAttribute="height" multiplier="1:1" id="0Jm-0b-gFJ"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="muj-Rn-anf">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="todayCell" id="4MW-6N-sb9" customClass="TodayCollectionViewCell" customModule="MyLittleUniverse" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="NB5-NM-Bef">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="좋아요" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fa4-JK-BYh">
+                                                    <rect key="frame" x="5" y="5" width="118" height="118"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="fa4-JK-BYh" secondAttribute="trailing" constant="5" id="C4O-ZZ-VPZ"/>
+                                                <constraint firstItem="fa4-JK-BYh" firstAttribute="leading" secondItem="NB5-NM-Bef" secondAttribute="leading" constant="5" id="Q4h-Oe-zR6"/>
+                                                <constraint firstItem="fa4-JK-BYh" firstAttribute="top" secondItem="NB5-NM-Bef" secondAttribute="top" constant="5" id="jIp-Pv-ue5"/>
+                                                <constraint firstAttribute="bottom" secondItem="fa4-JK-BYh" secondAttribute="bottom" constant="5" id="rdk-Sy-52d"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="lblStatus" destination="fa4-JK-BYh" id="qKL-qF-69z"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="uXq-hQ-CUH"/>
+                        <color key="backgroundColor" name="BackgroundGreen"/>
+                        <constraints>
+                            <constraint firstItem="xve-iR-OFR" firstAttribute="centerX" secondItem="THB-P3-8vc" secondAttribute="centerX" id="4Ut-xo-sGT"/>
+                            <constraint firstItem="uXq-hQ-CUH" firstAttribute="bottom" secondItem="xve-iR-OFR" secondAttribute="bottom" constant="30" id="B0E-DP-URa"/>
+                            <constraint firstItem="QZp-aP-8gG" firstAttribute="centerX" secondItem="THB-P3-8vc" secondAttribute="centerX" id="BYs-rY-Xji"/>
+                            <constraint firstItem="QZp-aP-8gG" firstAttribute="top" secondItem="lg8-RI-ZyJ" secondAttribute="bottom" constant="30" id="ECU-vy-wfH"/>
+                            <constraint firstItem="lg8-RI-ZyJ" firstAttribute="centerX" secondItem="THB-P3-8vc" secondAttribute="centerX" id="KgC-2j-dTh"/>
+                            <constraint firstItem="ZWY-q2-Y8w" firstAttribute="trailing" secondItem="QZp-aP-8gG" secondAttribute="trailing" id="LC3-Uk-nhQ"/>
+                            <constraint firstItem="ZWY-q2-Y8w" firstAttribute="top" secondItem="uXq-hQ-CUH" secondAttribute="top" constant="30" id="LQd-Yr-ucG"/>
+                            <constraint firstItem="xve-iR-OFR" firstAttribute="leading" secondItem="uXq-hQ-CUH" secondAttribute="leading" constant="100" id="TOE-2N-BI1"/>
+                            <constraint firstItem="fuX-jr-6J8" firstAttribute="top" secondItem="ZWY-q2-Y8w" secondAttribute="bottom" constant="30" id="Uce-yR-OSm"/>
+                            <constraint firstItem="fuX-jr-6J8" firstAttribute="centerX" secondItem="THB-P3-8vc" secondAttribute="centerX" id="ePE-1G-2Gk"/>
+                            <constraint firstItem="lg8-RI-ZyJ" firstAttribute="top" secondItem="fuX-jr-6J8" secondAttribute="bottom" constant="30" id="gU9-j4-3i4"/>
+                            <constraint firstItem="uXq-hQ-CUH" firstAttribute="trailing" secondItem="ZWY-q2-Y8w" secondAttribute="trailing" constant="30" id="wSj-Qf-7oc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="btnClose" destination="ZWY-q2-Y8w" id="Pll-Hj-6Ks"/>
+                        <outlet property="collectionView" destination="QZp-aP-8gG" id="UR8-Jb-qXy"/>
+                        <outlet property="lblDate" destination="1pV-p7-FwX" id="mgM-Yr-fGF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xxb-vS-o4Q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2334.7826086956525" y="103.79464285714285"/>
         </scene>
     </scenes>
     <resources>
@@ -345,11 +463,16 @@
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="planet" width="577" height="541"/>
         <image name="square" catalog="system" width="128" height="114"/>
+        <image name="today_planet" width="208" height="192"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="BackgroundGreen">
             <color red="0.13333333333333333" green="0.23529411764705882" blue="0.17647058823529413" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="PointPurple">
             <color red="0.83137254901960789" green="0.72549019607843135" blue="0.92549019607843142" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="PointYellow">
+            <color red="1" green="1" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
