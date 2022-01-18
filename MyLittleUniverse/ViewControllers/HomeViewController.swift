@@ -25,6 +25,9 @@ class HomeViewController: UIViewController {
             .bind {
                 guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: DetailViewController.storyboardID) as? DetailViewController else { return }
                 detailVC.modalPresentationStyle = .fullScreen
+                self.viewModel.allMoments
+                    .subscribe(onNext: detailVC.moments.onNext)
+                    .disposed(by: self.disposeBag)
                 self.present(detailVC, animated: false)
             }
             .disposed(by: disposeBag)

@@ -9,23 +9,31 @@ import UIKit
 import RxSwift
 
 class MomentTableViewCell: UITableViewCell {
+    static let nibName = "MomentTableViewCell"
     static let identifier = "momentCell"
     
-    let onData: AnyObserver<Moment>
+    let onData: AnyObserver<ViewMoment>
     var disposeBag = DisposeBag()
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 30, bottom: 15, right: 30))
+        contentView.layer.cornerRadius = 10
+    }
+    
     required init?(coder: NSCoder) {
-        let data = PublishSubject<Moment>()
+        let data = PublishSubject<ViewMoment>()
         
         onData = data.asObserver()
-        
+
         super.init(coder: coder)
-        
+
         data.observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] moment in
                 self?.lblDescription.text = moment.description
-                self?.lblDate.text = "\(moment.date)"
-                self?.lblStatus.text = moment.status.rawValue
+                self?.lblDate.text = moment.date
+                self?.lblStatus.text = moment.status
                 if let frame = self?.frame {
                     let imageView = UIImageView(frame: frame)
                     imageView.image = UIImage(named: moment.image)
@@ -38,6 +46,7 @@ class MomentTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
         disposeBag = DisposeBag()
     }
     

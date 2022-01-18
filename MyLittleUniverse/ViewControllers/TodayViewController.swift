@@ -42,6 +42,7 @@ class TodayViewController: UIViewController, UICollectionViewDelegateFlowLayout,
         collectionView.rx.itemSelected
             .subscribe(onNext: { index in
                 print("\(index.section) \(index.row)")
+                self.dismiss(animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
         

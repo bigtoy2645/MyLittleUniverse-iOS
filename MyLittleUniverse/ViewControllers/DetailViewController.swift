@@ -9,14 +9,20 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITableViewDelegate {
     static let storyboardID = "detailView"
     
-    let moments = BehaviorSubject<[Moment]>(value: [])
+    let moments = BehaviorSubject<[ViewMoment]>(value: [])
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Cell 등록
+        let nibName = UINib(nibName: MomentTableViewCell.nibName, bundle: nil)
+        tableView.register(nibName, forCellReuseIdentifier: MomentTableViewCell.identifier)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.delegate = self
         
         setupBindings()
     }
@@ -38,8 +44,13 @@ class DetailViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 460
+    }
+    
     // MARK: - InterfaceBuilder Links
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var btnBack: UIButton!
+    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
 }
