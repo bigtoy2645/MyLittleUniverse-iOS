@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("You're sign in as \(user.uid), email: \(user.email ?? "no email")")
         }
         
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        
         return true
     }
 

@@ -8,13 +8,13 @@
 import Foundation
 
 struct ViewMoment {
-    var status: String
+    var emotion: String
     var date: String
     var description: String
     var image: String
 
     init(_ item: Moment) {
-        status = item.status.rawValue
+        emotion = item.emotion.rawValue
         description = item.description
         image = item.image
         

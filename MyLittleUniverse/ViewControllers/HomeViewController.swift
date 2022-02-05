@@ -24,18 +24,19 @@ class HomeViewController: UIViewController {
         btnMainStatus.rx.tap
             .bind {
                 guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: DetailViewController.storyboardID) as? DetailViewController else { return }
-                detailVC.modalPresentationStyle = .fullScreen
+                
                 self.viewModel.allMoments
                     .subscribe(onNext: detailVC.moments.onNext)
                     .disposed(by: self.disposeBag)
-                self.present(detailVC, animated: false)
+                
+                self.navigationController?.pushViewController(detailVC, animated: false)
             }
             .disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         guard let todayVC = self.storyboard?.instantiateViewController(withIdentifier: TodayViewController.storyboardID) else { return }
-        present(todayVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(todayVC, animated: false)
     }
     
     // MARK: - InterfaceBuilder Links

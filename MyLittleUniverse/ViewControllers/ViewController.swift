@@ -30,9 +30,7 @@ class ViewController: UIViewController {
             .bind {
 //                guard self.token != nil else { return }
                 guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: HomeViewController.storyboardID) else { return }
-                
-                homeVC.modalPresentationStyle = .fullScreen
-                self.present(homeVC, animated: false)
+                self.navigationController?.pushViewController(homeVC, animated: false)
             }
             .disposed(by: disposeBag)
     }

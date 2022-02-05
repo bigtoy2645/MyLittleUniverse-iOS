@@ -40,16 +40,20 @@ class TodayViewController: UIViewController, UICollectionViewDelegateFlowLayout,
             .disposed(by: disposeBag)
         
         collectionView.rx.itemSelected
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { index in
-                print("\(index.section) \(index.row)")
-                self.dismiss(animated: true, completion: nil)
+                guard let paintListVC = self.storyboard?.instantiateViewController(withIdentifier: PaintListViewController.storyboardID) as? PaintListViewController else { return }
+                // 선택한 Emotion 전달
+                paintListVC.emotions.onNext([.glad, .belazy, .comfortable, .funny, .happy, .exciting])
+                self.navigationController?.pushViewController(paintListVC, animated: false)
+                // TODO - TodayDetailVC로 이동
             })
             .disposed(by: disposeBag)
         
         // 닫기 버튼
         btnClose.rx.tap
             .bind {
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: false, completion: nil)
             }
             .disposed(by: disposeBag)
     }

@@ -33,7 +33,7 @@ class MomentTableViewCell: UITableViewCell {
             .subscribe(onNext: { [weak self] moment in
                 self?.lblDescription.text = moment.description
                 self?.lblDate.text = moment.date
-                self?.lblStatus.text = moment.status
+                self?.lblStatus.text = moment.emotion
                 if let frame = self?.frame {
                     let imageView = UIImageView(frame: frame)
                     imageView.image = UIImage(named: moment.image)

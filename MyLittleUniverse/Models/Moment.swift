@@ -8,13 +8,13 @@
 import Foundation
 
 struct Moment {
-    var status: Status
+    var emotion: Emotion
     var date: Date
     var description: String
     var image: String
 }
 
-enum Status: String {
+enum Emotion: String {
     case glad           = "기쁜"
     case exciting       = "신나는"
     case touching       = "감동적인"

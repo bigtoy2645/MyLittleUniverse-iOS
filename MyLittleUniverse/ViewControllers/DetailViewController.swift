@@ -27,6 +27,7 @@ class DetailViewController: UIViewController, UITableViewDelegate {
         setupBindings()
     }
     
+    /* Binding */
     func setupBindings() {
         // 테이블뷰 아이템
         moments
@@ -51,6 +52,5 @@ class DetailViewController: UIViewController, UITableViewDelegate {
     // MARK: - InterfaceBuilder Links
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var btnBack: UIButton!
-    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var btnBack: UIBarButtonItem!
 }
