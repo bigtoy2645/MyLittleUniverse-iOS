@@ -29,7 +29,22 @@ class PaintViewController: UIViewController {
                 self.stackBackground.isHidden = true
                 if let stickerVC = self.stickerViewController {
                     self.add(asChildViewController: stickerVC)
+                    
+                    self.rightControls.isHidden = false
+                    self.btnUndo.isHidden = true
+                    self.btnRedo.isHidden = true
+                    self.btnDone.isHidden = false
                 }
+            }
+            .disposed(by: disposeBag)
+        
+        btnDone.rx.tap
+            .observe(on: MainScheduler.instance)
+            .bind {
+                self.btnDone.isHidden = true
+                self.leftControls.isHidden = false
+                self.btnUndo.isHidden = false
+                self.btnRedo.isHidden = false
             }
             .disposed(by: disposeBag)
         
@@ -62,6 +77,8 @@ class PaintViewController: UIViewController {
         stickerVC.completeHandler = { (color) in
             DispatchQueue.main.async {
                 self.paintView.backgroundColor = color
+                self.btnDone.isEnabled = true
+                self.btnDone.alpha = 1.0
             }
         }
         
@@ -90,4 +107,10 @@ class PaintViewController: UIViewController {
     @IBOutlet weak var btnAddBgColor: UIButton!
     @IBOutlet weak var paintView: UIView!
     @IBOutlet weak var stickerView: UIView!
+    @IBOutlet weak var leftControls: UIStackView!
+    @IBOutlet weak var rightControls: UIStackView!
+    
+    @IBOutlet weak var btnUndo: UIButton!
+    @IBOutlet weak var btnRedo: UIButton!
+    @IBOutlet weak var btnDone: UIButton!
 }

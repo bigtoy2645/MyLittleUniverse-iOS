@@ -150,7 +150,7 @@
             <objects>
                 <viewController storyboardIdentifier="paintListView" id="npQ-VI-U7l" customClass="PaintListViewController" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ReZ-a0-QRd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rkk-ei-mfU">
@@ -449,7 +449,7 @@
             <objects>
                 <viewController storyboardIdentifier="todayView" id="nh5-ah-aXV" customClass="TodayViewController" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="THB-P3-8vc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="today_planet" translatesAutoresizingMaskIntoConstraints="NO" id="fuX-jr-6J8">
@@ -588,10 +588,51 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mR0-dm-FtI">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mR0-dm-FtI" userLabel="Control View">
                                 <rect key="frame" x="0.0" y="414" width="414" height="60"/>
+                                <subviews>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="68T-8T-v05">
+                                        <rect key="frame" x="20" y="18" width="112" height="24"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cq7-t2-tzD">
+                                                <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
+                                                <state key="normal" image="picture_on"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33A-cm-RQp">
+                                                <rect key="frame" x="44" y="0.0" width="24" height="24"/>
+                                                <state key="normal" image="shape_off"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I0J-Ah-R8k">
+                                                <rect key="frame" x="88" y="0.0" width="24" height="24"/>
+                                                <state key="normal" image="text_off"/>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="d2F-Jb-LLf">
+                                        <rect key="frame" x="286.5" y="18" width="107.5" height="24"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPj-vA-0gd">
+                                                <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
+                                                <state key="normal" image="undo_off"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lf7-8M-QOe">
+                                                <rect key="frame" x="44" y="0.0" width="24" height="24"/>
+                                                <state key="normal" image="redo_off"/>
+                                            </button>
+                                            <button opaque="NO" alpha="0.40000000000000002" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i1u-e3-k3q">
+                                                <rect key="frame" x="88" y="0.0" width="19.5" height="24"/>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" image="check"/>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
                                 <constraints>
+                                    <constraint firstItem="d2F-Jb-LLf" firstAttribute="centerY" secondItem="mR0-dm-FtI" secondAttribute="centerY" id="6O2-4X-MRK"/>
                                     <constraint firstAttribute="height" constant="60" id="8G6-eI-btb"/>
+                                    <constraint firstAttribute="trailing" secondItem="d2F-Jb-LLf" secondAttribute="trailing" constant="20" id="PB4-Kl-gy6"/>
+                                    <constraint firstItem="68T-8T-v05" firstAttribute="leading" secondItem="mR0-dm-FtI" secondAttribute="leading" constant="20" id="SpS-D2-ZtY"/>
+                                    <constraint firstItem="68T-8T-v05" firstAttribute="centerY" secondItem="mR0-dm-FtI" secondAttribute="centerY" id="fjQ-Tj-8x0"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xDd-D9-wnI">
@@ -618,7 +659,12 @@
                     <size key="freeformSize" width="414" height="750"/>
                     <connections>
                         <outlet property="btnAddBgColor" destination="rS5-Ip-2rw" id="73x-q6-cN8"/>
+                        <outlet property="btnDone" destination="i1u-e3-k3q" id="7WZ-vb-Svf"/>
+                        <outlet property="btnRedo" destination="Lf7-8M-QOe" id="DlL-5V-6DN"/>
+                        <outlet property="btnUndo" destination="fPj-vA-0gd" id="Y9b-32-IgL"/>
+                        <outlet property="leftControls" destination="68T-8T-v05" id="Qq2-ta-PPH"/>
                         <outlet property="paintView" destination="yuR-Lx-j8N" id="jBd-kB-pax"/>
+                        <outlet property="rightControls" destination="d2F-Jb-LLf" id="lpD-2D-etv"/>
                         <outlet property="stackBackground" destination="iNk-YP-afU" id="0Vn-H1-ccK"/>
                         <outlet property="stickerView" destination="xDd-D9-wnI" id="0Dk-Le-nwi"/>
                     </connections>
@@ -646,14 +692,14 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="colorChipCell" id="m0n-qK-KFc" customClass="PaintColorChipCollectionViewCell" customModule="MyLittleUniverse" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="21" width="30" height="30"/>
+                                        <rect key="frame" x="0.0" y="19" width="34" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="s5N-Lc-g8P">
-                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="34" height="34"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="mPR-i5-ka5">
-                                                    <rect key="frame" x="2" y="2.5" width="26" height="25"/>
+                                                    <rect key="frame" x="2" y="2.5" width="30" height="29"/>
                                                     <color key="tintColor" systemColor="systemRedColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="Wa8-b6-FBC"/>
@@ -666,15 +712,15 @@
                                                 <constraint firstItem="mPR-i5-ka5" firstAttribute="top" secondItem="s5N-Lc-g8P" secondAttribute="top" constant="2" id="E5W-S8-kkL"/>
                                                 <constraint firstItem="mPR-i5-ka5" firstAttribute="centerX" secondItem="s5N-Lc-g8P" secondAttribute="centerX" id="Fcd-Wl-jJp"/>
                                                 <constraint firstItem="mPR-i5-ka5" firstAttribute="centerY" secondItem="s5N-Lc-g8P" secondAttribute="centerY" id="ObL-bj-dnn"/>
+                                                <constraint firstItem="mPR-i5-ka5" firstAttribute="centerX" secondItem="s5N-Lc-g8P" secondAttribute="centerX" id="zcR-U3-hHD"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <size key="customSize" width="30" height="30"/>
                                         <connections>
                                             <outlet property="imgCircle" destination="mPR-i5-ka5" id="oxo-5H-6vJ"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="shapeCell" id="TyM-h4-XM4">
-                                        <rect key="frame" x="40" y="0.0" width="72" height="72"/>
+                                        <rect key="frame" x="44" y="0.0" width="72" height="72"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Fq5-tJ-6gx">
                                             <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
@@ -683,7 +729,7 @@
                                         <size key="customSize" width="72" height="72"/>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="imageCell" id="5Ia-GN-4CV">
-                                        <rect key="frame" x="122" y="0.0" width="72" height="72"/>
+                                        <rect key="frame" x="126" y="0.0" width="72" height="72"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="xv6-Iq-WGK">
                                             <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
@@ -814,9 +860,14 @@
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
         <image name="check" width="19.5" height="15"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
+        <image name="picture_on" width="24" height="24"/>
         <image name="planet" width="577" height="541"/>
+        <image name="redo_off" width="24" height="24"/>
+        <image name="shape_off" width="24" height="24"/>
         <image name="square" catalog="system" width="128" height="114"/>
+        <image name="text_off" width="24" height="24"/>
         <image name="today_planet" width="107.5" height="101"/>
+        <image name="undo_off" width="24" height="24"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="BackgroundGreen">
             <color red="0.13333333333333333" green="0.23529411764705882" blue="0.17647058823529413" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
