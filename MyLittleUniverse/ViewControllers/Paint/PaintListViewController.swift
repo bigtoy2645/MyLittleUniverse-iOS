@@ -11,6 +11,7 @@ import RxSwift
 class PaintListViewController: UIViewController, UICollectionViewDelegate {
     static let storyboardID = "paintListView"
     
+    let gradientLayer = CAGradientLayer()
     var pageViewController = PaintPageViewController()
     let emotions = BehaviorSubject<[Emotion]>(value: [])
     var selectedIndex = BehaviorSubject(value: 0)
@@ -22,12 +23,28 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
         setupBindings()
         
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        gradientLayer.colors = [UIColor.white.cgColor, UIColor.clear.cgColor]
+        gradientLayer.locations = [0.7, 1.0]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        gradientLayer.frame = colEmotion.bounds
+        colEmotion.layer.mask = gradientLayer
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         navigationController?.isNavigationBarHidden = false
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        gradientLayer.frame = scrollView.bounds
+        if scrollView.contentSize.width > (scrollView.bounds.origin.x + view.frame.width) {
+            colEmotion.layer.mask = gradientLayer
+        } else {
+            colEmotion.layer.mask = nil
+        }
     }
     
     /* Binding */
