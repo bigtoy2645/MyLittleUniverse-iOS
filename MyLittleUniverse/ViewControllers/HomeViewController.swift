@@ -29,7 +29,7 @@ class HomeViewController: UIViewController {
                     .subscribe(onNext: detailVC.moments.onNext)
                     .disposed(by: self.disposeBag)
                 
-                self.navigationController?.pushViewController(detailVC, animated: false)
+                self.navigationController?.pushViewController(detailVC, animated: true)
             }
             .disposed(by: disposeBag)
         

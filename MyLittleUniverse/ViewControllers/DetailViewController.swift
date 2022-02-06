@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class DetailViewController: UIViewController, UITableViewDelegate {
+class DetailViewController: UIViewController, UITableViewDelegate, UIGestureRecognizerDelegate {
     static let storyboardID = "detailView"
     
     let moments = BehaviorSubject<[ViewMoment]>(value: [])
@@ -23,6 +23,9 @@ class DetailViewController: UIViewController, UITableViewDelegate {
         tableView.register(nibName, forCellReuseIdentifier: MomentTableViewCell.identifier)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.delegate = self
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         setupBindings()
     }
@@ -46,7 +49,7 @@ class DetailViewController: UIViewController, UITableViewDelegate {
         
         btnBack.rx.tap
             .bind {
-                self.navigationController?.popViewController(animated: false)
+                self.navigationController?.popViewController(animated: true)
             }
             .disposed(by: disposeBag)
     }
