@@ -24,6 +24,13 @@ class TodayViewController: UIViewController, UICollectionViewDelegateFlowLayout,
         setupBindings()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationItem.hidesBackButton = true
+        navigationController?.isNavigationBarHidden = false
+    }
+    
     /* Binding */
     func setupBindings() {
         collectionView.rx
@@ -34,8 +41,6 @@ class TodayViewController: UIViewController, UICollectionViewDelegateFlowLayout,
             .bind(to: collectionView.rx.items(cellIdentifier: TodayCollectionViewCell.identifier,
                                               cellType: TodayCollectionViewCell.self)) { index, status, cell in
                 cell.lblStatus.text = status
-                cell.layer.borderWidth = 1
-                cell.layer.borderColor = UIColor.white.cgColor
             }
             .disposed(by: disposeBag)
         
@@ -53,7 +58,7 @@ class TodayViewController: UIViewController, UICollectionViewDelegateFlowLayout,
         // 닫기 버튼
         btnClose.rx.tap
             .bind {
-                self.dismiss(animated: false, completion: nil)
+                self.navigationController?.popViewController(animated: false)
             }
             .disposed(by: disposeBag)
     }
@@ -68,5 +73,6 @@ class TodayViewController: UIViewController, UICollectionViewDelegateFlowLayout,
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var lblDate: UILabel!
-    @IBOutlet weak var btnClose: UIButton!
+    @IBOutlet weak var btnClose: UIBarButtonItem!
+    
 }

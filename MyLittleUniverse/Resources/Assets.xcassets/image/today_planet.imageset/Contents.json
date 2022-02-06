@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "today_planet_2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "today_planet_3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

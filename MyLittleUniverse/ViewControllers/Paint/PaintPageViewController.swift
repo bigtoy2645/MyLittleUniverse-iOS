@@ -13,7 +13,12 @@ class PaintPageViewController: UIPageViewController {
     var completeHandler: ((Int) -> ())?
     
     var views = [UIViewController]()
-    var selectedIndex = 0
+    var currentIndex : Int {
+        guard let vc = viewControllers?.first,
+              let index = views.firstIndex(of: vc) else { return 0 }
+        return index
+    }
+    
     var pageCount = 0 {
         didSet {
             views.removeAll()
@@ -41,7 +46,7 @@ class PaintPageViewController: UIPageViewController {
         if index < 0, index >= views.count { return }
         
         setViewControllers([views[index]], direction: .forward, animated: false, completion: nil)
-        completeHandler?(selectedIndex)
+        completeHandler?(currentIndex)
     }
 }
 
@@ -71,7 +76,7 @@ extension PaintPageViewController: UIPageViewControllerDataSource, UIPageViewCon
     /* View 전환 */
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
-            completeHandler?(selectedIndex)
+            completeHandler?(currentIndex)
         }
     }
 }

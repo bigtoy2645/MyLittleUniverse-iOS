@@ -32,11 +32,15 @@ class HomeViewController: UIViewController {
                 self.navigationController?.pushViewController(detailVC, animated: false)
             }
             .disposed(by: disposeBag)
+        
+        guard let todayVC = self.storyboard?.instantiateViewController(withIdentifier: TodayViewController.storyboardID) else { return }
+        self.navigationController?.pushViewController(todayVC, animated: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let todayVC = self.storyboard?.instantiateViewController(withIdentifier: TodayViewController.storyboardID) else { return }
-        self.navigationController?.pushViewController(todayVC, animated: false)
+        super.viewWillAppear(animated)
+        
+        navigationController?.isNavigationBarHidden = true
     }
     
     // MARK: - InterfaceBuilder Links

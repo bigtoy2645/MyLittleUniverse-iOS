@@ -27,6 +27,12 @@ class DetailViewController: UIViewController, UITableViewDelegate {
         setupBindings()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.isNavigationBarHidden = false
+    }
+    
     /* Binding */
     func setupBindings() {
         // 테이블뷰 아이템
@@ -40,7 +46,7 @@ class DetailViewController: UIViewController, UITableViewDelegate {
         
         btnBack.rx.tap
             .bind {
-                self.dismiss(animated: false, completion: nil)
+                self.navigationController?.popViewController(animated: false)
             }
             .disposed(by: disposeBag)
     }
