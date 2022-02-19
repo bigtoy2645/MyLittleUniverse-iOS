@@ -33,11 +33,11 @@ class PaintStickerViewController: UIViewController, UICollectionViewDelegate {
         type.subscribe(onNext: { type in
             switch type {
             case .picture:
-                self.stickers.onNext(["Ellipse37", "Ellipse28", "Ellipse68"])
+                self.stickers.onNext([])
             case .shape:
-                self.stickers.onNext(["Polygon1", "Ellipse37"])
+                self.stickers.onNext(["Polygon1", "Ellipse28", "Ellipse37", "Ellipse68"])
             case .fillShape:
-                self.stickers.onNext(["Ellipse28", "Ellipse68"])
+                self.stickers.onNext([])
             }
         })
         .disposed(by: disposeBag)

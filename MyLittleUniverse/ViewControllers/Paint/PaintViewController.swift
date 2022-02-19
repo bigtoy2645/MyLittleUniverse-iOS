@@ -12,7 +12,8 @@ class PaintViewController: UIViewController {
     static let storyboardID = "paintView"
     
     var stickers = [UIImageView]()
-    var focusSticker: UIImageView? {
+    var lblText = UILabel()
+    var focusSticker: UIView? {
         didSet {
             oldValue?.layer.borderWidth = 0
             focusSticker?.layer.borderWidth = 1
@@ -60,9 +61,7 @@ class PaintViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind {
                 if let stickerVC = self.stickerViewController {
-                    self.btnPicture.setImage(UIImage(named: "picture_on"), for: .normal)
-                    self.btnShape.setImage(UIImage(named: "shape_off"), for: .normal)
-                    self.btnText.setImage(UIImage(named: "text_off"), for: .normal)
+                    self.selectButton(item: self.btnPicture)
                     self.present(asChildViewController: stickerVC)
                     stickerVC.type.onNext(.picture)
                 }
@@ -74,9 +73,7 @@ class PaintViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind {
                 if let stickerVC = self.stickerViewController {
-                    self.btnShape.setImage(UIImage(named: "shape_on"), for: .normal)
-                    self.btnPicture.setImage(UIImage(named: "picture_off"), for: .normal)
-                    self.btnText.setImage(UIImage(named: "text_off"), for: .normal)
+                    self.selectButton(item: self.btnShape)
                     self.present(asChildViewController: stickerVC)
                     stickerVC.type.onNext(.shape)
                 }
@@ -87,13 +84,10 @@ class PaintViewController: UIViewController {
         btnText.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                //                if let stickerVC = self.stickerViewController {
-                self.btnText.setImage(UIImage(named: "text_on"), for: .normal)
-                self.btnShape.setImage(UIImage(named: "shape_off"), for: .normal)
-                self.btnPicture.setImage(UIImage(named: "picture_off"), for: .normal)
-                //                    self.add(asChildViewController: stickerVC)
-                //                    stickerVC.type.onNext(.shape)
-                //                }
+                if let textVC = self.textViewController {
+                    self.selectButton(item: self.btnText)
+                    self.present(asChildViewController: textVC)
+                }
             }
             .disposed(by: disposeBag)
     }
@@ -126,13 +120,15 @@ class PaintViewController: UIViewController {
         btnPicture.sendActions(for: .touchUpInside)
     }
     
-    @objc func handlePanGesture(recognizer: UIPanGestureRecognizer) {
-        focusSticker?.center = recognizer.location(in: paintView)
-    }
-    
-    @objc func handleTapGesture(recognizer: UITapGestureRecognizer) {
-        guard let tappedImage = recognizer.view as? UIImageView else { return }
-        focusSticker = tappedImage
+    /* leftControl 이미지 변경 */
+    func selectButton(item: UIButton) {
+        let pictureImage = item == btnPicture ? "picture_on" : "picture_off"
+        let shapeImage = item == btnShape ? "shape_on" : "shape_off"
+        let textImage = item == btnText ? "text_on" : "text_off"
+        
+        btnPicture.setImage(UIImage(named: pictureImage), for: .normal)
+        btnShape.setImage(UIImage(named: shapeImage), for: .normal)
+        btnText.setImage(UIImage(named: textImage), for: .normal)
     }
     
     private lazy var colorChipViewController: PaintColorChipViewController? = {
@@ -158,27 +154,16 @@ class PaintViewController: UIViewController {
         return stickerVC
     }()
     
-    /* 스티커 추가 */
-    private func addSticker(image: UIImage) {
-        let sticker = UIImageView(image: image)
+    private lazy var textViewController: PaintTextViewController? = {
+        guard let textVC = self.storyboard?.instantiateViewController(withIdentifier: PaintTextViewController.identifier) as? PaintTextViewController else { return nil }
+        textVC.completeHandler = { (description) in
+            DispatchQueue.main.async {
+                self.addTextSticker(text: description)
+            }
+        }
         
-        let size = self.paintView.frame.width / 4
-        sticker.frame.size = CGSize(width: size, height: size)
-        sticker.center = self.paintView.center
-        
-        // Gesture
-        sticker.isUserInteractionEnabled = true
-        let panGesture = UIPanGestureRecognizer(target: self,
-                                                action: #selector(self.handlePanGesture(recognizer:)))
-        sticker.addGestureRecognizer(panGesture)
-        let tapGesture = UITapGestureRecognizer(target: self,
-                                                action: #selector(self.handleTapGesture(recognizer:)))
-        sticker.addGestureRecognizer(tapGesture)
-        
-        self.stickers.append(sticker)
-        self.paintView.addSubview(sticker)
-        self.focusSticker = sticker
-    }
+        return textVC
+    }()
     
     private func present(asChildViewController viewController: UIViewController) {
         if stickerView.subviews.contains(viewController.view) {
@@ -217,4 +202,67 @@ class PaintViewController: UIViewController {
     @IBOutlet weak var btnPicture: UIButton!
     @IBOutlet weak var btnShape: UIButton!
     @IBOutlet weak var btnText: UIButton!
+}
+
+// MARK: - Sticker Functions
+
+extension PaintViewController {
+    /* 스티커 추가 */
+    private func addSticker(image: UIImage) {
+        let sticker = UIImageView(image: image)
+        
+        let size = paintView.frame.width / 4
+        sticker.frame.size = CGSize(width: size, height: size)
+        sticker.center = paintView.center
+        
+        // Gesture
+        sticker.isUserInteractionEnabled = true
+        let panGesture = UIPanGestureRecognizer(target: self,
+                                                action: #selector(self.handlePanGesture(recognizer:)))
+        sticker.addGestureRecognizer(panGesture)
+        let tapGesture = UITapGestureRecognizer(target: self,
+                                                action: #selector(self.handleTapGesture(recognizer:)))
+        sticker.addGestureRecognizer(tapGesture)
+        
+        stickers.append(sticker)
+        paintView.addSubview(sticker)
+        focusSticker = sticker
+    }
+    
+    /* 설명 추가 */
+    private func addTextSticker(text: String) {
+        lblText.text = text
+        lblText.sizeToFit()
+        lblText.numberOfLines = text.components(separatedBy: "\n").count
+        lblText.frame.size = CGSize(width: lblText.frame.width + 20,
+                                    height: lblText.frame.height + 20)
+        lblText.center = paintView.center
+        focusSticker = lblText
+        
+        if paintView.subviews.contains(lblText) { return }
+        
+        // Gesture
+        lblText.isUserInteractionEnabled = true
+        let panGesture = UIPanGestureRecognizer(target: self,
+                                                action: #selector(self.handlePanGesture(recognizer:)))
+        lblText.addGestureRecognizer(panGesture)
+        let tapGesture = UITapGestureRecognizer(target: self,
+                                                action: #selector(self.handleTapGesture(recognizer:)))
+        lblText.addGestureRecognizer(tapGesture)
+        lblText.textAlignment = .center
+        lblText.lineBreakMode = .byClipping
+        
+        paintView.addSubview(lblText)
+    }
+    
+    /* 드래그 */
+    @objc func handlePanGesture(recognizer: UIPanGestureRecognizer) {
+        focusSticker?.center = recognizer.location(in: paintView)
+    }
+    
+    /* 선택 시 Focus 변경 */
+    @objc func handleTapGesture(recognizer: UITapGestureRecognizer) {
+        guard let tappedImage = recognizer.view as? UIImageView else { return }
+        focusSticker = tappedImage
+    }
 }
