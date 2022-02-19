@@ -34,14 +34,16 @@ class PaintViewController: UIViewController {
         btnAddBgColor.rx.tap
             .bind {
                 self.stackBackground.isHidden = true
-                if let colorVC = self.colorChipViewController {
-                    self.add(asChildViewController: colorVC)
-                    
-                    self.rightControls.isHidden = false
-                    self.btnUndo.isHidden = true
-                    self.btnRedo.isHidden = true
-                    self.btnDone.isHidden = false
-                }
+                self.presentBackgroundColorChipView()
+                self.btnDone.isEnabled = false
+            }
+            .disposed(by: disposeBag)
+        
+        // 배경 색상 변경
+        btnEditBgColor.rx.tap
+            .bind {
+                self.presentBackgroundColorChipView()
+                self.btnDone.isEnabled = true
             }
             .disposed(by: disposeBag)
         
@@ -49,11 +51,7 @@ class PaintViewController: UIViewController {
         btnDone.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                self.btnDone.isHidden = true
-                self.leftControls.isHidden = false
-                self.btnUndo.isHidden = false
-                self.btnRedo.isHidden = false
-                self.btnPicture.sendActions(for: .touchUpInside)
+                self.presentStickerView()
             }
             .disposed(by: disposeBag)
         
@@ -65,7 +63,7 @@ class PaintViewController: UIViewController {
                     self.btnPicture.setImage(UIImage(named: "picture_on"), for: .normal)
                     self.btnShape.setImage(UIImage(named: "shape_off"), for: .normal)
                     self.btnText.setImage(UIImage(named: "text_off"), for: .normal)
-                    self.add(asChildViewController: stickerVC)
+                    self.present(asChildViewController: stickerVC)
                     stickerVC.type.onNext(.picture)
                 }
             }
@@ -79,7 +77,7 @@ class PaintViewController: UIViewController {
                     self.btnShape.setImage(UIImage(named: "shape_on"), for: .normal)
                     self.btnPicture.setImage(UIImage(named: "picture_off"), for: .normal)
                     self.btnText.setImage(UIImage(named: "text_off"), for: .normal)
-                    self.add(asChildViewController: stickerVC)
+                    self.present(asChildViewController: stickerVC)
                     stickerVC.type.onNext(.shape)
                 }
             }
@@ -100,6 +98,34 @@ class PaintViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    /* 배경 색상 선택 화면 표시 */
+    func presentBackgroundColorChipView() {
+        if let colorVC = self.colorChipViewController {
+            present(asChildViewController: colorVC)
+            
+            leftControls.isHidden = true
+            rightControls.isHidden = false
+            
+            btnEditBgColor.isHidden = true
+            btnUndo.isHidden = true
+            btnRedo.isHidden = true
+            btnDone.isHidden = false
+        }
+    }
+    
+    /* 스티커 추가 화면 표시 */
+    func presentStickerView() {
+        leftControls.isHidden = false
+        rightControls.isHidden = false
+        
+        btnEditBgColor.isHidden = false
+        btnUndo.isHidden = false
+        btnRedo.isHidden = false
+        btnDone.isHidden = true
+        
+        btnPicture.sendActions(for: .touchUpInside)
+    }
+    
     @objc func handlePanGesture(recognizer: UIPanGestureRecognizer) {
         focusSticker?.center = recognizer.location(in: paintView)
     }
@@ -115,7 +141,6 @@ class PaintViewController: UIViewController {
             DispatchQueue.main.async {
                 self.paintView.backgroundColor = color
                 self.btnDone.isEnabled = true
-                self.btnDone.alpha = 1.0
             }
         }
         
@@ -155,11 +180,14 @@ class PaintViewController: UIViewController {
         self.focusSticker = sticker
     }
     
-    private func add(asChildViewController viewController: UIViewController) {
-        if !stickerView.subviews.contains(viewController.view) {
-            addChild(viewController)
-            stickerView.addSubview(viewController.view)
+    private func present(asChildViewController viewController: UIViewController) {
+        if stickerView.subviews.contains(viewController.view) {
+            stickerView.bringSubviewToFront(viewController.view)
+            return
         }
+        
+        addChild(viewController)
+        stickerView.addSubview(viewController.view)
         
         viewController.view.frame = stickerView.bounds
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -176,6 +204,7 @@ class PaintViewController: UIViewController {
     
     @IBOutlet weak var stackBackground: UIStackView!
     @IBOutlet weak var btnAddBgColor: UIButton!
+    @IBOutlet weak var btnEditBgColor: UIButton!
     @IBOutlet weak var paintView: UIView!
     @IBOutlet weak var stickerView: UIView!
     @IBOutlet weak var leftControls: UIStackView!

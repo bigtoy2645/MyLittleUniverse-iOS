@@ -586,7 +586,15 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yuR-Lx-j8N">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Kf-BB-ojY">
+                                        <rect key="frame" x="16" y="374" width="24" height="24"/>
+                                        <state key="normal" image="bgColor"/>
+                                    </button>
+                                </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="5Kf-BB-ojY" secondAttribute="bottom" constant="16" id="1vd-C8-itt"/>
+                                    <constraint firstItem="5Kf-BB-ojY" firstAttribute="leading" secondItem="yuR-Lx-j8N" secondAttribute="leading" constant="16" id="XAZ-Bz-ud0"/>
                                     <constraint firstAttribute="width" secondItem="yuR-Lx-j8N" secondAttribute="height" multiplier="1:1" id="fmx-Tr-bF0"/>
                                 </constraints>
                             </view>
@@ -641,7 +649,7 @@
                                                 <rect key="frame" x="44" y="0.0" width="24" height="24"/>
                                                 <state key="normal" image="redo_off"/>
                                             </button>
-                                            <button opaque="NO" alpha="0.40000000000000002" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i1u-e3-k3q">
+                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i1u-e3-k3q">
                                                 <rect key="frame" x="88" y="0.0" width="19.5" height="24"/>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" image="check"/>
@@ -682,6 +690,7 @@
                     <connections>
                         <outlet property="btnAddBgColor" destination="rS5-Ip-2rw" id="73x-q6-cN8"/>
                         <outlet property="btnDone" destination="i1u-e3-k3q" id="7WZ-vb-Svf"/>
+                        <outlet property="btnEditBgColor" destination="5Kf-BB-ojY" id="IO9-TF-vhG"/>
                         <outlet property="btnPicture" destination="Cq7-t2-tzD" id="Trj-Yb-HJe"/>
                         <outlet property="btnRedo" destination="Lf7-8M-QOe" id="DlL-5V-6DN"/>
                         <outlet property="btnShape" destination="33A-cm-RQp" id="7UV-gQ-8tI"/>
@@ -930,6 +939,7 @@
     <resources>
         <image name="add_circle" width="40" height="40"/>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
+        <image name="bgColor" width="24" height="24"/>
         <image name="check" width="19.5" height="15"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
         <image name="picture_on" width="24" height="24"/>
