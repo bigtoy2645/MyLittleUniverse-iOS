@@ -11,7 +11,6 @@ import RxSwift
 class PaintListViewController: UIViewController, UICollectionViewDelegate {
     static let storyboardID = "paintListView"
     
-    let gradientLayer = CAGradientLayer()
     var pageViewController = PaintPageViewController()
     let emotions = BehaviorSubject<[Emotion]>(value: [])
     var selectedIndex = BehaviorSubject(value: 0)
@@ -24,12 +23,13 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
         
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
-        gradientLayer.colors = [UIColor.white.cgColor, UIColor.clear.cgColor]
-        gradientLayer.locations = [0.7, 1.0]
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
+        gradientLayer.locations = [0.0, 0.4]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        gradientLayer.frame = colEmotion.bounds
-        colEmotion.layer.mask = gradientLayer
+        gradientLayer.frame = saveView.bounds
+        saveView.layer.mask = gradientLayer
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,11 +39,11 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        gradientLayer.frame = scrollView.bounds
-        if scrollView.contentSize.width > (scrollView.bounds.origin.x + view.frame.width) {
-            colEmotion.layer.mask = gradientLayer
+        if scrollView.contentSize.width > (scrollView.bounds.origin.x + view.frame.width - saveView.frame.width * 0.6) ||
+            scrollView.contentSize.width == 0 {
+            emotionTrailingConstraint.constant = 10
         } else {
-            colEmotion.layer.mask = nil
+            emotionTrailingConstraint.constant = saveView.frame.width
         }
     }
     
@@ -76,7 +76,7 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
             })
             .disposed(by: disposeBag)
         
-        btnSave.rx.tap
+        btnSaveAll.rx.tap
             .bind {
                 guard let controllers = self.navigationController?.viewControllers else { return }
                 for vc in controllers {
@@ -88,7 +88,7 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
             }
             .disposed(by: disposeBag)
         
-        btnClose.rx.tap
+        btnCancel.rx.tap
             .bind {
                 self.navigationController?.popViewController(animated: false)
             }
@@ -120,6 +120,10 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var colEmotion: UICollectionView!
-    @IBOutlet weak var btnSave: UIBarButtonItem!
-    @IBOutlet weak var btnClose: UIBarButtonItem!
+    @IBOutlet weak var btnSaveAll: UIBarButtonItem!
+    @IBOutlet weak var btnCancel: UIBarButtonItem!
+    
+    @IBOutlet weak var saveView: UIView!
+    @IBOutlet weak var btnSave: UIButton!
+    @IBOutlet weak var emotionTrailingConstraint: NSLayoutConstraint!
 }
