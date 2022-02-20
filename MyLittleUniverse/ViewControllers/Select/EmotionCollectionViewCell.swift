@@ -1,5 +1,5 @@
 //
-//  TodayCollectionViewCell.swift
+//  EmotionCollectionViewCell.swift
 //  MyLittleUniverse
 //
 //  Created by yurim on 2022/01/17.
@@ -7,15 +7,15 @@
 
 import UIKit
 
-class TodayCollectionViewCell: UICollectionViewCell {
-    static let identifier = "todayCell"
+class EmotionCollectionViewCell: UICollectionViewCell {
+    static let identifier = "emotionCell"
     
     @IBOutlet weak var lblStatus: UILabel!
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        layer.borderWidth = 1
+        layer.borderWidth = 0.5
         layer.borderColor = UIColor.white.cgColor
     }
     
@@ -24,15 +24,12 @@ class TodayCollectionViewCell: UICollectionViewCell {
             super.isSelected = newValue
             if self.isSelected {
                 lblStatus.textColor = UIColor.bgGreen
-                backgroundColor = UIColor.pointPurple
-                layer.borderWidth = 0
-                layer.cornerRadius = contentView.frame.width / 2
+                lblStatus.backgroundColor = UIColor.pointPurple
+                lblStatus.layer.cornerRadius = lblStatus.frame.width / 2
             } else {
                 lblStatus.textColor = .white
-                backgroundColor = .clear
-                layer.borderColor = UIColor.white.cgColor
-                layer.borderWidth = 1
-                layer.cornerRadius = 0
+                lblStatus.backgroundColor = .clear
+                lblStatus.layer.cornerRadius = 0
             }
         }
     }

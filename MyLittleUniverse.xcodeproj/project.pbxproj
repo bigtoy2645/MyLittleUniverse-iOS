@@ -12,8 +12,8 @@
 		1A461694278715C800D2A090 /* MomentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A461692278715C800D2A090 /* MomentTableViewCell.swift */; };
 		1A461695278715C800D2A090 /* MomentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A461693278715C800D2A090 /* MomentTableViewCell.xib */; };
 		1A4616972787222500D2A090 /* MomentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616962787222500D2A090 /* MomentViewModel.swift */; };
-		1A46169927959A0000D2A090 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169827959A0000D2A090 /* TodayViewController.swift */; };
-		1A46169B2795A52700D2A090 /* TodayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169A2795A52700D2A090 /* TodayCollectionViewCell.swift */; };
+		1A46169927959A0000D2A090 /* SelectEmotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169827959A0000D2A090 /* SelectEmotionViewController.swift */; };
+		1A46169B2795A52700D2A090 /* EmotionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169A2795A52700D2A090 /* EmotionCollectionViewCell.swift */; };
 		1A46169D27971CD800D2A090 /* ViewMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169C27971CD700D2A090 /* ViewMoment.swift */; };
 		1A46169F279B04A000D2A090 /* PaintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169E279B04A000D2A090 /* PaintViewController.swift */; };
 		1A4616A527A51C8D00D2A090 /* PaintListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616A427A51C8D00D2A090 /* PaintListViewController.swift */; };
@@ -33,6 +33,8 @@
 		1A8D9B6E273AAA7500A1BA53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D9B6C273AAA7500A1BA53 /* LaunchScreen.storyboard */; };
 		1ACFA3062740F7E400821337 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA3052740F7E400821337 /* GoogleService-Info.plist */; };
 		1ACFA30827410ED600821337 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFA30727410ED600821337 /* HomeViewController.swift */; };
+		1AE216F127C27A1B002E945E /* EmotionDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F027C27A1B002E945E /* EmotionDetailCollectionViewCell.swift */; };
+		1AE216F327C27B6E002E945E /* SelectDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F227C27B6E002E945E /* SelectDetailViewController.swift */; };
 		40723D8C2CCFBBF8A1456761 /* Pods_MyLittleUniverse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F4EFFE17AD84DD3D0F6EFDC /* Pods_MyLittleUniverse.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,8 +45,8 @@
 		1A461692278715C800D2A090 /* MomentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentTableViewCell.swift; sourceTree = "<group>"; };
 		1A461693278715C800D2A090 /* MomentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MomentTableViewCell.xib; sourceTree = "<group>"; };
 		1A4616962787222500D2A090 /* MomentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentViewModel.swift; sourceTree = "<group>"; };
-		1A46169827959A0000D2A090 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		1A46169A2795A52700D2A090 /* TodayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayCollectionViewCell.swift; sourceTree = "<group>"; };
+		1A46169827959A0000D2A090 /* SelectEmotionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEmotionViewController.swift; sourceTree = "<group>"; };
+		1A46169A2795A52700D2A090 /* EmotionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionCollectionViewCell.swift; sourceTree = "<group>"; };
 		1A46169C27971CD700D2A090 /* ViewMoment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMoment.swift; sourceTree = "<group>"; };
 		1A46169E279B04A000D2A090 /* PaintViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintViewController.swift; sourceTree = "<group>"; };
 		1A4616A427A51C8D00D2A090 /* PaintListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintListViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +68,8 @@
 		1A8D9B6F273AAA7500A1BA53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1ACFA3052740F7E400821337 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1ACFA30727410ED600821337 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		1AE216F027C27A1B002E945E /* EmotionDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		1AE216F227C27B6E002E945E /* SelectDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDetailViewController.swift; sourceTree = "<group>"; };
 		1F4EFFE17AD84DD3D0F6EFDC /* Pods_MyLittleUniverse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyLittleUniverse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF768548D43ADD10F60DC76E /* Pods-MyLittleUniverse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyLittleUniverse.debug.xcconfig"; path = "Target Support Files/Pods-MyLittleUniverse/Pods-MyLittleUniverse.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -155,6 +159,7 @@
 				1A46168E2787118F00D2A090 /* Models */,
 				1A46168F2787119600D2A090 /* ViewModels */,
 				1ACFA2FF2740F17B00821337 /* ViewControllers */,
+				1A4616B027AFC9EE00D2A090 /* Extensions */,
 				1ACFA3042740F3E200821337 /* Resources */,
 				1A8D9B61273AAA7400A1BA53 /* AppDelegate.swift */,
 				1A8D9B63273AAA7400A1BA53 /* SceneDelegate.swift */,
@@ -167,14 +172,12 @@
 		1ACFA2FF2740F17B00821337 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1AE216F427C27C27002E945E /* Select */,
 				1A4616A127A5195A00D2A090 /* Paint */,
-				1A4616B027AFC9EE00D2A090 /* Extensions */,
 				1A8D9B65273AAA7400A1BA53 /* ViewController.swift */,
 				1ACFA30727410ED600821337 /* HomeViewController.swift */,
 				1A46168C2781B0F100D2A090 /* DetailViewController.swift */,
 				1A461692278715C800D2A090 /* MomentTableViewCell.swift */,
-				1A46169827959A0000D2A090 /* TodayViewController.swift */,
-				1A46169A2795A52700D2A090 /* TodayCollectionViewCell.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -188,6 +191,17 @@
 				1A461693278715C800D2A090 /* MomentTableViewCell.xib */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		1AE216F427C27C27002E945E /* Select */ = {
+			isa = PBXGroup;
+			children = (
+				1A46169827959A0000D2A090 /* SelectEmotionViewController.swift */,
+				1A46169A2795A52700D2A090 /* EmotionCollectionViewCell.swift */,
+				1AE216F227C27B6E002E945E /* SelectDetailViewController.swift */,
+				1AE216F027C27A1B002E945E /* EmotionDetailCollectionViewCell.swift */,
+			);
+			path = Select;
 			sourceTree = "<group>";
 		};
 		AD9EF0A3AF173DF3203F2F47 /* Frameworks */ = {
@@ -326,9 +340,9 @@
 				1A8D9B66273AAA7400A1BA53 /* ViewController.swift in Sources */,
 				1A4616B227AFCA0A00D2A090 /* UIColor+Extension.swift in Sources */,
 				1A8D9B62273AAA7400A1BA53 /* AppDelegate.swift in Sources */,
-				1A46169927959A0000D2A090 /* TodayViewController.swift in Sources */,
+				1A46169927959A0000D2A090 /* SelectEmotionViewController.swift in Sources */,
 				1A461694278715C800D2A090 /* MomentTableViewCell.swift in Sources */,
-				1A46169B2795A52700D2A090 /* TodayCollectionViewCell.swift in Sources */,
+				1A46169B2795A52700D2A090 /* EmotionCollectionViewCell.swift in Sources */,
 				1A46168D2781B0F100D2A090 /* DetailViewController.swift in Sources */,
 				1A4616A927AE5C6300D2A090 /* PaintEmotionCollectionViewCell.swift in Sources */,
 				1A4616AB27AE8E7800D2A090 /* PaintColorChipViewController.swift in Sources */,
@@ -341,9 +355,11 @@
 				1A4616AD27AE909100D2A090 /* PaintColorChipCollectionViewCell.swift in Sources */,
 				1A8D9B64273AAA7400A1BA53 /* SceneDelegate.swift in Sources */,
 				1A4616B427B8EDEF00D2A090 /* PaintStickerCollectionViewCell.swift in Sources */,
+				1AE216F327C27B6E002E945E /* SelectDetailViewController.swift in Sources */,
 				1ACFA30827410ED600821337 /* HomeViewController.swift in Sources */,
 				1A46169D27971CD800D2A090 /* ViewMoment.swift in Sources */,
 				1A4616912787120E00D2A090 /* Moment.swift in Sources */,
+				1AE216F127C27A1B002E945E /* EmotionDetailCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

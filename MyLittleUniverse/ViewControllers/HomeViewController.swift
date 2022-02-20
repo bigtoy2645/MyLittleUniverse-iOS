@@ -33,7 +33,7 @@ class HomeViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        guard let todayVC = self.storyboard?.instantiateViewController(withIdentifier: TodayViewController.storyboardID) else { return }
+        guard let todayVC = self.storyboard?.instantiateViewController(withIdentifier: SelectEmotionViewController.storyboardID) else { return }
         self.navigationController?.pushViewController(todayVC, animated: false)
     }
     

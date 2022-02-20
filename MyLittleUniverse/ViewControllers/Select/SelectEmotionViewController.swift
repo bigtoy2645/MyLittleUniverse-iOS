@@ -8,8 +8,8 @@
 import UIKit
 import RxSwift
 
-class TodayViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
-    static let storyboardID = "todayView"
+class SelectEmotionViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+    static let storyboardID = "selectEmotionView"
     
     let statusObservable = Observable.of(["좋아요", "좋지 않아요", "그저 그래요", "복합적인 것 같아요"])
     var disposeBag = DisposeBag()
@@ -38,20 +38,18 @@ class TodayViewController: UIViewController, UICollectionViewDelegateFlowLayout,
             .disposed(by: disposeBag)
         
         statusObservable
-            .bind(to: collectionView.rx.items(cellIdentifier: TodayCollectionViewCell.identifier,
-                                              cellType: TodayCollectionViewCell.self)) { index, status, cell in
+            .bind(to: collectionView.rx.items(cellIdentifier: EmotionCollectionViewCell.identifier,
+                                              cellType: EmotionCollectionViewCell.self)) { index, status, cell in
                 cell.lblStatus.text = status
             }
             .disposed(by: disposeBag)
         
+        // 감정 선택
         collectionView.rx.itemSelected
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { index in
-                guard let paintListVC = self.storyboard?.instantiateViewController(withIdentifier: PaintListViewController.storyboardID) as? PaintListViewController else { return }
-                // 선택한 Emotion 전달
-                paintListVC.emotions.onNext([.glad, .belazy, .comfortable, .funny, .happy, .exciting])
-                self.navigationController?.pushViewController(paintListVC, animated: false)
-                // TODO - TodayDetailVC로 이동
+            .subscribe(onNext: { _ in
+                guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: SelectDetailViewController.storyboardID) as? SelectDetailViewController else { return }
+                self.navigationController?.pushViewController(detailVC, animated: false)
             })
             .disposed(by: disposeBag)
         
