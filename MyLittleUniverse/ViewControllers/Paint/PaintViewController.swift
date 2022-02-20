@@ -232,6 +232,10 @@ extension PaintViewController {
     /* 설명 추가 */
     private func addTextSticker(text: String) {
         lblText.text = text
+        if text.isEmpty {
+            lblText.frame.size = CGSize.zero
+            return
+        }
         lblText.sizeToFit()
         lblText.numberOfLines = text.components(separatedBy: "\n").count
         lblText.frame.size = CGSize(width: lblText.frame.width + 20,
