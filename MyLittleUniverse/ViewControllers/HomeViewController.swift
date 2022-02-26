@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, UIScrollViewDelegate {
     static let storyboardID = "homeView"
     
     let viewModel = MomentViewModel()
@@ -17,11 +17,62 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        btnMainStatus.layer.borderWidth = 1
-        btnMainStatus.layer.cornerRadius = 15
-        btnMainStatus.layer.borderColor = btnMainStatus.currentTitleColor.cgColor
+        btnMainEmotion.layer.borderWidth = 1
+        btnMainEmotion.layer.cornerRadius = 15
+        btnMainEmotion.layer.borderColor = btnMainEmotion.currentTitleColor.cgColor
+        tabView.layer.cornerRadius = 10
         
-        btnMainStatus.rx.tap
+        scrollView.delegate = self
+        
+        setupBindings()
+        
+        guard let registerVC = self.storyboard?.instantiateViewController(withIdentifier: SelectEmotionViewController.storyboardID) else { return }
+        self.navigationController?.pushViewController(registerVC, animated: false)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    /* 스크롤 시 탭바 표시 */
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        tabView.hideWithAnimation(hidden: false)
+    }
+    
+    /* 스크롤 중단 시 탭바 숨기기 */
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
+            self.tabView.hideWithAnimation(hidden: true)
+        }
+    }
+    
+    /* Binding */
+    func setupBindings() {
+        // 홈 화면으로 이동
+        btnHome.rx.tap
+            .bind {
+                self.scrollView.setContentOffset(.zero, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        // 등록 화면으로 이동
+        btnRegister.rx.tap
+            .bind {
+                guard let registerVC = self.storyboard?.instantiateViewController(withIdentifier: SelectEmotionViewController.storyboardID) else { return }
+                self.navigationController?.pushViewController(registerVC, animated: false)
+            }
+            .disposed(by: disposeBag)
+        
+        // 마이페이지로 이동
+        btnMypage.rx.tap
+            .bind {
+            }
+            .disposed(by: disposeBag)
+        
+        // 이 달 제일 많이 등록된 감정
+        btnMainEmotion.rx.tap
             .bind {
                 guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: DetailViewController.storyboardID) as? DetailViewController else { return }
                 
@@ -32,18 +83,15 @@ class HomeViewController: UIViewController {
                 self.navigationController?.pushViewController(detailVC, animated: true)
             }
             .disposed(by: disposeBag)
-        
-        guard let todayVC = self.storyboard?.instantiateViewController(withIdentifier: SelectEmotionViewController.storyboardID) else { return }
-        self.navigationController?.pushViewController(todayVC, animated: false)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.isNavigationBarHidden = true
     }
     
     // MARK: - InterfaceBuilder Links
     
-    @IBOutlet weak var btnMainStatus: UIButton!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var tabView: UIView!
+    @IBOutlet weak var btnMainEmotion: UIButton!
+    
+    @IBOutlet weak var btnHome: UIButton!
+    @IBOutlet weak var btnRegister: UIButton!
+    @IBOutlet weak var btnMypage: UIButton!
 }
