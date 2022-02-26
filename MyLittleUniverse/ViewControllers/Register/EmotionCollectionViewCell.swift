@@ -26,10 +26,12 @@ class EmotionCollectionViewCell: UICollectionViewCell {
                 lblStatus.textColor = UIColor.bgGreen
                 lblStatus.backgroundColor = UIColor.pointPurple
                 lblStatus.layer.cornerRadius = lblStatus.frame.width / 2
+                layer.borderWidth = 0
             } else {
                 lblStatus.textColor = .white
                 lblStatus.backgroundColor = .clear
                 lblStatus.layer.cornerRadius = 0
+                layer.borderWidth = 0.5
             }
         }
     }

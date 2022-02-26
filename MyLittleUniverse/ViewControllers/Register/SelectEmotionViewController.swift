@@ -1,5 +1,5 @@
 //
-//  TodayViewController.swift
+//  SelectEmotionViewController.swift
 //  MyLittleUniverse
 //
 //  Created by yurim on 2022/01/17.
@@ -48,8 +48,10 @@ class SelectEmotionViewController: UIViewController, UICollectionViewDelegateFlo
         collectionView.rx.itemSelected
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { _ in
-                guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: SelectDetailViewController.storyboardID) as? SelectDetailViewController else { return }
-                self.navigationController?.pushViewController(detailVC, animated: false)
+                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
+                    guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: SelectDetailViewController.storyboardID) as? SelectDetailViewController else { return }
+                    self.navigationController?.pushViewController(detailVC, animated: false)
+                }
             })
             .disposed(by: disposeBag)
         
