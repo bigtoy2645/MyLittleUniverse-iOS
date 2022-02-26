@@ -74,9 +74,6 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="planet" translatesAutoresizingMaskIntoConstraints="NO" id="wsO-xf-F2c">
-                                <rect key="frame" x="100" y="527" width="314" height="335"/>
-                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="jn8-bd-bWk">
                                 <rect key="frame" x="267" y="484" width="117" height="27"/>
                                 <subviews>
@@ -119,17 +116,13 @@
                             <constraint firstItem="UhE-nT-CWq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="JCM-wb-EDl"/>
                             <constraint firstItem="8QE-Pc-0cE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="MtS-En-uIt"/>
                             <constraint firstItem="huY-Gi-JCw" firstAttribute="top" secondItem="qjB-sv-Rx1" secondAttribute="bottom" constant="16" id="Nft-uf-G1O"/>
-                            <constraint firstItem="wsO-xf-F2c" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="RH3-3N-QML"/>
                             <constraint firstItem="rPf-Kr-zzL" firstAttribute="top" secondItem="huY-Gi-JCw" secondAttribute="bottom" constant="16" id="Zl5-68-3Li"/>
-                            <constraint firstItem="wsO-xf-F2c" firstAttribute="top" secondItem="jn8-bd-bWk" secondAttribute="bottom" constant="16" id="dxl-RR-NbO"/>
                             <constraint firstItem="qjB-sv-Rx1" firstAttribute="leading" secondItem="huY-Gi-JCw" secondAttribute="leading" id="har-dY-WEa"/>
                             <constraint firstItem="huY-Gi-JCw" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="lhp-hh-Xie"/>
                             <constraint firstItem="rPf-Kr-zzL" firstAttribute="leading" secondItem="huY-Gi-JCw" secondAttribute="leading" id="ms2-ZI-ZTh"/>
                             <constraint firstItem="qjB-sv-Rx1" firstAttribute="top" secondItem="8QE-Pc-0cE" secondAttribute="bottom" constant="25" id="pgd-zC-dph"/>
-                            <constraint firstItem="wsO-xf-F2c" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="rLc-P0-V8P"/>
                             <constraint firstItem="qjB-sv-Rx1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="rud-YB-iIi"/>
                             <constraint firstItem="huY-Gi-JCw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yCZ-sn-AHe"/>
-                            <constraint firstItem="wsO-xf-F2c" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="100" id="ygO-pJ-wZk"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5kJ-xO-zgg"/>
@@ -229,9 +222,9 @@
                                 <rect key="frame" x="319" y="0.0" width="95" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uGy-HD-7dh">
-                                        <rect key="frame" x="50" y="19" width="20" height="22"/>
+                                        <rect key="frame" x="46" y="18" width="24" height="24"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="check"/>
+                                        <state key="normal" image="Done_24"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" name="BackgroundGreen"/>
@@ -343,22 +336,22 @@
                                                 <rect key="frame" x="0.0" y="877" width="414" height="83"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="6BC-Ki-65q">
-                                                        <rect key="frame" x="70" y="16" width="274" height="25"/>
+                                                        <rect key="frame" x="70" y="16" width="274" height="24"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IPv-AY-yb4">
-                                                                <rect key="frame" x="0.0" y="0.0" width="91.5" height="25"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="91.5" height="24"/>
                                                                 <color key="tintColor" name="BackgroundGreen"/>
-                                                                <state key="normal" image="icon_Home"/>
+                                                                <state key="normal" image="Home_24"/>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="coC-9o-8nj">
-                                                                <rect key="frame" x="91.5" y="0.0" width="91" height="25"/>
+                                                                <rect key="frame" x="91.5" y="0.0" width="91" height="24"/>
                                                                 <color key="tintColor" name="BackgroundGreen"/>
-                                                                <state key="normal" image="plus" catalog="system"/>
+                                                                <state key="normal" image="Add_24"/>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qf4-ge-Xfk">
-                                                                <rect key="frame" x="182.5" y="0.0" width="91.5" height="25"/>
+                                                                <rect key="frame" x="182.5" y="0.0" width="91.5" height="24"/>
                                                                 <color key="tintColor" name="BackgroundGreen"/>
-                                                                <state key="normal" image="icon_mypage"/>
+                                                                <state key="normal" image="Mypage_24"/>
                                                             </button>
                                                         </subviews>
                                                     </stackView>
@@ -725,7 +718,8 @@
                                 <subviews>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Kf-BB-ojY">
                                         <rect key="frame" x="16" y="374" width="24" height="24"/>
-                                        <state key="normal" image="bgColor"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="Paint_24"/>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -744,7 +738,7 @@
                                             <constraint firstAttribute="height" constant="40" id="mux-jH-P6M"/>
                                         </constraints>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" backgroundImage="add_circle"/>
+                                        <state key="normal" backgroundImage="Add_40"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="배경색을 선택해보세요" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RSh-cJ-7P1">
                                         <rect key="frame" x="0.0" y="48" width="143" height="19.5"/>
@@ -758,37 +752,41 @@
                                 <rect key="frame" x="0.0" y="414" width="414" height="60"/>
                                 <subviews>
                                     <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="68T-8T-v05">
-                                        <rect key="frame" x="20" y="18" width="112" height="24"/>
+                                        <rect key="frame" x="20" y="18" width="156" height="24"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cq7-t2-tzD">
                                                 <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
-                                                <state key="normal" image="picture_on"/>
+                                                <state key="normal" image="Photo-Off_24"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33A-cm-RQp">
                                                 <rect key="frame" x="44" y="0.0" width="24" height="24"/>
-                                                <state key="normal" image="shape_off"/>
+                                                <state key="normal" image="Line-Shape-Off_24"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="47g-cV-1ep">
+                                                <rect key="frame" x="88" y="0.0" width="24" height="24"/>
+                                                <state key="normal" image="Fill-Shape-Off_24"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I0J-Ah-R8k">
-                                                <rect key="frame" x="88" y="0.0" width="24" height="24"/>
-                                                <state key="normal" image="text_off"/>
+                                                <rect key="frame" x="132" y="0.0" width="24" height="24"/>
+                                                <state key="normal" image="Text-Off_24"/>
                                             </button>
                                         </subviews>
                                     </stackView>
                                     <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="d2F-Jb-LLf">
-                                        <rect key="frame" x="286.5" y="18" width="107.5" height="24"/>
+                                        <rect key="frame" x="282" y="18" width="112" height="24"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPj-vA-0gd">
                                                 <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
-                                                <state key="normal" image="undo_off"/>
+                                                <state key="normal" image="Undo-Off_24"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lf7-8M-QOe">
                                                 <rect key="frame" x="44" y="0.0" width="24" height="24"/>
-                                                <state key="normal" image="redo_off"/>
+                                                <state key="normal" image="Redo-Off_24"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i1u-e3-k3q">
-                                                <rect key="frame" x="88" y="0.0" width="19.5" height="24"/>
+                                                <rect key="frame" x="88" y="0.0" width="24" height="24"/>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="check"/>
+                                                <state key="normal" image="Done_24"/>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -827,9 +825,10 @@
                         <outlet property="btnAddBgColor" destination="rS5-Ip-2rw" id="73x-q6-cN8"/>
                         <outlet property="btnDone" destination="i1u-e3-k3q" id="7WZ-vb-Svf"/>
                         <outlet property="btnEditBgColor" destination="5Kf-BB-ojY" id="IO9-TF-vhG"/>
+                        <outlet property="btnFillShape" destination="47g-cV-1ep" id="Wkt-EA-5sX"/>
+                        <outlet property="btnLineShape" destination="33A-cm-RQp" id="7UV-gQ-8tI"/>
                         <outlet property="btnPicture" destination="Cq7-t2-tzD" id="Trj-Yb-HJe"/>
                         <outlet property="btnRedo" destination="Lf7-8M-QOe" id="DlL-5V-6DN"/>
-                        <outlet property="btnShape" destination="33A-cm-RQp" id="7UV-gQ-8tI"/>
                         <outlet property="btnText" destination="I0J-Ah-R8k" id="m7b-A1-J00"/>
                         <outlet property="btnUndo" destination="fPj-vA-0gd" id="Y9b-32-IgL"/>
                         <outlet property="leftControls" destination="68T-8T-v05" id="Qq2-ta-PPH"/>
@@ -1114,15 +1113,8 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="h0B-9g-Yox">
                                         <rect key="frame" x="15" y="15" width="344" height="168"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="quote" translatesAutoresizingMaskIntoConstraints="NO" id="wTg-O9-yJV">
-                                                <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="24" id="4IV-tX-vrA"/>
-                                                    <constraint firstAttribute="height" constant="24" id="cdp-eK-Au7"/>
-                                                </constraints>
-                                            </imageView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5qA-sh-nV0">
-                                                <rect key="frame" x="39" y="0.0" width="305" height="100"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="344" height="100"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="pLA-NS-vGq"/>
                                                 </constraints>
@@ -1189,23 +1181,22 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Add_24" width="24" height="24"/>
+        <image name="Add_40" width="40" height="40"/>
         <image name="Circle" width="30" height="30"/>
-        <image name="add_circle" width="40" height="40"/>
+        <image name="Done_24" width="24" height="24"/>
+        <image name="Fill-Shape-Off_24" width="24" height="24"/>
+        <image name="Home_24" width="24" height="24"/>
+        <image name="Line-Shape-Off_24" width="24" height="24"/>
+        <image name="Mypage_24" width="24" height="24"/>
+        <image name="Paint_24" width="24" height="24"/>
+        <image name="Photo-Off_24" width="24" height="24"/>
+        <image name="Redo-Off_24" width="24" height="24"/>
+        <image name="Text-Off_24" width="24" height="24"/>
+        <image name="Undo-Off_24" width="24" height="24"/>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
-        <image name="bgColor" width="24" height="24"/>
-        <image name="check" width="19.5" height="15"/>
-        <image name="icon_Home" width="24" height="25"/>
-        <image name="icon_mypage" width="24" height="25"/>
-        <image name="picture_on" width="24" height="24"/>
-        <image name="planet" width="577" height="541"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
-        <image name="quote" width="24" height="24.5"/>
-        <image name="redo_off" width="24" height="24"/>
-        <image name="shape_off" width="24" height="24"/>
         <image name="square" catalog="system" width="128" height="114"/>
-        <image name="text_off" width="24" height="24"/>
         <image name="today_planet" width="107.5" height="101"/>
-        <image name="undo_off" width="24" height="24"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="BackgroundGreen">
             <color red="0.13300000131130219" green="0.23499999940395355" blue="0.17599999904632568" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

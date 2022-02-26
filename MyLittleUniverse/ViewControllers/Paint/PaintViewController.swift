@@ -68,14 +68,26 @@ class PaintViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        // 도형 스티커
-        btnShape.rx.tap
+        // 라인 도형 스티커
+        btnLineShape.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
                 if let stickerVC = self.stickerViewController {
-                    self.selectButton(item: self.btnShape)
+                    self.selectButton(item: self.btnLineShape)
                     self.present(asChildViewController: stickerVC)
-                    stickerVC.type.onNext(.shape)
+                    stickerVC.type.onNext(.lineShape)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 도형 스티커
+        btnFillShape.rx.tap
+            .observe(on: MainScheduler.instance)
+            .bind {
+                if let stickerVC = self.stickerViewController {
+                    self.selectButton(item: self.btnFillShape)
+                    self.present(asChildViewController: stickerVC)
+                    stickerVC.type.onNext(.fillShape)
                 }
             }
             .disposed(by: disposeBag)
@@ -122,12 +134,14 @@ class PaintViewController: UIViewController {
     
     /* leftControl 이미지 변경 */
     func selectButton(item: UIButton) {
-        let pictureImage = item == btnPicture ? "picture_on" : "picture_off"
-        let shapeImage = item == btnShape ? "shape_on" : "shape_off"
-        let textImage = item == btnText ? "text_on" : "text_off"
+        let pictureImage = item == btnPicture ? "Photo-On_24" : "Photo-Off_24"
+        let lineShapeImage = item == btnLineShape ? "Line-Shape-On_24" : "Line-Shape-Off_24"
+        let fillShapeImage = item == btnFillShape ? "Fill-Shape-On_24" : "Fill-Shape-Off_24"
+        let textImage = item == btnText ? "Text-On_24" : "Text-Off_24"
         
         btnPicture.setImage(UIImage(named: pictureImage), for: .normal)
-        btnShape.setImage(UIImage(named: shapeImage), for: .normal)
+        btnLineShape.setImage(UIImage(named: lineShapeImage), for: .normal)
+        btnFillShape.setImage(UIImage(named: fillShapeImage), for: .normal)
         btnText.setImage(UIImage(named: textImage), for: .normal)
     }
     
@@ -200,7 +214,8 @@ class PaintViewController: UIViewController {
     @IBOutlet weak var btnDone: UIButton!
     
     @IBOutlet weak var btnPicture: UIButton!
-    @IBOutlet weak var btnShape: UIButton!
+    @IBOutlet weak var btnLineShape: UIButton!
+    @IBOutlet weak var btnFillShape: UIButton!
     @IBOutlet weak var btnText: UIButton!
 }
 

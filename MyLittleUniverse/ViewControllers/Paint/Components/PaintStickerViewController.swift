@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 
 enum Sticker {
-    case shape
+    case lineShape
     case fillShape
     case picture
 }
@@ -19,7 +19,7 @@ class PaintStickerViewController: UIViewController, UICollectionViewDelegate {
     
     var completeHandler: ((UIImage?) -> ())?
     var disposeBag = DisposeBag()
-    var type = BehaviorSubject<Sticker>(value: .shape)
+    var type = BehaviorSubject<Sticker>(value: .lineShape)
     var stickers = BehaviorSubject<[String]>(value: [])
     
     override func viewDidLoad() {
@@ -34,7 +34,7 @@ class PaintStickerViewController: UIViewController, UICollectionViewDelegate {
             switch type {
             case .picture:
                 self.stickers.onNext([])
-            case .shape:
+            case .lineShape:
                 self.stickers.onNext(["Polygon1", "Ellipse28", "Ellipse37", "Ellipse68"])
             case .fillShape:
                 self.stickers.onNext([])
