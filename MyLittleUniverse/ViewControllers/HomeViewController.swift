@@ -30,12 +30,6 @@ class HomeViewController: UIViewController, UIScrollViewDelegate {
         self.navigationController?.pushViewController(registerVC, animated: false)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.isNavigationBarHidden = true
-    }
-    
     /* 스크롤 시 탭바 표시 */
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         tabView.hideWithAnimation(hidden: false)

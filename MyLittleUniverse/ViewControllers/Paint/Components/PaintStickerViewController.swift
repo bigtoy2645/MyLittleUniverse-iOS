@@ -14,7 +14,7 @@ enum Sticker {
     case picture
 }
 
-class PaintStickerViewController: UIViewController, UICollectionViewDelegate {
+class PaintStickerViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     static let identifier = "paintStickerView"
     
     var completeHandler: ((UIImage?) -> ())?
@@ -30,6 +30,7 @@ class PaintStickerViewController: UIViewController, UICollectionViewDelegate {
     
     /* Binding */
     func setupBindings() {
+        
         type.subscribe(onNext: { type in
             switch type {
             case .picture:
@@ -37,7 +38,7 @@ class PaintStickerViewController: UIViewController, UICollectionViewDelegate {
             case .lineShape:
                 self.stickers.onNext(["Polygon1", "Ellipse28", "Ellipse37", "Ellipse68"])
             case .fillShape:
-                self.stickers.onNext([])
+                self.stickers.onNext(["fill_shape/Ellipse 28-1", "fill_shape/Ellipse 28"])
             }
         })
         .disposed(by: disposeBag)
@@ -50,6 +51,7 @@ class PaintStickerViewController: UIViewController, UICollectionViewDelegate {
             .bind(to: colSticker.rx.items(cellIdentifier: PaintStickerCollectionViewCell.identifier,
                                           cellType: PaintStickerCollectionViewCell.self)) { index, imgName, cell in
                 cell.sticker.image = UIImage(named: imgName)
+                cell.tintColor = UIColor(rgb: 0xC4C4C4)
         }
         .disposed(by: disposeBag)
         
@@ -61,6 +63,12 @@ class PaintStickerViewController: UIViewController, UICollectionViewDelegate {
                 }
             })
             .disposed(by: disposeBag)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = self.colSticker.frame.width / 4.0
+        let height = width
+        return CGSize(width: width, height: height)
     }
     
     // MARK: - InterfaceBuilder Links

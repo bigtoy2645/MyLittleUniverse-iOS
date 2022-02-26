@@ -21,8 +21,6 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
         
         setupBindings()
         
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
         gradientLayer.locations = [0.0, 0.4]
@@ -30,12 +28,6 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
         gradientLayer.frame = saveView.bounds
         saveView.layer.mask = gradientLayer
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.isNavigationBarHidden = false
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -120,8 +112,8 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var colEmotion: UICollectionView!
-    @IBOutlet weak var btnSaveAll: UIBarButtonItem!
-    @IBOutlet weak var btnCancel: UIBarButtonItem!
+    @IBOutlet weak var btnSaveAll: UIButton!
+    @IBOutlet weak var btnCancel: UIButton!
     
     @IBOutlet weak var saveView: UIView!
     @IBOutlet weak var btnSave: UIButton!

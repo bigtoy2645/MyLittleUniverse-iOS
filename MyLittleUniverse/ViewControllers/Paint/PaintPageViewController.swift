@@ -34,7 +34,6 @@ class PaintPageViewController: UIPageViewController {
         super.viewDidLoad()
         
         delegate = self
-        dataSource = self
         
         if let firstVC = views.first {
             setViewControllers([firstVC], direction: .forward, animated: false, completion: nil)
@@ -52,7 +51,7 @@ class PaintPageViewController: UIPageViewController {
 
 // MARK: - DataSource, Delegate
 
-extension PaintPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+extension PaintPageViewController: UIPageViewControllerDelegate {
     /* 이전 View로 전환 */
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let index = views.firstIndex(of: viewController) else { return nil }

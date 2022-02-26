@@ -36,6 +36,8 @@
 		1AE216F127C27A1B002E945E /* EmotionDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F027C27A1B002E945E /* EmotionDetailCollectionViewCell.swift */; };
 		1AE216F327C27B6E002E945E /* SelectDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F227C27B6E002E945E /* SelectDetailViewController.swift */; };
 		1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F527CA0AD6002E945E /* UIView+Extension.swift */; };
+		1AE216F827CA8440002E945E /* PaintStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F727CA8440002E945E /* PaintStickerView.swift */; };
+		1AE216FA27CA8456002E945E /* PaintStickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AE216F927CA8456002E945E /* PaintStickerView.xib */; };
 		40723D8C2CCFBBF8A1456761 /* Pods_MyLittleUniverse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F4EFFE17AD84DD3D0F6EFDC /* Pods_MyLittleUniverse.framework */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +74,8 @@
 		1AE216F027C27A1B002E945E /* EmotionDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		1AE216F227C27B6E002E945E /* SelectDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDetailViewController.swift; sourceTree = "<group>"; };
 		1AE216F527CA0AD6002E945E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		1AE216F727CA8440002E945E /* PaintStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintStickerView.swift; sourceTree = "<group>"; };
+		1AE216F927CA8456002E945E /* PaintStickerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PaintStickerView.xib; sourceTree = "<group>"; };
 		1F4EFFE17AD84DD3D0F6EFDC /* Pods_MyLittleUniverse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyLittleUniverse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF768548D43ADD10F60DC76E /* Pods-MyLittleUniverse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyLittleUniverse.debug.xcconfig"; path = "Target Support Files/Pods-MyLittleUniverse/Pods-MyLittleUniverse.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,6 +138,7 @@
 				1A4616B527C0E78D00D2A090 /* PaintStickerViewController.swift */,
 				1A4616B327B8EDEF00D2A090 /* PaintStickerCollectionViewCell.swift */,
 				1A4616B727C12FBA00D2A090 /* PaintTextViewController.swift */,
+				1AE216F727CA8440002E945E /* PaintStickerView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -192,6 +197,7 @@
 				1A8D9B6A273AAA7500A1BA53 /* Assets.xcassets */,
 				1A8D9B6C273AAA7500A1BA53 /* LaunchScreen.storyboard */,
 				1A461693278715C800D2A090 /* MomentTableViewCell.xib */,
+				1AE216F927CA8456002E945E /* PaintStickerView.xib */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -284,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A8D9B6E273AAA7500A1BA53 /* LaunchScreen.storyboard in Resources */,
+				1AE216FA27CA8456002E945E /* PaintStickerView.xib in Resources */,
 				1ACFA3062740F7E400821337 /* GoogleService-Info.plist in Resources */,
 				1A461695278715C800D2A090 /* MomentTableViewCell.xib in Resources */,
 				1A8D9B6B273AAA7500A1BA53 /* Assets.xcassets in Resources */,
@@ -357,6 +364,7 @@
 				1A46169F279B04A000D2A090 /* PaintViewController.swift in Sources */,
 				1A4616AD27AE909100D2A090 /* PaintColorChipCollectionViewCell.swift in Sources */,
 				1A8D9B64273AAA7400A1BA53 /* SceneDelegate.swift in Sources */,
+				1AE216F827CA8440002E945E /* PaintStickerView.swift in Sources */,
 				1A4616B427B8EDEF00D2A090 /* PaintStickerCollectionViewCell.swift in Sources */,
 				1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */,
 				1AE216F327C27B6E002E945E /* SelectDetailViewController.swift in Sources */,

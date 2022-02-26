@@ -36,12 +36,6 @@ class SelectDetailViewController: UIViewController,
         setupBindings()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.isNavigationBarHidden = false
-    }
-    
     /* Binding */
     func setupBindings() {
         collectionView.rx
@@ -113,6 +107,6 @@ class SelectDetailViewController: UIViewController,
     // MARK: - InterfaceBuilder Links
 
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var btnBack: UIBarButtonItem!
+    @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var btnDone: UIButton!
 }

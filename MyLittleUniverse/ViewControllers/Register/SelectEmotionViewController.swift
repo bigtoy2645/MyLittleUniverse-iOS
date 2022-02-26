@@ -24,13 +24,6 @@ class SelectEmotionViewController: UIViewController, UICollectionViewDelegateFlo
         setupBindings()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationItem.hidesBackButton = true
-        navigationController?.isNavigationBarHidden = false
-    }
-    
     /* Binding */
     func setupBindings() {
         collectionView.rx
@@ -48,7 +41,7 @@ class SelectEmotionViewController: UIViewController, UICollectionViewDelegateFlo
         collectionView.rx.itemSelected
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { _ in
-                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
+                Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
                     guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: SelectDetailViewController.storyboardID) as? SelectDetailViewController else { return }
                     self.navigationController?.pushViewController(detailVC, animated: false)
                 }
@@ -73,6 +66,6 @@ class SelectEmotionViewController: UIViewController, UICollectionViewDelegateFlo
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var lblDate: UILabel!
-    @IBOutlet weak var btnClose: UIBarButtonItem!
+    @IBOutlet weak var btnClose: UIButton!
     
 }

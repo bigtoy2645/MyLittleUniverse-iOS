@@ -7,17 +7,17 @@
 
 import UIKit
 import RxSwift
+import RxGesture
 
 class PaintViewController: UIViewController {
     static let storyboardID = "paintView"
     
-    var stickers = [UIImageView]()
+    var stickers = [PaintStickerView]()
     var lblText = UILabel()
-    var focusSticker: UIView? {
+    var focusSticker: PaintStickerView? {
         didSet {
-            oldValue?.layer.borderWidth = 0
-            focusSticker?.layer.borderWidth = 1
-            focusSticker?.layer.borderColor = UIColor.white.cgColor
+            oldValue?.isSelected = false
+            focusSticker?.isSelected = true
         }
     }
     
@@ -100,6 +100,13 @@ class PaintViewController: UIViewController {
                     self.selectButton(item: self.btnText)
                     self.present(asChildViewController: textVC)
                 }
+            }
+            .disposed(by: disposeBag)
+        
+        paintView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe { _ in
+                self.focusSticker = nil
             }
             .disposed(by: disposeBag)
     }
@@ -224,11 +231,23 @@ class PaintViewController: UIViewController {
 extension PaintViewController {
     /* 스티커 추가 */
     private func addSticker(image: UIImage) {
-        let sticker = UIImageView(image: image)
+        let sticker = PaintStickerView()
+        paintView.addSubview(sticker)
+        let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
+        sticker.stickerView.addSubview(imageView)
         
         let size = paintView.frame.width / 4
         sticker.frame.size = CGSize(width: size, height: size)
         sticker.center = paintView.center
+        
+        sticker.btnLeftTop.rx.tap
+            .bind {
+                self.stickers = self.stickers.filter { $0 != self.focusSticker }
+                self.focusSticker?.removeFromSuperview()
+                self.focusSticker = nil
+            }
+            .disposed(by: disposeBag)
         
         // Gesture
         sticker.isUserInteractionEnabled = true
@@ -240,7 +259,6 @@ extension PaintViewController {
         sticker.addGestureRecognizer(tapGesture)
         
         stickers.append(sticker)
-        paintView.addSubview(sticker)
         focusSticker = sticker
     }
     
@@ -256,7 +274,7 @@ extension PaintViewController {
         lblText.frame.size = CGSize(width: lblText.frame.width + 20,
                                     height: lblText.frame.height + 20)
         lblText.center = paintView.center
-        focusSticker = lblText
+        //        focusSticker = lblText
         
         if paintView.subviews.contains(lblText) { return }
         
@@ -281,7 +299,7 @@ extension PaintViewController {
     
     /* 선택 시 Focus 변경 */
     @objc func handleTapGesture(recognizer: UITapGestureRecognizer) {
-        guard let tappedImage = recognizer.view as? UIImageView else { return }
-        focusSticker = tappedImage
+        guard let tappedSticker = recognizer.view as? PaintStickerView else { return }
+        focusSticker = tappedSticker
     }
 }

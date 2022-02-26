@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class PaintColorChipViewController: UIViewController, UICollectionViewDelegate {
+class PaintColorChipViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     static let identifier = "paintColorChipView"
     
     var hexColors = BehaviorSubject<[Int]>(value: [
@@ -35,7 +35,7 @@ class PaintColorChipViewController: UIViewController, UICollectionViewDelegate {
         hexColors
         .bind(to: colColorChip.rx.items(cellIdentifier: PaintColorChipCollectionViewCell.identifier,
         cellType: PaintColorChipCollectionViewCell.self)) { index, hexValue, cell in
-            cell.imgCircle.tintColor = UIColor(rgb: hexValue)
+            cell.hexColor = hexValue
         }
         .disposed(by: disposeBag)
         
@@ -47,6 +47,12 @@ class PaintColorChipViewController: UIViewController, UICollectionViewDelegate {
                 }
             })
             .disposed(by: disposeBag)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = self.colColorChip.frame.width / 8.0
+        let height = width
+        return CGSize(width: width, height: height)
     }
     
     // MARK: - InterfaceBuilder Links

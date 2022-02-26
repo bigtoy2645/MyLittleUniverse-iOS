@@ -11,6 +11,13 @@ class PaintColorChipCollectionViewCell: UICollectionViewCell {
     static let identifier = "colorChipCell"
     
     @IBOutlet weak var imgCircle: UIImageView!
+    var hexColor: Int = 0xFFFFFF {
+        didSet {
+            let imgName = hexColor == 0xFFFFFF ? "CircleLine" : "Circle"
+            imgCircle.image = UIImage(named: imgName)
+            imgCircle.tintColor = UIColor(rgb: hexColor)
+        }
+    }
     
     override var isSelected: Bool {
         willSet {

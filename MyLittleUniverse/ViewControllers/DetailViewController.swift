@@ -30,12 +30,6 @@ class DetailViewController: UIViewController, UITableViewDelegate, UIGestureReco
         setupBindings()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.isNavigationBarHidden = false
-    }
-    
     /* Binding */
     func setupBindings() {
         // 테이블뷰 아이템
@@ -61,5 +55,5 @@ class DetailViewController: UIViewController, UITableViewDelegate, UIGestureReco
     // MARK: - InterfaceBuilder Links
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var btnBack: UIBarButtonItem!
+    @IBOutlet weak var btnBack: UIButton!
 }
