@@ -26,21 +26,21 @@
                     <rect key="frame" x="12" y="12" width="276" height="276"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H2n-pU-jJW" userLabel="leftTopButton">
+                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H2n-pU-jJW" userLabel="leftTopButton">
                     <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
                     <state key="normal" image="edge/Delete-Off_24"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hiu-SR-VfU" userLabel="rightTopButton">
+                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hiu-SR-VfU" userLabel="rightTopButton">
                     <rect key="frame" x="276" y="0.0" width="24" height="24"/>
                     <state key="normal" image="edge/Color-Off_24"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ftg-5j-Vxv" userLabel="leftBottomButton">
+                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ftg-5j-Vxv" userLabel="leftBottomButton">
                     <rect key="frame" x="0.0" y="276" width="24" height="24"/>
                     <state key="normal" image="edge/Clone-Off_24"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i2e-Z5-Hub" userLabel="rightBottomButton">
+                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i2e-Z5-Hub" userLabel="rightBottomButton">
                     <rect key="frame" x="276" y="276" width="24" height="24"/>
-                    <state key="normal" image="edge/Edit-Off_24"/>
+                    <state key="normal" image="edge/Size-Off_24"/>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
@@ -67,6 +67,6 @@
         <image name="edge/Clone-Off_24" width="24" height="24"/>
         <image name="edge/Color-Off_24" width="24" height="24"/>
         <image name="edge/Delete-Off_24" width="24" height="24"/>
-        <image name="edge/Edit-Off_24" width="24" height="24"/>
+        <image name="edge/Size-Off_24" width="24" height="24"/>
     </resources>
 </document>

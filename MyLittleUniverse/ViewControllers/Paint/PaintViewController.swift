@@ -268,30 +268,29 @@ extension PaintViewController {
         imageSticker.sticker.accept(sticker)
         
         // 스티커 삭제
-        imageSticker.btnLeftTop.rx.tap
-            .bind {
-                self.stickers = self.stickers.filter { $0 != self.focusSticker }
-                self.focusSticker?.removeFromSuperview()
-                self.focusSticker = nil
-            }
-            .disposed(by: disposeBag)
+        imageSticker.setLeftTopButton {
+            self.stickers = self.stickers.filter { $0 != self.focusSticker }
+            self.focusSticker?.removeFromSuperview()
+            self.focusSticker = nil
+        }
         
         // 스티커 복제
-        imageSticker.btnLeftBottom.rx.tap
-            .bind {
-                let centerPos = CGPoint(x: imageSticker.center.x + 26,
-                                        y: imageSticker.center.y + 26)
-                let cloneSticker = imageSticker.sticker.value
-                self.addSticker(cloneSticker, centerPos: centerPos)
-            }
-            .disposed(by: disposeBag)
+        imageSticker.setLeftBottomButton {
+            let centerPos = CGPoint(x: imageSticker.center.x + 26,
+                                    y: imageSticker.center.y + 26)
+            let cloneSticker = imageSticker.sticker.value
+            self.addSticker(cloneSticker, centerPos: centerPos)
+        }
         
         // 스티커 색상 변경
-        imageSticker.btnRightTop.rx.tap
-            .bind {
-                self.presentColorPicker(mode: .sticker)
-            }
-            .disposed(by: disposeBag)
+        imageSticker.setRightTopButton {
+            self.presentColorPicker(mode: .sticker)
+        }
+        
+        // 스티커 사이즈/각도 변경
+        imageSticker.setRightBottomButton {
+            
+        }
         
         // Gesture
         imageSticker.isUserInteractionEnabled = true
@@ -301,6 +300,10 @@ extension PaintViewController {
         let tapGesture = UITapGestureRecognizer(target: self,
                                                 action: #selector(self.handleTapGesture(recognizer:)))
         imageSticker.addGestureRecognizer(tapGesture)
+        
+        let rotateGesture = UIRotationGestureRecognizer(target: self,
+                                                        action:#selector(self.handleRotateGesture(recognizer:)))
+        imageSticker.addGestureRecognizer(rotateGesture)
         
         stickers.append(imageSticker)
         focusSticker = imageSticker
@@ -314,7 +317,7 @@ extension PaintViewController {
             labelSticker.frame.size = CGSize(width: labelView.frame.width + 36,
                                              height: labelView.frame.height + 36)
         }
-        labelSticker.sticker.accept(Sticker(text: text))
+        labelSticker.sticker.accept(Sticker(text: text, hexColor: 0x000000))
         if text.isEmpty {
             labelSticker.stickerView?.frame.size = CGSize.zero
             focusSticker = nil
@@ -325,11 +328,19 @@ extension PaintViewController {
         
         if paintView.subviews.contains(labelSticker) { return }
         
+        // 스티커 삭제
+        labelSticker.setLeftTopButton {
+            self.textViewController?.textView.text = ""
+            self.focusSticker = nil
+        }
+        
+        // 글자 색상 변경
+        labelSticker.setRightTopButton {
+            self.presentColorPicker(mode: .sticker)
+        }
+        
         // Gesture
         labelSticker.isUserInteractionEnabled = true
-        let panGesture = UIPanGestureRecognizer(target: self,
-                                                action: #selector(self.handlePanGesture(recognizer:)))
-        labelSticker.addGestureRecognizer(panGesture)
         let tapGesture = UITapGestureRecognizer(target: self,
                                                 action: #selector(self.handleTapGesture(recognizer:)))
         labelSticker.addGestureRecognizer(tapGesture)
@@ -346,5 +357,18 @@ extension PaintViewController {
     @objc func handleTapGesture(recognizer: UITapGestureRecognizer) {
         guard let tappedSticker = recognizer.view as? PaintStickerView else { return }
         focusSticker = tappedSticker
+    }
+    
+    /* 크기 및 회전 */
+    @objc func handleRotateGesture(recognizer: UIRotationGestureRecognizer) {
+        if recognizer.state == .began {
+            NSLog("Rotate Began")
+        }
+        else if recognizer.state == .changed {
+            NSLog("rotation: %1.3f", recognizer.rotation)
+        }
+        else if recognizer.state == .ended {
+            NSLog("Rotate Ended")
+        }
     }
 }

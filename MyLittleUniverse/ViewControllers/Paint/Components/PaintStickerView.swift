@@ -30,10 +30,10 @@ class PaintStickerView: UIView {
     var isSelected = false {
         didSet {
             borderView.layer.borderWidth = isSelected ? 1 : 0
-            btnLeftTop.isHidden = !isSelected
-            btnRightTop.isHidden = !isSelected
-            btnLeftBottom.isHidden = !isSelected
-            btnRightBottom.isHidden = !isSelected
+            btnLeftTop.isHidden = btnLeftTop.isEnabled ? !isSelected : true
+            btnRightTop.isHidden = btnRightTop.isEnabled ? !isSelected : true
+            btnLeftBottom.isHidden = btnLeftBottom.isEnabled ? !isSelected : true
+            btnRightBottom.isHidden = btnRightBottom.isEnabled ? !isSelected : true
         }
     }
     
@@ -76,16 +76,18 @@ class PaintStickerView: UIView {
         
         // 텍스트 스티커
         sticker.asObservable()
-            .map { $0.text }
+            .map { ($0.text, $0.hexColor) }
             .observe(on: MainScheduler.instance)
-            .bind { text in
+            .bind { text, hexColor in
                 guard let text = text else { return }
                 if let labelView = self.stickerView as? UILabel {
                     labelView.text = text
+                    labelView.textColor = UIColor(rgb: hexColor)
                     labelView.sizeToFit()
                 } else {
                     let lblText = UILabel()
                     lblText.text = text
+                    lblText.textColor = .black
                     lblText.textAlignment = .center
                     lblText.lineBreakMode = .byClipping
                     self.stickerView = lblText
@@ -94,12 +96,56 @@ class PaintStickerView: UIView {
             .disposed(by: disposeBag)
     }
     
+    /* 좌상단 버튼 */
+    func setLeftTopButton(image: UIImage? = nil, tapEvent: @escaping () -> ()) {
+        btnLeftTop.isEnabled = true
+        if let image = image { btnLeftTop.setImage(image, for: .normal) }
+        btnLeftTop.rx.tap
+            .bind {
+                tapEvent()
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    /* 좌하단 버튼 */
+    func setLeftBottomButton(image: UIImage? = nil, tapEvent: @escaping () -> ()) {
+        btnLeftBottom.isEnabled = true
+        if let image = image { btnLeftBottom.setImage(image, for: .normal) }
+        btnLeftBottom.rx.tap
+            .bind {
+                tapEvent()
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    /* 우상단 버튼 */
+    func setRightTopButton(image: UIImage? = nil, tapEvent: @escaping () -> ()) {
+        btnRightTop.isEnabled = true
+        if let image = image { btnRightTop.setImage(image, for: .normal) }
+        btnRightTop.rx.tap
+            .bind {
+                tapEvent()
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    /* 우하단 버튼 */
+    func setRightBottomButton(image: UIImage? = nil, tapEvent: @escaping () -> ()) {
+        btnRightBottom.isEnabled = true
+        if let image = image { btnRightBottom.setImage(image, for: .normal) }
+        btnRightBottom.rx.tap
+            .bind {
+                tapEvent()
+            }
+            .disposed(by: disposeBag)
+    }
+    
     // MARK: - InterfaceBuilder Links
     
-    @IBOutlet weak var btnLeftTop: UIButton!
-    @IBOutlet weak var btnRightTop: UIButton!
-    @IBOutlet weak var btnLeftBottom: UIButton!
-    @IBOutlet weak var btnRightBottom: UIButton!
+    @IBOutlet weak private var btnLeftTop: UIButton!
+    @IBOutlet weak private var btnRightTop: UIButton!
+    @IBOutlet weak private var btnLeftBottom: UIButton!
+    @IBOutlet weak private var btnRightBottom: UIButton!
     
     @IBOutlet weak var borderView: UIView!
 }

@@ -11,6 +11,7 @@ import RxSwift
 class PaintTextViewController: UIViewController, UITextViewDelegate {
     static let identifier = "paintTextView"
     
+    let maxCount = 40
     var disposeBag = DisposeBag()
     var completeHandler: ((String) -> ())?
     
@@ -32,12 +33,24 @@ class PaintTextViewController: UIViewController, UITextViewDelegate {
             .setDelegate(self)
             .disposed(by: disposeBag)
         
+        // 글자 입력 시
         textView.rx.text
             .orEmpty
             .distinctUntilChanged()
             .subscribe(onNext: { changedText in
+                DispatchQueue.main.async {
+                    self.lblCount.text = "\(changedText.count)/\(self.maxCount)"
+                }
                 self.completeHandler?(changedText)
             })
+            .disposed(by: disposeBag)
+        
+        // 글자 수 제한
+        textView.rx.text.orEmpty
+            .scan("") { (previous, new) -> String in
+                (new.count <= self.maxCount) ? new : previous
+            }
+            .bind(to: textView.rx.text)
             .disposed(by: disposeBag)
     }
     
@@ -48,4 +61,5 @@ class PaintTextViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var textArea: UIView!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var lblCount: UILabel!
 }
