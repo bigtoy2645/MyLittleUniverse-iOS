@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PaintStickerView" customModule="MyLittleUniverse" customModuleProvider="target">
             <connections>
-                <outlet property="borderView" destination="XHu-nW-s2I" id="bvz-yG-HJi"/>
+                <outlet property="borderView" destination="XHu-nW-s2I" id="EbZ-Cn-FEj"/>
                 <outlet property="btnLeftBottom" destination="ftg-5j-Vxv" id="pTe-s1-dHZ"/>
                 <outlet property="btnLeftTop" destination="H2n-pU-jJW" id="ra8-EX-Sax"/>
                 <outlet property="btnRightBottom" destination="i2e-Z5-Hub" id="nU8-Vb-zLW"/>
@@ -47,11 +47,11 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="XHu-nW-s2I" firstAttribute="top" secondItem="H2n-pU-jJW" secondAttribute="centerY" id="2UL-p8-4mO"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="i2e-Z5-Hub" secondAttribute="trailing" id="4U8-wr-6xe"/>
+                <constraint firstAttribute="trailing" secondItem="i2e-Z5-Hub" secondAttribute="trailing" id="4U8-wr-6xe"/>
                 <constraint firstItem="Hiu-SR-VfU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="5iU-Wc-yJ0"/>
                 <constraint firstAttribute="trailing" secondItem="Hiu-SR-VfU" secondAttribute="trailing" id="Cqh-2F-Z48"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="ftg-5j-Vxv" secondAttribute="bottom" id="EQK-9C-Luf"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="i2e-Z5-Hub" secondAttribute="bottom" id="JL7-1A-1bE"/>
+                <constraint firstAttribute="bottom" secondItem="ftg-5j-Vxv" secondAttribute="bottom" id="EQK-9C-Luf"/>
+                <constraint firstAttribute="bottom" secondItem="i2e-Z5-Hub" secondAttribute="bottom" id="JL7-1A-1bE"/>
                 <constraint firstItem="H2n-pU-jJW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="NwD-6G-boq"/>
                 <constraint firstItem="ftg-5j-Vxv" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="eeV-w4-9Wx"/>
                 <constraint firstItem="ftg-5j-Vxv" firstAttribute="centerY" secondItem="XHu-nW-s2I" secondAttribute="bottom" id="jBL-p5-cRO"/>

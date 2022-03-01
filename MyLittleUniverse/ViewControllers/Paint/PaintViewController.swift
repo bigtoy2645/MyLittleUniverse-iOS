@@ -8,12 +8,14 @@
 import UIKit
 import RxSwift
 import RxGesture
+import RxCocoa
 
 class PaintViewController: UIViewController {
     static let storyboardID = "paintView"
     
     var stickers = [PaintStickerView]()
-    var lblText = UILabel()
+    let labelSticker = PaintStickerView()
+    var bgColor = BehaviorRelay<Int>(value: 0xFFFFFF)
     var focusSticker: PaintStickerView? {
         didSet {
             oldValue?.isSelected = false
@@ -21,6 +23,12 @@ class PaintViewController: UIViewController {
         }
     }
     
+    enum ColorPickerMode {
+        case background
+        case sticker
+    }
+    
+    var colorPickerMode: ColorPickerMode = .background
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -35,16 +43,23 @@ class PaintViewController: UIViewController {
         btnAddBgColor.rx.tap
             .bind {
                 self.stackBackground.isHidden = true
-                self.presentBackgroundColorChipView()
+                self.presentColorPicker(mode: .background)
                 self.btnDone.isEnabled = false
             }
             .disposed(by: disposeBag)
         
-        // 배경 색상 변경
+        // 배경 색상 변경 버튼
         btnEditBgColor.rx.tap
             .bind {
-                self.presentBackgroundColorChipView()
-                self.btnDone.isEnabled = true
+                self.presentColorPicker(mode: .background)
+            }
+            .disposed(by: disposeBag)
+        
+        // 배경 색상 설정
+        bgColor.asObservable()
+            .observe(on: MainScheduler.instance)
+            .bind { hexColor in
+                self.paintView.backgroundColor = UIColor(rgb: hexColor)
             }
             .disposed(by: disposeBag)
         
@@ -112,9 +127,15 @@ class PaintViewController: UIViewController {
     }
     
     /* 배경 색상 선택 화면 표시 */
-    func presentBackgroundColorChipView() {
-        if let colorVC = self.colorChipViewController {
+    func presentColorPicker(mode: ColorPickerMode) {
+        if let colorVC = self.colorPicker {
             present(asChildViewController: colorVC)
+            colorPickerMode = mode
+            if mode == .background {
+                colorVC.selectedColor.onNext(bgColor.value)
+            } else if mode == .sticker {
+                colorVC.selectedColor.onNext(focusSticker?.sticker.value.hexColor)
+            }
             
             leftControls.isHidden = true
             rightControls.isHidden = false
@@ -152,11 +173,18 @@ class PaintViewController: UIViewController {
         btnText.setImage(UIImage(named: textImage), for: .normal)
     }
     
-    private lazy var colorChipViewController: PaintColorChipViewController? = {
+    private lazy var colorPicker: PaintColorChipViewController? = {
         guard let colorVC = self.storyboard?.instantiateViewController(withIdentifier: PaintColorChipViewController.identifier) as? PaintColorChipViewController else { return nil }
-        colorVC.completeHandler = { (color) in
+        colorVC.completeHandler = { (hexColor) in
             DispatchQueue.main.async {
-                self.paintView.backgroundColor = color
+                if self.colorPickerMode == .background {
+                    self.bgColor.accept(hexColor)
+                } else if self.colorPickerMode == .sticker,
+                          var sticker = self.focusSticker?.sticker.value {
+                    sticker.hexColor = hexColor
+                    self.focusSticker?.sticker.accept(sticker)
+                }
+                
                 self.btnDone.isEnabled = true
             }
         }
@@ -168,7 +196,7 @@ class PaintViewController: UIViewController {
         guard let stickerVC = self.storyboard?.instantiateViewController(withIdentifier: PaintStickerViewController.identifier) as? PaintStickerViewController else { return nil }
         stickerVC.completeHandler = { (image) in
             DispatchQueue.main.async {
-                if let image = image { self.addSticker(image: image) }
+                if let image = image { self.addSticker(Sticker(image: image)) }
             }
         }
         
@@ -230,19 +258,17 @@ class PaintViewController: UIViewController {
 
 extension PaintViewController {
     /* 스티커 추가 */
-    private func addSticker(image: UIImage, centerPos: CGPoint? = nil) {
-        let sticker = PaintStickerView()
-        paintView.addSubview(sticker)
-        let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFit
-        sticker.stickerView = imageView
+    private func addSticker(_ sticker: Sticker, centerPos: CGPoint? = nil) {
+        let imageSticker = PaintStickerView()
+        paintView.addSubview(imageSticker)
         
-        let size = paintView.frame.width / 4
-        sticker.frame.size = CGSize(width: size, height: size)
-        sticker.center = centerPos ?? paintView.center
+        let size = paintView.frame.width / 3
+        imageSticker.frame.size = CGSize(width: size, height: size)
+        imageSticker.center = centerPos ?? paintView.center
+        imageSticker.sticker.accept(sticker)
         
         // 스티커 삭제
-        sticker.btnLeftTop.rx.tap
+        imageSticker.btnLeftTop.rx.tap
             .bind {
                 self.stickers = self.stickers.filter { $0 != self.focusSticker }
                 self.focusSticker?.removeFromSuperview()
@@ -251,54 +277,64 @@ extension PaintViewController {
             .disposed(by: disposeBag)
         
         // 스티커 복제
-        sticker.btnLeftBottom.rx.tap
+        imageSticker.btnLeftBottom.rx.tap
             .bind {
-                let centerPos = CGPoint(x: sticker.center.x + 26, y: sticker.center.y + 26)
-                self.addSticker(image: image, centerPos: centerPos)
+                let centerPos = CGPoint(x: imageSticker.center.x + 26,
+                                        y: imageSticker.center.y + 26)
+                let cloneSticker = imageSticker.sticker.value
+                self.addSticker(cloneSticker, centerPos: centerPos)
+            }
+            .disposed(by: disposeBag)
+        
+        // 스티커 색상 변경
+        imageSticker.btnRightTop.rx.tap
+            .bind {
+                self.presentColorPicker(mode: .sticker)
             }
             .disposed(by: disposeBag)
         
         // Gesture
-        sticker.isUserInteractionEnabled = true
+        imageSticker.isUserInteractionEnabled = true
         let panGesture = UIPanGestureRecognizer(target: self,
                                                 action: #selector(self.handlePanGesture(recognizer:)))
-        sticker.addGestureRecognizer(panGesture)
+        imageSticker.addGestureRecognizer(panGesture)
         let tapGesture = UITapGestureRecognizer(target: self,
                                                 action: #selector(self.handleTapGesture(recognizer:)))
-        sticker.addGestureRecognizer(tapGesture)
+        imageSticker.addGestureRecognizer(tapGesture)
         
-        stickers.append(sticker)
-        focusSticker = sticker
+        stickers.append(imageSticker)
+        focusSticker = imageSticker
     }
     
     /* 설명 추가 */
     private func addTextSticker(text: String) {
-        lblText.text = text
+        if let labelView = labelSticker.stickerView as? UILabel {
+            labelView.sizeToFit()
+            labelView.numberOfLines = text.components(separatedBy: "\n").count
+            labelSticker.frame.size = CGSize(width: labelView.frame.width + 36,
+                                             height: labelView.frame.height + 36)
+        }
+        labelSticker.sticker.accept(Sticker(text: text))
         if text.isEmpty {
-            lblText.frame.size = CGSize.zero
+            labelSticker.stickerView?.frame.size = CGSize.zero
+            focusSticker = nil
             return
         }
-        lblText.sizeToFit()
-        lblText.numberOfLines = text.components(separatedBy: "\n").count
-        lblText.frame.size = CGSize(width: lblText.frame.width + 20,
-                                    height: lblText.frame.height + 20)
-        lblText.center = paintView.center
-        //        focusSticker = lblText
+        labelSticker.center = paintView.center
+        focusSticker = labelSticker
         
-        if paintView.subviews.contains(lblText) { return }
+        if paintView.subviews.contains(labelSticker) { return }
         
         // Gesture
-        lblText.isUserInteractionEnabled = true
+        labelSticker.isUserInteractionEnabled = true
         let panGesture = UIPanGestureRecognizer(target: self,
                                                 action: #selector(self.handlePanGesture(recognizer:)))
-        lblText.addGestureRecognizer(panGesture)
+        labelSticker.addGestureRecognizer(panGesture)
         let tapGesture = UITapGestureRecognizer(target: self,
                                                 action: #selector(self.handleTapGesture(recognizer:)))
-        lblText.addGestureRecognizer(tapGesture)
-        lblText.textAlignment = .center
-        lblText.lineBreakMode = .byClipping
+        labelSticker.addGestureRecognizer(tapGesture)
         
-        paintView.addSubview(lblText)
+        paintView.addSubview(labelSticker)
     }
     
     /* 드래그 */

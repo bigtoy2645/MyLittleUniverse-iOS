@@ -33,6 +33,8 @@
 		1A8D9B6E273AAA7500A1BA53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D9B6C273AAA7500A1BA53 /* LaunchScreen.storyboard */; };
 		1ACFA3062740F7E400821337 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA3052740F7E400821337 /* GoogleService-Info.plist */; };
 		1ACFA30827410ED600821337 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFA30727410ED600821337 /* HomeViewController.swift */; };
+		1AD64EB827CE0F0100E07EF5 /* Sticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EB727CE0F0100E07EF5 /* Sticker.swift */; };
+		1AD64EBA27CE528D00E07EF5 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EB927CE528D00E07EF5 /* UICollectionView+Extension.swift */; };
 		1AE216F127C27A1B002E945E /* EmotionDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F027C27A1B002E945E /* EmotionDetailCollectionViewCell.swift */; };
 		1AE216F327C27B6E002E945E /* SelectDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F227C27B6E002E945E /* SelectDetailViewController.swift */; };
 		1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F527CA0AD6002E945E /* UIView+Extension.swift */; };
@@ -71,6 +73,8 @@
 		1A8D9B6F273AAA7500A1BA53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1ACFA3052740F7E400821337 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1ACFA30727410ED600821337 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		1AD64EB727CE0F0100E07EF5 /* Sticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sticker.swift; sourceTree = "<group>"; };
+		1AD64EB927CE528D00E07EF5 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		1AE216F027C27A1B002E945E /* EmotionDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		1AE216F227C27B6E002E945E /* SelectDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDetailViewController.swift; sourceTree = "<group>"; };
 		1AE216F527CA0AD6002E945E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -96,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				1A4616902787120E00D2A090 /* Moment.swift */,
+				1AD64EB727CE0F0100E07EF5 /* Sticker.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -126,6 +131,7 @@
 			children = (
 				1A4616B127AFCA0A00D2A090 /* UIColor+Extension.swift */,
 				1AE216F527CA0AD6002E945E /* UIView+Extension.swift */,
+				1AD64EB927CE528D00E07EF5 /* UICollectionView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -352,6 +358,7 @@
 				1A8D9B62273AAA7400A1BA53 /* AppDelegate.swift in Sources */,
 				1A46169927959A0000D2A090 /* SelectEmotionViewController.swift in Sources */,
 				1A461694278715C800D2A090 /* MomentTableViewCell.swift in Sources */,
+				1AD64EB827CE0F0100E07EF5 /* Sticker.swift in Sources */,
 				1A46169B2795A52700D2A090 /* EmotionCollectionViewCell.swift in Sources */,
 				1A46168D2781B0F100D2A090 /* DetailViewController.swift in Sources */,
 				1A4616A927AE5C6300D2A090 /* PaintEmotionCollectionViewCell.swift in Sources */,
@@ -364,6 +371,7 @@
 				1A46169F279B04A000D2A090 /* PaintViewController.swift in Sources */,
 				1A4616AD27AE909100D2A090 /* PaintColorChipCollectionViewCell.swift in Sources */,
 				1A8D9B64273AAA7400A1BA53 /* SceneDelegate.swift in Sources */,
+				1AD64EBA27CE528D00E07EF5 /* UICollectionView+Extension.swift in Sources */,
 				1AE216F827CA8440002E945E /* PaintStickerView.swift in Sources */,
 				1A4616B427B8EDEF00D2A090 /* PaintStickerCollectionViewCell.swift in Sources */,
 				1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */,
