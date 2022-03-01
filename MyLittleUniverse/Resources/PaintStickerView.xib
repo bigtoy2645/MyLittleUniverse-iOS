@@ -15,7 +15,6 @@
                 <outlet property="btnLeftTop" destination="H2n-pU-jJW" id="ra8-EX-Sax"/>
                 <outlet property="btnRightBottom" destination="i2e-Z5-Hub" id="nU8-Vb-zLW"/>
                 <outlet property="btnRightTop" destination="Hiu-SR-VfU" id="vlz-s5-uYF"/>
-                <outlet property="stickerView" destination="dYl-s3-qRI" id="J3h-x4-jIp"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -25,19 +24,7 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XHu-nW-s2I">
                     <rect key="frame" x="12" y="12" width="276" height="276"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dYl-s3-qRI">
-                            <rect key="frame" x="4" y="4" width="268" height="268"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </view>
-                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="trailing" secondItem="dYl-s3-qRI" secondAttribute="trailing" constant="4" id="SEe-s0-Reh"/>
-                        <constraint firstItem="dYl-s3-qRI" firstAttribute="top" secondItem="XHu-nW-s2I" secondAttribute="top" constant="4" id="UiG-kj-v5L"/>
-                        <constraint firstItem="dYl-s3-qRI" firstAttribute="leading" secondItem="XHu-nW-s2I" secondAttribute="leading" constant="4" id="ilI-E2-VxZ"/>
-                        <constraint firstAttribute="bottom" secondItem="dYl-s3-qRI" secondAttribute="bottom" constant="4" id="jPj-tq-8WU"/>
-                    </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H2n-pU-jJW" userLabel="leftTopButton">
                     <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>

@@ -15,8 +15,20 @@ class PaintStickerView: UIView {
     @IBOutlet weak var btnRightBottom: UIButton!
     
     @IBOutlet weak var borderView: UIView!
-    @IBOutlet weak var stickerView: UIView!
     
+    var stickerView: UIView? {
+        didSet {
+            guard let stickerView = stickerView else { return }
+            DispatchQueue.main.async {
+                self.borderView.addSubview(stickerView)
+                stickerView.translatesAutoresizingMaskIntoConstraints = false
+                stickerView.topAnchor.constraint(equalTo: self.borderView.topAnchor, constant: 4).isActive = true
+                stickerView.bottomAnchor.constraint(equalTo: self.borderView.bottomAnchor, constant: -4).isActive = true
+                stickerView.leftAnchor.constraint(equalTo: self.borderView.leftAnchor, constant: 4).isActive = true
+                stickerView.rightAnchor.constraint(equalTo: self.borderView.rightAnchor, constant: -4).isActive = true
+            }
+        }
+    }
     var isSelected = false {
         didSet {
             borderView.layer.borderWidth = isSelected ? 1 : 0

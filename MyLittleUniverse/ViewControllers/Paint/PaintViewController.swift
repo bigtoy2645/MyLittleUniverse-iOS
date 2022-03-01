@@ -230,22 +230,31 @@ class PaintViewController: UIViewController {
 
 extension PaintViewController {
     /* 스티커 추가 */
-    private func addSticker(image: UIImage) {
+    private func addSticker(image: UIImage, centerPos: CGPoint? = nil) {
         let sticker = PaintStickerView()
         paintView.addSubview(sticker)
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
-        sticker.stickerView.addSubview(imageView)
+        sticker.stickerView = imageView
         
         let size = paintView.frame.width / 4
         sticker.frame.size = CGSize(width: size, height: size)
-        sticker.center = paintView.center
+        sticker.center = centerPos ?? paintView.center
         
+        // 스티커 삭제
         sticker.btnLeftTop.rx.tap
             .bind {
                 self.stickers = self.stickers.filter { $0 != self.focusSticker }
                 self.focusSticker?.removeFromSuperview()
                 self.focusSticker = nil
+            }
+            .disposed(by: disposeBag)
+        
+        // 스티커 복제
+        sticker.btnLeftBottom.rx.tap
+            .bind {
+                let centerPos = CGPoint(x: sticker.center.x + 26, y: sticker.center.y + 26)
+                self.addSticker(image: image, centerPos: centerPos)
             }
             .disposed(by: disposeBag)
         
