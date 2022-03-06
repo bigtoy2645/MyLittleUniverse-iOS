@@ -48,12 +48,12 @@
             <constraints>
                 <constraint firstItem="XHu-nW-s2I" firstAttribute="top" secondItem="H2n-pU-jJW" secondAttribute="centerY" id="2UL-p8-4mO"/>
                 <constraint firstAttribute="trailing" secondItem="i2e-Z5-Hub" secondAttribute="trailing" id="4U8-wr-6xe"/>
-                <constraint firstItem="Hiu-SR-VfU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="5iU-Wc-yJ0"/>
+                <constraint firstItem="Hiu-SR-VfU" firstAttribute="centerY" secondItem="H2n-pU-jJW" secondAttribute="centerY" id="5iU-Wc-yJ0"/>
                 <constraint firstAttribute="trailing" secondItem="Hiu-SR-VfU" secondAttribute="trailing" id="Cqh-2F-Z48"/>
                 <constraint firstAttribute="bottom" secondItem="ftg-5j-Vxv" secondAttribute="bottom" id="EQK-9C-Luf"/>
                 <constraint firstAttribute="bottom" secondItem="i2e-Z5-Hub" secondAttribute="bottom" id="JL7-1A-1bE"/>
                 <constraint firstItem="H2n-pU-jJW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="NwD-6G-boq"/>
-                <constraint firstItem="ftg-5j-Vxv" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="eeV-w4-9Wx"/>
+                <constraint firstItem="ftg-5j-Vxv" firstAttribute="centerX" secondItem="H2n-pU-jJW" secondAttribute="centerX" id="eeV-w4-9Wx"/>
                 <constraint firstItem="ftg-5j-Vxv" firstAttribute="centerY" secondItem="XHu-nW-s2I" secondAttribute="bottom" id="jBL-p5-cRO"/>
                 <constraint firstItem="XHu-nW-s2I" firstAttribute="leading" secondItem="H2n-pU-jJW" secondAttribute="centerX" id="mAH-Jk-w9r"/>
                 <constraint firstItem="Hiu-SR-VfU" firstAttribute="centerX" secondItem="XHu-nW-s2I" secondAttribute="trailing" id="qok-pE-mPJ"/>

@@ -75,7 +75,7 @@ class PaintViewController: UIViewController {
         btnPicture.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                if let stickerVC = self.stickerViewController {
+                if let stickerVC = self.componentSticker {
                     self.selectButton(item: self.btnPicture)
                     self.present(asChildViewController: stickerVC)
                     stickerVC.type.onNext(.picture)
@@ -87,7 +87,7 @@ class PaintViewController: UIViewController {
         btnLineShape.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                if let stickerVC = self.stickerViewController {
+                if let stickerVC = self.componentSticker {
                     self.selectButton(item: self.btnLineShape)
                     self.present(asChildViewController: stickerVC)
                     stickerVC.type.onNext(.lineShape)
@@ -99,7 +99,7 @@ class PaintViewController: UIViewController {
         btnFillShape.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                if let stickerVC = self.stickerViewController {
+                if let stickerVC = self.componentSticker {
                     self.selectButton(item: self.btnFillShape)
                     self.present(asChildViewController: stickerVC)
                     stickerVC.type.onNext(.fillShape)
@@ -111,24 +111,30 @@ class PaintViewController: UIViewController {
         btnText.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                if let textVC = self.textViewController {
+                if let textVC = self.componentText {
                     self.selectButton(item: self.btnText)
                     self.present(asChildViewController: textVC)
                 }
             }
             .disposed(by: disposeBag)
         
+        // Paint View 배경 클릭 시
         paintView.rx.tapGesture()
             .when(.recognized)
             .subscribe { _ in
                 self.focusSticker = nil
+                //
+//                let currentStickerView = self.stickerView.subviews.last
+//                if currentStickerView == self.colorPicker?.view {
+//                    self.presentStickerView()
+//                }
             }
             .disposed(by: disposeBag)
     }
     
     /* 배경 색상 선택 화면 표시 */
     func presentColorPicker(mode: ColorPickerMode) {
-        if let colorVC = self.colorPicker {
+        if let colorVC = self.componentColor {
             present(asChildViewController: colorVC)
             colorPickerMode = mode
             if mode == .background {
@@ -173,7 +179,7 @@ class PaintViewController: UIViewController {
         btnText.setImage(UIImage(named: textImage), for: .normal)
     }
     
-    private lazy var colorPicker: PaintColorChipViewController? = {
+    private lazy var componentColor: PaintColorChipViewController? = {
         guard let colorVC = self.storyboard?.instantiateViewController(withIdentifier: PaintColorChipViewController.identifier) as? PaintColorChipViewController else { return nil }
         colorVC.completeHandler = { (hexColor) in
             DispatchQueue.main.async {
@@ -192,7 +198,7 @@ class PaintViewController: UIViewController {
         return colorVC
     }()
     
-    private lazy var stickerViewController: PaintStickerViewController? = {
+    private lazy var componentSticker: PaintStickerViewController? = {
         guard let stickerVC = self.storyboard?.instantiateViewController(withIdentifier: PaintStickerViewController.identifier) as? PaintStickerViewController else { return nil }
         stickerVC.completeHandler = { (image) in
             DispatchQueue.main.async {
@@ -203,7 +209,7 @@ class PaintViewController: UIViewController {
         return stickerVC
     }()
     
-    private lazy var textViewController: PaintTextViewController? = {
+    private lazy var componentText: PaintTextViewController? = {
         guard let textVC = self.storyboard?.instantiateViewController(withIdentifier: PaintTextViewController.identifier) as? PaintTextViewController else { return nil }
         textVC.completeHandler = { (description) in
             DispatchQueue.main.async {
@@ -215,15 +221,15 @@ class PaintViewController: UIViewController {
     }()
     
     private func present(asChildViewController viewController: UIViewController) {
-        if stickerView.subviews.contains(viewController.view) {
-            stickerView.bringSubviewToFront(viewController.view)
+        if componentView.subviews.contains(viewController.view) {
+            componentView.bringSubviewToFront(viewController.view)
             return
         }
         
         addChild(viewController)
-        stickerView.addSubview(viewController.view)
+        componentView.addSubview(viewController.view)
         
-        viewController.view.frame = stickerView.bounds
+        viewController.view.frame = componentView.bounds
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         viewController.didMove(toParent: self)
     }
@@ -240,7 +246,7 @@ class PaintViewController: UIViewController {
     @IBOutlet weak var btnAddBgColor: UIButton!
     @IBOutlet weak var btnEditBgColor: UIButton!
     @IBOutlet weak var paintView: UIView!
-    @IBOutlet weak var stickerView: UIView!
+    @IBOutlet weak var componentView: UIView!
     @IBOutlet weak var leftControls: UIStackView!
     @IBOutlet weak var rightControls: UIStackView!
     
@@ -330,7 +336,7 @@ extension PaintViewController {
         
         // 스티커 삭제
         labelSticker.setLeftTopButton {
-            self.textViewController?.textView.text = ""
+            self.componentText?.textView.text = ""
             self.focusSticker = nil
         }
         

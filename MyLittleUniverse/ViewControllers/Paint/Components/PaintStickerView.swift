@@ -67,10 +67,16 @@ class PaintStickerView: UIView {
             .observe(on: MainScheduler.instance)
             .bind { image, hexColor in
                 guard let image = image else { return }
-                let imageView = UIImageView(image: image)
-                imageView.contentMode = .scaleAspectFit
-                imageView.tintColor = UIColor(rgb: hexColor)
-                self.stickerView = imageView
+                if let imageView = self.stickerView as? UIImageView {
+                    imageView.image = image
+                    imageView.tintColor = UIColor(rgb: hexColor)
+                } else {
+                    let imageView = UIImageView()
+                    imageView.contentMode = .scaleAspectFit
+                    imageView.tintColor = UIColor(rgb: hexColor)
+                    imageView.image = image
+                    self.stickerView = imageView
+                }
             }
             .disposed(by: disposeBag)
         
