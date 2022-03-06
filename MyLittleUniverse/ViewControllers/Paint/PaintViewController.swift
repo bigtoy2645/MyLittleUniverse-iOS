@@ -16,10 +16,18 @@ class PaintViewController: UIViewController {
     var stickers = [PaintStickerView]()
     let labelSticker = PaintStickerView()
     var bgColor = BehaviorRelay<Int>(value: 0xFFFFFF)
+    var selectedControl: UIButton?
     var focusSticker: PaintStickerView? {
         didSet {
             oldValue?.isSelected = false
             focusSticker?.isSelected = true
+            
+            let currentComponentView = self.componentView.subviews.last
+            if let colorOffImage = UIImage(named: "edge/Color-Off_24"),
+               currentComponentView == self.componentColor?.view {
+                oldValue?.changeButtonImage(colorOffImage, position: .rightTop)
+                self.presentColorPicker(mode: .sticker)
+            }
         }
     }
     
@@ -67,6 +75,9 @@ class PaintViewController: UIViewController {
         btnDone.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
+                if let colorOffImage = UIImage(named: "edge/Color-Off_24") {
+                    self.focusSticker?.changeButtonImage(colorOffImage, position: .rightTop)
+                }
                 self.presentStickerView()
             }
             .disposed(by: disposeBag)
@@ -75,6 +86,7 @@ class PaintViewController: UIViewController {
         btnPicture.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
+                self.selectedControl = self.btnPicture
                 if let stickerVC = self.componentSticker {
                     self.selectButton(item: self.btnPicture)
                     self.present(asChildViewController: stickerVC)
@@ -87,6 +99,7 @@ class PaintViewController: UIViewController {
         btnLineShape.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
+                self.selectedControl = self.btnLineShape
                 if let stickerVC = self.componentSticker {
                     self.selectButton(item: self.btnLineShape)
                     self.present(asChildViewController: stickerVC)
@@ -99,6 +112,7 @@ class PaintViewController: UIViewController {
         btnFillShape.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
+                self.selectedControl = self.btnFillShape
                 if let stickerVC = self.componentSticker {
                     self.selectButton(item: self.btnFillShape)
                     self.present(asChildViewController: stickerVC)
@@ -111,6 +125,7 @@ class PaintViewController: UIViewController {
         btnText.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
+                self.selectedControl = self.btnText
                 if let textVC = self.componentText {
                     self.selectButton(item: self.btnText)
                     self.present(asChildViewController: textVC)
@@ -123,16 +138,11 @@ class PaintViewController: UIViewController {
             .when(.recognized)
             .subscribe { _ in
                 self.focusSticker = nil
-                //
-//                let currentStickerView = self.stickerView.subviews.last
-//                if currentStickerView == self.colorPicker?.view {
-//                    self.presentStickerView()
-//                }
             }
             .disposed(by: disposeBag)
     }
     
-    /* 배경 색상 선택 화면 표시 */
+    /* 색상 선택 화면 표시 */
     func presentColorPicker(mode: ColorPickerMode) {
         if let colorVC = self.componentColor {
             present(asChildViewController: colorVC)
@@ -140,6 +150,9 @@ class PaintViewController: UIViewController {
             if mode == .background {
                 colorVC.selectedColor.onNext(bgColor.value)
             } else if mode == .sticker {
+                if let colorOnImage = UIImage(named: "edge/Color-On_24") {
+                    self.focusSticker?.changeButtonImage(colorOnImage, position: .rightTop)
+                }
                 colorVC.selectedColor.onNext(focusSticker?.sticker.value.hexColor)
             }
             
@@ -163,7 +176,8 @@ class PaintViewController: UIViewController {
         btnRedo.isHidden = false
         btnDone.isHidden = true
         
-        btnPicture.sendActions(for: .touchUpInside)
+        let selectedButton = selectedControl ?? btnPicture
+        selectedButton?.sendActions(for: .touchUpInside)
     }
     
     /* leftControl 이미지 변경 */

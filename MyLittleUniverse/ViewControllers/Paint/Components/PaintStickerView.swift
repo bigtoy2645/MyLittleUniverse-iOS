@@ -13,6 +13,13 @@ class PaintStickerView: UIView {
     let sticker = BehaviorRelay<Sticker>(value: Sticker())
     var disposeBag = DisposeBag()
     
+    enum ButtonPosition {
+        case leftTop
+        case leftBottom
+        case rightTop
+        case rightBottom
+    }
+    
     var stickerView: UIView? {
         didSet {
             guard let stickerView = stickerView,
@@ -144,6 +151,20 @@ class PaintStickerView: UIView {
                 tapEvent()
             }
             .disposed(by: disposeBag)
+    }
+    
+    /* 버튼 이미지 변경 */
+    func changeButtonImage(_ image: UIImage, position: ButtonPosition) {
+        switch position {
+        case .leftTop:
+            self.btnLeftTop.setImage(image, for: .normal)
+        case .leftBottom:
+            self.btnLeftBottom.setImage(image, for: .normal)
+        case .rightTop:
+            self.btnRightTop.setImage(image, for: .normal)
+        case .rightBottom:
+            self.btnRightBottom.setImage(image, for: .normal)
+        }
     }
     
     // MARK: - InterfaceBuilder Links
