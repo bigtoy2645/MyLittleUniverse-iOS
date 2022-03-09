@@ -12,11 +12,7 @@ import RxCocoa
 class AlertViewController: UIViewController {
     static let storyboardID = "alertView"
     
-    var alertTitle = BehaviorRelay<String>(value: "")
-    var alertSubtitle = BehaviorRelay<String?>(value: nil)
-    var alertImage = BehaviorRelay<UIImage?>(value: nil)
-    var runButtonTitle = BehaviorRelay<String?>(value: nil)
-    var cancelButtonTitle = BehaviorRelay<String?>(value: nil)
+    var vm = AlertViewModel()
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -29,38 +25,39 @@ class AlertViewController: UIViewController {
     
     /* Binding */
     func setupBindings() {
+        let alert = vm.alert.asDriver()
+        
         // 타이틀
-        alertTitle
-            .bind(to: lblTitle.rx.text)
+        alert.map { $0.title }
+            .drive(lblTitle.rx.text)
             .disposed(by: disposeBag)
         
         // 서브타이틀
-        alertSubtitle
-            .bind(to: lblSubtitle.rx.text)
+        alert.map { $0.subtitle }
+            .drive(lblSubtitle.rx.text)
             .disposed(by: disposeBag)
         
-        alertSubtitle
-            .map { subtitle in subtitle?.isEmpty ?? true }
+        // 서브타이틀 숨김 여부
+        vm.hideSubtitle
+            .observe(on: MainScheduler.instance)
             .bind(to: lblSubtitle.rx.isHidden)
             .disposed(by: disposeBag)
         
         // 이미지
-        alertImage
+        vm.image
+            .observe(on: MainScheduler.instance)
             .bind(to: imageView.rx.image)
             .disposed(by: disposeBag)
         
-        alertImage
-            .map { image in image == nil }
+        // 이미지 숨김
+        vm.hideImage
+            .observe(on: MainScheduler.instance)
             .bind(to: imageView.rx.isHidden)
             .disposed(by: disposeBag)
         
         // 버튼 사용 여부
-        Observable.combineLatest(runButtonTitle, cancelButtonTitle)
-            .map { runTitle, cancelTitle -> Bool in
-                let runButtonIsEmpty = runTitle?.isEmpty ?? true
-                let cancelButtonIsEmpty = cancelTitle?.isEmpty ?? true
-                return runButtonIsEmpty && cancelButtonIsEmpty
-            }
+        vm.hideButtons
+            .observe(on: MainScheduler.instance)
             .bind { isHidden in
                 self.buttons.isHidden = isHidden
                 self.bottomConstraint.constant = isHidden ? 24 : 8
@@ -68,32 +65,32 @@ class AlertViewController: UIViewController {
             .disposed(by: disposeBag)
         
         // 실행 버튼
-        runButtonTitle
-            .bind(to: btnRun.rx.title())
+        alert.map { $0.runButtonTitle }
+            .drive(btnRun.rx.title())
             .disposed(by: disposeBag)
         
-        runButtonTitle
-            .map({ title in title?.isEmpty ?? true })
+        // 실행 버튼 숨김
+        vm.hideRunButton
+            .observe(on: MainScheduler.instance)
             .bind(to: btnRun.rx.isHidden)
             .disposed(by: disposeBag)
         
         // 취소 버튼
-        cancelButtonTitle
-            .bind(to: btnCancel.rx.title())
+        alert.map { $0.cancelButtonTitle }
+            .drive(btnCancel.rx.title())
             .disposed(by: disposeBag)
         
-        cancelButtonTitle
-            .map({ title in title?.isEmpty ?? true })
+        // 취소 버튼 숨김
+        vm.hideCancelButton
+            .observe(on: MainScheduler.instance)
             .bind(to: btnCancel.rx.isHidden)
             .disposed(by: disposeBag)
     }
     
     /* 실행 버튼 */
-    func addRunButton(title: String,
-                      color: UIColor? = UIColor.errorRed,
+    func addRunButton(color: UIColor? = UIColor.errorRed,
                       tapEvent: @escaping () -> ()) {
         DispatchQueue.main.async {
-            self.runButtonTitle.accept(title)
             self.btnRun.setTitleColor(color, for: .normal)
             self.btnRun.rx.tap
                 .bind {
@@ -105,11 +102,9 @@ class AlertViewController: UIViewController {
     }
     
     /* 취소 버튼 */
-    func addCancelButton(title: String,
-                         color: UIColor? = UIColor.mainBlack,
+    func addCancelButton(color: UIColor? = UIColor.mainBlack,
                          tapEvent: @escaping () -> ()) {
         DispatchQueue.main.async {
-            self.cancelButtonTitle.accept(title)
             self.btnCancel.rx.tap
                 .bind {
                     tapEvent()

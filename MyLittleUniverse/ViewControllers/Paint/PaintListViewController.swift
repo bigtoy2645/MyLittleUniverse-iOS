@@ -74,15 +74,20 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
                 guard let alertVC = self.storyboard?.instantiateViewController(withIdentifier: AlertViewController.storyboardID) as? AlertViewController else { return }
                 
                 alertVC.modalPresentationStyle = .overFullScreen
-                alertVC.alertTitle.accept("꾸미기가 진행된 단어만 저장됩니다.")
-                alertVC.alertSubtitle.accept("완료하지 못한 단어는\n오늘 다시 등록하면 꾸밀 수 있어요.")
-                alertVC.addRunButton(title: "저장", color: UIColor.mainBlack) {
+                let alert = Alert(title: "꾸미기가 진행된 단어만 저장됩니다.",
+                                  subtitle: "완료하지 못한 단어는\n오늘 다시 등록하면 꾸밀 수 있어요.",
+                                  runButtonTitle: "저장",
+                                  cancelButtonTitle: "취소")
+                alertVC.vm.alert.accept(alert)
+                alertVC.addCancelButton() { self.dismiss(animated: false) }
+                alertVC.addRunButton(color: UIColor.mainBlack) {
                     self.dismiss(animated: false)
                     guard let alertToast = self.storyboard?.instantiateViewController(withIdentifier: AlertViewController.storyboardID) as? AlertViewController else { return }
                     
                     alertToast.modalPresentationStyle = .overFullScreen
-                    alertToast.alertTitle.accept("오늘의 감정이 모두 저장되었습니다.")
-                    alertToast.alertImage.accept(UIImage(named: "Union"))
+                    let alert = Alert(title: "오늘의 감정이 모두 저장되었습니다.",
+                                      imageName: "Union")
+                    alertToast.vm.alert.accept(alert)
                     self.present(alertToast, animated: false) {
                         DispatchQueue.main.async {
                             Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
@@ -98,9 +103,6 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
                         }
                     }
                 }
-                alertVC.addCancelButton(title: "취소") {
-                    self.dismiss(animated: false)
-                }
                 
                 self.present(alertVC, animated: false)
             }
@@ -113,12 +115,15 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
                 guard let alertVC = self.storyboard?.instantiateViewController(withIdentifier: AlertViewController.storyboardID) as? AlertViewController else { return }
                 
                 alertVC.modalPresentationStyle = .overFullScreen
-                alertVC.alertTitle.accept("선택하신 감정 단어도 모두 사라집니다.\n꾸미지 않고 종료하시겠어요?")
-                alertVC.addRunButton(title: "종료") {
+                let alert = Alert(title: "선택하신 감정 단어도 모두 사라집니다.\n꾸미지 않고 종료하시겠어요?",
+                                  runButtonTitle: "종료",
+                                  cancelButtonTitle: "취소")
+                alertVC.vm.alert.accept(alert)
+                alertVC.addRunButton() {
                     self.dismiss(animated: false)
                     self.navigationController?.popViewController(animated: false)
                 }
-                alertVC.addCancelButton(title: "취소") {
+                alertVC.addCancelButton() {
                     self.dismiss(animated: false)
                 }
                 

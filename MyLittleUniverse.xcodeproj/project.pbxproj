@@ -36,6 +36,8 @@
 		1AD64EB827CE0F0100E07EF5 /* Sticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EB727CE0F0100E07EF5 /* Sticker.swift */; };
 		1AD64EBA27CE528D00E07EF5 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EB927CE528D00E07EF5 /* UICollectionView+Extension.swift */; };
 		1AD64EBC27D510E100E07EF5 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBB27D510E100E07EF5 /* AlertViewController.swift */; };
+		1AD64EBE27D8E80D00E07EF5 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBD27D8E80D00E07EF5 /* Alert.swift */; };
+		1AD64EC027D8E87F00E07EF5 /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */; };
 		1AE216F127C27A1B002E945E /* EmotionDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F027C27A1B002E945E /* EmotionDetailCollectionViewCell.swift */; };
 		1AE216F327C27B6E002E945E /* SelectDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F227C27B6E002E945E /* SelectDetailViewController.swift */; };
 		1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F527CA0AD6002E945E /* UIView+Extension.swift */; };
@@ -77,6 +79,8 @@
 		1AD64EB727CE0F0100E07EF5 /* Sticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sticker.swift; sourceTree = "<group>"; };
 		1AD64EB927CE528D00E07EF5 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		1AD64EBB27D510E100E07EF5 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		1AD64EBD27D8E80D00E07EF5 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
 		1AE216F027C27A1B002E945E /* EmotionDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		1AE216F227C27B6E002E945E /* SelectDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDetailViewController.swift; sourceTree = "<group>"; };
 		1AE216F527CA0AD6002E945E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -103,6 +107,7 @@
 			children = (
 				1A4616902787120E00D2A090 /* Moment.swift */,
 				1AD64EB727CE0F0100E07EF5 /* Sticker.swift */,
+				1AD64EBD27D8E80D00E07EF5 /* Alert.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -112,6 +117,7 @@
 			children = (
 				1A46169C27971CD700D2A090 /* ViewMoment.swift */,
 				1A4616962787222500D2A090 /* MomentViewModel.swift */,
+				1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -359,6 +365,7 @@
 				1A8D9B66273AAA7400A1BA53 /* ViewController.swift in Sources */,
 				1A4616B227AFCA0A00D2A090 /* UIColor+Extension.swift in Sources */,
 				1A8D9B62273AAA7400A1BA53 /* AppDelegate.swift in Sources */,
+				1AD64EC027D8E87F00E07EF5 /* AlertViewModel.swift in Sources */,
 				1A46169927959A0000D2A090 /* SelectEmotionViewController.swift in Sources */,
 				1A461694278715C800D2A090 /* MomentTableViewCell.swift in Sources */,
 				1AD64EB827CE0F0100E07EF5 /* Sticker.swift in Sources */,
@@ -379,6 +386,7 @@
 				1AE216F827CA8440002E945E /* PaintStickerView.swift in Sources */,
 				1A4616B427B8EDEF00D2A090 /* PaintStickerCollectionViewCell.swift in Sources */,
 				1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */,
+				1AD64EBE27D8E80D00E07EF5 /* Alert.swift in Sources */,
 				1AE216F327C27B6E002E945E /* SelectDetailViewController.swift in Sources */,
 				1ACFA30827410ED600821337 /* HomeViewController.swift in Sources */,
 				1A46169D27971CD800D2A090 /* ViewMoment.swift in Sources */,
