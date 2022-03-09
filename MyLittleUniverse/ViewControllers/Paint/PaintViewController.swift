@@ -276,7 +276,7 @@ class PaintViewController: UIViewController {
 
 // MARK: - Sticker Functions
 
-extension PaintViewController {
+extension PaintViewController: UIGestureRecognizerDelegate {
     /* 스티커 추가 */
     private func addSticker(_ sticker: Sticker, centerPos: CGPoint? = nil) {
         let imageSticker = PaintStickerView()
@@ -316,14 +316,15 @@ extension PaintViewController {
         imageSticker.isUserInteractionEnabled = true
         let panGesture = UIPanGestureRecognizer(target: self,
                                                 action: #selector(self.handlePanGesture(recognizer:)))
-        imageSticker.addGestureRecognizer(panGesture)
         let tapGesture = UITapGestureRecognizer(target: self,
                                                 action: #selector(self.handleTapGesture(recognizer:)))
-        imageSticker.addGestureRecognizer(tapGesture)
-        
         let rotateGesture = UIRotationGestureRecognizer(target: self,
                                                         action:#selector(self.handleRotateGesture(recognizer:)))
-        imageSticker.addGestureRecognizer(rotateGesture)
+        let pinchGesture = UIPinchGestureRecognizer(target: self,
+                                                    action: #selector(self.handlePinchGesture(recognizer:)))
+        rotateGesture.delegate = self
+        pinchGesture.delegate = self
+        imageSticker.gestureRecognizers = [panGesture, tapGesture, rotateGesture, pinchGesture]
         
         stickers.append(imageSticker)
         focusSticker = imageSticker
@@ -368,27 +369,44 @@ extension PaintViewController {
         paintView.addSubview(labelSticker)
     }
     
+    /* FocusSticker 변경 */
+    func changeFocusSticker(_ view: UIView?) {
+        guard let tappedSticker = view as? PaintStickerView else { return }
+        focusSticker = tappedSticker
+    }
+    
     /* 드래그 */
     @objc func handlePanGesture(recognizer: UIPanGestureRecognizer) {
-        focusSticker?.center = recognizer.location(in: paintView)
+        changeFocusSticker(recognizer.view)
+        recognizer.view?.center = recognizer.location(in: paintView)
     }
     
     /* 선택 시 Focus 변경 */
     @objc func handleTapGesture(recognizer: UITapGestureRecognizer) {
-        guard let tappedSticker = recognizer.view as? PaintStickerView else { return }
-        focusSticker = tappedSticker
+        changeFocusSticker(recognizer.view)
     }
     
-    /* 크기 및 회전 */
+    /* 회전 */
     @objc func handleRotateGesture(recognizer: UIRotationGestureRecognizer) {
-        if recognizer.state == .began {
-            NSLog("Rotate Began")
+        changeFocusSticker(recognizer.view)
+        if let rotationView = recognizer.view {
+            rotationView.transform = rotationView.transform.rotated(by: recognizer.rotation)
+            recognizer.rotation = 0.0
         }
-        else if recognizer.state == .changed {
-            NSLog("rotation: %1.3f", recognizer.rotation)
+    }
+    
+    /* 크기 변경 */
+    @objc func handlePinchGesture(recognizer: UIPinchGestureRecognizer) {
+        changeFocusSticker(recognizer.view)
+        if let pinchView = recognizer.view {
+            pinchView.transform = pinchView.transform.scaledBy(x: recognizer.scale, y: recognizer.scale)
+            recognizer.scale = 1.0
         }
-        else if recognizer.state == .ended {
-            NSLog("Rotate Ended")
-        }
+    }
+    
+    /* 동시에 여러 제스쳐 허용 */
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
