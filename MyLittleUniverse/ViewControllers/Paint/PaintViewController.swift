@@ -24,7 +24,7 @@ class PaintViewController: UIViewController {
             
             let currentComponentView = self.componentView.subviews.last
             if let colorOffImage = UIImage(named: "edge/Color-Off_24"),
-               currentComponentView == self.componentColor?.view {
+               currentComponentView == self.colorChips?.view {
                 oldValue?.changeButtonImage(colorOffImage, position: .rightTop)
                 self.presentColorPicker(mode: .sticker)
             }
@@ -87,10 +87,9 @@ class PaintViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind {
                 self.selectedControl = self.btnPicture
-                if let stickerVC = self.componentSticker {
+                if let stickerVC = self.pictureStickers {
                     self.selectButton(item: self.btnPicture)
                     self.present(asChildViewController: stickerVC)
-                    stickerVC.type.onNext(.picture)
                 }
             }
             .disposed(by: disposeBag)
@@ -100,7 +99,7 @@ class PaintViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind {
                 self.selectedControl = self.btnLineShape
-                if let stickerVC = self.componentSticker {
+                if let stickerVC = self.shapeStickers {
                     self.selectButton(item: self.btnLineShape)
                     self.present(asChildViewController: stickerVC)
                     stickerVC.type.onNext(.lineShape)
@@ -113,7 +112,7 @@ class PaintViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind {
                 self.selectedControl = self.btnFillShape
-                if let stickerVC = self.componentSticker {
+                if let stickerVC = self.shapeStickers {
                     self.selectButton(item: self.btnFillShape)
                     self.present(asChildViewController: stickerVC)
                     stickerVC.type.onNext(.fillShape)
@@ -126,7 +125,7 @@ class PaintViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind {
                 self.selectedControl = self.btnText
-                if let textVC = self.componentText {
+                if let textVC = self.textSticker {
                     self.selectButton(item: self.btnText)
                     self.present(asChildViewController: textVC)
                 }
@@ -144,7 +143,7 @@ class PaintViewController: UIViewController {
     
     /* 색상 선택 화면 표시 */
     func presentColorPicker(mode: ColorPickerMode) {
-        if let colorVC = self.componentColor {
+        if let colorVC = self.colorChips {
             present(asChildViewController: colorVC)
             colorPickerMode = mode
             if mode == .background {
@@ -193,8 +192,8 @@ class PaintViewController: UIViewController {
         btnText.setImage(UIImage(named: textImage), for: .normal)
     }
     
-    private lazy var componentColor: PaintColorChipViewController? = {
-        guard let colorVC = self.storyboard?.instantiateViewController(withIdentifier: PaintColorChipViewController.identifier) as? PaintColorChipViewController else { return nil }
+    private lazy var colorChips: ColorChipVC? = {
+        guard let colorVC = self.storyboard?.instantiateViewController(withIdentifier: ColorChipVC.identifier) as? ColorChipVC else { return nil }
         colorVC.completeHandler = { (hexColor) in
             DispatchQueue.main.async {
                 if self.colorPickerMode == .background {
@@ -212,19 +211,30 @@ class PaintViewController: UIViewController {
         return colorVC
     }()
     
-    private lazy var componentSticker: PaintStickerViewController? = {
-        guard let stickerVC = self.storyboard?.instantiateViewController(withIdentifier: PaintStickerViewController.identifier) as? PaintStickerViewController else { return nil }
+    private lazy var pictureStickers: PictureStickerVC? = {
+        guard let stickerVC = self.storyboard?.instantiateViewController(withIdentifier: PictureStickerVC.identifier) as? PictureStickerVC else { return nil }
         stickerVC.completeHandler = { (image) in
             DispatchQueue.main.async {
-                if let image = image { self.addSticker(Sticker(image: image)) }
+                if let image = image { self.addSticker(Sticker(image: image, contentMode: .scaleAspectFill)) }
             }
         }
         
         return stickerVC
     }()
     
-    private lazy var componentText: PaintTextViewController? = {
-        guard let textVC = self.storyboard?.instantiateViewController(withIdentifier: PaintTextViewController.identifier) as? PaintTextViewController else { return nil }
+    private lazy var shapeStickers: ShapeStickerVC? = {
+        guard let stickerVC = self.storyboard?.instantiateViewController(withIdentifier: ShapeStickerVC.identifier) as? ShapeStickerVC else { return nil }
+        stickerVC.completeHandler = { (image) in
+            DispatchQueue.main.async {
+                if let image = image { self.addSticker(Sticker(image: image, contentMode: .scaleAspectFit)) }
+            }
+        }
+        
+        return stickerVC
+    }()
+    
+    private lazy var textSticker: TextStickerVC? = {
+        guard let textVC = self.storyboard?.instantiateViewController(withIdentifier: TextStickerVC.identifier) as? TextStickerVC else { return nil }
         textVC.completeHandler = { (description) in
             DispatchQueue.main.async {
                 self.addTextSticker(text: description)
@@ -351,7 +361,7 @@ extension PaintViewController: UIGestureRecognizerDelegate {
         
         // 스티커 삭제
         labelSticker.setLeftTopButton {
-            self.componentText?.textView.text = ""
+            self.textSticker?.textView.text = ""
             self.focusSticker = nil
         }
         

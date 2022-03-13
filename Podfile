@@ -11,4 +11,5 @@ target 'MyLittleUniverse' do
   pod 'RxSwift', '6.2.0'
   pod 'RxCocoa', '6.2.0'
   pod 'RxGesture'
+  pod 'Alamofire'
 end

@@ -11,5 +11,6 @@ import UIKit
 struct Sticker {
     var image: UIImage?
     var text: String?
+    var contentMode: UIView.ContentMode = .scaleAspectFit
     var hexColor: Int = 0xC4C4C4
 }

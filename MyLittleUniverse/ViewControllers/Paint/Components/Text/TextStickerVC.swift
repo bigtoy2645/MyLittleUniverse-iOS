@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class PaintTextViewController: UIViewController, UITextViewDelegate {
+class TextStickerVC: UIViewController, UITextViewDelegate {
     static let identifier = "paintTextView"
     
     let maxCount = 40

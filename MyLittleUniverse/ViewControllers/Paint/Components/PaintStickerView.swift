@@ -70,16 +70,17 @@ class PaintStickerView: UIView {
     func setupBindings() {
         // 이미지 스티커
         sticker.asObservable()
-            .map { ($0.image, $0.hexColor) }
+            .map { ($0.image, $0.hexColor, $0.contentMode) }
             .observe(on: MainScheduler.instance)
-            .bind { image, hexColor in
+            .bind { image, hexColor, contentMode in
                 guard let image = image else { return }
                 if let imageView = self.stickerView as? UIImageView {
                     imageView.image = image
                     imageView.tintColor = UIColor(rgb: hexColor)
                 } else {
                     let imageView = UIImageView()
-                    imageView.contentMode = .scaleAspectFit
+                    imageView.contentMode = contentMode
+                    imageView.clipsToBounds = true
                     imageView.tintColor = UIColor(rgb: hexColor)
                     imageView.image = image
                     self.stickerView = imageView

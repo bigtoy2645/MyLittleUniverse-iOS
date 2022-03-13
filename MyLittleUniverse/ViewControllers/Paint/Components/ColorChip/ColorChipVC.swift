@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class PaintColorChipViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class ColorChipVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     static let identifier = "paintColorChipView"
     
     var hexColors = BehaviorSubject<[Int]>(value: [
@@ -17,6 +17,7 @@ class PaintColorChipViewController: UIViewController, UICollectionViewDelegate, 
         0xFFB8B7, 0xFFD9C3, 0xFFECC7, 0xA3C4DC, 0x7C99FF, 0xD4B9EC, 0x9F88C8, 0x975BE4,
         0xFD9673, 0x905E30, 0x955857, 0x000000, 0x666666, 0xCCCCCC, 0xE6E6E6, 0xFFFFFF
     ])
+    
     var selectedColor = BehaviorSubject<Int?>(value: nil)
     var completeHandler: ((Int) -> ())?
     var disposeBag = DisposeBag()
@@ -34,11 +35,21 @@ class PaintColorChipViewController: UIViewController, UICollectionViewDelegate, 
             .disposed(by: disposeBag)
         
         // 컬러칩 나열하기
-        hexColors
-            .bind(to: colColorChip.rx.items(cellIdentifier: PaintColorChipCollectionViewCell.identifier,
-                                            cellType: PaintColorChipCollectionViewCell.self)) { index, hexValue, cell in
+        hexColors.asObserver()
+            .bind(to: colColorChip.rx.items(cellIdentifier: ColorChipCell.identifier,
+                                            cellType: ColorChipCell.self)) { index, hexValue, cell in
                 cell.hexColor = hexValue
             }
+            .disposed(by: disposeBag)
+        
+        // 컬러칩 선택
+        colColorChip.rx.itemSelected
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { index in
+                if let cell = self.colColorChip.cellForItem(at: index) as? ColorChipCell {
+                    self.completeHandler?(cell.hexColor)
+                }
+            })
             .disposed(by: disposeBag)
         
         // 선택된 컬러칩 변경
@@ -59,20 +70,10 @@ class PaintColorChipViewController: UIViewController, UICollectionViewDelegate, 
                 }
             })
             .disposed(by: disposeBag)
-        
-        // 컬러칩 선택
-        colColorChip.rx.itemSelected
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { index in
-                if let cell = self.colColorChip.cellForItem(at: index) as? PaintColorChipCollectionViewCell {
-                    self.completeHandler?(cell.hexColor)
-                }
-            })
-            .disposed(by: disposeBag)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = self.colColorChip.frame.width / 8.0
+        let width = (view.frame.width - 64) / 8.0
         let height = width
         return CGSize(width: width, height: height)
     }

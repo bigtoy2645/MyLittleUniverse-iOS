@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A0C85AD27DDF0790056B8B8 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0C85AC27DDF0790056B8B8 /* UIImage+Extension.swift */; };
+		1A0C85AF27DE003F0056B8B8 /* PictureStickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0C85AE27DE003F0056B8B8 /* PictureStickerVC.swift */; };
+		1A0C85B527DE02C00056B8B8 /* PictureStickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0C85B427DE02C00056B8B8 /* PictureStickerCell.swift */; };
 		1A46168D2781B0F100D2A090 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46168C2781B0F100D2A090 /* DetailViewController.swift */; };
 		1A4616912787120E00D2A090 /* Moment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616902787120E00D2A090 /* Moment.swift */; };
 		1A461694278715C800D2A090 /* MomentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A461692278715C800D2A090 /* MomentTableViewCell.swift */; };
@@ -19,12 +22,12 @@
 		1A4616A527A51C8D00D2A090 /* PaintListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616A427A51C8D00D2A090 /* PaintListViewController.swift */; };
 		1A4616A727AC13C500D2A090 /* PaintPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616A627AC13C500D2A090 /* PaintPageViewController.swift */; };
 		1A4616A927AE5C6300D2A090 /* PaintEmotionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616A827AE5C6300D2A090 /* PaintEmotionCollectionViewCell.swift */; };
-		1A4616AB27AE8E7800D2A090 /* PaintColorChipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616AA27AE8E7800D2A090 /* PaintColorChipViewController.swift */; };
-		1A4616AD27AE909100D2A090 /* PaintColorChipCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616AC27AE909100D2A090 /* PaintColorChipCollectionViewCell.swift */; };
+		1A4616AB27AE8E7800D2A090 /* ColorChipVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616AA27AE8E7800D2A090 /* ColorChipVC.swift */; };
+		1A4616AD27AE909100D2A090 /* ColorChipCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616AC27AE909100D2A090 /* ColorChipCell.swift */; };
 		1A4616B227AFCA0A00D2A090 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616B127AFCA0A00D2A090 /* UIColor+Extension.swift */; };
-		1A4616B427B8EDEF00D2A090 /* PaintStickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616B327B8EDEF00D2A090 /* PaintStickerCollectionViewCell.swift */; };
-		1A4616B627C0E78D00D2A090 /* PaintStickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616B527C0E78D00D2A090 /* PaintStickerViewController.swift */; };
-		1A4616B827C12FBA00D2A090 /* PaintTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616B727C12FBA00D2A090 /* PaintTextViewController.swift */; };
+		1A4616B427B8EDEF00D2A090 /* ShapeStickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616B327B8EDEF00D2A090 /* ShapeStickerCell.swift */; };
+		1A4616B627C0E78D00D2A090 /* ShapeStickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616B527C0E78D00D2A090 /* ShapeStickerVC.swift */; };
+		1A4616B827C12FBA00D2A090 /* TextStickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616B727C12FBA00D2A090 /* TextStickerVC.swift */; };
 		1A8D9B62273AAA7400A1BA53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D9B61273AAA7400A1BA53 /* AppDelegate.swift */; };
 		1A8D9B64273AAA7400A1BA53 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D9B63273AAA7400A1BA53 /* SceneDelegate.swift */; };
 		1A8D9B66273AAA7400A1BA53 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D9B65273AAA7400A1BA53 /* ViewController.swift */; };
@@ -48,6 +51,9 @@
 
 /* Begin PBXFileReference section */
 		0A6F0C37FEE78B171AB619AE /* Pods-MyLittleUniverse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyLittleUniverse.release.xcconfig"; path = "Target Support Files/Pods-MyLittleUniverse/Pods-MyLittleUniverse.release.xcconfig"; sourceTree = "<group>"; };
+		1A0C85AC27DDF0790056B8B8 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		1A0C85AE27DE003F0056B8B8 /* PictureStickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureStickerVC.swift; sourceTree = "<group>"; };
+		1A0C85B427DE02C00056B8B8 /* PictureStickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureStickerCell.swift; sourceTree = "<group>"; };
 		1A46168C2781B0F100D2A090 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		1A4616902787120E00D2A090 /* Moment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Moment.swift; sourceTree = "<group>"; };
 		1A461692278715C800D2A090 /* MomentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentTableViewCell.swift; sourceTree = "<group>"; };
@@ -60,12 +66,12 @@
 		1A4616A427A51C8D00D2A090 /* PaintListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintListViewController.swift; sourceTree = "<group>"; };
 		1A4616A627AC13C500D2A090 /* PaintPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintPageViewController.swift; sourceTree = "<group>"; };
 		1A4616A827AE5C6300D2A090 /* PaintEmotionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintEmotionCollectionViewCell.swift; sourceTree = "<group>"; };
-		1A4616AA27AE8E7800D2A090 /* PaintColorChipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintColorChipViewController.swift; sourceTree = "<group>"; };
-		1A4616AC27AE909100D2A090 /* PaintColorChipCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintColorChipCollectionViewCell.swift; sourceTree = "<group>"; };
+		1A4616AA27AE8E7800D2A090 /* ColorChipVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChipVC.swift; sourceTree = "<group>"; };
+		1A4616AC27AE909100D2A090 /* ColorChipCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChipCell.swift; sourceTree = "<group>"; };
 		1A4616B127AFCA0A00D2A090 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
-		1A4616B327B8EDEF00D2A090 /* PaintStickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintStickerCollectionViewCell.swift; sourceTree = "<group>"; };
-		1A4616B527C0E78D00D2A090 /* PaintStickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintStickerViewController.swift; sourceTree = "<group>"; };
-		1A4616B727C12FBA00D2A090 /* PaintTextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaintTextViewController.swift; sourceTree = "<group>"; };
+		1A4616B327B8EDEF00D2A090 /* ShapeStickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeStickerCell.swift; sourceTree = "<group>"; };
+		1A4616B527C0E78D00D2A090 /* ShapeStickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeStickerVC.swift; sourceTree = "<group>"; };
+		1A4616B727C12FBA00D2A090 /* TextStickerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextStickerVC.swift; sourceTree = "<group>"; };
 		1A8D9B5E273AAA7400A1BA53 /* MyLittleUniverse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLittleUniverse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8D9B61273AAA7400A1BA53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A8D9B63273AAA7400A1BA53 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +108,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A0C85B027DE012A0056B8B8 /* ColorChip */ = {
+			isa = PBXGroup;
+			children = (
+				1A4616AA27AE8E7800D2A090 /* ColorChipVC.swift */,
+				1A4616AC27AE909100D2A090 /* ColorChipCell.swift */,
+			);
+			path = ColorChip;
+			sourceTree = "<group>";
+		};
+		1A0C85B127DE013E0056B8B8 /* Picture */ = {
+			isa = PBXGroup;
+			children = (
+				1A0C85AE27DE003F0056B8B8 /* PictureStickerVC.swift */,
+				1A0C85B427DE02C00056B8B8 /* PictureStickerCell.swift */,
+			);
+			path = Picture;
+			sourceTree = "<group>";
+		};
+		1A0C85B227DE01530056B8B8 /* Shape */ = {
+			isa = PBXGroup;
+			children = (
+				1A4616B527C0E78D00D2A090 /* ShapeStickerVC.swift */,
+				1A4616B327B8EDEF00D2A090 /* ShapeStickerCell.swift */,
+			);
+			path = Shape;
+			sourceTree = "<group>";
+		};
+		1A0C85B327DE015D0056B8B8 /* Text */ = {
+			isa = PBXGroup;
+			children = (
+				1A4616B727C12FBA00D2A090 /* TextStickerVC.swift */,
+			);
+			path = Text;
+			sourceTree = "<group>";
+		};
 		1A46168E2787118F00D2A090 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +181,7 @@
 				1A4616B127AFCA0A00D2A090 /* UIColor+Extension.swift */,
 				1AE216F527CA0AD6002E945E /* UIView+Extension.swift */,
 				1AD64EB927CE528D00E07EF5 /* UICollectionView+Extension.swift */,
+				1A0C85AC27DDF0790056B8B8 /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -147,11 +189,10 @@
 		1A4616B927C12FC700D2A090 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				1A4616AA27AE8E7800D2A090 /* PaintColorChipViewController.swift */,
-				1A4616AC27AE909100D2A090 /* PaintColorChipCollectionViewCell.swift */,
-				1A4616B527C0E78D00D2A090 /* PaintStickerViewController.swift */,
-				1A4616B327B8EDEF00D2A090 /* PaintStickerCollectionViewCell.swift */,
-				1A4616B727C12FBA00D2A090 /* PaintTextViewController.swift */,
+				1A0C85B027DE012A0056B8B8 /* ColorChip */,
+				1A0C85B127DE013E0056B8B8 /* Picture */,
+				1A0C85B227DE01530056B8B8 /* Shape */,
+				1A0C85B327DE015D0056B8B8 /* Text */,
 				1AE216F727CA8440002E945E /* PaintStickerView.swift */,
 			);
 			path = Components;
@@ -372,22 +413,25 @@
 				1A46169B2795A52700D2A090 /* EmotionCollectionViewCell.swift in Sources */,
 				1A46168D2781B0F100D2A090 /* DetailViewController.swift in Sources */,
 				1A4616A927AE5C6300D2A090 /* PaintEmotionCollectionViewCell.swift in Sources */,
-				1A4616AB27AE8E7800D2A090 /* PaintColorChipViewController.swift in Sources */,
+				1A4616AB27AE8E7800D2A090 /* ColorChipVC.swift in Sources */,
 				1A4616A727AC13C500D2A090 /* PaintPageViewController.swift in Sources */,
-				1A4616B827C12FBA00D2A090 /* PaintTextViewController.swift in Sources */,
+				1A4616B827C12FBA00D2A090 /* TextStickerVC.swift in Sources */,
 				1A4616972787222500D2A090 /* MomentViewModel.swift in Sources */,
-				1A4616B627C0E78D00D2A090 /* PaintStickerViewController.swift in Sources */,
+				1A0C85AF27DE003F0056B8B8 /* PictureStickerVC.swift in Sources */,
+				1A4616B627C0E78D00D2A090 /* ShapeStickerVC.swift in Sources */,
 				1A4616A527A51C8D00D2A090 /* PaintListViewController.swift in Sources */,
 				1AD64EBC27D510E100E07EF5 /* AlertViewController.swift in Sources */,
 				1A46169F279B04A000D2A090 /* PaintViewController.swift in Sources */,
-				1A4616AD27AE909100D2A090 /* PaintColorChipCollectionViewCell.swift in Sources */,
+				1A4616AD27AE909100D2A090 /* ColorChipCell.swift in Sources */,
 				1A8D9B64273AAA7400A1BA53 /* SceneDelegate.swift in Sources */,
 				1AD64EBA27CE528D00E07EF5 /* UICollectionView+Extension.swift in Sources */,
 				1AE216F827CA8440002E945E /* PaintStickerView.swift in Sources */,
-				1A4616B427B8EDEF00D2A090 /* PaintStickerCollectionViewCell.swift in Sources */,
+				1A4616B427B8EDEF00D2A090 /* ShapeStickerCell.swift in Sources */,
+				1A0C85AD27DDF0790056B8B8 /* UIImage+Extension.swift in Sources */,
 				1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */,
 				1AD64EBE27D8E80D00E07EF5 /* Alert.swift in Sources */,
 				1AE216F327C27B6E002E945E /* SelectDetailViewController.swift in Sources */,
+				1A0C85B527DE02C00056B8B8 /* PictureStickerCell.swift in Sources */,
 				1ACFA30827410ED600821337 /* HomeViewController.swift in Sources */,
 				1A46169D27971CD800D2A090 /* ViewMoment.swift in Sources */,
 				1A4616912787120E00D2A090 /* Moment.swift in Sources */,

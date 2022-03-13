@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PaintColorChipCollectionViewCell: UICollectionViewCell {
+class ColorChipCell: UICollectionViewCell {
     static let identifier = "colorChipCell"
     
     @IBOutlet weak var imgCircle: UIImageView!
@@ -22,9 +22,9 @@ class PaintColorChipCollectionViewCell: UICollectionViewCell {
     override var isSelected: Bool {
         willSet {
             super.isSelected = newValue
-            if self.isSelected {
+            if isSelected {
                 layer.borderWidth = 1
-                layer.cornerRadius = contentView.frame.width / 2
+                layer.cornerRadius = frame.width / 2
                 layer.borderColor = UIColor.black.cgColor
             } else {
                 layer.borderWidth = 0
