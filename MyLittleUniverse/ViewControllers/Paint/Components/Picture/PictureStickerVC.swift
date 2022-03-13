@@ -54,6 +54,9 @@ class PictureStickerVC: UIViewController, UICollectionViewDelegate, UICollection
                     cell.sticker.image = cachedImage
                 } else {
                     UIImage.download(from: urlString, completion: { image in
+                        if let image = image {
+                            ImageCacheManager.shared.setObject(image, forKey: NSString(string: urlString))
+                        }
                         cell.sticker.image = image
                     })
                 }
