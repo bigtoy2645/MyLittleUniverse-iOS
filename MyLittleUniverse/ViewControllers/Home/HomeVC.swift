@@ -7,11 +7,13 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
-class HomeViewController: UIViewController, UIScrollViewDelegate {
+class HomeViewController: UIViewController, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     static let storyboardID = "homeView"
     
     let viewModel = MomentViewModel()
+    var recoredDays = BehaviorRelay<[Int]>(value: [1, 10, 15])
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -28,6 +30,19 @@ class HomeViewController: UIViewController, UIScrollViewDelegate {
         
         guard let registerVC = self.storyboard?.instantiateViewController(withIdentifier: SelectEmotionViewController.storyboardID) else { return }
         self.navigationController?.pushViewController(registerVC, animated: false)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        rankingView.layoutSubviews()
+        for ranking in rankingView.arrangedSubviews {
+            let path = UIBezierPath(ovalIn: ranking.bounds)
+            let layer = CAShapeLayer()
+            layer.path = path.cgPath
+            layer.fillColor = ranking.backgroundColor?.cgColor
+            layer.fillMode = .forwards
+            ranking.layer.insertSublayer(layer, at: 0)
+            ranking.backgroundColor = .clear
+        }
     }
     
     /* 스크롤 시 탭바 표시 */
@@ -77,6 +92,26 @@ class HomeViewController: UIViewController, UIScrollViewDelegate {
                 self.navigationController?.pushViewController(detailVC, animated: true)
             }
             .disposed(by: disposeBag)
+        
+        colDays.rx
+            .setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        Observable.of(Array(1...31))
+            .bind(to: colDays.rx.items(cellIdentifier: DayChipCell.identifier,
+                                          cellType: DayChipCell.self)) { index, day, cell in
+                cell.lblDay.text = "\(day)"
+                cell.isRecorded = self.recoredDays.value.contains(day)
+            }
+            .disposed(by: disposeBag)
+        
+        colDays.rx.itemSelected
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { index in
+//                if let cell = self.colDays.cellForItem(at: index) as? DayChipCell {
+//                }
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - InterfaceBuilder Links
@@ -84,6 +119,10 @@ class HomeViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var tabView: UIView!
     @IBOutlet weak var btnMainEmotion: UIButton!
+    @IBOutlet weak var rankingView: UIStackView!
+    
+    @IBOutlet weak var colDays: UICollectionView!
+    @IBOutlet weak var colMomentsOfDay: UICollectionView!
     
     @IBOutlet weak var btnHome: UIButton!
     @IBOutlet weak var btnRegister: UIButton!

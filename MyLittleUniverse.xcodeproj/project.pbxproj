@@ -28,6 +28,7 @@
 		1A4616B427B8EDEF00D2A090 /* ShapeStickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616B327B8EDEF00D2A090 /* ShapeStickerCell.swift */; };
 		1A4616B627C0E78D00D2A090 /* ShapeStickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616B527C0E78D00D2A090 /* ShapeStickerVC.swift */; };
 		1A4616B827C12FBA00D2A090 /* TextStickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616B727C12FBA00D2A090 /* TextStickerVC.swift */; };
+		1A8BC73D27DE2EF200068851 /* DayChipCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BC73C27DE2EF200068851 /* DayChipCell.swift */; };
 		1A8D9B62273AAA7400A1BA53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D9B61273AAA7400A1BA53 /* AppDelegate.swift */; };
 		1A8D9B64273AAA7400A1BA53 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D9B63273AAA7400A1BA53 /* SceneDelegate.swift */; };
 		1A8D9B66273AAA7400A1BA53 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D9B65273AAA7400A1BA53 /* ViewController.swift */; };
@@ -35,7 +36,7 @@
 		1A8D9B6B273AAA7500A1BA53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D9B6A273AAA7500A1BA53 /* Assets.xcassets */; };
 		1A8D9B6E273AAA7500A1BA53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D9B6C273AAA7500A1BA53 /* LaunchScreen.storyboard */; };
 		1ACFA3062740F7E400821337 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA3052740F7E400821337 /* GoogleService-Info.plist */; };
-		1ACFA30827410ED600821337 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFA30727410ED600821337 /* HomeViewController.swift */; };
+		1ACFA30827410ED600821337 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFA30727410ED600821337 /* HomeVC.swift */; };
 		1AD64EB827CE0F0100E07EF5 /* Sticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EB727CE0F0100E07EF5 /* Sticker.swift */; };
 		1AD64EBA27CE528D00E07EF5 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EB927CE528D00E07EF5 /* UICollectionView+Extension.swift */; };
 		1AD64EBC27D510E100E07EF5 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBB27D510E100E07EF5 /* AlertViewController.swift */; };
@@ -72,6 +73,7 @@
 		1A4616B327B8EDEF00D2A090 /* ShapeStickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeStickerCell.swift; sourceTree = "<group>"; };
 		1A4616B527C0E78D00D2A090 /* ShapeStickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeStickerVC.swift; sourceTree = "<group>"; };
 		1A4616B727C12FBA00D2A090 /* TextStickerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextStickerVC.swift; sourceTree = "<group>"; };
+		1A8BC73C27DE2EF200068851 /* DayChipCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayChipCell.swift; sourceTree = "<group>"; };
 		1A8D9B5E273AAA7400A1BA53 /* MyLittleUniverse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLittleUniverse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8D9B61273AAA7400A1BA53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A8D9B63273AAA7400A1BA53 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,7 +83,7 @@
 		1A8D9B6D273AAA7500A1BA53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A8D9B6F273AAA7500A1BA53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1ACFA3052740F7E400821337 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		1ACFA30727410ED600821337 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		1ACFA30727410ED600821337 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		1AD64EB727CE0F0100E07EF5 /* Sticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sticker.swift; sourceTree = "<group>"; };
 		1AD64EB927CE528D00E07EF5 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		1AD64EBB27D510E100E07EF5 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +200,15 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		1A8BC73B27DE2ED200068851 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				1ACFA30727410ED600821337 /* HomeVC.swift */,
+				1A8BC73C27DE2EF200068851 /* DayChipCell.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		1A8D9B55273AAA7400A1BA53 = {
 			isa = PBXGroup;
 			children = (
@@ -235,10 +246,10 @@
 		1ACFA2FF2740F17B00821337 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1A8BC73B27DE2ED200068851 /* Home */,
 				1AE216F427C27C27002E945E /* Register */,
 				1A4616A127A5195A00D2A090 /* Paint */,
 				1A8D9B65273AAA7400A1BA53 /* ViewController.swift */,
-				1ACFA30727410ED600821337 /* HomeViewController.swift */,
 				1A46168C2781B0F100D2A090 /* DetailViewController.swift */,
 				1A461692278715C800D2A090 /* MomentTableViewCell.swift */,
 				1AD64EBB27D510E100E07EF5 /* AlertViewController.swift */,
@@ -411,6 +422,7 @@
 				1A461694278715C800D2A090 /* MomentTableViewCell.swift in Sources */,
 				1AD64EB827CE0F0100E07EF5 /* Sticker.swift in Sources */,
 				1A46169B2795A52700D2A090 /* EmotionCollectionViewCell.swift in Sources */,
+				1A8BC73D27DE2EF200068851 /* DayChipCell.swift in Sources */,
 				1A46168D2781B0F100D2A090 /* DetailViewController.swift in Sources */,
 				1A4616A927AE5C6300D2A090 /* PaintEmotionCollectionViewCell.swift in Sources */,
 				1A4616AB27AE8E7800D2A090 /* ColorChipVC.swift in Sources */,
@@ -432,7 +444,7 @@
 				1AD64EBE27D8E80D00E07EF5 /* Alert.swift in Sources */,
 				1AE216F327C27B6E002E945E /* SelectDetailViewController.swift in Sources */,
 				1A0C85B527DE02C00056B8B8 /* PictureStickerCell.swift in Sources */,
-				1ACFA30827410ED600821337 /* HomeViewController.swift in Sources */,
+				1ACFA30827410ED600821337 /* HomeVC.swift in Sources */,
 				1A46169D27971CD800D2A090 /* ViewMoment.swift in Sources */,
 				1A4616912787120E00D2A090 /* Moment.swift in Sources */,
 				1AE216F127C27A1B002E945E /* EmotionDetailCollectionViewCell.swift in Sources */,
