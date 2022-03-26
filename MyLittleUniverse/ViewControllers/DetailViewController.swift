@@ -18,6 +18,8 @@ class DetailViewController: UIViewController, UITableViewDelegate, UIGestureReco
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        overrideUserInterfaceStyle = .light
+        
         // Cell 등록
         let nibName = UINib(nibName: MomentTableViewCell.nibName, bundle: nil)
         tableView.register(nibName, forCellReuseIdentifier: MomentTableViewCell.identifier)

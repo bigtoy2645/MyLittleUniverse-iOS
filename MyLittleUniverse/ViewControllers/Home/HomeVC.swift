@@ -19,6 +19,8 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, UICollectionVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        overrideUserInterfaceStyle = .light
+        
         btnMainEmotion.layer.borderWidth = 1
         btnMainEmotion.layer.cornerRadius = 15
         btnMainEmotion.layer.borderColor = btnMainEmotion.currentTitleColor.cgColor
