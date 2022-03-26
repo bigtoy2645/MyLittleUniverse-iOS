@@ -36,7 +36,7 @@ class PaintViewController: UIViewController {
         }
     }
     
-    var undoFunctions: [Handler] = [] {
+    private var undoFunctions: [Handler] = [] {
         didSet {
             DispatchQueue.main.async {
                 let isUndoEnable = self.undoFunctions.count > 0
@@ -47,7 +47,7 @@ class PaintViewController: UIViewController {
             }
         }
     }
-    var redoFunctions: [(() -> Void)] = [] {
+    private var redoFunctions: [(() -> Void)] = [] {
         didSet {
             DispatchQueue.main.async {
                 let isRedoEnable = self.redoFunctions.count > 0
@@ -244,25 +244,35 @@ class PaintViewController: UIViewController {
         btnText.setImage(UIImage(named: textImage), for: .normal)
     }
     
-    /* 색상 변경 */
-    private func changeColor(_ hexColor: Int, isUndoAction: Bool = false) {
+    /* 스티커 색상 변경 */
+    private func updateStickerColor(stickerView: PaintStickerView, hexColor: Int) {
+        if let stickerIndex = stickers.firstIndex(of: stickerView) {
+            var sticker = stickerView.sticker.value
+            sticker.hexColor = hexColor
+            stickerView.sticker.accept(sticker)
+            self.stickers[stickerIndex] = stickerView
+        }
+    }
+    
+    /* 색상 선택 */
+    private func pickColor(_ hexColor: Int, isUndoAction: Bool = false) {
         if self.colorPickerMode == .background {    // 배경 색상 변경
             let oldHexColor = self.bgColor.value
             undoFunctions.append(Handler(undo: { self.bgColor.accept(oldHexColor) },
-                                    redo: { self.bgColor.accept(hexColor) }))
+                                         redo: { self.bgColor.accept(hexColor) }))
             self.bgColor.accept(hexColor)
         } else if self.colorPickerMode == .sticker, // 스티커 색상 변경
-                  var sticker = self.focusSticker?.sticker.value {
+                  let stickerView = self.focusSticker {
+            var sticker = stickerView.sticker.value
             let oldHexColor = sticker.hexColor
-            undoFunctions.append(Handler(undo: { sticker.hexColor = oldHexColor
-                                        self.focusSticker?.sticker.accept(sticker) },
-                                    redo: { sticker.hexColor = hexColor
-                                        self.focusSticker?.sticker.accept(sticker) }))
             
-            self.redoFunctions.append {
-                sticker.hexColor = hexColor
-                self.focusSticker?.sticker.accept(sticker)
+            let handler = Handler {
+                self.updateStickerColor(stickerView: stickerView, hexColor: oldHexColor)
+            } redo: {
+                self.updateStickerColor(stickerView: stickerView, hexColor: hexColor)
             }
+            undoFunctions.append(handler)
+            
             sticker.hexColor = hexColor
             self.focusSticker?.sticker.accept(sticker)
         }
@@ -272,7 +282,7 @@ class PaintViewController: UIViewController {
         guard let colorVC = self.storyboard?.instantiateViewController(withIdentifier: ColorChipVC.identifier) as? ColorChipVC else { return nil }
         colorVC.completeHandler = { (hexColor) in
             DispatchQueue.main.async {
-                self.changeColor(hexColor)
+                self.pickColor(hexColor)
                 self.btnDone.isEnabled = true
             }
         }
@@ -283,7 +293,7 @@ class PaintViewController: UIViewController {
         guard let stickerVC = self.storyboard?.instantiateViewController(withIdentifier: PictureStickerVC.identifier) as? PictureStickerVC else { return nil }
         stickerVC.completeHandler = { (image) in
             DispatchQueue.main.async {
-                if let image = image { self.addSticker(Sticker(image: image, contentMode: .scaleAspectFill)) }
+                if let image = image { self.createSticker(Sticker(image: image, contentMode: .scaleAspectFill)) }
             }
         }
         
@@ -294,7 +304,7 @@ class PaintViewController: UIViewController {
         guard let stickerVC = self.storyboard?.instantiateViewController(withIdentifier: ShapeStickerVC.identifier) as? ShapeStickerVC else { return nil }
         stickerVC.completeHandler = { (image) in
             DispatchQueue.main.async {
-                if let image = image { self.addSticker(Sticker(image: image, contentMode: .scaleAspectFit)) }
+                if let image = image { self.createSticker(Sticker(image: image, contentMode: .scaleAspectFit)) }
             }
         }
         
@@ -355,8 +365,8 @@ class PaintViewController: UIViewController {
 // MARK: - Sticker Functions
 
 extension PaintViewController: UIGestureRecognizerDelegate {
-    /* 스티커 추가 */
-    private func addSticker(_ sticker: Sticker, centerPos: CGPoint? = nil) {
+    /* 스티커 생성 */
+    private func createSticker(_ sticker: Sticker, centerPos: CGPoint? = nil, isUndoAction: Bool = false) {
         let imageSticker = PaintStickerView()
         paintView.addSubview(imageSticker)
         
@@ -364,9 +374,6 @@ extension PaintViewController: UIGestureRecognizerDelegate {
         imageSticker.frame.size = CGSize(width: size, height: size)
         imageSticker.center = centerPos ?? paintView.center
         imageSticker.sticker.accept(sticker)
-        
-        undoFunctions.append(Handler(undo: { self.removeSticker(imageSticker) },
-                                redo: { self.addSticker(sticker, centerPos: imageSticker.center) }))
         
         // 스티커 삭제
         imageSticker.setLeftTopButton {
@@ -378,7 +385,7 @@ extension PaintViewController: UIGestureRecognizerDelegate {
             let centerPos = CGPoint(x: imageSticker.center.x + 26,
                                     y: imageSticker.center.y + 26)
             let cloneSticker = imageSticker.sticker.value
-            self.addSticker(cloneSticker, centerPos: centerPos)
+            self.createSticker(cloneSticker, centerPos: centerPos)
         }
         
         // 스티커 색상 변경
@@ -405,20 +412,37 @@ extension PaintViewController: UIGestureRecognizerDelegate {
         pinchGesture.delegate = self
         imageSticker.gestureRecognizers = [panGesture, tapGesture, rotateGesture, pinchGesture]
         
+        // Undo/Redo
+        if !isUndoAction {
+            undoFunctions.append(Handler(undo: { self.removeSticker(imageSticker, isUndoAction: true) },
+                                         redo: { self.addSticker(imageSticker) }))
+        }
+        
         stickers.append(imageSticker)
         focusSticker = imageSticker
     }
     
+    /* 스티커 추가 */
+    func addSticker(_ sticker: PaintStickerView) {
+        paintView.addSubview(sticker)
+        stickers.append(sticker)
+        focusSticker = sticker
+    }
+    
     /* 스티커 삭제 */
-    func removeSticker(_ sticker: PaintStickerView) {
-        self.stickers = self.stickers.filter { $0.sticker.value != sticker.sticker.value }
-        if sticker == self.focusSticker {
-            self.focusSticker?.removeFromSuperview()
-            self.focusSticker = nil
+    func removeSticker(_ sticker: PaintStickerView, isUndoAction: Bool = false) {
+        stickers = stickers.filter { $0.sticker.value != sticker.sticker.value }
+        if sticker == focusSticker {
+            focusSticker?.removeFromSuperview()
+            focusSticker = nil
+        } else {
+            sticker.removeFromSuperview()
         }
         
-        undoFunctions.append(Handler(undo: { self.addSticker(sticker.sticker.value, centerPos: sticker.center) },
-                                redo: { self.removeSticker(sticker) }))
+        if !isUndoAction {
+            undoFunctions.append(Handler(undo: { self.addSticker(sticker) },
+                                         redo: { self.removeSticker(sticker) }))
+        }
     }
     
     /* 설명 추가 */
