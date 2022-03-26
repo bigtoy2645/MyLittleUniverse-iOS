@@ -10,6 +10,11 @@ import RxSwift
 import RxGesture
 import RxCocoa
 
+struct Handler {
+    let undo: (() -> Void)
+    let redo: (() -> Void)
+}
+
 class PaintViewController: UIViewController {
     static let storyboardID = "paintView"
     
@@ -31,6 +36,29 @@ class PaintViewController: UIViewController {
         }
     }
     
+    var undoFunctions: [Handler] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                let isUndoEnable = self.undoFunctions.count > 0
+                self.btnUndo.isEnabled = isUndoEnable
+                if let undoImage = UIImage(named: isUndoEnable ? "Undo-On_24" : "Undo-Off_24") {
+                    self.btnUndo.setImage(undoImage, for: .normal)
+                }
+            }
+        }
+    }
+    var redoFunctions: [(() -> Void)] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                let isRedoEnable = self.redoFunctions.count > 0
+                self.btnRedo.isEnabled = isRedoEnable
+                if let redoImage = UIImage(named: isRedoEnable ? "Redo-On_24" : "Redo-Off_24") {
+                    self.btnRedo.setImage(redoImage, for: .normal)
+                }
+            }
+        }
+    }
+    
     enum ColorPickerMode {
         case background
         case sticker
@@ -43,6 +71,11 @@ class PaintViewController: UIViewController {
         super.viewDidLoad()
         
         setupBindings()
+    }
+    
+    /* 화면 클릭 시 키보드 내림 */
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
     }
     
     /* Binding */
@@ -139,6 +172,25 @@ class PaintViewController: UIViewController {
                 self.focusSticker = nil
             }
             .disposed(by: disposeBag)
+        
+        // 작업 취소
+        btnUndo.rx.tap
+            .observe(on: MainScheduler.instance)
+            .bind {
+                if let handler = self.undoFunctions.popLast() {
+                    handler.undo()
+                    self.redoFunctions.append(handler.redo)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 작업 재개
+        btnRedo.rx.tap
+            .observe(on: MainScheduler.instance)
+            .bind {
+                if let redo = self.redoFunctions.popLast() { redo() }
+            }
+            .disposed(by: disposeBag)
     }
     
     /* 색상 선택 화면 표시 */
@@ -146,9 +198,9 @@ class PaintViewController: UIViewController {
         if let colorVC = self.colorChips {
             present(asChildViewController: colorVC)
             colorPickerMode = mode
-            if mode == .background {
+            if mode == .background {        // 기존 배경 색상 지정
                 colorVC.selectedColor.onNext(bgColor.value)
-            } else if mode == .sticker {
+            } else if mode == .sticker {    // 기존 스티커 색상 지정
                 if let colorOnImage = UIImage(named: "edge/Color-On_24") {
                     self.focusSticker?.changeButtonImage(colorOnImage, position: .rightTop)
                 }
@@ -192,22 +244,38 @@ class PaintViewController: UIViewController {
         btnText.setImage(UIImage(named: textImage), for: .normal)
     }
     
+    /* 색상 변경 */
+    private func changeColor(_ hexColor: Int, isUndoAction: Bool = false) {
+        if self.colorPickerMode == .background {    // 배경 색상 변경
+            let oldHexColor = self.bgColor.value
+            undoFunctions.append(Handler(undo: { self.bgColor.accept(oldHexColor) },
+                                    redo: { self.bgColor.accept(hexColor) }))
+            self.bgColor.accept(hexColor)
+        } else if self.colorPickerMode == .sticker, // 스티커 색상 변경
+                  var sticker = self.focusSticker?.sticker.value {
+            let oldHexColor = sticker.hexColor
+            undoFunctions.append(Handler(undo: { sticker.hexColor = oldHexColor
+                                        self.focusSticker?.sticker.accept(sticker) },
+                                    redo: { sticker.hexColor = hexColor
+                                        self.focusSticker?.sticker.accept(sticker) }))
+            
+            self.redoFunctions.append {
+                sticker.hexColor = hexColor
+                self.focusSticker?.sticker.accept(sticker)
+            }
+            sticker.hexColor = hexColor
+            self.focusSticker?.sticker.accept(sticker)
+        }
+    }
+    
     private lazy var colorChips: ColorChipVC? = {
         guard let colorVC = self.storyboard?.instantiateViewController(withIdentifier: ColorChipVC.identifier) as? ColorChipVC else { return nil }
         colorVC.completeHandler = { (hexColor) in
             DispatchQueue.main.async {
-                if self.colorPickerMode == .background {
-                    self.bgColor.accept(hexColor)
-                } else if self.colorPickerMode == .sticker,
-                          var sticker = self.focusSticker?.sticker.value {
-                    sticker.hexColor = hexColor
-                    self.focusSticker?.sticker.accept(sticker)
-                }
-                
+                self.changeColor(hexColor)
                 self.btnDone.isEnabled = true
             }
         }
-        
         return colorVC
     }()
     
@@ -297,11 +365,12 @@ extension PaintViewController: UIGestureRecognizerDelegate {
         imageSticker.center = centerPos ?? paintView.center
         imageSticker.sticker.accept(sticker)
         
+        undoFunctions.append(Handler(undo: { self.removeSticker(imageSticker) },
+                                redo: { self.addSticker(sticker, centerPos: imageSticker.center) }))
+        
         // 스티커 삭제
         imageSticker.setLeftTopButton {
-            self.stickers = self.stickers.filter { $0 != self.focusSticker }
-            self.focusSticker?.removeFromSuperview()
-            self.focusSticker = nil
+            self.removeSticker(imageSticker)
         }
         
         // 스티커 복제
@@ -338,6 +407,18 @@ extension PaintViewController: UIGestureRecognizerDelegate {
         
         stickers.append(imageSticker)
         focusSticker = imageSticker
+    }
+    
+    /* 스티커 삭제 */
+    func removeSticker(_ sticker: PaintStickerView) {
+        self.stickers = self.stickers.filter { $0.sticker.value != sticker.sticker.value }
+        if sticker == self.focusSticker {
+            self.focusSticker?.removeFromSuperview()
+            self.focusSticker = nil
+        }
+        
+        undoFunctions.append(Handler(undo: { self.addSticker(sticker.sticker.value, centerPos: sticker.center) },
+                                redo: { self.removeSticker(sticker) }))
     }
     
     /* 설명 추가 */
