@@ -32,17 +32,17 @@ class ShapeStickerVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         type.subscribe(onNext: { type in
             switch type {
             case .lineShape:
-                self.stickers.onNext(["line_shape/Polygon", "line_shape/Ellipse 28", "line_shape/Rectangle 143",
-                                      "line_shape/Rectangle 144", "line_shape/Rectangle 41-1", "line_shape/Rectangle 41",
-                                      "line_shape/Ellipse 28-1", "line_shape/Ellipse 37", "line_shape/Vector 9",
-                                      "line_shape/Star", "line_shape/Union","line_shape/Heart", "line_shape/Rectangle 145",
-                                      "line_shape/Ellipse 216", "line_shape/Ellipse 216-1", "line_shape/Water"])
+                self.stickers.onNext(["line_shape/Triangle", "line_shape/Circle", "line_shape/Rectangle",
+                                      "line_shape/Oblong", "line_shape/Arch", "line_shape/Scround",
+                                      "line_shape/Half-circle", "line_shape/Quarter-circle", "line_shape/Sparkle",
+                                      "line_shape/Star", "line_shape/Flower","line_shape/Heart", "line_shape/Diamond",
+                                      "line_shape/Ellipse", "line_shape/Cone", "line_shape/Waterdrop"])
             case .fillShape:
-                self.stickers.onNext(["fill_shape/Polygon", "fill_shape/Ellipse 28", "fill_shape/Rectangle 143",
-                                      "fill_shape/Rectangle 144", "fill_shape/Rectangle 41-1", "fill_shape/Rectangle 41",
-                                      "fill_shape/Ellipse 28-1", "fill_shape/Ellipse 37", "fill_shape/Vector 9",
-                                      "fill_shape/Star", "fill_shape/Union", "fill_shape/Heart", "fill_shape/Rectangle 145",
-                                      "fill_shape/Ellipse 216", "fill_shape/Ellipse 216-1", "fill_shape/Water"])
+                self.stickers.onNext(["fill_shape/Triangle", "fill_shape/Circle", "fill_shape/Rectangle",
+                                      "fill_shape/Oblong", "fill_shape/Arch", "fill_shape/Scround",
+                                      "fill_shape/Half-circle", "fill_shape/Quarter-circle", "fill_shape/Sparkle",
+                                      "fill_shape/Star", "fill_shape/Flower","fill_shape/Heart", "fill_shape/Diamond",
+                                      "fill_shape/Ellipse", "fill_shape/Cone", "fill_shape/Waterdrop"])
             }
         })
         .disposed(by: disposeBag)
