@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 class PaintStickerView: UIView {
-    let sticker = BehaviorRelay<Sticker>(value: Sticker())
+    let sticker = BehaviorRelay<Sticker>(value: Sticker(type: .picture))
     var disposeBag = DisposeBag()
     
     enum ButtonPosition {
@@ -70,16 +70,15 @@ class PaintStickerView: UIView {
     func setupBindings() {
         // 이미지 스티커
         sticker.asObservable()
-            .map { ($0.image, $0.hexColor, $0.contentMode) }
+            .map { ($0.image, $0.hexColor) }
             .observe(on: MainScheduler.instance)
-            .bind { image, hexColor, contentMode in
+            .bind { image, hexColor in
                 guard let image = image else { return }
                 if let imageView = self.stickerView as? UIImageView {
                     imageView.image = image
                     imageView.tintColor = UIColor(rgb: hexColor)
                 } else {
                     let imageView = UIImageView()
-                    imageView.contentMode = contentMode
                     imageView.clipsToBounds = true
                     imageView.tintColor = UIColor(rgb: hexColor)
                     imageView.image = image

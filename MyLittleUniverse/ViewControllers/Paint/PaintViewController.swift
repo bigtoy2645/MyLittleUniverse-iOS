@@ -104,13 +104,21 @@ class PaintViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        // 배경 색상 선택 완료
+        // 색상 선택 완료
         btnDone.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                if let colorOffImage = UIImage(named: "edge/Color-Off_24") {
-                    self.focusSticker?.changeButtonImage(colorOffImage, position: .rightTop)
+                var buttonImage: UIImage?
+                if self.focusSticker?.sticker.value.type == .picture {
+                    buttonImage = UIImage(named: "edge/Edit-Off_24")
+                } else {
+                    buttonImage = UIImage(named: "edge/Color-Off_24")
                 }
+                
+                if let buttonImage = buttonImage {
+                    self.focusSticker?.changeButtonImage(buttonImage, position: .rightTop)
+                }
+                
                 self.presentStickerView()
             }
             .disposed(by: disposeBag)
@@ -217,6 +225,25 @@ class PaintViewController: UIViewController {
         }
     }
     
+    /* 색상 선택 화면 표시 */
+    func presentClippingMask(image: UIImage?) {
+        guard let clippingVC = clippingStickers else { return }
+        
+        clippingVC.originImage.onNext(image)
+        present(asChildViewController: clippingVC)
+        
+        if let editOnImage = UIImage(named: "edge/Edit-On_24") {
+            self.focusSticker?.changeButtonImage(editOnImage, position: .rightTop)
+        }
+        
+        leftControls.isHidden = true
+        rightControls.isHidden = false
+        
+        btnUndo.isHidden = true
+        btnRedo.isHidden = true
+        btnDone.isHidden = false
+    }
+    
     /* 스티커 추가 화면 표시 */
     func presentStickerView() {
         leftControls.isHidden = false
@@ -249,6 +276,16 @@ class PaintViewController: UIViewController {
         if let stickerIndex = stickers.firstIndex(of: stickerView) {
             var sticker = stickerView.sticker.value
             sticker.hexColor = hexColor
+            stickerView.sticker.accept(sticker)
+            self.stickers[stickerIndex] = stickerView
+        }
+    }
+    
+    /* 스티커 이미지 변경 */
+    private func updateStickerImage(stickerView: PaintStickerView, image: UIImage?) {
+        if let stickerIndex = stickers.firstIndex(of: stickerView) {
+            var sticker = stickerView.sticker.value
+            sticker.image = image
             stickerView.sticker.accept(sticker)
             self.stickers[stickerIndex] = stickerView
         }
@@ -293,7 +330,27 @@ class PaintViewController: UIViewController {
         guard let stickerVC = self.storyboard?.instantiateViewController(withIdentifier: PictureStickerVC.identifier) as? PictureStickerVC else { return nil }
         stickerVC.completeHandler = { (image) in
             DispatchQueue.main.async {
-                if let image = image { self.createSticker(Sticker(image: image, contentMode: .scaleAspectFill)) }
+                if let image = image { self.createSticker(Sticker(type: .picture, image: image)) }
+            }
+        }
+        
+        return stickerVC
+    }()
+    
+    private lazy var clippingStickers: ClippingPictureStickerVC? = {
+        guard let stickerVC = self.storyboard?.instantiateViewController(withIdentifier: ClippingPictureStickerVC.identifier) as? ClippingPictureStickerVC else { return nil }
+        stickerVC.completeHandler = { (image) in
+            DispatchQueue.main.async {
+                if let image = image,
+                   let stickerView = self.focusSticker {
+                    var sticker = stickerView.sticker.value
+                    let oldImage = sticker.image
+                    self.undoFunctions.append(Handler(undo: { self.updateStickerImage(stickerView: stickerView, image: oldImage) },
+                                                      redo: { self.updateStickerImage(stickerView: stickerView, image: image) }))
+                    
+                    sticker.image = image
+                    self.focusSticker?.sticker.accept(sticker)
+                }
             }
         }
         
@@ -304,7 +361,7 @@ class PaintViewController: UIViewController {
         guard let stickerVC = self.storyboard?.instantiateViewController(withIdentifier: ShapeStickerVC.identifier) as? ShapeStickerVC else { return nil }
         stickerVC.completeHandler = { (image) in
             DispatchQueue.main.async {
-                if let image = image { self.createSticker(Sticker(image: image, contentMode: .scaleAspectFit)) }
+                if let image = image { self.createSticker(Sticker(type: .shape, image: image)) }
             }
         }
         
@@ -389,8 +446,14 @@ extension PaintViewController: UIGestureRecognizerDelegate {
         }
         
         // 스티커 색상 변경
-        imageSticker.setRightTopButton {
-            self.presentColorPicker(mode: .sticker)
+        if sticker.type == .shape {
+            imageSticker.setRightTopButton {
+                self.presentColorPicker(mode: .sticker)
+            }
+        } else if sticker.type == .picture {
+            imageSticker.setRightTopButton(image: UIImage(named: "edge/Edit-Off_24")) {
+                self.presentClippingMask(image: sticker.image)
+            }
         }
         
         // 스티커 사이즈/각도 변경
@@ -453,7 +516,7 @@ extension PaintViewController: UIGestureRecognizerDelegate {
             labelSticker.frame.size = CGSize(width: labelView.frame.width + 36,
                                              height: labelView.frame.height + 36)
         }
-        labelSticker.sticker.accept(Sticker(text: text, hexColor: 0x000000))
+        labelSticker.sticker.accept(Sticker(type: .text, text: text, hexColor: 0x000000))
         if text.isEmpty {
             labelSticker.stickerView?.frame.size = CGSize.zero
             focusSticker = nil

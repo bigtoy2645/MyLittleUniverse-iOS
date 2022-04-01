@@ -13,6 +13,6 @@ class PictureStickerCell: UICollectionViewCell {
     @IBOutlet weak var sticker: UIImageView!
     
     override func layoutSubviews() {
-        sticker.contentMode = .scaleAspectFill
+        sticker.contentMode = .scaleAspectFit
     }
 }
