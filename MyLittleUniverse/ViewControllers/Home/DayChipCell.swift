@@ -15,26 +15,23 @@ class DayChipCell: UICollectionViewCell {
     var isRecorded = false {
         didSet {
             isUserInteractionEnabled = isRecorded
-            layer.borderWidth = isRecorded ? 1 : 0
         }
     }
     
     override func layoutSubviews() {
         layer.cornerRadius = frame.width / 2
-        layer.borderColor = UIColor.bgGreen?.cgColor
+        lblDay.textColor = isRecorded ? .bgGreen : .disableGray
     }
     
     override var isSelected: Bool {
         willSet {
             super.isSelected = newValue
             if isSelected {
-                backgroundColor = UIColor.bgGreen
-                layer.borderWidth = 0
+                backgroundColor = .bgGreen
                 lblDay.textColor = .white
             } else {
                 backgroundColor = .clear
-                layer.borderWidth = isRecorded ? 1 : 0
-                lblDay.textColor = UIColor.bgGreen
+                lblDay.textColor = isRecorded ? .bgGreen : .disableGray
             }
         }
     }

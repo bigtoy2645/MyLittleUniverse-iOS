@@ -8,10 +8,10 @@
 import Foundation
 
 struct ViewMoment {
-    var emotion: String
-    var date: String
-    var description: String
-    var image: String
+    let emotion: String
+    let date: String
+    let description: String
+    let image: String
 
     init(_ item: Moment) {
         emotion = item.emotion.rawValue

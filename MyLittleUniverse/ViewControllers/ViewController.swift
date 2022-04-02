@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         btnLogin.rx.tap
             .bind {
 //                guard self.token != nil else { return }
-                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: HomeViewController.storyboardID) else { return }
+                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: MonthlyVC.storyboardID) else { return }
                 self.navigationController?.pushViewController(homeVC, animated: false)
             }
             .disposed(by: disposeBag)

@@ -12,7 +12,7 @@ class MomentTableViewCell: UITableViewCell {
     static let nibName = "MomentTableViewCell"
     static let identifier = "momentCell"
     
-    let onData: AnyObserver<ViewMoment>
+    var moment: ViewMoment
     var disposeBag = DisposeBag()
     
     override func layoutSubviews() {
@@ -20,27 +20,42 @@ class MomentTableViewCell: UITableViewCell {
         
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 30, bottom: 15, right: 30))
         contentView.layer.cornerRadius = 10
+        
+        setupBindings()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        moment = ViewMoment(Moment.empty)
+        super.init(coder: aDecoder)
     }
     
-    required init?(coder: NSCoder) {
-        let data = PublishSubject<ViewMoment>()
+    /* Binding */
+    func setupBindings() {
+        let moment = Observable.just(self.moment)
         
-        onData = data.asObserver()
-
-        super.init(coder: coder)
-
-        data.observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] moment in
-                self?.lblDescription.text = moment.description
-                self?.lblDate.text = moment.date
-                self?.lblStatus.text = moment.emotion
+        moment.map { $0.image }
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] image in
                 if let frame = self?.frame {
                     let imageView = UIImageView(frame: frame)
-                    imageView.image = UIImage(named: moment.image)
+                    imageView.image = UIImage(named: image)
                     self?.backgroundView = UIView()
                     self?.backgroundView?.addSubview(imageView)
                 }
             })
+            .disposed(by: disposeBag)
+        
+        moment.map { $0.description }
+            .asObservable()
+            .bind(to: lblDescription.rx.text)
+            .disposed(by: disposeBag)
+        
+        moment.map { $0.date }
+            .bind(to: lblDate.rx.text)
+            .disposed(by: disposeBag)
+        
+        moment.map { $0.emotion }
+            .bind(to: lblEmotion.rx.text)
             .disposed(by: disposeBag)
     }
     
@@ -54,5 +69,5 @@ class MomentTableViewCell: UITableViewCell {
     
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var lblDate: UILabel!
-    @IBOutlet weak var lblStatus: UILabel!
+    @IBOutlet weak var lblEmotion: UILabel!
 }

@@ -94,7 +94,7 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
                                 self.dismiss(animated: false)
                                 guard let controllers = self.navigationController?.viewControllers else { return }
                                 for vc in controllers {
-                                    if vc is HomeViewController {
+                                    if vc is MonthlyVC {
                                         self.navigationController?.popToViewController(vc, animated: false)
                                         break
                                     }

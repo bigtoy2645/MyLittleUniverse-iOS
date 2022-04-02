@@ -69,10 +69,11 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="lblDate" destination="kBY-7E-N8H" id="NeF-cf-yOp"/>
                 <outlet property="lblDescription" destination="a9k-Y9-a3o" id="kfn-lm-DQu"/>
-                <outlet property="lblStatus" destination="stO-R1-OfS" id="5XW-VN-cB9"/>
+                <outlet property="lblEmotion" destination="stO-R1-OfS" id="5XW-VN-cB9"/>
             </connections>
             <point key="canvasLocation" x="36.956521739130437" y="232.03125"/>
         </tableViewCell>

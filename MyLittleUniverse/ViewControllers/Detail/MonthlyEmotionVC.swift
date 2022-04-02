@@ -1,5 +1,5 @@
 //
-//  DetailViewController.swift
+//  MonthlyEmotionVC.swift
 //  MyLittleUniverse
 //
 //  Created by yurim on 2022/01/02.
@@ -9,10 +9,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class DetailViewController: UIViewController, UITableViewDelegate, UIGestureRecognizerDelegate {
+class MonthlyEmotionVC: UIViewController, UITableViewDelegate, UIGestureRecognizerDelegate {
     static let storyboardID = "detailView"
     
-    let moments = BehaviorSubject<[ViewMoment]>(value: [])
+    var viewModel = MonthlyEmotionViewModel(date: Date(), emotion: .happy)
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -34,19 +34,30 @@ class DetailViewController: UIViewController, UITableViewDelegate, UIGestureReco
     
     /* Binding */
     func setupBindings() {
-        // 테이블뷰 아이템
-        moments
-            .bind(to: tableView.rx.items(cellIdentifier: MomentTableViewCell.identifier,
-                                         cellType: MomentTableViewCell.self)) {
-                _, item, cell in
-                cell.onData.onNext(item)
-            }
-            .disposed(by: disposeBag)
-        
         btnBack.rx.tap
             .bind {
                 self.navigationController?.popViewController(animated: true)
             }
+            .disposed(by: disposeBag)
+        
+        viewModel.moments
+            .bind(to: tableView.rx.items(cellIdentifier: MomentTableViewCell.identifier,
+                                         cellType: MomentTableViewCell.self)) {
+                _, item, cell in
+                cell.moment = ViewMoment(item)
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.emotionString
+            .bind(to: lblEmotion.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.dateString
+            .bind(to: lblDate.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.numOfDayString
+            .bind(to: lblCount.rx.text)
             .disposed(by: disposeBag)
     }
     
@@ -58,4 +69,9 @@ class DetailViewController: UIViewController, UITableViewDelegate, UIGestureReco
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var btnBack: UIButton!
+    @IBOutlet weak var btnSorting: UIButton!
+    
+    @IBOutlet weak var lblEmotion: UILabel!
+    @IBOutlet weak var lblDate: UILabel!
+    @IBOutlet weak var lblCount: UILabel!
 }

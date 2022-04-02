@@ -14,7 +14,11 @@ struct Moment {
     var image: String
 }
 
-enum Emotion: String {
+extension Moment {
+    static let empty = Moment(emotion: .happy, date: Date(), description: "desc", image: "")
+}
+
+enum Emotion: String, Hashable {
     case glad           = "기쁜"
     case exciting       = "신나는"
     case touching       = "감동적인"
