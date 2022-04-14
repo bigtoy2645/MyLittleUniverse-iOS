@@ -430,6 +430,7 @@ extension PaintViewController: UIGestureRecognizerDelegate {
         let size = paintView.frame.width / 3
         imageSticker.frame.size = CGSize(width: size, height: size)
         imageSticker.center = centerPos ?? paintView.center
+        imageSticker.contentMode = .scaleAspectFit
         imageSticker.sticker.accept(sticker)
         
         // 스티커 삭제

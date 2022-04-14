@@ -82,6 +82,7 @@ class PaintStickerView: UIView {
                     imageView.clipsToBounds = true
                     imageView.tintColor = UIColor(rgb: hexColor)
                     imageView.image = image
+                    imageView.contentMode = .scaleAspectFit
                     self.stickerView = imageView
                 }
             }
