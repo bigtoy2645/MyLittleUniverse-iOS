@@ -22,6 +22,8 @@ class PaintViewController: UIViewController {
     let labelSticker = PaintStickerView()
     var bgColor = BehaviorRelay<Int>(value: 0xFFFFFF)
     var selectedControl: UIButton?
+    var stickerIndex = 0
+    var stickerPos:[CGPoint] = []
     var focusSticker: PaintStickerView? {
         didSet {
             oldValue?.isSelected = false
@@ -71,6 +73,23 @@ class PaintViewController: UIViewController {
         super.viewDidLoad()
         
         setupBindings()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let unitSize = paintView.frame.width / 6
+        stickerPos = [
+            CGPoint(x: unitSize, y: unitSize),          // 0
+            CGPoint(x: unitSize * 3, y: unitSize),      // 1
+            CGPoint(x: unitSize * 5, y: unitSize),      // 2
+            CGPoint(x: unitSize, y: unitSize * 3),      // 3
+            CGPoint(x: unitSize * 3, y: unitSize * 3),  // 4
+            CGPoint(x: unitSize * 5, y: unitSize * 3),  // 5
+            CGPoint(x: unitSize, y: unitSize * 5),      // 6
+            CGPoint(x: unitSize * 3, y: unitSize * 5),  // 7
+            CGPoint(x: unitSize * 5, y: unitSize * 5),  // 8
+        ]
     }
     
     /* 화면 클릭 시 키보드 내림 */
@@ -429,9 +448,10 @@ extension PaintViewController: UIGestureRecognizerDelegate {
         
         let size = paintView.frame.width / 3
         imageSticker.frame.size = CGSize(width: size, height: size)
-        imageSticker.center = centerPos ?? paintView.center
+        imageSticker.center = centerPos ?? stickerPos[stickerIndex % stickerPos.count]
         imageSticker.contentMode = .scaleAspectFit
         imageSticker.sticker.accept(sticker)
+        stickerIndex += 1
         
         // 스티커 삭제
         imageSticker.setLeftTopButton {
