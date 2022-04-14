@@ -28,6 +28,9 @@ class PaintViewController: UIViewController {
         didSet {
             oldValue?.isSelected = false
             focusSticker?.isSelected = true
+            if let sticker = focusSticker {
+                paintView.bringSubviewToFront(sticker)
+            }
             
             let currentComponentView = self.componentView.subviews.last
             if let colorOffImage = UIImage(named: "edge/Color-Off_24"),
