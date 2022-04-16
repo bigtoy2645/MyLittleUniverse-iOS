@@ -23,7 +23,8 @@ class PaintViewController: UIViewController {
     var bgColor = BehaviorRelay<Int>(value: 0xFFFFFF)
     var selectedControl: UIButton?
     var stickerIndex = 0
-    var stickerPos:[CGPoint] = []
+    var stickerPos: [CGPoint] = []
+    var isBgColorSelected = false
     var focusSticker: PaintStickerView? {
         didSet {
             oldValue?.isSelected = false
@@ -316,9 +317,13 @@ class PaintViewController: UIViewController {
     /* 색상 선택 */
     private func pickColor(_ hexColor: Int, isUndoAction: Bool = false) {
         if self.colorPickerMode == .background {    // 배경 색상 변경
-            let oldHexColor = self.bgColor.value
-            undoFunctions.append(Handler(undo: { self.bgColor.accept(oldHexColor) },
-                                         redo: { self.bgColor.accept(hexColor) }))
+            if isBgColorSelected {
+                let oldHexColor = self.bgColor.value
+                undoFunctions.append(Handler(undo: { self.bgColor.accept(oldHexColor) },
+                                             redo: { self.bgColor.accept(hexColor) }))
+            } else {
+                isBgColorSelected = true
+            }
             self.bgColor.accept(hexColor)
         } else if self.colorPickerMode == .sticker, // 스티커 색상 변경
                   let stickerView = self.focusSticker {
