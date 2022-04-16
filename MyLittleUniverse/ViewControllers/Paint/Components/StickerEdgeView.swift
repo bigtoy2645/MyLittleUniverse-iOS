@@ -1,5 +1,5 @@
 //
-//  PaintStickerView.swift
+//  StickerEdgeView.swift
 //  MyLittleUniverse
 //
 //  Created by yurim on 2022/02/27.
@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class PaintStickerView: UIView {
+class StickerEdgeView: UIView {
     let sticker = BehaviorRelay<Sticker>(value: Sticker(type: .picture))
     var disposeBag = DisposeBag()
     
@@ -55,7 +55,7 @@ class PaintStickerView: UIView {
     }
     
     private func loadXib() {
-        guard let view = Bundle.main.loadNibNamed("PaintStickerView",
+        guard let view = Bundle.main.loadNibNamed("StickerEdgeView",
                                                   owner: self,
                                                   options: nil)?.first as? UIView else { return }
         view.frame = self.bounds
@@ -63,7 +63,21 @@ class PaintStickerView: UIView {
         
         borderView.layer.borderColor = UIColor.white.cgColor
         
+        let panGesture = UIPanGestureRecognizer(target: self,
+                                                action: #selector(self.handlePanGesture(recognizer:)))
+        btnRightBottom.gestureRecognizers = [panGesture]
+        
         setupBindings()
+    }
+    
+    /* 드래그 */
+    @objc func handlePanGesture(recognizer: UIPanGestureRecognizer) {
+        let location = recognizer.location(in: self)
+        let scaleX = location.x / btnRightBottom.frame.origin.x
+        let scaleY = location.y / btnRightBottom.frame.origin.y
+        let scale = max(scaleX, scaleY)
+        
+        self.transform = self.transform.scaledBy(x: scale, y: scale)
     }
     
     /* Binding */

@@ -18,14 +18,14 @@ struct Handler {
 class PaintViewController: UIViewController {
     static let storyboardID = "paintView"
     
-    var stickers = [PaintStickerView]()
-    let labelSticker = PaintStickerView()
+    var stickers = [StickerEdgeView]()
+    let labelSticker = StickerEdgeView()
     var bgColor = BehaviorRelay<Int>(value: 0xFFFFFF)
     var selectedControl: UIButton?
     var stickerIndex = 0
     var stickerPos: [CGPoint] = []
     var isBgColorSelected = false
-    var focusSticker: PaintStickerView? {
+    var focusSticker: StickerEdgeView? {
         didSet {
             oldValue?.isSelected = false
             focusSticker?.isSelected = true
@@ -301,7 +301,7 @@ class PaintViewController: UIViewController {
     }
     
     /* 스티커 색상 변경 */
-    private func updateStickerColor(stickerView: PaintStickerView, hexColor: Int) {
+    private func updateStickerColor(stickerView: StickerEdgeView, hexColor: Int) {
         if let stickerIndex = stickers.firstIndex(of: stickerView) {
             var sticker = stickerView.sticker.value
             sticker.hexColor = hexColor
@@ -311,7 +311,7 @@ class PaintViewController: UIViewController {
     }
     
     /* 스티커 이미지 변경 */
-    private func updateStickerImage(stickerView: PaintStickerView, image: UIImage?) {
+    private func updateStickerImage(stickerView: StickerEdgeView, image: UIImage?) {
         if let stickerIndex = stickers.firstIndex(of: stickerView) {
             var sticker = stickerView.sticker.value
             sticker.image = image
@@ -457,7 +457,7 @@ class PaintViewController: UIViewController {
 extension PaintViewController: UIGestureRecognizerDelegate {
     /* 스티커 생성 */
     private func createSticker(_ sticker: Sticker, centerPos: CGPoint? = nil, isUndoAction: Bool = false) {
-        let imageSticker = PaintStickerView()
+        let imageSticker = StickerEdgeView()
         paintView.addSubview(imageSticker)
         
         let size = paintView.frame.width / 3
@@ -491,11 +491,6 @@ extension PaintViewController: UIGestureRecognizerDelegate {
             }
         }
         
-        // 스티커 사이즈/각도 변경
-        imageSticker.setRightBottomButton {
-            
-        }
-        
         // Gesture
         imageSticker.isUserInteractionEnabled = true
         let panGesture = UIPanGestureRecognizer(target: self,
@@ -521,14 +516,14 @@ extension PaintViewController: UIGestureRecognizerDelegate {
     }
     
     /* 스티커 추가 */
-    func addSticker(_ sticker: PaintStickerView) {
+    func addSticker(_ sticker: StickerEdgeView) {
         paintView.addSubview(sticker)
         stickers.append(sticker)
         focusSticker = sticker
     }
     
     /* 스티커 삭제 */
-    func removeSticker(_ sticker: PaintStickerView, isUndoAction: Bool = false) {
+    func removeSticker(_ sticker: StickerEdgeView, isUndoAction: Bool = false) {
         stickers = stickers.filter { $0.sticker.value != sticker.sticker.value }
         if sticker == focusSticker {
             focusSticker?.removeFromSuperview()
@@ -584,7 +579,7 @@ extension PaintViewController: UIGestureRecognizerDelegate {
     
     /* FocusSticker 변경 */
     func changeFocusSticker(_ view: UIView?) {
-        guard let tappedSticker = view as? PaintStickerView else { return }
+        guard let tappedSticker = view as? StickerEdgeView else { return }
         focusSticker = tappedSticker
     }
     
