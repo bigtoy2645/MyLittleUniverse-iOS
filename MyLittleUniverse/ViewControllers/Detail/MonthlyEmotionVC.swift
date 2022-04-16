@@ -18,8 +18,6 @@ class MonthlyEmotionVC: UIViewController, UITableViewDelegate, UIGestureRecogniz
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        overrideUserInterfaceStyle = .light
-        
         // Cell 등록
         let nibName = UINib(nibName: MomentTableViewCell.nibName, bundle: nil)
         tableView.register(nibName, forCellReuseIdentifier: MomentTableViewCell.identifier)
@@ -30,6 +28,11 @@ class MonthlyEmotionVC: UIViewController, UITableViewDelegate, UIGestureRecogniz
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         setupBindings()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.overrideUserInterfaceStyle = .light
     }
     
     /* Binding */

@@ -18,8 +18,6 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        overrideUserInterfaceStyle = .light
-        
         btnMainEmotion.titleEdgeInsets = UIEdgeInsets(top: 12, left: 10, bottom: 12, right: 10)
         btnMainEmotion.layer.borderWidth = 1
         btnMainEmotion.layer.cornerRadius = 13
@@ -35,7 +33,15 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
         self.navigationController?.pushViewController(registerVC, animated: false)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.overrideUserInterfaceStyle = .light
+        scrollView.setContentOffset(.zero, animated: false)
+    }
+    
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
         // Ranking 타원 그리기
         rankingView.layoutSubviews()
         for ranking in rankingView.arrangedSubviews {

@@ -35,6 +35,11 @@ class ViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.overrideUserInterfaceStyle = .dark
+    }
+    
     /* Google Login */
     @IBAction func googleLoginButtonPressed(_ sender: Any) {
         GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in

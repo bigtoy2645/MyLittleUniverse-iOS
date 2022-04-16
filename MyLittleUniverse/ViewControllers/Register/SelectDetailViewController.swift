@@ -36,6 +36,11 @@ class SelectDetailViewController: UIViewController,
         setupBindings()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.overrideUserInterfaceStyle = .dark
+    }
+    
     /* Binding */
     func setupBindings() {
         collectionView.rx
