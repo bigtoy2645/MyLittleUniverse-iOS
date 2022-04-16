@@ -77,7 +77,11 @@ class StickerEdgeView: UIView {
         let scaleY = location.y / btnRightBottom.frame.origin.y
         let scale = max(scaleX, scaleY)
         
-        self.transform = self.transform.scaledBy(x: scale, y: scale)
+        let angleRightBottom = atan(btnRightBottom.frame.origin.y / btnRightBottom.frame.origin.x)
+        let angleLocation = atan(location.y / location.x)
+        let angle = angleLocation - angleRightBottom
+        
+        self.transform = self.transform.scaledBy(x: scale, y: scale).rotated(by: angle)
     }
     
     /* Binding */

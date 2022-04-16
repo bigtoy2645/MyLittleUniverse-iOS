@@ -491,6 +491,9 @@ extension PaintViewController: UIGestureRecognizerDelegate {
             }
         }
         
+        // 스티커 사이즈/각도 변경
+        imageSticker.setRightBottomButton { }
+        
         // Gesture
         imageSticker.isUserInteractionEnabled = true
         let panGesture = UIPanGestureRecognizer(target: self,
