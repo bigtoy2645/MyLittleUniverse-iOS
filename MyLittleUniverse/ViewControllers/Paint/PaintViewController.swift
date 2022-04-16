@@ -76,6 +76,7 @@ class PaintViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        paintView.clipsToBounds = true
         setupBindings()
     }
     
