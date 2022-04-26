@@ -11,6 +11,7 @@ extension UIColor {
     static let bgGreen = UIColor(named: "BackgroundGreen")
     static let pointPurple = UIColor(named: "PointPurple")
     static let pointYellow = UIColor(named: "PointYellow")
+    static let pointLightYellow = UIColor(named: "PointLightYellow")
     static let mainBlack = UIColor(named: "MainBlack")
     static let errorRed = UIColor(named: "ErrorRed")
     static let mediumGray = UIColor(named: "MediumGray")

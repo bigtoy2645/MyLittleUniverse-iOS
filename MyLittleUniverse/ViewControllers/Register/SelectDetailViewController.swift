@@ -79,7 +79,7 @@ class SelectDetailViewController: UIViewController,
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { isEmpty in
                 self.btnDone.isEnabled = !isEmpty
-                self.btnDone.backgroundColor = isEmpty ? .pointYellow : .bgGreen
+                self.btnDone.backgroundColor = isEmpty ? .pointLightYellow : .bgGreen
                 self.btnDone.setTitleColor(isEmpty ? .black.withAlphaComponent(0.2) : .pointPurple,
                                            for: .normal)
             })

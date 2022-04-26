@@ -37,6 +37,7 @@
 		1AAA1BF727F748390054CB5F /* ClippingPictureStickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAA1BF627F748390054CB5F /* ClippingPictureStickerVC.swift */; };
 		1AAA1BFB27F811A20054CB5F /* MonthlyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAA1BF927F811A20054CB5F /* MonthlyViewModel.swift */; };
 		1AAA1BFE27F89E630054CB5F /* MonthlyEmotionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAA1BFD27F89E630054CB5F /* MonthlyEmotionViewModel.swift */; };
+		1AAA1C02281841180054CB5F /* InitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAA1C01281841180054CB5F /* InitVC.swift */; };
 		1ACFA3062740F7E400821337 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA3052740F7E400821337 /* GoogleService-Info.plist */; };
 		1ACFA30827410ED600821337 /* MonthlyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFA30727410ED600821337 /* MonthlyVC.swift */; };
 		1AD64EB827CE0F0100E07EF5 /* Sticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EB727CE0F0100E07EF5 /* Sticker.swift */; };
@@ -86,6 +87,7 @@
 		1AAA1BF627F748390054CB5F /* ClippingPictureStickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClippingPictureStickerVC.swift; sourceTree = "<group>"; };
 		1AAA1BF927F811A20054CB5F /* MonthlyViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthlyViewModel.swift; sourceTree = "<group>"; };
 		1AAA1BFD27F89E630054CB5F /* MonthlyEmotionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyEmotionViewModel.swift; sourceTree = "<group>"; };
+		1AAA1C01281841180054CB5F /* InitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitVC.swift; sourceTree = "<group>"; };
 		1ACFA3052740F7E400821337 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1ACFA30727410ED600821337 /* MonthlyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyVC.swift; sourceTree = "<group>"; };
 		1AD64EB727CE0F0100E07EF5 /* Sticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sticker.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 		1ACFA2FF2740F17B00821337 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1AAA1C01281841180054CB5F /* InitVC.swift */,
 				1A8BC73B27DE2ED200068851 /* Home */,
 				1AAA1BFC27F8935B0054CB5F /* Detail */,
 				1AE216F427C27C27002E945E /* Register */,
@@ -451,6 +454,7 @@
 				1AD64EBC27D510E100E07EF5 /* AlertViewController.swift in Sources */,
 				1A46169F279B04A000D2A090 /* PaintViewController.swift in Sources */,
 				1A4616AD27AE909100D2A090 /* ColorChipCell.swift in Sources */,
+				1AAA1C02281841180054CB5F /* InitVC.swift in Sources */,
 				1A8D9B64273AAA7400A1BA53 /* SceneDelegate.swift in Sources */,
 				1AD64EBA27CE528D00E07EF5 /* UICollectionView+Extension.swift in Sources */,
 				1AE216F827CA8440002E945E /* StickerEdgeView.swift in Sources */,
