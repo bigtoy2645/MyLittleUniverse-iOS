@@ -7,16 +7,13 @@
 
 import UIKit
 
-class EmotionDetailCollectionViewCell: UICollectionViewCell {
-    static let identifier = "emotionDetailCell"
+class emotionCell: UICollectionViewCell {
+    static let identifier = "emotionCell"
     
     @IBOutlet weak var lblStatus: UILabel!
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
-        layer.borderWidth = 0.5
-        layer.borderColor = UIColor.bgGreen?.cgColor
     }
     
     override var isSelected: Bool {

@@ -14,8 +14,8 @@
 		1A4616912787120E00D2A090 /* Moment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616902787120E00D2A090 /* Moment.swift */; };
 		1A461694278715C800D2A090 /* MomentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A461692278715C800D2A090 /* MomentTableViewCell.swift */; };
 		1A461695278715C800D2A090 /* MomentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A461693278715C800D2A090 /* MomentTableViewCell.xib */; };
-		1A46169927959A0000D2A090 /* SelectEmotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169827959A0000D2A090 /* SelectEmotionViewController.swift */; };
-		1A46169B2795A52700D2A090 /* EmotionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169A2795A52700D2A090 /* EmotionCollectionViewCell.swift */; };
+		1A46169927959A0000D2A090 /* SelectStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169827959A0000D2A090 /* SelectStatusVC.swift */; };
+		1A46169B2795A52700D2A090 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169A2795A52700D2A090 /* StatusCell.swift */; };
 		1A46169D27971CD800D2A090 /* ViewMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169C27971CD700D2A090 /* ViewMoment.swift */; };
 		1A46169F279B04A000D2A090 /* PaintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169E279B04A000D2A090 /* PaintViewController.swift */; };
 		1A4616A527A51C8D00D2A090 /* PaintListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616A427A51C8D00D2A090 /* PaintListViewController.swift */; };
@@ -45,8 +45,8 @@
 		1AD64EBC27D510E100E07EF5 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBB27D510E100E07EF5 /* AlertViewController.swift */; };
 		1AD64EBE27D8E80D00E07EF5 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBD27D8E80D00E07EF5 /* Alert.swift */; };
 		1AD64EC027D8E87F00E07EF5 /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */; };
-		1AE216F127C27A1B002E945E /* EmotionDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F027C27A1B002E945E /* EmotionDetailCollectionViewCell.swift */; };
-		1AE216F327C27B6E002E945E /* SelectDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F227C27B6E002E945E /* SelectDetailViewController.swift */; };
+		1AE216F127C27A1B002E945E /* emotionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F027C27A1B002E945E /* emotionCell.swift */; };
+		1AE216F327C27B6E002E945E /* SelectEmotionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F227C27B6E002E945E /* SelectEmotionsVC.swift */; };
 		1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F527CA0AD6002E945E /* UIView+Extension.swift */; };
 		1AE216F827CA8440002E945E /* StickerEdgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F727CA8440002E945E /* StickerEdgeView.swift */; };
 		1AE216FA27CA8456002E945E /* StickerEdgeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AE216F927CA8456002E945E /* StickerEdgeView.xib */; };
@@ -62,8 +62,8 @@
 		1A4616902787120E00D2A090 /* Moment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Moment.swift; sourceTree = "<group>"; };
 		1A461692278715C800D2A090 /* MomentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentTableViewCell.swift; sourceTree = "<group>"; };
 		1A461693278715C800D2A090 /* MomentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MomentTableViewCell.xib; sourceTree = "<group>"; };
-		1A46169827959A0000D2A090 /* SelectEmotionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEmotionViewController.swift; sourceTree = "<group>"; };
-		1A46169A2795A52700D2A090 /* EmotionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionCollectionViewCell.swift; sourceTree = "<group>"; };
+		1A46169827959A0000D2A090 /* SelectStatusVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStatusVC.swift; sourceTree = "<group>"; };
+		1A46169A2795A52700D2A090 /* StatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusCell.swift; sourceTree = "<group>"; };
 		1A46169C27971CD700D2A090 /* ViewMoment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMoment.swift; sourceTree = "<group>"; };
 		1A46169E279B04A000D2A090 /* PaintViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintViewController.swift; sourceTree = "<group>"; };
 		1A4616A427A51C8D00D2A090 /* PaintListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintListViewController.swift; sourceTree = "<group>"; };
@@ -95,8 +95,8 @@
 		1AD64EBB27D510E100E07EF5 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		1AD64EBD27D8E80D00E07EF5 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
-		1AE216F027C27A1B002E945E /* EmotionDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionDetailCollectionViewCell.swift; sourceTree = "<group>"; };
-		1AE216F227C27B6E002E945E /* SelectDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDetailViewController.swift; sourceTree = "<group>"; };
+		1AE216F027C27A1B002E945E /* emotionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = emotionCell.swift; sourceTree = "<group>"; };
+		1AE216F227C27B6E002E945E /* SelectEmotionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEmotionsVC.swift; sourceTree = "<group>"; };
 		1AE216F527CA0AD6002E945E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		1AE216F727CA8440002E945E /* StickerEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerEdgeView.swift; sourceTree = "<group>"; };
 		1AE216F927CA8456002E945E /* StickerEdgeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StickerEdgeView.xib; sourceTree = "<group>"; };
@@ -289,10 +289,10 @@
 		1AE216F427C27C27002E945E /* Register */ = {
 			isa = PBXGroup;
 			children = (
-				1A46169827959A0000D2A090 /* SelectEmotionViewController.swift */,
-				1A46169A2795A52700D2A090 /* EmotionCollectionViewCell.swift */,
-				1AE216F227C27B6E002E945E /* SelectDetailViewController.swift */,
-				1AE216F027C27A1B002E945E /* EmotionDetailCollectionViewCell.swift */,
+				1A46169827959A0000D2A090 /* SelectStatusVC.swift */,
+				1A46169A2795A52700D2A090 /* StatusCell.swift */,
+				1AE216F227C27B6E002E945E /* SelectEmotionsVC.swift */,
+				1AE216F027C27A1B002E945E /* emotionCell.swift */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -436,10 +436,10 @@
 				1A4616B227AFCA0A00D2A090 /* UIColor+Extension.swift in Sources */,
 				1A8D9B62273AAA7400A1BA53 /* AppDelegate.swift in Sources */,
 				1AD64EC027D8E87F00E07EF5 /* AlertViewModel.swift in Sources */,
-				1A46169927959A0000D2A090 /* SelectEmotionViewController.swift in Sources */,
+				1A46169927959A0000D2A090 /* SelectStatusVC.swift in Sources */,
 				1A461694278715C800D2A090 /* MomentTableViewCell.swift in Sources */,
 				1AD64EB827CE0F0100E07EF5 /* Sticker.swift in Sources */,
-				1A46169B2795A52700D2A090 /* EmotionCollectionViewCell.swift in Sources */,
+				1A46169B2795A52700D2A090 /* StatusCell.swift in Sources */,
 				1A8BC73D27DE2EF200068851 /* DayChipCell.swift in Sources */,
 				1AAA1BFE27F89E630054CB5F /* MonthlyEmotionViewModel.swift in Sources */,
 				1A46168D2781B0F100D2A090 /* MonthlyEmotionVC.swift in Sources */,
@@ -462,12 +462,12 @@
 				1A0C85AD27DDF0790056B8B8 /* UIImage+Extension.swift in Sources */,
 				1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */,
 				1AD64EBE27D8E80D00E07EF5 /* Alert.swift in Sources */,
-				1AE216F327C27B6E002E945E /* SelectDetailViewController.swift in Sources */,
+				1AE216F327C27B6E002E945E /* SelectEmotionsVC.swift in Sources */,
 				1A0C85B527DE02C00056B8B8 /* PictureStickerCell.swift in Sources */,
 				1ACFA30827410ED600821337 /* MonthlyVC.swift in Sources */,
 				1A46169D27971CD800D2A090 /* ViewMoment.swift in Sources */,
 				1A4616912787120E00D2A090 /* Moment.swift in Sources */,
-				1AE216F127C27A1B002E945E /* EmotionDetailCollectionViewCell.swift in Sources */,
+				1AE216F127C27A1B002E945E /* emotionCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

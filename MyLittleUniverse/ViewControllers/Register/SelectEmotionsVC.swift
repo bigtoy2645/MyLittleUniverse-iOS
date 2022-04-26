@@ -1,5 +1,5 @@
 //
-//  SelectDetailViewController.swift
+//  SelectEmotionsVC.swift
 //  MyLittleUniverse
 //
 //  Created by yurim on 2022/02/20.
@@ -9,10 +9,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SelectDetailViewController: UIViewController,
+class SelectEmotionsVC: UIViewController,
                                   UICollectionViewDelegateFlowLayout, UICollectionViewDelegate,
                                   UIGestureRecognizerDelegate {
-    static let storyboardID = "selectDetailView"
+    static let storyboardID = "selectEmotionsView"
     
     let emotionObservable = Observable.of([Emotion.glad, Emotion.exciting, Emotion.touching,
                                            Emotion.satisfied, Emotion.joyful, Emotion.pitapat,
@@ -26,9 +26,7 @@ class SelectDetailViewController: UIViewController,
         super.viewDidLoad()
         
         collectionView.allowsMultipleSelection = true
-        btnDone.layer.borderWidth = 1
-        btnDone.layer.borderColor = UIColor.bgGreen?.cgColor
-        btnDone.layer.cornerRadius = 5
+        btnDone.layer.cornerRadius = 4
         
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
@@ -38,7 +36,7 @@ class SelectDetailViewController: UIViewController,
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.overrideUserInterfaceStyle = .dark
+        navigationController?.overrideUserInterfaceStyle = .light
     }
     
     /* Binding */
@@ -49,8 +47,8 @@ class SelectDetailViewController: UIViewController,
         
         // 감정 리스트
         emotionObservable
-            .bind(to: collectionView.rx.items(cellIdentifier: EmotionDetailCollectionViewCell.identifier,
-                                              cellType: EmotionDetailCollectionViewCell.self)) { index, status, cell in
+            .bind(to: collectionView.rx.items(cellIdentifier: emotionCell.identifier,
+                                              cellType: emotionCell.self)) { index, status, cell in
                 cell.lblStatus.text = status.rawValue
             }
             .disposed(by: disposeBag)
@@ -104,7 +102,7 @@ class SelectDetailViewController: UIViewController,
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = self.collectionView.frame.width / 3.0
+        let width = (self.collectionView.frame.width - 16) / 3.0
         let height = width
         return CGSize(width: width, height: height)
     }

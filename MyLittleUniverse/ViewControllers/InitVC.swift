@@ -28,7 +28,7 @@ class InitVC: UIViewController {
         // 등록 화면으로 이동
         btnRegister.rx.tap
             .bind {
-                guard let registerVC = self.storyboard?.instantiateViewController(withIdentifier: SelectEmotionViewController.storyboardID) else { return }
+                guard let registerVC = self.storyboard?.instantiateViewController(withIdentifier: SelectStatusVC.storyboardID) else { return }
                 self.navigationController?.pushViewController(registerVC, animated: false)
             }
             .disposed(by: disposeBag)

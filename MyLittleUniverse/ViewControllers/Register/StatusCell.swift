@@ -7,8 +7,8 @@
 
 import UIKit
 
-class EmotionCollectionViewCell: UICollectionViewCell {
-    static let identifier = "emotionCell"
+class StatusCell: UICollectionViewCell {
+    static let identifier = "statusCell"
     
     @IBOutlet weak var lblStatus: UILabel!
     
@@ -16,7 +16,7 @@ class EmotionCollectionViewCell: UICollectionViewCell {
         super.init(coder: coder)
         
         layer.borderWidth = 0.5
-        layer.borderColor = UIColor.white.cgColor
+        layer.borderColor = UIColor.bgGreen70?.cgColor
     }
     
     override var isSelected: Bool {

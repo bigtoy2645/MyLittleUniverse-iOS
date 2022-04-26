@@ -9,6 +9,7 @@ import UIKit
 
 extension UIColor {
     static let bgGreen = UIColor(named: "BackgroundGreen")
+    static let bgGreen70 = UIColor(named: "BackgroundGreen70")
     static let pointPurple = UIColor(named: "PointPurple")
     static let pointYellow = UIColor(named: "PointYellow")
     static let pointLightYellow = UIColor(named: "PointLightYellow")
