@@ -8,6 +8,13 @@
 import UIKit
 
 extension UIView {
+    enum ShadowLocation {
+        case top
+        case bottom
+        case left
+        case right
+    }
+    
     /* 슬라이드 애니메이션으로 숨기기 */
     func hideWithAnimation(hidden: Bool) {
         let slideUp = CGAffineTransform(translationX: 0, y: 0)
@@ -16,5 +23,31 @@ extension UIView {
         UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
             self.transform = hidden ? slideDown : slideUp
         })
+    }
+
+    /* 그림자 추가 */
+    func addShadow(location: ShadowLocation,
+                   color: UIColor = UIColor.disableGray ?? .systemGray6,
+                   opacity: Float = 0.3,
+                   radius: CGFloat = 5.0) {
+        switch location {
+        case .top:
+            addShadow(offset: CGSize(width: 0, height: -3), color: color, opacity: opacity, radius: radius)
+        case .bottom:
+             addShadow(offset: CGSize(width: 0, height: 3), color: color, opacity: opacity, radius: radius)
+        case .left:
+            addShadow(offset: CGSize(width: -3, height: 0), color: color, opacity: opacity, radius: radius)
+        case .right:
+            addShadow(offset: CGSize(width: 3, height: 0), color: color, opacity: opacity, radius: radius)
+        }
+    }
+
+    /* 그림자 추가 */
+    func addShadow(offset: CGSize, color: UIColor, opacity: Float, radius: CGFloat) {
+        self.layer.masksToBounds = false
+        self.layer.shadowColor = color.cgColor
+        self.layer.shadowOffset = offset
+        self.layer.shadowOpacity = opacity
+        self.layer.shadowRadius = radius
     }
 }

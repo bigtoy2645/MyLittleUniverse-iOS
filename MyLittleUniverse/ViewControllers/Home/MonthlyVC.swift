@@ -22,7 +22,7 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
         btnMainEmotion.layer.borderWidth = 1
         btnMainEmotion.layer.cornerRadius = 13
         btnMainEmotion.layer.borderColor = btnMainEmotion.currentTitleColor.cgColor
-        tabView.layer.cornerRadius = 10
+        tabView.addShadow(location: .top)
         
         scrollView.delegate = self
         
