@@ -90,11 +90,11 @@ class PaintViewController: UIViewController {
         
         let unitSize = paintView.frame.width / 6
         stickerPos = [
+            CGPoint(x: unitSize * 3, y: unitSize * 3),  // 4
             CGPoint(x: unitSize, y: unitSize),          // 0
             CGPoint(x: unitSize * 3, y: unitSize),      // 1
             CGPoint(x: unitSize * 5, y: unitSize),      // 2
             CGPoint(x: unitSize, y: unitSize * 3),      // 3
-            CGPoint(x: unitSize * 3, y: unitSize * 3),  // 4
             CGPoint(x: unitSize * 5, y: unitSize * 3),  // 5
             CGPoint(x: unitSize, y: unitSize * 5),      // 6
             CGPoint(x: unitSize * 3, y: unitSize * 5),  // 7
@@ -460,7 +460,8 @@ extension PaintViewController: UIGestureRecognizerDelegate {
         let imageSticker = StickerEdgeView()
         paintView.addSubview(imageSticker)
         
-        let size = paintView.frame.width / 3
+        // TODO - 32 -> 상대값
+        let size = paintView.frame.width / 3 + 32
         imageSticker.frame.size = CGSize(width: size, height: size)
         imageSticker.center = centerPos ?? stickerPos[stickerIndex % stickerPos.count]
         imageSticker.contentMode = .scaleAspectFit
