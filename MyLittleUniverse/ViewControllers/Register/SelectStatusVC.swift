@@ -18,7 +18,7 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         super.viewDidLoad()
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "MM월 dd일"
+        formatter.dateFormat = "YYYY. MM. dd. EEE. hh:mm a"
         lblDate.text = formatter.string(from: Date())
         
         setupBindings()
