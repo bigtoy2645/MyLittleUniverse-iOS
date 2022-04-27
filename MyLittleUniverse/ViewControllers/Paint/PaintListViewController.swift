@@ -48,7 +48,7 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
         emotions
             .bind(to: colEmotion.rx.items(cellIdentifier: PaintEmotionCollectionViewCell.identifier,
                                           cellType: PaintEmotionCollectionViewCell.self)) { index, emotion, cell in
-                cell.lblEmotion.text = emotion.rawValue
+                cell.lblEmotion.text = emotion.word
             }
             .disposed(by: disposeBag)
         

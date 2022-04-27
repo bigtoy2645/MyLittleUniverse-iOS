@@ -45,9 +45,11 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         // 감정 선택
         collectionView.rx.itemSelected
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { _ in
+            .subscribe(onNext: { index in
                 Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
                     guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: SelectEmotionsVC.storyboardID) as? SelectEmotionsVC else { return }
+                    let emotions = allEmotions[index.row]
+                    detailVC.emotions.accept(emotions)
                     self.navigationController?.pushViewController(detailVC, animated: false)
                 }
             })

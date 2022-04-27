@@ -21,12 +21,12 @@ class MonthlyViewModel {
         let moments = BehaviorSubject<[Int: [Moment]]>(value: [:])
         
         // TODO - date 해당하는 데이터 불러오기
-        moments.onNext([1: [Moment(emotion: .belazy, date: Date(), description: "", image: ""),
-                            Moment(emotion: .confident, date: Date(), description: "", image: "")],
-                        10: [Moment(emotion: .exciting, date: Date(), description: "", image: ""),
-                             Moment(emotion: .confident, date: Date(), description: "", image: "")],
-                        20: [Moment(emotion: .belazy, date: Date(), description: "", image: ""),
-                             Moment(emotion: .confident, date: Date(), description: "", image: "")]])
+        moments.onNext([1: [Moment(emotion: positiveEmotions[0], date: Date(), description: "", image: ""),
+                            Moment(emotion: positiveEmotions[1], date: Date(), description: "", image: "")],
+                        10: [Moment(emotion: positiveEmotions[1], date: Date(), description: "", image: ""),
+                             Moment(emotion: positiveEmotions[2], date: Date(), description: "", image: "")],
+                        20: [Moment(emotion: positiveEmotions[2], date: Date(), description: "", image: ""),
+                             Moment(emotion: positiveEmotions[3], date: Date(), description: "", image: "")]])
         
         // 감정 기록된 일자
         recoredDays = moments.map { $0.keys.sorted() }

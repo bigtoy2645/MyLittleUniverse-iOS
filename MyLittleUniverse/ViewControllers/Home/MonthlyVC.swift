@@ -13,6 +13,7 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
     static let storyboardID = "homeView"
     
     let viewModel = MonthlyViewModel(date: Date())
+    let mainEmotion = BehaviorRelay<Emotion>(value: positiveEmotions[0])
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -62,16 +63,19 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
         
         // 이 달 제일 많이 등록된 감정
         viewModel.emotions
-            .map { $0.sorted { $0.1 > $1.1 }[0].key.rawValue }
+            .map { $0.sorted { $0.1 > $1.1 }[0].key }
+            .subscribe(onNext: mainEmotion.accept(_:))
+            .disposed(by: disposeBag)
+        
+        mainEmotion
+            .map { $0.word }
             .bind(to: btnMainEmotion.rx.title())
             .disposed(by: disposeBag)
         
         btnMainEmotion.rx.tap
             .bind {
-                guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: MonthlyEmotionVC.storyboardID) as? MonthlyEmotionVC,
-                      let btnTitle = self.btnMainEmotion.title(for: .normal),
-                      let emotion = Emotion(rawValue: btnTitle) else { return }
-                detailVC.viewModel = MonthlyEmotionViewModel(date: Date(), emotion: emotion)
+                guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: MonthlyEmotionVC.storyboardID) as? MonthlyEmotionVC else { return }
+                detailVC.viewModel = MonthlyEmotionViewModel(date: Date(), emotion: self.mainEmotion.value)
                 self.navigationController?.pushViewController(detailVC, animated: true)
             }
             .disposed(by: disposeBag)
@@ -132,24 +136,24 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
                 _ = self.rankingView.arrangedSubviews.map { $0.isHidden = true }
                 
                 if ranking.count > 0 {
-                    self.lblRanking1.text = ranking[0].key.rawValue
+                    self.lblRanking1.text = ranking[0].key.word
                     self.lblRanking1Days.text = "\(ranking[0].value) days"
                     self.rankingView.arrangedSubviews[0].isHidden = false
                 }
                 
                 if ranking.count > 1 {
-                    self.lblRanking2.text = ranking[1].key.rawValue
+                    self.lblRanking2.text = ranking[1].key.word
                     self.lblRanking2Days.text = "\(ranking[1].value) days"
                     self.rankingView.arrangedSubviews[1].isHidden = false
                 }
                 
                 if ranking.count > 2 {
-                    self.lblRanking3.text = ranking[2].key.rawValue
+                    self.lblRanking3.text = ranking[2].key.word
                     self.rankingView.arrangedSubviews[2].isHidden = false
                 }
                 
                 if ranking.count > 3 {
-                    self.lblRanking4.text = ranking[3].key.rawValue
+                    self.lblRanking4.text = ranking[3].key.word
                     self.rankingView.arrangedSubviews[3].isHidden = false
                 }
                 

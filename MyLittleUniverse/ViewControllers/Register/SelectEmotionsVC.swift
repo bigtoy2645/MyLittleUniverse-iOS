@@ -14,11 +14,7 @@ class SelectEmotionsVC: UIViewController,
                                   UIGestureRecognizerDelegate {
     static let storyboardID = "selectEmotionsView"
     
-    let emotionObservable = Observable.of([Emotion.glad, Emotion.exciting, Emotion.touching,
-                                           Emotion.satisfied, Emotion.joyful, Emotion.pitapat,
-                                           Emotion.comfortable, Emotion.forward, Emotion.belazy,
-                                           Emotion.lovely, Emotion.proud, Emotion.happy,
-                                           Emotion.relaxed, Emotion.funny, Emotion.confident])
+    let emotions = BehaviorRelay<[Emotion]>(value: [])
     let selectedEmotions = BehaviorRelay<[Emotion]>(value: [])
     let selectedEmotionCount = BehaviorRelay<Int>(value: 0)
     var disposeBag = DisposeBag()
@@ -48,10 +44,10 @@ class SelectEmotionsVC: UIViewController,
             .disposed(by: disposeBag)
         
         // 감정 리스트
-        emotionObservable
+        emotions
             .bind(to: colEmotions.rx.items(cellIdentifier: emotionCell.identifier,
-                                              cellType: emotionCell.self)) { index, status, cell in
-                cell.lblStatus.text = status.rawValue
+                                              cellType: emotionCell.self)) { index, emotion, cell in
+                cell.lblStatus.text = emotion.word
             }
             .disposed(by: disposeBag)
         

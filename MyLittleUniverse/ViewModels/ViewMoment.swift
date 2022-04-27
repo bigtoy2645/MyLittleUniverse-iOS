@@ -14,7 +14,7 @@ struct ViewMoment {
     let image: String
 
     init(_ item: Moment) {
-        emotion = item.emotion.rawValue
+        emotion = item.emotion.word
         description = item.description
         image = item.image
         

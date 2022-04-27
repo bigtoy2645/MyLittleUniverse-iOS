@@ -12,7 +12,7 @@ import RxCocoa
 class MonthlyEmotionVC: UIViewController, UITableViewDelegate, UIGestureRecognizerDelegate {
     static let storyboardID = "detailView"
     
-    var viewModel = MonthlyEmotionViewModel(date: Date(), emotion: .happy)
+    var viewModel = MonthlyEmotionViewModel(date: Date(), emotion: positiveEmotions[0])
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
