@@ -1128,46 +1128,6 @@
                                             <outlet property="lblStatus" destination="gtC-cW-2vG" id="v4O-Me-9Lm"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="J5d-nL-rwB">
-                                        <rect key="frame" x="127" y="0.0" width="100" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="xD2-74-JoY">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="K9u-2a-VaY">
-                                        <rect key="frame" x="254" y="0.0" width="100" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="45R-6U-u0h">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="7MG-bK-941">
-                                        <rect key="frame" x="0.0" y="108" width="100" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="SW1-rQ-FQv">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="1iv-GZ-6vP">
-                                        <rect key="frame" x="127" y="108" width="100" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Lo9-OM-zGM">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="oth-Wq-hX2">
-                                        <rect key="frame" x="254" y="108" width="100" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="TSB-LY-8h6">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                    </collectionViewCell>
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dO7-UH-hcE">
@@ -1177,7 +1137,7 @@
                                     <constraint firstAttribute="height" constant="56" id="DnI-0b-jD5"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                <state key="normal" title="다 찾았어요!">
+                                <state key="normal">
                                     <color key="titleColor" name="PointPurple"/>
                                 </state>
                             </button>
@@ -1191,19 +1151,50 @@
                                 <state key="normal" backgroundImage="arrow.backward" catalog="system"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="좋아요" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zl5-aL-cHg">
-                                <rect key="frame" x="186" y="64" width="42" height="20"/>
+                                <rect key="frame" x="186" y="64.5" width="42" height="19.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                 <color key="textColor" name="MainBlack"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="HNP-Z6-NI1">
+                                <rect key="frame" x="139" y="809" width="136.5" height="50"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o7D-RK-aKG">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1개" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kw2-Oi-k97">
+                                                <rect key="frame" x="7" y="2" width="36" height="46"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" name="BackgroundGreen"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" name="PointPurple"/>
+                                        <constraints>
+                                            <constraint firstItem="kw2-Oi-k97" firstAttribute="leading" secondItem="o7D-RK-aKG" secondAttribute="leading" constant="7" id="blv-k4-M3w"/>
+                                            <constraint firstItem="kw2-Oi-k97" firstAttribute="centerY" secondItem="o7D-RK-aKG" secondAttribute="centerY" id="jve-d8-HBz"/>
+                                            <constraint firstItem="kw2-Oi-k97" firstAttribute="centerX" secondItem="o7D-RK-aKG" secondAttribute="centerX" id="rVV-2U-f7j"/>
+                                            <constraint firstItem="kw2-Oi-k97" firstAttribute="top" secondItem="o7D-RK-aKG" secondAttribute="top" constant="2" id="tyM-Gm-eCd"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="다 찾았어요!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jMN-cm-uxe">
+                                        <rect key="frame" x="58" y="0.0" width="78.5" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                        <color key="textColor" name="PointPurple"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="1Hr-P8-Dc7"/>
                         <color key="backgroundColor" name="PointLightYellow"/>
                         <constraints>
                             <constraint firstItem="puK-ZB-1bF" firstAttribute="top" secondItem="rCy-n0-wKN" secondAttribute="bottom" constant="30" id="04p-Bo-Kaa"/>
                             <constraint firstItem="puK-ZB-1bF" firstAttribute="leading" secondItem="rCy-n0-wKN" secondAttribute="leading" id="5wY-19-fPl"/>
+                            <constraint firstItem="HNP-Z6-NI1" firstAttribute="centerX" secondItem="KRQ-Hc-X9Q" secondAttribute="centerX" id="DlT-ZE-MgD"/>
                             <constraint firstItem="zl5-aL-cHg" firstAttribute="centerY" secondItem="rCy-n0-wKN" secondAttribute="centerY" id="EFi-XK-InH"/>
                             <constraint firstItem="puK-ZB-1bF" firstAttribute="centerX" secondItem="KRQ-Hc-X9Q" secondAttribute="centerX" id="EqX-BB-5wf"/>
+                            <constraint firstItem="dO7-UH-hcE" firstAttribute="centerY" secondItem="HNP-Z6-NI1" secondAttribute="centerY" id="F2g-5H-35x"/>
                             <constraint firstAttribute="bottom" secondItem="puK-ZB-1bF" secondAttribute="bottom" id="IN2-h2-PG7"/>
                             <constraint firstItem="1Hr-P8-Dc7" firstAttribute="bottom" secondItem="dO7-UH-hcE" secondAttribute="bottom" id="Nch-X0-NfX"/>
                             <constraint firstItem="zl5-aL-cHg" firstAttribute="centerX" secondItem="KRQ-Hc-X9Q" secondAttribute="centerX" id="Ntg-ic-QPd"/>
@@ -1221,7 +1212,10 @@
                     <connections>
                         <outlet property="btnBack" destination="rCy-n0-wKN" id="fdH-PG-KY3"/>
                         <outlet property="btnDone" destination="dO7-UH-hcE" id="xpl-Ae-crG"/>
-                        <outlet property="collectionView" destination="puK-ZB-1bF" id="X9Q-HQ-kRA"/>
+                        <outlet property="colEmotions" destination="puK-ZB-1bF" id="RFe-sV-HXm"/>
+                        <outlet property="lblCount" destination="kw2-Oi-k97" id="MVc-nc-yFb"/>
+                        <outlet property="lblDone" destination="jMN-cm-uxe" id="yRE-2N-cSC"/>
+                        <outlet property="viewCount" destination="o7D-RK-aKG" id="xQX-KQ-4fF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rtB-c0-PkB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
