@@ -235,7 +235,7 @@
         <!--꾸미기-->
         <scene sceneID="m1I-n7-R2D">
             <objects>
-                <viewController storyboardIdentifier="paintListView" id="npQ-VI-U7l" customClass="PaintListViewController" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="paintListView" id="npQ-VI-U7l" customClass="PaintEmotionListVC" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ReZ-a0-QRd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -409,10 +409,10 @@
             </objects>
             <point key="canvasLocation" x="944.92753623188412" y="805.58035714285711"/>
         </scene>
-        <!--Paint Page View Controller-->
+        <!--Paint PageVC-->
         <scene sceneID="oa1-aW-c7A">
             <objects>
-                <pageViewController storyboardIdentifier="paintPageView" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="hgx-TO-O5r" customClass="PaintPageViewController" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="paintPageView" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="hgx-TO-O5r" customClass="PaintPageVC" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fLv-eM-EmP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1889.8550724637682" y="806.91964285714278"/>
@@ -1215,6 +1215,7 @@
                         <outlet property="colEmotions" destination="puK-ZB-1bF" id="RFe-sV-HXm"/>
                         <outlet property="lblCount" destination="kw2-Oi-k97" id="MVc-nc-yFb"/>
                         <outlet property="lblDone" destination="jMN-cm-uxe" id="yRE-2N-cSC"/>
+                        <outlet property="lblStatus" destination="zl5-aL-cHg" id="5vG-vJ-2FI"/>
                         <outlet property="viewCount" destination="o7D-RK-aKG" id="xQX-KQ-4fF"/>
                     </connections>
                 </viewController>
@@ -1684,11 +1685,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="어떤 일이 원하는 대로 이루어지기를 바라면서 기다리다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQJ-Y7-Cvi">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="어떤 일이 원하는 대로 이루어지기를 바라면서 기다리다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQJ-Y7-Cvi">
                                 <rect key="frame" x="30" y="65" width="354" height="17"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="17" id="OIn-ex-FiI"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="0.89803921568627454" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1715,13 +1713,10 @@
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84o-Ns-laR">
-                                <rect key="frame" x="30" y="99" width="354" height="88"/>
+                                <rect key="frame" x="30" y="90" width="354" height="180"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5qA-sh-nV0">
-                                        <rect key="frame" x="16" y="10" width="322" height="68"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="68" id="pLA-NS-vGq"/>
-                                        </constraints>
+                                        <rect key="frame" x="16" y="10" width="322" height="160"/>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1736,7 +1731,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/40" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mkN-sH-4I1">
-                                <rect key="frame" x="30" y="195" width="354" height="12"/>
+                                <rect key="frame" x="30" y="278" width="354" height="12"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" red="0.5725490196078431" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1745,7 +1740,7 @@
                         <viewLayoutGuide key="safeArea" id="V8D-os-d8U"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="84o-Ns-laR" firstAttribute="top" secondItem="kQJ-Y7-Cvi" secondAttribute="bottom" constant="17" id="0Ok-WA-Ssx"/>
+                            <constraint firstItem="84o-Ns-laR" firstAttribute="top" secondItem="kQJ-Y7-Cvi" secondAttribute="bottom" constant="8" id="0Ok-WA-Ssx"/>
                             <constraint firstItem="V8D-os-d8U" firstAttribute="trailing" secondItem="mkN-sH-4I1" secondAttribute="trailing" constant="30" id="2qB-1k-NEr"/>
                             <constraint firstItem="mkN-sH-4I1" firstAttribute="top" secondItem="84o-Ns-laR" secondAttribute="bottom" constant="8" id="AIB-yB-XEQ"/>
                             <constraint firstItem="kQJ-Y7-Cvi" firstAttribute="top" secondItem="0L8-96-npm" secondAttribute="bottom" constant="6" id="AWp-Ga-bmG"/>
@@ -1756,13 +1751,15 @@
                             <constraint firstItem="mkN-sH-4I1" firstAttribute="centerX" secondItem="wbQ-5L-leb" secondAttribute="centerX" id="g2O-UQ-4R1"/>
                             <constraint firstItem="kQJ-Y7-Cvi" firstAttribute="centerX" secondItem="wbQ-5L-leb" secondAttribute="centerX" id="jyj-yR-kzK"/>
                             <constraint firstItem="84o-Ns-laR" firstAttribute="centerX" secondItem="wbQ-5L-leb" secondAttribute="centerX" id="mRL-Ke-R6I"/>
+                            <constraint firstItem="V8D-os-d8U" firstAttribute="bottom" secondItem="mkN-sH-4I1" secondAttribute="bottom" constant="10" id="oOE-xy-lba"/>
                         </constraints>
                     </view>
                     <size key="freeformSize" width="414" height="300"/>
                     <connections>
                         <outlet property="lblCount" destination="mkN-sH-4I1" id="Txu-s3-mQ0"/>
-                        <outlet property="lblDescription" destination="zkR-Qa-cvi" id="DUN-dl-eAd"/>
-                        <outlet property="lblVerbs" destination="toz-ab-4s9" id="SSx-iW-deX"/>
+                        <outlet property="lblDefinition" destination="kQJ-Y7-Cvi" id="ebm-cd-8Lh"/>
+                        <outlet property="lblPartOfSpeech" destination="toz-ab-4s9" id="SSx-iW-deX"/>
+                        <outlet property="lblWord" destination="zkR-Qa-cvi" id="DUN-dl-eAd"/>
                         <outlet property="textArea" destination="84o-Ns-laR" id="Tsc-wZ-hlI"/>
                         <outlet property="textView" destination="5qA-sh-nV0" id="IBB-0T-dFq"/>
                     </connections>

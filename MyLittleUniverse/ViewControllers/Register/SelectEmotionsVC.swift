@@ -14,7 +14,7 @@ class SelectEmotionsVC: UIViewController,
                                   UIGestureRecognizerDelegate {
     static let storyboardID = "selectEmotionsView"
     
-    let emotions = BehaviorRelay<[Emotion]>(value: [])
+    let status = BehaviorRelay<Status>(value: .positive)
     let selectedEmotions = BehaviorRelay<[Emotion]>(value: [])
     let selectedEmotionCount = BehaviorRelay<Int>(value: 0)
     var disposeBag = DisposeBag()
@@ -43,13 +43,18 @@ class SelectEmotionsVC: UIViewController,
             .setDelegate(self)
             .disposed(by: disposeBag)
         
-        // 감정 리스트
-        emotions
-            .bind(to: colEmotions.rx.items(cellIdentifier: emotionCell.identifier,
-                                              cellType: emotionCell.self)) { index, emotion, cell in
-                cell.lblStatus.text = emotion.word
-            }
+        // 상태
+        status.map { $0.rawValue }
+            .bind(to: lblStatus.rx.text)
             .disposed(by: disposeBag)
+        
+        // 감정 리스트
+        status.map { $0.emotions() }
+        .bind(to: colEmotions.rx.items(cellIdentifier: emotionCell.identifier,
+                                          cellType: emotionCell.self)) { index, emotion, cell in
+            cell.lblStatus.text = emotion.word
+        }
+        .disposed(by: disposeBag)
         
         // 감정 선택
         colEmotions.rx.modelSelected(Emotion.self)
@@ -105,9 +110,9 @@ class SelectEmotionsVC: UIViewController,
         // 선택 완료
         btnDone.rx.tap
             .bind {
-                guard let paintListVC = self.storyboard?.instantiateViewController(withIdentifier: PaintListViewController.storyboardID) as? PaintListViewController else { return }
+                guard let paintListVC = self.storyboard?.instantiateViewController(withIdentifier: PaintEmotionListVC.storyboardID) as? PaintEmotionListVC else { return }
                 // 선택한 Emotion 전달
-                paintListVC.emotions.onNext(self.selectedEmotions.value)
+                paintListVC.emotions.accept(self.selectedEmotions.value)
                 self.navigationController?.pushViewController(paintListVC, animated: false)
             }
             .disposed(by: disposeBag)
@@ -132,6 +137,7 @@ class SelectEmotionsVC: UIViewController,
     @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var btnDone: UIButton!
     
+    @IBOutlet weak var lblStatus: UILabel!
     @IBOutlet weak var viewCount: UIView!
     @IBOutlet weak var lblCount: UILabel!
     @IBOutlet weak var lblDone: UILabel!

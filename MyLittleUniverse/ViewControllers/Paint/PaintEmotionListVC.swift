@@ -7,13 +7,14 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
-class PaintListViewController: UIViewController, UICollectionViewDelegate {
+class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
     static let storyboardID = "paintListView"
     
-    var pageViewController = PaintPageViewController()
-    let emotions = BehaviorSubject<[Emotion]>(value: [])
-    var selectedIndex = BehaviorSubject(value: 0)
+    var pageViewController = PaintPageVC()
+    let emotions = BehaviorRelay<[Emotion]>(value: [])
+    var selectedIndex = BehaviorRelay(value: 0)
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -134,22 +135,14 @@ class PaintListViewController: UIViewController, UICollectionViewDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "pageSegue" {
-            guard let paintPageVC = segue.destination as? PaintPageViewController else { return }
-            do {
+            guard let paintPageVC = segue.destination as? PaintPageVC else { return }
                 pageViewController = paintPageVC
-                pageViewController.pageCount = try emotions.value().count
+            pageViewController.emotions = emotions.value
                 pageViewController.completeHandler = { (index) in
-                    do {
-                        if try index != self.selectedIndex.value() {
-                            self.selectedIndex.onNext(index)
-                        }
-                    } catch let error {
-                        NSLog("Failed to get selected page index. Error = \(error.localizedDescription)")
+                    if index != self.selectedIndex.value {
+                        self.selectedIndex.accept(index)
                     }
                 }
-            } catch let error {
-                NSLog("Failed to get emotion values. Error = \(error.localizedDescription)")
-            }
         }
     }
     

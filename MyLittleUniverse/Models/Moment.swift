@@ -15,5 +15,5 @@ struct Moment {
 }
 
 extension Moment {
-    static let empty = Moment(emotion: positiveEmotions[0], date: Date(), description: "desc", image: "")
+    static let empty = Moment(emotion: Emotion.empty, date: Date(), description: "N/A", image: "N/A")
 }

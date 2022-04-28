@@ -18,6 +18,7 @@ struct Handler {
 class PaintViewController: UIViewController {
     static let storyboardID = "paintView"
     
+    var emotion = Emotion.empty
     var stickers = [StickerEdgeView]()
     let labelSticker = StickerEdgeView()
     var bgColor = BehaviorRelay<Int>(value: 0xFFFFFF)
@@ -403,6 +404,7 @@ class PaintViewController: UIViewController {
     
     private lazy var textSticker: TextStickerVC? = {
         guard let textVC = self.storyboard?.instantiateViewController(withIdentifier: TextStickerVC.identifier) as? TextStickerVC else { return nil }
+        textVC.emotion.accept(emotion)
         textVC.completeHandler = { (description) in
             DispatchQueue.main.async {
                 self.addTextSticker(text: description)

@@ -11,7 +11,7 @@ import RxSwift
 class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     static let storyboardID = "selectStatusView"
     
-    let statusObservable = Observable.of(["좋아요", "좋지 않아요", "둘 다 아니에요", "복합적이에요"])
+    let allStatus: [Status] = [.positive, .negative, .neutral, .random]
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -35,10 +35,10 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             .setDelegate(self)
             .disposed(by: disposeBag)
         
-        statusObservable
+        Observable.of(allStatus)
             .bind(to: collectionView.rx.items(cellIdentifier: StatusCell.identifier,
                                               cellType: StatusCell.self)) { index, status, cell in
-                cell.lblStatus.text = status
+                cell.lblStatus.text = status.rawValue
             }
             .disposed(by: disposeBag)
         
@@ -48,8 +48,8 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             .subscribe(onNext: { index in
                 Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
                     guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: SelectEmotionsVC.storyboardID) as? SelectEmotionsVC else { return }
-                    let emotions = allEmotions[index.row]
-                    detailVC.emotions.accept(emotions)
+                    let status = self.allStatus[index.row]
+                    detailVC.status.accept(status)
                     self.navigationController?.pushViewController(detailVC, animated: false)
                 }
             })

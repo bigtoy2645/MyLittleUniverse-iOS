@@ -7,9 +7,21 @@
 
 import UIKit
 
-class PaintPageViewController: UIPageViewController {
+class PaintPageVC: UIPageViewController {
     static let storyboardID = "paintPageView"
     
+    var emotions: [Emotion] = [] {
+        didSet {
+            views.removeAll()
+            for index in 0..<emotions.count {
+                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                if let paintVC = storyBoard.instantiateViewController(identifier: PaintViewController.storyboardID) as? PaintViewController {
+                    paintVC.emotion = emotions[index]
+                    views.append(paintVC)
+                }
+            }
+        }
+    }
     var completeHandler: ((Int) -> ())?
     
     var views = [UIViewController]()
@@ -17,17 +29,6 @@ class PaintPageViewController: UIPageViewController {
         guard let vc = viewControllers?.first,
               let index = views.firstIndex(of: vc) else { return 0 }
         return index
-    }
-    
-    var pageCount = 0 {
-        didSet {
-            views.removeAll()
-            for _ in 0..<pageCount {
-                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                let paintVC = storyBoard.instantiateViewController(identifier: PaintViewController.storyboardID)
-                views.append(paintVC)
-            }
-        }
     }
     
     override func viewDidLoad() {
@@ -51,7 +52,7 @@ class PaintPageViewController: UIPageViewController {
 
 // MARK: - DataSource, Delegate
 
-extension PaintPageViewController: UIPageViewControllerDelegate {
+extension PaintPageVC: UIPageViewControllerDelegate {
     /* 이전 View로 전환 */
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let index = views.firstIndex(of: viewController) else { return nil }

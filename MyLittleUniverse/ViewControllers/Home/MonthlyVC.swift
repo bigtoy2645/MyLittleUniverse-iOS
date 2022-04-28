@@ -13,7 +13,7 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
     static let storyboardID = "homeView"
     
     let viewModel = MonthlyViewModel(date: Date())
-    let mainEmotion = BehaviorRelay<Emotion>(value: positiveEmotions[0])
+    let mainEmotion = BehaviorRelay<Emotion>(value: Emotion.empty)
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
