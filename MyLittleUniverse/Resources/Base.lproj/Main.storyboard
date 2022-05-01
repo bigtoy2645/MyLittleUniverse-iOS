@@ -468,7 +468,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="-2" translatesAutoresizingMaskIntoConstraints="NO" id="u1l-t1-OBM" userLabel="Ranking View">
-                                                <rect key="frame" x="30" y="160.5" width="354" height="735.5"/>
+                                                <rect key="frame" x="30" y="160.5" width="354" height="667.5"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tr8-cp-kE3" userLabel="Ranking 0">
                                                         <rect key="frame" x="0.0" y="0.0" width="354" height="354"/>
@@ -526,10 +526,10 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GzU-tr-5bL" userLabel="Ranking 2">
-                                                        <rect key="frame" x="0.0" y="527" width="354" height="106"/>
+                                                        <rect key="frame" x="0.0" y="527" width="354" height="88.5"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="속상한" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TWc-7h-sc3">
-                                                                <rect key="frame" x="156" y="43.5" width="42" height="19.5"/>
+                                                                <rect key="frame" x="156" y="34.5" width="42" height="19.5"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                                 <color key="textColor" name="PointPurple"/>
                                                                 <nil key="highlightedColor"/>
@@ -542,10 +542,10 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WBv-cV-aOX" userLabel="Ranking 3">
-                                                        <rect key="frame" x="0.0" y="631" width="354" height="71"/>
+                                                        <rect key="frame" x="0.0" y="613.5" width="354" height="44.5"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="뿌듯한" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zv9-1h-peo">
-                                                                <rect key="frame" x="161.5" y="28.5" width="31.5" height="14.5"/>
+                                                                <rect key="frame" x="161.5" y="15" width="31.5" height="14.5"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                                                 <color key="textColor" name="PointPurple"/>
                                                                 <nil key="highlightedColor"/>
@@ -558,19 +558,19 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gla-89-2RY" userLabel="Ranking more">
-                                                        <rect key="frame" x="0.0" y="700" width="354" height="35.5"/>
+                                                        <rect key="frame" x="0.0" y="656" width="354" height="11.5"/>
                                                         <color key="backgroundColor" name="BackgroundGreen"/>
                                                     </view>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="GzU-tr-5bL" firstAttribute="height" secondItem="Tr8-cp-kE3" secondAttribute="height" multiplier="0.3" id="9jY-zv-v6n"/>
-                                                    <constraint firstItem="WBv-cV-aOX" firstAttribute="height" secondItem="Tr8-cp-kE3" secondAttribute="height" multiplier="0.2" id="brN-aX-fg0"/>
+                                                    <constraint firstItem="GzU-tr-5bL" firstAttribute="height" secondItem="Tr8-cp-kE3" secondAttribute="height" multiplier="0.25" id="9jY-zv-v6n"/>
+                                                    <constraint firstItem="WBv-cV-aOX" firstAttribute="height" secondItem="Tr8-cp-kE3" secondAttribute="height" multiplier="0.125" id="brN-aX-fg0"/>
                                                     <constraint firstItem="XVe-b3-ozK" firstAttribute="height" secondItem="Tr8-cp-kE3" secondAttribute="height" multiplier="0.5" id="eYq-81-qAf"/>
-                                                    <constraint firstItem="Gla-89-2RY" firstAttribute="height" secondItem="Tr8-cp-kE3" secondAttribute="height" multiplier="0.1" id="fnQ-cM-Lka"/>
+                                                    <constraint firstItem="Gla-89-2RY" firstAttribute="height" secondItem="Tr8-cp-kE3" secondAttribute="height" multiplier="0.0333" id="fnQ-cM-Lka"/>
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1MI-jA-kNN" userLabel="Calendar View">
-                                                <rect key="frame" x="0.0" y="936" width="414" height="590"/>
+                                                <rect key="frame" x="0.0" y="868" width="414" height="658"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5월" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MFZ-ce-qEC">
                                                         <rect key="frame" x="192" y="40" width="30" height="24"/>
@@ -694,7 +694,7 @@
                                                         </cells>
                                                     </collectionView>
                                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="NNx-u8-250" userLabel="Moments">
-                                                        <rect key="frame" x="30" y="146" width="354" height="444"/>
+                                                        <rect key="frame" x="30" y="146" width="354" height="512"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="15" minimumInteritemSpacing="15" id="iYb-Dh-8o9">
                                                             <size key="itemSize" width="150" height="230"/>
@@ -1689,7 +1689,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="어떤 일이 원하는 대로 이루어지기를 바라면서 기다리다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQJ-Y7-Cvi">
                                 <rect key="frame" x="30" y="65" width="354" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="0.89803921568627454" colorSpace="calibratedRGB"/>
+                                <color key="textColor" name="MediumGray"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="0L8-96-npm">
@@ -1701,14 +1701,14 @@
                                             <constraint firstAttribute="width" secondItem="toz-ab-4s9" secondAttribute="height" multiplier="1:1" id="4Ma-zW-B8C"/>
                                             <constraint firstAttribute="width" constant="15" id="VHN-LJ-si9"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="textColor" red="0.69803921570000005" green="0.69803921570000005" blue="0.69803921570000005" alpha="0.8980392157" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" name="MediumGray"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="기대하다. " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zkR-Qa-cvi">
                                         <rect key="frame" x="22" y="0.0" width="56.5" height="15"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.69803921570000005" green="0.69803921570000005" blue="0.69803921570000005" alpha="0.8980392157" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" name="MediumGray"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -1734,7 +1734,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/40" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mkN-sH-4I1">
                                 <rect key="frame" x="30" y="278" width="354" height="12"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" red="0.5725490196078431" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" name="MediumGray"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>

@@ -6,33 +6,46 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class DayChipCell: UICollectionViewCell {
     static let identifier = "dayChipCell"
     
     @IBOutlet weak var lblDay: UILabel!
     
-    var isRecorded = false {
-        didSet {
-            isUserInteractionEnabled = isRecorded
-        }
-    }
+    let isRecorded = BehaviorRelay<Bool>(value: false)
+    var disposeBag = DisposeBag()
     
     override func layoutSubviews() {
         layer.cornerRadius = frame.width / 2
-        lblDay.textColor = isRecorded ? .bgGreen : .disableGray
+        
+        isRecorded
+            .map { isRecorded in
+                if isRecorded {
+                    return self.isSelected ? .white : .mainBlack
+                } else {
+                    return UIColor.disableGray
+                }
+            }
+            .bind(to: lblDay.rx.textColor)
+            .disposed(by: disposeBag)
+        
+        isRecorded.subscribe(onNext: {
+            self.isUserInteractionEnabled = $0
+        })
+        .disposed(by: disposeBag)
     }
     
     override var isSelected: Bool {
-        willSet {
-            super.isSelected = newValue
-            if isSelected {
-                backgroundColor = .bgGreen
-                lblDay.textColor = .white
-            } else {
-                backgroundColor = .clear
-                lblDay.textColor = isRecorded ? .bgGreen : .disableGray
-            }
+        didSet {
+            backgroundColor = isSelected ? .bgGreen : .clear
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        disposeBag = DisposeBag()
     }
 }

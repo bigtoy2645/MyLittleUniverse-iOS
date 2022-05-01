@@ -87,10 +87,8 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
             .bind(to: colDays.rx.items(cellIdentifier: DayChipCell.identifier,
                                           cellType: DayChipCell.self)) { index, day, cell in
                 cell.lblDay.text = "\(day)"
-                // TODO - true/false
-//                cell.isRecorded = self.viewModel.recoredDays.map {
-//                    cell.isRecorded = $0.contains(day)
-//                }
+                let isRecorded = self.viewModel.recoredDays.value.contains(day)
+                cell.isRecorded.accept(isRecorded)
             }
             .disposed(by: disposeBag)
         
