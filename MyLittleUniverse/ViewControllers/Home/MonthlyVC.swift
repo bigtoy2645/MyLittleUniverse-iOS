@@ -19,7 +19,6 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        btnMainEmotion.titleEdgeInsets = UIEdgeInsets(top: 12, left: 10, bottom: 12, right: 10)
         btnMainEmotion.layer.borderWidth = 1
         btnMainEmotion.layer.cornerRadius = 13
         btnMainEmotion.layer.borderColor = btnMainEmotion.currentTitleColor.cgColor
@@ -62,8 +61,7 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
         rankingBinding()
         
         // 이 달 제일 많이 등록된 감정
-        viewModel.emotions
-            .map { $0.sorted { $0.1 > $1.1 }[0].key }
+        viewModel.ranking0.map { $0.emotion }
             .subscribe(onNext: mainEmotion.accept(_:))
             .disposed(by: disposeBag)
         
@@ -129,39 +127,101 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
             .disposed(by: disposeBag)
     }
     
+    /* 랭킹 Binding */
     func rankingBinding() {
-        viewModel.emotions
-            .map { $0.sorted { $0.1 > $1.1 } }
+        viewModel.ranking0
             .bind { ranking in
-                _ = self.rankingView.arrangedSubviews.map { $0.isHidden = true }
+                let rankingView = self.rankingView.arrangedSubviews[0]
+                self.lblRanking0.text = ranking.emotion.word
+                self.lblRanking0Days.text = "\(ranking.count) days"
                 
-                if ranking.count > 0 {
-                    self.lblRanking1.text = ranking[0].key.word
-                    self.lblRanking1Days.text = "\(ranking[0].value) days"
-                    self.rankingView.arrangedSubviews[0].isHidden = false
-                }
+                rankingView.rx
+                    .tapGesture()
+                    .when(.recognized)
+                    .subscribe(onNext: { _ in
+                        self.presentMonthlyView(emotion: ranking.emotion)
+                    })
+                    .disposed(by: self.disposeBag)
                 
-                if ranking.count > 1 {
-                    self.lblRanking2.text = ranking[1].key.word
-                    self.lblRanking2Days.text = "\(ranking[1].value) days"
-                    self.rankingView.arrangedSubviews[1].isHidden = false
-                }
-                
-                if ranking.count > 2 {
-                    self.lblRanking3.text = ranking[2].key.word
-                    self.rankingView.arrangedSubviews[2].isHidden = false
-                }
-                
-                if ranking.count > 3 {
-                    self.lblRanking4.text = ranking[3].key.word
-                    self.rankingView.arrangedSubviews[3].isHidden = false
-                }
-                
-                if ranking.count > 4 {
-                    self.rankingView.arrangedSubviews[4].isHidden = false
-                }
             }
             .disposed(by: disposeBag)
+        
+        viewModel.ranking1
+            .bind { ranking in
+                let rankingView = self.rankingView.arrangedSubviews[1]
+                guard let ranking = ranking else {
+                    rankingView.isHidden = true
+                    return
+                }
+                rankingView.isHidden = false
+                self.lblRanking1.text = ranking.emotion.word
+                self.lblRanking1Days.text = "\(ranking.count) days"
+                
+                rankingView.rx
+                    .tapGesture()
+                    .when(.recognized)
+                    .subscribe(onNext: { _ in
+                        self.presentMonthlyView(emotion: ranking.emotion)
+                    })
+                    .disposed(by: self.disposeBag)
+                
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.ranking2
+            .bind { ranking in
+                let rankingView = self.rankingView.arrangedSubviews[2]
+                guard let ranking = ranking else {
+                    rankingView.isHidden = true
+                    return
+                }
+                rankingView.isHidden = false
+                self.lblRanking2.text = ranking.emotion.word
+                
+                rankingView.rx
+                    .tapGesture()
+                    .when(.recognized)
+                    .subscribe(onNext: { _ in
+                        self.presentMonthlyView(emotion: ranking.emotion)
+                    })
+                    .disposed(by: self.disposeBag)
+                
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.ranking3
+            .bind { ranking in
+                let rankingView = self.rankingView.arrangedSubviews[3]
+                guard let ranking = ranking else {
+                    rankingView.isHidden = true
+                    return
+                }
+                rankingView.isHidden = false
+                self.lblRanking1.text = ranking.emotion.word
+                
+                rankingView.rx
+                    .tapGesture()
+                    .when(.recognized)
+                    .subscribe(onNext: { _ in
+                        self.presentMonthlyView(emotion: ranking.emotion)
+                    })
+                    .disposed(by: self.disposeBag)
+                
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.rankings
+            .bind { emotions in
+                self.rankingView.arrangedSubviews[4].isHidden = emotions.count <= 4
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    /* 이달의 발견 세부 화면 표시 */
+    func presentMonthlyView(emotion: Emotion) {
+        guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: MonthlyEmotionVC.storyboardID) as? MonthlyEmotionVC else { return }
+        detailVC.viewModel = MonthlyEmotionViewModel(date: Date(), emotion: emotion)
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     // MARK: - InterfaceBuilder Links
@@ -173,12 +233,12 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
     @IBOutlet weak var mainEmotionWidth: NSLayoutConstraint!
     
     @IBOutlet weak var rankingView: UIStackView!
+    @IBOutlet weak var lblRanking0: UILabel!
+    @IBOutlet weak var lblRanking0Days: UILabel!
     @IBOutlet weak var lblRanking1: UILabel!
     @IBOutlet weak var lblRanking1Days: UILabel!
     @IBOutlet weak var lblRanking2: UILabel!
-    @IBOutlet weak var lblRanking2Days: UILabel!
     @IBOutlet weak var lblRanking3: UILabel!
-    @IBOutlet weak var lblRanking4: UILabel!
     
     @IBOutlet weak var colDays: UICollectionView!
     @IBOutlet weak var colMomentsOfDay: UICollectionView!

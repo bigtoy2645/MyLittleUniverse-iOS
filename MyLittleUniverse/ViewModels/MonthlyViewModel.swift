@@ -9,10 +9,20 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+struct EmotionCount {
+    let emotion: Emotion
+    let count: Int
+}
+
 class MonthlyViewModel {
     let recoredDays: Observable<[Int]>
-    let emotions: Observable<[Emotion: Int]>
     let monthString: Observable<String>
+    let rankings: Observable<[Emotion: Int]>
+    private let sortedRankings: Observable<[Dictionary<Emotion, Int>.Element]>
+    let ranking0: Observable<EmotionCount>
+    let ranking1: Observable<EmotionCount?>
+    let ranking2: Observable<EmotionCount?>
+    let ranking3: Observable<EmotionCount?>
     
     let disposeBag = DisposeBag()
     
@@ -24,19 +34,40 @@ class MonthlyViewModel {
         moments.onNext([1: [Moment(emotion: positiveEmotions[0], date: Date(), description: "", image: ""),
                             Moment(emotion: positiveEmotions[1], date: Date(), description: "", image: "")],
                         10: [Moment(emotion: positiveEmotions[1], date: Date(), description: "", image: ""),
-                             Moment(emotion: positiveEmotions[2], date: Date(), description: "", image: "")],
+                             Moment(emotion: positiveEmotions[1], date: Date(), description: "", image: "")],
                         20: [Moment(emotion: positiveEmotions[2], date: Date(), description: "", image: ""),
-                             Moment(emotion: positiveEmotions[3], date: Date(), description: "", image: "")]])
+                             Moment(emotion: positiveEmotions[2], date: Date(), description: "", image: "")]])
         
         // 감정 기록된 일자
         recoredDays = moments.map { $0.keys.sorted() }
         
         // 감정별 개수
-        emotions = moments.map {
-            let emotionCount: [Emotion: Int] = $0.reduce(into: [:]) { emotions, momentsOfDay in
+        rankings = moments.map { moments in
+            let emotionCount: [Emotion: Int] = moments.reduce(into: [:]) { emotions, momentsOfDay in
                 _ = momentsOfDay.value.map { emotions[$0.emotion, default: 0] += 1 }
             }
             return emotionCount
+        }
+        
+        sortedRankings = rankings.map { $0.sorted { $0.1 > $1.1 } }
+        
+        ranking0 = sortedRankings.map { ranking in
+            return EmotionCount(emotion: ranking[0].key, count: ranking[0].value)
+        }
+        
+        ranking1 = sortedRankings.map { ranking in
+            if ranking.count <= 1 { return nil }
+            return EmotionCount(emotion: ranking[1].key, count: ranking[1].value)
+        }
+        
+        ranking2 = sortedRankings.map { ranking in
+            if ranking.count <= 2 { return nil }
+            return EmotionCount(emotion: ranking[2].key, count: ranking[2].value)
+        }
+        
+        ranking3 = sortedRankings.map { ranking in
+            if ranking.count <= 3 { return nil }
+            return EmotionCount(emotion: ranking[3].key, count: ranking[3].value)
         }
         
         monthString = date.map {

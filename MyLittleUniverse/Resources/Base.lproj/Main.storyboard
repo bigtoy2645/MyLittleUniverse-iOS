@@ -23,24 +23,24 @@
                                 <rect key="frame" x="24" y="108" width="366" height="788"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7OH-MI-bZ4">
-                                <rect key="frame" x="187" y="462.5" width="40" height="40"/>
+                                <rect key="frame" x="187" y="434" width="40" height="40"/>
                                 <color key="tintColor" name="MainBlack"/>
                                 <state key="normal" image="Add_40"/>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="AsJ-Mt-1ew">
-                                <rect key="frame" x="59" y="284" width="296" height="154.5"/>
+                                <rect key="frame" x="59" y="284" width="296" height="126"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="cOt-ow-ckt">
-                                        <rect key="frame" x="0.0" y="0.0" width="296" height="81"/>
+                                        <rect key="frame" x="39" y="0.0" width="218.5" height="52.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="반가워요 세상에서제일가는슈퍼토끼님!" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ipo-TY-ao6">
-                                                <rect key="frame" x="0.0" y="0.0" width="296" height="57.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="반가워요 마리유님!" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ipo-TY-ao6">
+                                                <rect key="frame" x="0.0" y="0.0" width="218.5" height="29"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                                 <color key="textColor" name="MainBlack"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="나를 위한 하루를 보내고 계신가요?" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="laN-sS-lUv">
-                                                <rect key="frame" x="0.0" y="61.5" width="296" height="19.5"/>
+                                                <rect key="frame" x="0.0" y="33" width="218.5" height="19.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" name="MainBlack"/>
                                                 <nil key="highlightedColor"/>
@@ -48,7 +48,7 @@
                                         </subviews>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xyy-HW-tVv">
-                                        <rect key="frame" x="44.5" y="97" width="207.5" height="57.5"/>
+                                        <rect key="frame" x="44.5" y="68.5" width="207.5" height="57.5"/>
                                         <string key="text">마이리틀유니버스는 1개 이상의
 감정이 기록되어야 이용 가능합니다.
 오늘의 나를 떠올리게 하는 감정 단어를 찾아
@@ -434,8 +434,8 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="0Mf-cB-uln" userLabel="Title Label">
                                                 <rect key="frame" x="30" y="30" width="354" height="63.5"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="보영님의" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6Y-2v-nGE">
-                                                        <rect key="frame" x="0.0" y="0.0" width="69.5" height="24"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="마리유님의" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6Y-2v-nGE">
+                                                        <rect key="frame" x="0.0" y="0.0" width="86.5" height="24"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                         <color key="textColor" name="BackgroundGreen"/>
                                                         <nil key="highlightedColor"/>
@@ -453,6 +453,7 @@
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AFh-XZ-Rsl">
                                                         <rect key="frame" x="0.0" y="0.0" width="88" height="27"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                                         <state key="normal" title="기대되는">
                                                             <color key="titleColor" name="BackgroundGreen"/>
@@ -469,10 +470,10 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="-2" translatesAutoresizingMaskIntoConstraints="NO" id="u1l-t1-OBM" userLabel="Ranking View">
                                                 <rect key="frame" x="30" y="160.5" width="354" height="735.5"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tr8-cp-kE3" userLabel="Ranking 1">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tr8-cp-kE3" userLabel="Ranking 0">
                                                         <rect key="frame" x="0.0" y="0.0" width="354" height="354"/>
                                                         <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Htd-4h-bwz">
+                                                            <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Htd-4h-bwz">
                                                                 <rect key="frame" x="142.5" y="158" width="69.5" height="38.5"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="기대되는" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HgV-eU-8rb">
@@ -497,10 +498,10 @@
                                                             <constraint firstAttribute="width" secondItem="Tr8-cp-kE3" secondAttribute="height" multiplier="1:1" id="ck6-9B-4is"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XVe-b3-ozK" userLabel="Ranking 2">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XVe-b3-ozK" userLabel="Ranking 1">
                                                         <rect key="frame" x="0.0" y="352" width="354" height="177"/>
                                                         <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xto-Lo-Nps">
+                                                            <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xto-Lo-Nps">
                                                                 <rect key="frame" x="153.5" y="70.5" width="47" height="36"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="감사한" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qlA-Aj-cwu">
@@ -524,7 +525,7 @@
                                                             <constraint firstItem="xto-Lo-Nps" firstAttribute="centerX" secondItem="XVe-b3-ozK" secondAttribute="centerX" id="NMg-bw-q99"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GzU-tr-5bL" userLabel="Ranking 3">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GzU-tr-5bL" userLabel="Ranking 2">
                                                         <rect key="frame" x="0.0" y="527" width="354" height="106"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="속상한" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TWc-7h-sc3">
@@ -540,7 +541,7 @@
                                                             <constraint firstItem="TWc-7h-sc3" firstAttribute="centerY" secondItem="GzU-tr-5bL" secondAttribute="centerY" id="nTz-Eo-3Nx"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WBv-cV-aOX" userLabel="Ranking 4">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WBv-cV-aOX" userLabel="Ranking 3">
                                                         <rect key="frame" x="0.0" y="631" width="354" height="71"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="뿌듯한" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zv9-1h-peo">
@@ -556,7 +557,7 @@
                                                             <constraint firstItem="Zv9-1h-peo" firstAttribute="centerY" secondItem="WBv-cV-aOX" secondAttribute="centerY" id="ysq-WE-fVe"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gla-89-2RY" userLabel="Ranking 5">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gla-89-2RY" userLabel="Ranking more">
                                                         <rect key="frame" x="0.0" y="700" width="354" height="35.5"/>
                                                         <color key="backgroundColor" name="BackgroundGreen"/>
                                                     </view>
@@ -858,12 +859,12 @@
                         <outlet property="btnRegister" destination="coC-9o-8nj" id="lwK-xu-DXW"/>
                         <outlet property="colDays" destination="grw-AY-QLA" id="ZUj-Ys-PhO"/>
                         <outlet property="colMomentsOfDay" destination="NNx-u8-250" id="mvH-aE-Rhv"/>
-                        <outlet property="lblRanking1" destination="HgV-eU-8rb" id="uVK-bD-NBJ"/>
-                        <outlet property="lblRanking1Days" destination="G5A-JC-Szi" id="v47-YN-lGU"/>
-                        <outlet property="lblRanking2" destination="qlA-Aj-cwu" id="ZPx-RY-zYU"/>
-                        <outlet property="lblRanking2Days" destination="u7J-oJ-QWG" id="2c1-xt-Taf"/>
-                        <outlet property="lblRanking3" destination="TWc-7h-sc3" id="ock-s0-oXT"/>
-                        <outlet property="lblRanking4" destination="Zv9-1h-peo" id="mId-9d-7u0"/>
+                        <outlet property="lblRanking0" destination="HgV-eU-8rb" id="uVK-bD-NBJ"/>
+                        <outlet property="lblRanking0Days" destination="G5A-JC-Szi" id="v47-YN-lGU"/>
+                        <outlet property="lblRanking1" destination="qlA-Aj-cwu" id="ZPx-RY-zYU"/>
+                        <outlet property="lblRanking1Days" destination="u7J-oJ-QWG" id="2c1-xt-Taf"/>
+                        <outlet property="lblRanking2" destination="TWc-7h-sc3" id="ock-s0-oXT"/>
+                        <outlet property="lblRanking3" destination="Zv9-1h-peo" id="mId-9d-7u0"/>
                         <outlet property="rankingView" destination="u1l-t1-OBM" id="SOe-c8-Pdy"/>
                         <outlet property="scrollView" destination="ApY-sc-80G" id="o5A-Ss-I9V"/>
                         <outlet property="tabView" destination="MRL-QB-CNr" id="Irb-lc-PLy"/>
@@ -871,7 +872,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="skO-Qf-Pmh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2570" y="-3"/>
+            <point key="canvasLocation" x="2571" y="-24"/>
         </scene>
         <!--Monthly EmotionVC-->
         <scene sceneID="zv2-AV-SRl">
