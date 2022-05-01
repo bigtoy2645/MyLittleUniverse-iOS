@@ -15,31 +15,43 @@ struct EmotionCount {
 }
 
 class MonthlyViewModel {
-    let recoredDays: Observable<[Int]>
+    let recoredDays = BehaviorRelay<[Int]>(value: [])
+    let mainEmotion = BehaviorRelay<Emotion>(value: Emotion.empty)
+    let selectedDay: BehaviorRelay<Int>
+    let selectedMoments = BehaviorRelay<[Moment]>(value: [])
+    
     let monthString: Observable<String>
     let rankings: Observable<[Emotion: Int]>
-    private let sortedRankings: Observable<[Dictionary<Emotion, Int>.Element]>
     let ranking0: Observable<EmotionCount>
     let ranking1: Observable<EmotionCount?>
     let ranking2: Observable<EmotionCount?>
     let ranking3: Observable<EmotionCount?>
+    private let sortedRankings: Observable<[Dictionary<Emotion, Int>.Element]>
     
     let disposeBag = DisposeBag()
     
     init(date: Date) {
         let date = Observable.just(date)
-        let moments = BehaviorSubject<[Int: [Moment]]>(value: [:])
+        let moments = BehaviorRelay<[Int: [Moment]]>(value: [:])
         
         // TODO - date 해당하는 데이터 불러오기
-        moments.onNext([1: [Moment(emotion: positiveEmotions[0], date: Date(), description: "", image: ""),
-                            Moment(emotion: positiveEmotions[1], date: Date(), description: "", image: "")],
-                        10: [Moment(emotion: positiveEmotions[1], date: Date(), description: "", image: ""),
-                             Moment(emotion: positiveEmotions[1], date: Date(), description: "", image: "")],
-                        20: [Moment(emotion: positiveEmotions[2], date: Date(), description: "", image: ""),
-                             Moment(emotion: positiveEmotions[2], date: Date(), description: "", image: "")]])
+        moments.accept([1: [Moment(emotion: positiveEmotions[0], date: Date(), description: "", image: "Sample")],
+                        4: [Moment(emotion: positiveEmotions[0], date: Date(), description: "", image: "Sample"),
+                            Moment(emotion: positiveEmotions[1], date: Date(), description: "", image: "Sample")],
+                        10: [Moment(emotion: positiveEmotions[1], date: Date(), description: "", image: "Sample"),
+                             Moment(emotion: positiveEmotions[2], date: Date(), description: "", image: "Sample"),
+                             Moment(emotion: positiveEmotions[3], date: Date(), description: "", image: "Sample")],
+                        20: [Moment(emotion: positiveEmotions[2], date: Date(), description: "", image: "Sample"),
+                             Moment(emotion: positiveEmotions[3], date: Date(), description: "", image: "Sample"),
+                             Moment(emotion: positiveEmotions[4], date: Date(), description: "", image: "Sample"),
+                             Moment(emotion: positiveEmotions[5], date: Date(), description: "", image: "Sample"),
+                             Moment(emotion: positiveEmotions[6], date: Date(), description: "", image: "Sample")]
+        ])
         
         // 감정 기록된 일자
-        recoredDays = moments.map { $0.keys.sorted() }
+        moments.map { $0.keys.sorted() }
+            .subscribe(onNext: self.recoredDays.accept(_:))
+            .disposed(by: disposeBag)
         
         // 감정별 개수
         rankings = moments.map { moments in
@@ -75,5 +87,22 @@ class MonthlyViewModel {
             formatter.dateFormat = "%MM월"
             return formatter.string(from: $0)
         }
+        
+        ranking0.map { $0.emotion }
+            .subscribe(onNext: mainEmotion.accept(_:))
+            .disposed(by: disposeBag)
+        
+        selectedDay = BehaviorRelay(value: Array(moments.value.keys).sorted()[0] - 1)
+        
+        // 선택한 날짜의 감정
+        selectedDay
+            .map { selectedDay in
+                guard let selectedMoments = moments.value[selectedDay + 1] else {
+                    return []
+                }
+                return selectedMoments
+            }
+            .subscribe(onNext: selectedMoments.accept(_:))
+            .disposed(by: disposeBag)
     }
 }

@@ -12,6 +12,7 @@ struct Moment {
     var date: Date
     var description: String
     var image: String
+    var bgColor: Int = 0xFFECC7
 }
 
 extension Moment {

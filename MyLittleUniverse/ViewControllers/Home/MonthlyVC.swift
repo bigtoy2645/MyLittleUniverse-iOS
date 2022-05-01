@@ -9,11 +9,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class MonthlyVC: UIViewController {
     static let storyboardID = "homeView"
     
     let viewModel = MonthlyViewModel(date: Date())
-    let mainEmotion = BehaviorRelay<Emotion>(value: Emotion.empty)
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -61,21 +60,12 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
         rankingBinding()
         
         // 이 달 제일 많이 등록된 감정
-        viewModel.ranking0.map { $0.emotion }
-            .subscribe(onNext: mainEmotion.accept(_:))
-            .disposed(by: disposeBag)
-        
-        mainEmotion
-            .map { $0.word }
+        viewModel.mainEmotion.map { $0.word }
             .bind(to: btnMainEmotion.rx.title())
             .disposed(by: disposeBag)
         
         btnMainEmotion.rx.tap
-            .bind {
-                guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: MonthlyEmotionVC.storyboardID) as? MonthlyEmotionVC else { return }
-                detailVC.viewModel = MonthlyEmotionViewModel(date: Date(), emotion: self.mainEmotion.value)
-                self.navigationController?.pushViewController(detailVC, animated: true)
-            }
+            .bind { self.presentMonthlyView(emotion: self.viewModel.mainEmotion.value) }
             .disposed(by: disposeBag)
         
         // 날짜별 감정
@@ -83,11 +73,16 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
             .setDelegate(self)
             .disposed(by: disposeBag)
         
+        colMomentsOfDay.rx
+            .setDelegate(self)
+            .disposed(by: disposeBag)
+        
         Observable.of(Array(1...31))
             .bind(to: colDays.rx.items(cellIdentifier: DayChipCell.identifier,
                                           cellType: DayChipCell.self)) { index, day, cell in
-                cell.lblDay.text = "\(day)"
+                cell.lblDay.text = String(day)
                 let isRecorded = self.viewModel.recoredDays.value.contains(day)
+                cell.isSelected = (self.viewModel.selectedDay.value == index)
                 cell.isRecorded.accept(isRecorded)
             }
             .disposed(by: disposeBag)
@@ -95,9 +90,15 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
         colDays.rx.itemSelected
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { index in
-//                if let cell = self.colDays.cellForItem(at: index) as? DayChipCell {
-//                }
+                self.viewModel.selectedDay.accept(index.row)
             })
+            .disposed(by: disposeBag)
+        
+        viewModel.selectedMoments
+            .bind(to: colMomentsOfDay.rx.items(cellIdentifier: DayMomentCell.identifier,
+                                               cellType: DayMomentCell.self)) { index, moment, cell in
+                cell.moment.accept(moment)
+            }
             .disposed(by: disposeBag)
     }
     
@@ -228,7 +229,6 @@ class MonthlyVC: UIViewController, UICollectionViewDelegate, UICollectionViewDel
     @IBOutlet weak var tabView: UIView!
     
     @IBOutlet weak var btnMainEmotion: UIButton!
-    @IBOutlet weak var mainEmotionWidth: NSLayoutConstraint!
     
     @IBOutlet weak var rankingView: UIStackView!
     @IBOutlet weak var lblRanking0: UILabel!
@@ -259,5 +259,18 @@ extension MonthlyVC: UIScrollViewDelegate {
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
             self.tabView.hideWithAnimation(hidden: true)
         }
+    }
+}
+
+// MARK: - UICollectionView
+
+extension MonthlyVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == colMomentsOfDay {
+            let width = (view.frame.width - 75) / 2.0
+            let height = width * 4 / 3
+            return CGSize(width: width, height: height)
+        }
+        return CGSize(width: 30, height: 30)
     }
 }
