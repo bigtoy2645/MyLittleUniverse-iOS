@@ -10,11 +10,13 @@ import Foundation
 struct Moment {
     var emotion: Emotion
     var date: Date
-    var description: String
-    var image: String
+    var description: String = ""
+    var imageData: Data
     var bgColor: Int = 0xFFECC7
 }
 
 extension Moment {
-    static let empty = Moment(emotion: Emotion.empty, date: Date(), description: "N/A", image: "N/A")
+    static let empty = Moment(emotion: Emotion.empty, date: Date(), imageData: Data())
 }
+
+var allMoments: [Moment] = []

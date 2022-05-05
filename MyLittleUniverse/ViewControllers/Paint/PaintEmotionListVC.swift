@@ -12,7 +12,7 @@ import RxCocoa
 class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
     static let storyboardID = "paintListView"
     
-    var pageViewController = PaintPageVC()
+    var pageVC = PaintPageVC()
     let emotions = BehaviorRelay<[Emotion]>(value: [])
     var selectedIndex = BehaviorRelay(value: 0)
     var disposeBag = DisposeBag()
@@ -21,6 +21,8 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         super.viewDidLoad()
         
         setupBindings()
+        
+        btnSave.isEnabled = true
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
@@ -47,8 +49,8 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
             .disposed(by: disposeBag)
         
         emotions
-            .bind(to: colEmotion.rx.items(cellIdentifier: PaintEmotionCollectionViewCell.identifier,
-                                          cellType: PaintEmotionCollectionViewCell.self)) { index, emotion, cell in
+            .bind(to: colEmotion.rx.items(cellIdentifier: PaintEmotionCell.identifier,
+                                          cellType: PaintEmotionCell.self)) { index, emotion, cell in
                 cell.lblEmotion.text = emotion.word
             }
             .disposed(by: disposeBag)
@@ -56,7 +58,7 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         colEmotion.rx.itemSelected
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { indexPath in
-                self.pageViewController.switchViewController(from: indexPath.row)
+                self.pageVC.switchViewController(from: indexPath.row)
             })
             .disposed(by: disposeBag)
         
@@ -67,6 +69,36 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                                            animated: true,
                                            scrollPosition: .left)
             })
+            .disposed(by: disposeBag)
+        
+        // 스티커 있을 때 저장 버튼 활성화
+//        pageVC.currentView.value.stickers
+//            .map {
+//                guard let stickerCount = $0.count else { return false }
+//                return stickerCount > 0
+//            }
+//            .bind(to: btnSave.rx.isEnabled)
+//            .disposed(by: disposeBag)
+        
+        // 저장
+        btnSave.rx.tap
+            .bind {
+                guard let paintVC = self.pageVC.currentView.value,
+                      let paintImageData = paintVC.paintView.asImage().pngData() else { return }
+                var description = ""
+                if let textSticker = paintVC.labelSticker.stickerView as? UILabel {
+                    description = textSticker.text ?? ""
+                }
+                let moment = Moment(emotion: paintVC.emotion,
+                                    date: Date(),
+                                    description: description,
+                                    imageData: paintImageData,
+                                    bgColor: paintVC.bgColor.value)
+                
+                allMoments.append(moment)
+                // 저장 완료
+                self.presentSavedView(paintVC.paintView)
+            }
             .disposed(by: disposeBag)
         
         // 완료
@@ -136,13 +168,37 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "pageSegue" {
             guard let paintPageVC = segue.destination as? PaintPageVC else { return }
-                pageViewController = paintPageVC
-            pageViewController.emotions = emotions.value
-                pageViewController.completeHandler = { (index) in
-                    if index != self.selectedIndex.value {
-                        self.selectedIndex.accept(index)
-                    }
+            pageVC = paintPageVC
+            pageVC.emotions.accept(emotions.value)
+            pageVC.completeHandler = { (index) in
+                if index != self.selectedIndex.value {
+                    self.selectedIndex.accept(index)
                 }
+            }
+        }
+    }
+    
+    /* 저장 완료 화면 */
+    func presentSavedView(_ superView: UIView) {
+        let saveView = UIView(frame: superView.bounds)
+        saveView.backgroundColor = UIColor(rgb: 0x898989).withAlphaComponent(0.5)
+        let lblDone = UILabel(frame: saveView.bounds)
+        lblDone.text = "저장 완료!"
+        lblDone.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        lblDone.textColor = .white
+        lblDone.sizeToFit()
+        lblDone.center = saveView.center
+        saveView.addSubview(lblDone)
+        superView.addSubview(saveView)
+        
+        // 다음 감정 페이지로 이동
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
+            saveView.removeFromSuperview()
+            DispatchQueue.main.async {
+                var nextItem = self.selectedIndex.value + 1
+                if nextItem >= self.emotions.value.count { nextItem = 0 }
+                self.pageVC.switchViewController(from: nextItem)
+            }
         }
     }
     

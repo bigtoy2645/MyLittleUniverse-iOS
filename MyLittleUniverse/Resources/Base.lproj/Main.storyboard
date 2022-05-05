@@ -253,7 +253,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="paintEmotionCell" id="YdH-cn-hwp" customClass="PaintEmotionCollectionViewCell" customModule="MyLittleUniverse" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="paintEmotionCell" id="YdH-cn-hwp" customClass="PaintEmotionCell" customModule="MyLittleUniverse" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="2" width="105" height="46"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="pio-KZ-alD">
@@ -570,7 +570,7 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1MI-jA-kNN" userLabel="Calendar View">
-                                                <rect key="frame" x="0.0" y="868" width="414" height="358"/>
+                                                <rect key="frame" x="0.0" y="876" width="414" height="430"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5월" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MFZ-ce-qEC">
                                                         <rect key="frame" x="192" y="40" width="30" height="24"/>
@@ -622,7 +622,7 @@
                                                         </cells>
                                                     </collectionView>
                                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="NNx-u8-250" userLabel="Moments">
-                                                        <rect key="frame" x="30" y="146" width="354" height="212"/>
+                                                        <rect key="frame" x="30" y="146" width="354" height="204"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="15" minimumInteritemSpacing="15" id="iYb-Dh-8o9">
                                                             <size key="itemSize" width="150" height="230"/>
@@ -690,7 +690,7 @@
                                                     <constraint firstItem="grw-AY-QLA" firstAttribute="leading" secondItem="1MI-jA-kNN" secondAttribute="leading" id="ZqK-vE-2Yk"/>
                                                     <constraint firstItem="MFZ-ce-qEC" firstAttribute="centerX" secondItem="1MI-jA-kNN" secondAttribute="centerX" id="eBd-p1-xsh"/>
                                                     <constraint firstItem="NNx-u8-250" firstAttribute="centerX" secondItem="1MI-jA-kNN" secondAttribute="centerX" id="kmQ-qK-0lp"/>
-                                                    <constraint firstAttribute="bottom" secondItem="NNx-u8-250" secondAttribute="bottom" id="nMV-0y-0HA"/>
+                                                    <constraint firstAttribute="bottom" secondItem="NNx-u8-250" secondAttribute="bottom" constant="80" id="nMV-0y-0HA"/>
                                                     <constraint firstItem="grw-AY-QLA" firstAttribute="top" secondItem="MFZ-ce-qEC" secondAttribute="bottom" constant="10" id="opY-o5-XGP"/>
                                                     <constraint firstItem="NNx-u8-250" firstAttribute="top" secondItem="grw-AY-QLA" secondAttribute="bottom" constant="32" id="sTo-jW-x7M"/>
                                                 </constraints>
@@ -741,7 +741,7 @@
                                             <constraint firstItem="Xjw-F8-A9F" firstAttribute="centerX" secondItem="t93-gp-TPS" secondAttribute="centerX" id="a2A-90-gDH"/>
                                             <constraint firstItem="0Mf-cB-uln" firstAttribute="top" secondItem="t93-gp-TPS" secondAttribute="top" constant="30" id="aLc-SV-FtZ"/>
                                             <constraint firstItem="u1l-t1-OBM" firstAttribute="top" secondItem="Xjw-F8-A9F" secondAttribute="bottom" constant="25" id="aOh-9k-O6S"/>
-                                            <constraint firstItem="1MI-jA-kNN" firstAttribute="top" secondItem="u1l-t1-OBM" secondAttribute="bottom" constant="40" id="d0Y-Il-AmC"/>
+                                            <constraint firstItem="1MI-jA-kNN" firstAttribute="top" secondItem="u1l-t1-OBM" secondAttribute="bottom" constant="48" id="d0Y-Il-AmC"/>
                                             <constraint firstItem="u1l-t1-OBM" firstAttribute="leading" secondItem="0Mf-cB-uln" secondAttribute="leading" id="kbv-hl-Mte"/>
                                             <constraint firstAttribute="trailing" secondItem="1MI-jA-kNN" secondAttribute="trailing" id="q9k-dV-KqZ"/>
                                             <constraint firstItem="Xjw-F8-A9F" firstAttribute="leading" secondItem="0Mf-cB-uln" secondAttribute="leading" id="qXb-Cf-g8A"/>
@@ -750,7 +750,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="t93-gp-TPS" firstAttribute="bottom" secondItem="p2U-b3-zdz" secondAttribute="bottom" id="3G5-CW-Vt3"/>
-                                    <constraint firstItem="p2U-b3-zdz" firstAttribute="bottom" secondItem="1MI-jA-kNN" secondAttribute="bottom" constant="80" id="NLW-AQ-A59"/>
+                                    <constraint firstItem="p2U-b3-zdz" firstAttribute="bottom" secondItem="1MI-jA-kNN" secondAttribute="bottom" id="NLW-AQ-A59"/>
                                     <constraint firstItem="t93-gp-TPS" firstAttribute="trailing" secondItem="p2U-b3-zdz" secondAttribute="trailing" id="Oxi-WH-ZDW"/>
                                     <constraint firstItem="t93-gp-TPS" firstAttribute="width" secondItem="YT9-jI-ncQ" secondAttribute="width" id="eDK-mg-KS2"/>
                                     <constraint firstItem="YT9-jI-ncQ" firstAttribute="bottom" secondItem="MRL-QB-CNr" secondAttribute="bottom" id="fhb-lF-qbM"/>
@@ -1144,10 +1144,10 @@
             </objects>
             <point key="canvasLocation" x="7511.594202898551" y="103.79464285714285"/>
         </scene>
-        <!--Paint View Controller-->
+        <!--PaintVC-->
         <scene sceneID="TCH-sZ-Njg">
             <objects>
-                <viewController storyboardIdentifier="paintView" id="uAV-f1-JXm" customClass="PaintViewController" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="paintView" id="uAV-f1-JXm" customClass="PaintVC" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5A7-FQ-WIk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="750"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

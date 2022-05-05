@@ -6,17 +6,18 @@
 //
 
 import Foundation
+import UIKit
 
 struct ViewMoment {
     let emotion: String
     let date: String
     let description: String
-    let image: String
+    let image: UIImage?
 
     init(_ item: Moment) {
         emotion = item.emotion.word
         description = item.description
-        image = item.image
+        image = UIImage(data: item.imageData)
         
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY.MM.dd"

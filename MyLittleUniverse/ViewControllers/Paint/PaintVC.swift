@@ -15,7 +15,7 @@ struct Handler {
     let redo: (() -> Void)
 }
 
-class PaintViewController: UIViewController {
+class PaintVC: UIViewController {
     static let storyboardID = "paintView"
     
     var emotion = Emotion.empty
@@ -453,7 +453,7 @@ class PaintViewController: UIViewController {
 
 // MARK: - Sticker Functions
 
-extension PaintViewController: UIGestureRecognizerDelegate {
+extension PaintVC: UIGestureRecognizerDelegate {
     /* 스티커 생성 */
     private func createSticker(_ sticker: Sticker, centerPos: CGPoint? = nil, isUndoAction: Bool = false) {
         let imageSticker = StickerEdgeView()

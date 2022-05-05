@@ -17,10 +17,10 @@
 		1A46169927959A0000D2A090 /* SelectStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169827959A0000D2A090 /* SelectStatusVC.swift */; };
 		1A46169B2795A52700D2A090 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169A2795A52700D2A090 /* StatusCell.swift */; };
 		1A46169D27971CD800D2A090 /* ViewMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169C27971CD700D2A090 /* ViewMoment.swift */; };
-		1A46169F279B04A000D2A090 /* PaintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169E279B04A000D2A090 /* PaintViewController.swift */; };
+		1A46169F279B04A000D2A090 /* PaintVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169E279B04A000D2A090 /* PaintVC.swift */; };
 		1A4616A527A51C8D00D2A090 /* PaintEmotionListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616A427A51C8D00D2A090 /* PaintEmotionListVC.swift */; };
 		1A4616A727AC13C500D2A090 /* PaintPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616A627AC13C500D2A090 /* PaintPageVC.swift */; };
-		1A4616A927AE5C6300D2A090 /* PaintEmotionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616A827AE5C6300D2A090 /* PaintEmotionCollectionViewCell.swift */; };
+		1A4616A927AE5C6300D2A090 /* PaintEmotionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616A827AE5C6300D2A090 /* PaintEmotionCell.swift */; };
 		1A4616AB27AE8E7800D2A090 /* ColorChipVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616AA27AE8E7800D2A090 /* ColorChipVC.swift */; };
 		1A4616AD27AE909100D2A090 /* ColorChipCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616AC27AE909100D2A090 /* ColorChipCell.swift */; };
 		1A4616B227AFCA0A00D2A090 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616B127AFCA0A00D2A090 /* UIColor+Extension.swift */; };
@@ -68,10 +68,10 @@
 		1A46169827959A0000D2A090 /* SelectStatusVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStatusVC.swift; sourceTree = "<group>"; };
 		1A46169A2795A52700D2A090 /* StatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusCell.swift; sourceTree = "<group>"; };
 		1A46169C27971CD700D2A090 /* ViewMoment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMoment.swift; sourceTree = "<group>"; };
-		1A46169E279B04A000D2A090 /* PaintViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintViewController.swift; sourceTree = "<group>"; };
+		1A46169E279B04A000D2A090 /* PaintVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintVC.swift; sourceTree = "<group>"; };
 		1A4616A427A51C8D00D2A090 /* PaintEmotionListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintEmotionListVC.swift; sourceTree = "<group>"; };
 		1A4616A627AC13C500D2A090 /* PaintPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintPageVC.swift; sourceTree = "<group>"; };
-		1A4616A827AE5C6300D2A090 /* PaintEmotionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintEmotionCollectionViewCell.swift; sourceTree = "<group>"; };
+		1A4616A827AE5C6300D2A090 /* PaintEmotionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintEmotionCell.swift; sourceTree = "<group>"; };
 		1A4616AA27AE8E7800D2A090 /* ColorChipVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChipVC.swift; sourceTree = "<group>"; };
 		1A4616AC27AE909100D2A090 /* ColorChipCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChipCell.swift; sourceTree = "<group>"; };
 		1A4616B127AFCA0A00D2A090 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -187,8 +187,8 @@
 				1A4616B927C12FC700D2A090 /* Components */,
 				1A4616A427A51C8D00D2A090 /* PaintEmotionListVC.swift */,
 				1A4616A627AC13C500D2A090 /* PaintPageVC.swift */,
-				1A4616A827AE5C6300D2A090 /* PaintEmotionCollectionViewCell.swift */,
-				1A46169E279B04A000D2A090 /* PaintViewController.swift */,
+				1A4616A827AE5C6300D2A090 /* PaintEmotionCell.swift */,
+				1A46169E279B04A000D2A090 /* PaintVC.swift */,
 			);
 			path = Paint;
 			sourceTree = "<group>";
@@ -273,12 +273,12 @@
 			isa = PBXGroup;
 			children = (
 				1AAA1C01281841180054CB5F /* InitVC.swift */,
+				1A8D9B65273AAA7400A1BA53 /* ViewController.swift */,
+				1AD64EBB27D510E100E07EF5 /* AlertViewController.swift */,
 				1A8BC73B27DE2ED200068851 /* Home */,
 				1AAA1BFC27F8935B0054CB5F /* Detail */,
 				1AE216F427C27C27002E945E /* Register */,
 				1A4616A127A5195A00D2A090 /* Paint */,
-				1A8D9B65273AAA7400A1BA53 /* ViewController.swift */,
-				1AD64EBB27D510E100E07EF5 /* AlertViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -452,7 +452,7 @@
 				1A8BC73D27DE2EF200068851 /* DayChipCell.swift in Sources */,
 				1AAA1BFE27F89E630054CB5F /* MonthlyEmotionViewModel.swift in Sources */,
 				1A46168D2781B0F100D2A090 /* MonthlyEmotionVC.swift in Sources */,
-				1A4616A927AE5C6300D2A090 /* PaintEmotionCollectionViewCell.swift in Sources */,
+				1A4616A927AE5C6300D2A090 /* PaintEmotionCell.swift in Sources */,
 				1A4616AB27AE8E7800D2A090 /* ColorChipVC.swift in Sources */,
 				1A4616A727AC13C500D2A090 /* PaintPageVC.swift in Sources */,
 				1A4616B827C12FBA00D2A090 /* TextStickerVC.swift in Sources */,
@@ -462,7 +462,7 @@
 				1AAA1C06281990DB0054CB5F /* Emotion.swift in Sources */,
 				1A4616A527A51C8D00D2A090 /* PaintEmotionListVC.swift in Sources */,
 				1AD64EBC27D510E100E07EF5 /* AlertViewController.swift in Sources */,
-				1A46169F279B04A000D2A090 /* PaintViewController.swift in Sources */,
+				1A46169F279B04A000D2A090 /* PaintVC.swift in Sources */,
 				1A4616AD27AE909100D2A090 /* ColorChipCell.swift in Sources */,
 				1AAA1C02281841180054CB5F /* InitVC.swift in Sources */,
 				1A8D9B64273AAA7400A1BA53 /* SceneDelegate.swift in Sources */,

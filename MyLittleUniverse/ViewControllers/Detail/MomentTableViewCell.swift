@@ -38,7 +38,7 @@ class MomentTableViewCell: UITableViewCell {
             .subscribe(onNext: { [weak self] image in
                 if let frame = self?.frame {
                     let imageView = UIImageView(frame: frame)
-                    imageView.image = UIImage(named: image)
+                    imageView.image = image
                     self?.backgroundView = UIView()
                     self?.backgroundView?.addSubview(imageView)
                 }

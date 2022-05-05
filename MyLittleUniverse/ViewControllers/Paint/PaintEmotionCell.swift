@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PaintEmotionCollectionViewCell: UICollectionViewCell {
+class PaintEmotionCell: UICollectionViewCell {
     static let identifier = "paintEmotionCell"
     
     @IBOutlet weak var lblEmotion: UILabel!

@@ -35,17 +35,17 @@ class MonthlyViewModel {
         let moments = BehaviorRelay<[Int: [Moment]]>(value: [:])
         
         // TODO - date 해당하는 데이터 불러오기
-        moments.accept([1: [Moment(emotion: positiveEmotions[0], date: Date(), description: "", image: "Sample")],
-                        4: [Moment(emotion: positiveEmotions[0], date: Date(), description: "", image: "Sample"),
-                            Moment(emotion: positiveEmotions[1], date: Date(), description: "", image: "Sample")],
-                        10: [Moment(emotion: positiveEmotions[1], date: Date(), description: "", image: "Sample"),
-                             Moment(emotion: positiveEmotions[2], date: Date(), description: "", image: "Sample"),
-                             Moment(emotion: positiveEmotions[3], date: Date(), description: "", image: "Sample")],
-                        20: [Moment(emotion: positiveEmotions[2], date: Date(), description: "", image: "Sample"),
-                             Moment(emotion: positiveEmotions[3], date: Date(), description: "", image: "Sample"),
-                             Moment(emotion: positiveEmotions[4], date: Date(), description: "", image: "Sample"),
-                             Moment(emotion: positiveEmotions[5], date: Date(), description: "", image: "Sample"),
-                             Moment(emotion: positiveEmotions[6], date: Date(), description: "", image: "Sample")]
+        moments.accept([1: [Moment(emotion: positiveEmotions[0], date: Date(), description: "", imageData: Data())],
+                        4: [Moment(emotion: positiveEmotions[0], date: Date(), description: "", imageData: Data()),
+                            Moment(emotion: positiveEmotions[1], date: Date(), description: "", imageData: Data())],
+                        10: [Moment(emotion: positiveEmotions[0], date: Date(), description: "", imageData: Data()),
+                             Moment(emotion: positiveEmotions[2], date: Date(), description: "", imageData: Data()),
+                             Moment(emotion: positiveEmotions[3], date: Date(), description: "", imageData: Data())],
+                        20: [Moment(emotion: positiveEmotions[0], date: Date(), description: "", imageData: Data()),
+                             Moment(emotion: positiveEmotions[3], date: Date(), description: "", imageData: Data()),
+                             Moment(emotion: positiveEmotions[4], date: Date(), description: "", imageData: Data()),
+                             Moment(emotion: positiveEmotions[5], date: Date(), description: "", imageData: Data()),
+                             Moment(emotion: positiveEmotions[6], date: Date(), description: "", imageData: Data())]
         ])
         
         // 감정 기록된 일자

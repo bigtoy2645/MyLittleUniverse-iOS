@@ -6,35 +6,26 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class PaintPageVC: UIPageViewController {
     static let storyboardID = "paintPageView"
     
-    var emotions: [Emotion] = [] {
-        didSet {
-            views.removeAll()
-            for index in 0..<emotions.count {
-                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                if let paintVC = storyBoard.instantiateViewController(identifier: PaintViewController.storyboardID) as? PaintViewController {
-                    paintVC.emotion = emotions[index]
-                    views.append(paintVC)
-                }
-            }
-        }
-    }
-    var completeHandler: ((Int) -> ())?
-    
+    var emotions = BehaviorRelay<[Emotion]>(value: [])
     var views = [UIViewController]()
-    var currentIndex : Int {
-        guard let vc = viewControllers?.first,
-              let index = views.firstIndex(of: vc) else { return 0 }
-        return index
-    }
+    var currentIndex = BehaviorRelay<Int>(value: 0)
+    let currentView = BehaviorRelay<PaintVC?>(value: nil)
+    var disposeBag = DisposeBag()
+    
+    var completeHandler: ((Int) -> ())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         delegate = self
+        
+        setupBindings()
         
         if let firstVC = views.first {
             setViewControllers([firstVC], direction: .forward, animated: false, completion: nil)
@@ -46,7 +37,29 @@ class PaintPageVC: UIPageViewController {
         if index < 0, index >= views.count { return }
         
         setViewControllers([views[index]], direction: .forward, animated: false, completion: nil)
-        completeHandler?(currentIndex)
+        currentIndex.accept(index)
+        completeHandler?(currentIndex.value)
+    }
+    
+    /* Binding */
+    func setupBindings() {
+        emotions
+            .subscribe(onNext: { emotions in
+                self.views.removeAll()
+                for index in 0..<emotions.count {
+                    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                    if let paintVC = storyBoard.instantiateViewController(identifier: PaintVC.storyboardID) as? PaintVC {
+                        paintVC.emotion = emotions[index]
+                        self.views.append(paintVC)
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        currentIndex
+            .map { self.views[$0] as? PaintVC }
+            .subscribe(onNext: currentView.accept(_:))
+            .disposed(by: disposeBag)
     }
 }
 
@@ -59,6 +72,7 @@ extension PaintPageVC: UIPageViewControllerDelegate {
         
         let previousIndex = index - 1
         if previousIndex < 0 { return nil }
+        currentIndex.accept(previousIndex)
         
         return views[previousIndex]
     }
@@ -69,6 +83,7 @@ extension PaintPageVC: UIPageViewControllerDelegate {
         
         let nextIndex = index + 1
         if nextIndex == views.count { return nil }
+        currentIndex.accept(nextIndex)
         
         return views[nextIndex]
     }
@@ -76,7 +91,7 @@ extension PaintPageVC: UIPageViewControllerDelegate {
     /* View 전환 */
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
-            completeHandler?(currentIndex)
+            completeHandler?(currentIndex.value)
         }
     }
 }

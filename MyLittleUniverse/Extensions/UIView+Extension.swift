@@ -24,24 +24,24 @@ extension UIView {
             self.transform = hidden ? slideDown : slideUp
         })
     }
-
+    
     /* 그림자 추가 */
     func addShadow(location: ShadowLocation,
-                   color: UIColor = UIColor.disableGray ?? .systemGray6,
+                   color: UIColor = UIColor.disableGray,
                    opacity: Float = 0.3,
                    radius: CGFloat = 5.0) {
         switch location {
         case .top:
             addShadow(offset: CGSize(width: 0, height: -3), color: color, opacity: opacity, radius: radius)
         case .bottom:
-             addShadow(offset: CGSize(width: 0, height: 3), color: color, opacity: opacity, radius: radius)
+            addShadow(offset: CGSize(width: 0, height: 3), color: color, opacity: opacity, radius: radius)
         case .left:
             addShadow(offset: CGSize(width: -3, height: 0), color: color, opacity: opacity, radius: radius)
         case .right:
             addShadow(offset: CGSize(width: 3, height: 0), color: color, opacity: opacity, radius: radius)
         }
     }
-
+    
     /* 그림자 추가 */
     func addShadow(offset: CGSize, color: UIColor, opacity: Float, radius: CGFloat) {
         self.layer.masksToBounds = false
@@ -49,5 +49,13 @@ extension UIView {
         self.layer.shadowOffset = offset
         self.layer.shadowOpacity = opacity
         self.layer.shadowRadius = radius
+    }
+    
+    /* UIImage로 변환 */
+    func asImage() -> UIImage {
+        let renderer = UIGraphicsImageRenderer(bounds: bounds)
+        return renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
+        }
     }
 }

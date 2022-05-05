@@ -26,7 +26,7 @@ class DayMomentCell: UICollectionViewCell {
             .bind(to: lblStatus.rx.text)
             .disposed(by: disposeBag)
         
-        moment.map { UIImage(named: $0.image) }
+        moment.map { UIImage(data: $0.imageData) }
             .bind(to: imageView.rx.image)
             .disposed(by: disposeBag)
         
