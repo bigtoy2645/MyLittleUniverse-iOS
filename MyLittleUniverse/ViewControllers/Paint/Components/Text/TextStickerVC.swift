@@ -10,12 +10,10 @@ import RxSwift
 import RxCocoa
 
 class TextStickerVC: UIViewController, UITextViewDelegate {
-    static let identifier = "paintTextView"
-    
-    let maxCount = 40
     var emotion = BehaviorRelay<Emotion>(value: Emotion.empty)
-    var disposeBag = DisposeBag()
+    let maxCount = 40
     var completeHandler: ((String) -> ())?
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()

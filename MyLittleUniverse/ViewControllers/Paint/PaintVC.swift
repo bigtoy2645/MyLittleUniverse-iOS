@@ -16,8 +16,6 @@ struct Handler {
 }
 
 class PaintVC: UIViewController {
-    static let storyboardID = "paintView"
-    
     var emotion = Emotion.empty
     var stickers = [StickerEdgeView]()
     let labelSticker = StickerEdgeView()
@@ -69,7 +67,7 @@ class PaintVC: UIViewController {
     }
     
     var colorPickerMode: ColorPickerMode = .background
-    var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -347,7 +345,7 @@ class PaintVC: UIViewController {
     }
     
     private lazy var colorChips: ColorChipVC? = {
-        guard let colorVC = self.storyboard?.instantiateViewController(withIdentifier: ColorChipVC.identifier) as? ColorChipVC else { return nil }
+        guard let colorVC = Route.getVC(.colorChipVC) as? ColorChipVC else { return nil }
         colorVC.completeHandler = { (hexColor) in
             DispatchQueue.main.async {
                 self.pickColor(hexColor)
@@ -358,7 +356,7 @@ class PaintVC: UIViewController {
     }()
     
     private lazy var pictureStickers: PictureStickerVC? = {
-        guard let stickerVC = self.storyboard?.instantiateViewController(withIdentifier: PictureStickerVC.identifier) as? PictureStickerVC else { return nil }
+        guard let stickerVC = Route.getVC(.pictureStickerVC) as? PictureStickerVC else { return nil }
         stickerVC.completeHandler = { (image) in
             DispatchQueue.main.async {
                 if let image = image { self.createSticker(Sticker(type: .picture, image: image)) }
@@ -369,7 +367,7 @@ class PaintVC: UIViewController {
     }()
     
     private lazy var clippingStickers: ClippingPictureStickerVC? = {
-        guard let stickerVC = self.storyboard?.instantiateViewController(withIdentifier: ClippingPictureStickerVC.identifier) as? ClippingPictureStickerVC else { return nil }
+        guard let stickerVC = Route.getVC(.clippingStickerVC) as? ClippingPictureStickerVC else { return nil }
         stickerVC.completeHandler = { (image) in
             DispatchQueue.main.async {
                 if let image = image,
@@ -389,7 +387,7 @@ class PaintVC: UIViewController {
     }()
     
     private lazy var shapeStickers: ShapeStickerVC? = {
-        guard let stickerVC = self.storyboard?.instantiateViewController(withIdentifier: ShapeStickerVC.identifier) as? ShapeStickerVC else { return nil }
+        guard let stickerVC = Route.getVC(.shapeStickerVC) as? ShapeStickerVC else { return nil }
         stickerVC.completeHandler = { (image) in
             DispatchQueue.main.async {
                 if let image = image { self.createSticker(Sticker(type: .shape, image: image)) }
@@ -400,7 +398,7 @@ class PaintVC: UIViewController {
     }()
     
     private lazy var textSticker: TextStickerVC? = {
-        guard let textVC = self.storyboard?.instantiateViewController(withIdentifier: TextStickerVC.identifier) as? TextStickerVC else { return nil }
+        guard let textVC = Route.getVC(.textStickerVC) as? TextStickerVC else { return nil }
         textVC.emotion.accept(emotion)
         textVC.completeHandler = { (description) in
             DispatchQueue.main.async {

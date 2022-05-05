@@ -15,7 +15,7 @@ class DayChipCell: UICollectionViewCell {
     @IBOutlet weak var lblDay: UILabel!
     
     let isRecorded = BehaviorRelay<Bool>(value: false)
-    var disposeBag = DisposeBag()
+    private var disposeBag = DisposeBag()
     
     override func layoutSubviews() {
         layer.cornerRadius = frame.width / 2
@@ -45,7 +45,6 @@ class DayChipCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
         disposeBag = DisposeBag()
     }
 }

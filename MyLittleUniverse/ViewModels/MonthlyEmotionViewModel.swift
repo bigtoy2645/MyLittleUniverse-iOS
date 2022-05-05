@@ -16,7 +16,7 @@ class MonthlyEmotionViewModel {
     let numOfDayString: Observable<String>
     let dateString: Observable<String>
     
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     init(date: Date, emotion: Emotion) {
         let date = Observable.just(date)

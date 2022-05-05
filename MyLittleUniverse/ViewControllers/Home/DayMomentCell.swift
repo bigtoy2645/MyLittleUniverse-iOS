@@ -13,7 +13,7 @@ class DayMomentCell: UICollectionViewCell {
     static let identifier = "dayMomentCell"
     
     var moment = BehaviorRelay<Moment>(value: Moment.empty)
-    var disposeBag = DisposeBag()
+    private var disposeBag = DisposeBag()
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var statueView: UIView!

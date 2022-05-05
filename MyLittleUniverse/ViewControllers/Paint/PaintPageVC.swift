@@ -10,15 +10,12 @@ import RxSwift
 import RxCocoa
 
 class PaintPageVC: UIPageViewController {
-    static let storyboardID = "paintPageView"
-    
     var emotions = BehaviorRelay<[Emotion]>(value: [])
     var views = [UIViewController]()
     var currentIndex = BehaviorRelay<Int>(value: 0)
     let currentView = BehaviorRelay<PaintVC?>(value: nil)
-    var disposeBag = DisposeBag()
-    
-    var completeHandler: ((Int) -> ())?
+    var pageSwitchHandler: ((Int) -> ())?
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +35,7 @@ class PaintPageVC: UIPageViewController {
         
         setViewControllers([views[index]], direction: .forward, animated: false, completion: nil)
         currentIndex.accept(index)
-        completeHandler?(currentIndex.value)
+        pageSwitchHandler?(currentIndex.value)
     }
     
     /* Binding */
@@ -47,8 +44,7 @@ class PaintPageVC: UIPageViewController {
             .subscribe(onNext: { emotions in
                 self.views.removeAll()
                 for index in 0..<emotions.count {
-                    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                    if let paintVC = storyBoard.instantiateViewController(identifier: PaintVC.storyboardID) as? PaintVC {
+                    if let paintVC = Route.getVC(.paintVC) as? PaintVC {
                         paintVC.emotion = emotions[index]
                         self.views.append(paintVC)
                     }
@@ -91,7 +87,7 @@ extension PaintPageVC: UIPageViewControllerDelegate {
     /* View 전환 */
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
-            completeHandler?(currentIndex.value)
+            pageSwitchHandler?(currentIndex.value)
         }
     }
 }

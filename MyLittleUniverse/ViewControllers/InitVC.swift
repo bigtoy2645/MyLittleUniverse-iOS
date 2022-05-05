@@ -9,10 +9,8 @@ import UIKit
 import RxSwift
 
 class InitVC: UIViewController {
-    static let storyboardID = "initView"
-    
     var name = Observable.of("마리유")
-    var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +26,7 @@ class InitVC: UIViewController {
         // 등록 화면으로 이동
         btnRegister.rx.tap
             .bind {
-                guard let registerVC = self.storyboard?.instantiateViewController(withIdentifier: SelectStatusVC.storyboardID) else { return }
+                let registerVC = Route.getVC(.selectStatusVC)
                 self.navigationController?.pushViewController(registerVC, animated: false)
             }
             .disposed(by: disposeBag)

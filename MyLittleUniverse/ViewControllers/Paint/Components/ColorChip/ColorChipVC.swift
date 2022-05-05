@@ -9,8 +9,6 @@ import UIKit
 import RxSwift
 
 class ColorChipVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
-    static let identifier = "paintColorChipView"
-    
     var hexColors = BehaviorSubject<[Int]>(value: [
         0xF03636, 0xFA6103, 0xFFC123, 0xF6E43E, 0x69C852, 0x5DBBFF, 0x2C41AC, 0x6D3289,
         0xF34757, 0xF45039, 0xFA9926, 0xECCD2B, 0x2DAE85, 0x223C2D, 0x294966, 0x3C2347,
@@ -20,7 +18,7 @@ class ColorChipVC: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
     
     var selectedColor = BehaviorSubject<Int?>(value: nil)
     var completeHandler: ((Int) -> ())?
-    var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()

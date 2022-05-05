@@ -11,7 +11,7 @@ import RxCocoa
 
 class StickerEdgeView: UIView {
     let sticker = BehaviorRelay<Sticker>(value: Sticker(type: .picture))
-    var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     enum ButtonPosition {
         case leftTop

@@ -9,10 +9,8 @@ import UIKit
 import RxSwift
 
 class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
-    static let storyboardID = "selectStatusView"
-    
     let allStatus: [Status] = [.positive, .negative, .neutral, .random]
-    var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +45,7 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { index in
                 Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
-                    guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: SelectEmotionsVC.storyboardID) as? SelectEmotionsVC else { return }
+                    guard let detailVC = Route.getVC(.selectEmotionsVC) as? SelectEmotionsVC else { return }
                     let status = self.allStatus[index.row]
                     detailVC.status.accept(status)
                     self.navigationController?.pushViewController(detailVC, animated: false)

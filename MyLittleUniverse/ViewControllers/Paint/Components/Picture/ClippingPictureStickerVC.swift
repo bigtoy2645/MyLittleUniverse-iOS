@@ -9,11 +9,9 @@ import UIKit
 import RxSwift
 
 class ClippingPictureStickerVC: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    static let identifier = "paintClippingPictureStickerView"
-    
     var originImage = BehaviorSubject<UIImage?>(value: nil)
     var completeHandler: ((UIImage?) -> ())?
-    var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()

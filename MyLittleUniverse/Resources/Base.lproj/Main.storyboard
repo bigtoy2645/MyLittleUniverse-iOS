@@ -1365,10 +1365,10 @@
             </objects>
             <point key="canvasLocation" x="34.782608695652179" y="805.58035714285711"/>
         </scene>
-        <!--Alert View Controller-->
+        <!--AlertVC-->
         <scene sceneID="FgP-4b-1QQ">
             <objects>
-                <viewController storyboardIdentifier="alertView" id="Mej-Vi-NrC" customClass="AlertViewController" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="alertView" id="Mej-Vi-NrC" customClass="AlertVC" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="prO-X8-Jvx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

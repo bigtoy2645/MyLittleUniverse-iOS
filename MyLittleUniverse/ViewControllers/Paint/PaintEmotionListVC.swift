@@ -10,12 +10,10 @@ import RxSwift
 import RxCocoa
 
 class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
-    static let storyboardID = "paintListView"
-    
     var pageVC = PaintPageVC()
     let emotions = BehaviorRelay<[Emotion]>(value: [])
     var selectedIndex = BehaviorRelay(value: 0)
-    var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,7 +102,7 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         // 완료
         btnSaveAll.rx.tap
             .bind {
-                guard let alertVC = self.storyboard?.instantiateViewController(withIdentifier: AlertViewController.storyboardID) as? AlertViewController else { return }
+                guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
                 
                 alertVC.modalPresentationStyle = .overFullScreen
                 let alert = Alert(title: "꾸미기가 진행된 단어만 저장됩니다.",
@@ -115,7 +113,7 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                 alertVC.addCancelButton() { self.dismiss(animated: false) }
                 alertVC.addRunButton(color: UIColor.mainBlack) {
                     self.dismiss(animated: false)
-                    guard let alertToast = self.storyboard?.instantiateViewController(withIdentifier: AlertViewController.storyboardID) as? AlertViewController else { return }
+                    guard let alertToast = Route.getVC(.alertVC) as? AlertVC else { return }
                     
                     alertToast.modalPresentationStyle = .overFullScreen
                     let alert = Alert(title: "오늘의 감정이 모두 저장되었습니다.",
@@ -145,7 +143,7 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         btnCancel.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                guard let alertVC = self.storyboard?.instantiateViewController(withIdentifier: AlertViewController.storyboardID) as? AlertViewController else { return }
+                guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
                 
                 alertVC.modalPresentationStyle = .overFullScreen
                 let alert = Alert(title: "선택하신 감정 단어도 모두 사라집니다.\n꾸미지 않고 종료하시겠어요?",
@@ -170,7 +168,7 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
             guard let paintPageVC = segue.destination as? PaintPageVC else { return }
             pageVC = paintPageVC
             pageVC.emotions.accept(emotions.value)
-            pageVC.completeHandler = { (index) in
+            pageVC.pageSwitchHandler = { (index) in
                 if index != self.selectedIndex.value {
                     self.selectedIndex.accept(index)
                 }

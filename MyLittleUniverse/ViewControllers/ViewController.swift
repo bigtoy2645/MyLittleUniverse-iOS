@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     
     var token: String?
     let signInConfig = GIDConfiguration.init(clientID: "473547658230-7hsfeljikdbaqv1u5o39a0vmc1skl1uf.apps.googleusercontent.com")
-    var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +29,8 @@ class ViewController: UIViewController {
         btnLogin.rx.tap
             .bind {
 //                guard self.token != nil else { return }
-                guard let homeVC = self.storyboard?.instantiateViewController(withIdentifier: MonthlyVC.storyboardID) else { return }
-                self.navigationController?.pushViewController(homeVC, animated: false)
+                guard let initVC = Route.getVC(.initVC) as? InitVC else { return }
+                self.navigationController?.pushViewController(initVC, animated: false)
             }
             .disposed(by: disposeBag)
     }

@@ -41,11 +41,12 @@
 		1AAA1C06281990DB0054CB5F /* Emotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAA1C05281990DB0054CB5F /* Emotion.swift */; };
 		1AAA1C08281AE3B50054CB5F /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAA1C07281AE3B50054CB5F /* Status.swift */; };
 		1AAA1C0A281EB05B0054CB5F /* DayMomentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAA1C09281EB05B0054CB5F /* DayMomentCell.swift */; };
+		1AAA1C0E28240B5F0054CB5F /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAA1C0D28240B5F0054CB5F /* Route.swift */; };
 		1ACFA3062740F7E400821337 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA3052740F7E400821337 /* GoogleService-Info.plist */; };
 		1ACFA30827410ED600821337 /* MonthlyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFA30727410ED600821337 /* MonthlyVC.swift */; };
 		1AD64EB827CE0F0100E07EF5 /* Sticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EB727CE0F0100E07EF5 /* Sticker.swift */; };
 		1AD64EBA27CE528D00E07EF5 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EB927CE528D00E07EF5 /* UICollectionView+Extension.swift */; };
-		1AD64EBC27D510E100E07EF5 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBB27D510E100E07EF5 /* AlertViewController.swift */; };
+		1AD64EBC27D510E100E07EF5 /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBB27D510E100E07EF5 /* AlertVC.swift */; };
 		1AD64EBE27D8E80D00E07EF5 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBD27D8E80D00E07EF5 /* Alert.swift */; };
 		1AD64EC027D8E87F00E07EF5 /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */; };
 		1AE216F127C27A1B002E945E /* emotionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F027C27A1B002E945E /* emotionCell.swift */; };
@@ -94,11 +95,12 @@
 		1AAA1C05281990DB0054CB5F /* Emotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emotion.swift; sourceTree = "<group>"; };
 		1AAA1C07281AE3B50054CB5F /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		1AAA1C09281EB05B0054CB5F /* DayMomentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayMomentCell.swift; sourceTree = "<group>"; };
+		1AAA1C0D28240B5F0054CB5F /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		1ACFA3052740F7E400821337 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1ACFA30727410ED600821337 /* MonthlyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyVC.swift; sourceTree = "<group>"; };
 		1AD64EB727CE0F0100E07EF5 /* Sticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sticker.swift; sourceTree = "<group>"; };
 		1AD64EB927CE528D00E07EF5 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
-		1AD64EBB27D510E100E07EF5 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		1AD64EBB27D510E100E07EF5 /* AlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertVC.swift; sourceTree = "<group>"; };
 		1AD64EBD27D8E80D00E07EF5 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
 		1AE216F027C27A1B002E945E /* emotionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = emotionCell.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 		1A8D9B60273AAA7400A1BA53 /* MyLittleUniverse */ = {
 			isa = PBXGroup;
 			children = (
+				1AAA1C0B28240B3A0054CB5F /* Common */,
 				1A46168E2787118F00D2A090 /* Models */,
 				1A46168F2787119600D2A090 /* ViewModels */,
 				1ACFA2FF2740F17B00821337 /* ViewControllers */,
@@ -269,12 +272,20 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
+		1AAA1C0B28240B3A0054CB5F /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				1AAA1C0D28240B5F0054CB5F /* Route.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		1ACFA2FF2740F17B00821337 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				1AAA1C01281841180054CB5F /* InitVC.swift */,
 				1A8D9B65273AAA7400A1BA53 /* ViewController.swift */,
-				1AD64EBB27D510E100E07EF5 /* AlertViewController.swift */,
+				1AD64EBB27D510E100E07EF5 /* AlertVC.swift */,
 				1A8BC73B27DE2ED200068851 /* Home */,
 				1AAA1BFC27F8935B0054CB5F /* Detail */,
 				1AE216F427C27C27002E945E /* Register */,
@@ -461,12 +472,13 @@
 				1A4616B627C0E78D00D2A090 /* ShapeStickerVC.swift in Sources */,
 				1AAA1C06281990DB0054CB5F /* Emotion.swift in Sources */,
 				1A4616A527A51C8D00D2A090 /* PaintEmotionListVC.swift in Sources */,
-				1AD64EBC27D510E100E07EF5 /* AlertViewController.swift in Sources */,
+				1AD64EBC27D510E100E07EF5 /* AlertVC.swift in Sources */,
 				1A46169F279B04A000D2A090 /* PaintVC.swift in Sources */,
 				1A4616AD27AE909100D2A090 /* ColorChipCell.swift in Sources */,
 				1AAA1C02281841180054CB5F /* InitVC.swift in Sources */,
 				1A8D9B64273AAA7400A1BA53 /* SceneDelegate.swift in Sources */,
 				1AD64EBA27CE528D00E07EF5 /* UICollectionView+Extension.swift in Sources */,
+				1AAA1C0E28240B5F0054CB5F /* Route.swift in Sources */,
 				1AE216F827CA8440002E945E /* StickerEdgeView.swift in Sources */,
 				1A4616B427B8EDEF00D2A090 /* ShapeStickerCell.swift in Sources */,
 				1A0C85AD27DDF0790056B8B8 /* UIImage+Extension.swift in Sources */,

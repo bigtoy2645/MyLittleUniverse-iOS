@@ -14,11 +14,9 @@ class ImageCacheManager {
 }
 
 class PictureStickerVC: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    static let identifier = "paintPictureStickerView"
-    
-    var completeHandler: ((UIImage?) -> ())?
-    var disposeBag = DisposeBag()
     var stickers = BehaviorSubject<[String]>(value: [])
+    var completeHandler: ((UIImage?) -> ())?
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()

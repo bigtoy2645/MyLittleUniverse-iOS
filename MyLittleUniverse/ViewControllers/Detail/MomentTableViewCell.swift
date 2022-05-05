@@ -13,7 +13,7 @@ class MomentTableViewCell: UITableViewCell {
     static let identifier = "momentCell"
     
     var moment: ViewMoment
-    var disposeBag = DisposeBag()
+    private var disposeBag = DisposeBag()
     
     override func layoutSubviews() {
         super.layoutSubviews()

@@ -1,5 +1,5 @@
 //
-//  PaintStickerViewController.swift
+//  ShapeStickerVC.swift
 //  MyLittleUniverse
 //
 //  Created by yurim on 2022/02/19.
@@ -14,12 +14,10 @@ enum StickerShapeType {
 }
 
 class ShapeStickerVC: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    static let identifier = "paintShapeStickerView"
-    
-    var completeHandler: ((UIImage?) -> ())?
-    var disposeBag = DisposeBag()
     var type = BehaviorSubject<StickerShapeType>(value: .lineShape)
     var stickers = BehaviorSubject<[String]>(value: [])
+    var completeHandler: ((UIImage?) -> ())?
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -11,13 +11,11 @@ import RxCocoa
 
 class SelectEmotionsVC: UIViewController,
                                   UICollectionViewDelegateFlowLayout, UICollectionViewDelegate,
-                                  UIGestureRecognizerDelegate {
-    static let storyboardID = "selectEmotionsView"
-    
+                                  UIGestureRecognizerDelegate {    
     let status = BehaviorRelay<Status>(value: .positive)
     let selectedEmotions = BehaviorRelay<[Emotion]>(value: [])
     let selectedEmotionCount = BehaviorRelay<Int>(value: 0)
-    var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,7 +108,7 @@ class SelectEmotionsVC: UIViewController,
         // 선택 완료
         btnDone.rx.tap
             .bind {
-                guard let paintListVC = self.storyboard?.instantiateViewController(withIdentifier: PaintEmotionListVC.storyboardID) as? PaintEmotionListVC else { return }
+                guard let paintListVC = Route.getVC(.paintEmotionListVC) as? PaintEmotionListVC else { return }
                 // 선택한 Emotion 전달
                 paintListVC.emotions.accept(self.selectedEmotions.value)
                 self.navigationController?.pushViewController(paintListVC, animated: false)

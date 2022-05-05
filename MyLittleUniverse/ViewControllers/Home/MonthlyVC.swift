@@ -10,10 +10,8 @@ import RxSwift
 import RxCocoa
 
 class MonthlyVC: UIViewController {
-    static let storyboardID = "homeView"
-    
     let viewModel = MonthlyViewModel(date: Date())
-    var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +26,7 @@ class MonthlyVC: UIViewController {
         setupBindings()
         
         // 감정 등록 화면으로 이동
-        guard let registerVC = self.storyboard?.instantiateViewController(withIdentifier: SelectStatusVC.storyboardID) else { return }
+        let registerVC = Route.getVC(.selectStatusVC)
         self.navigationController?.pushViewController(registerVC, animated: false)
     }
     
@@ -114,7 +112,7 @@ class MonthlyVC: UIViewController {
         // 등록 화면으로 이동
         btnRegister.rx.tap
             .bind {
-                guard let registerVC = self.storyboard?.instantiateViewController(withIdentifier: SelectStatusVC.storyboardID) else { return }
+                let registerVC = Route.getVC(.selectStatusVC)
                 self.navigationController?.pushViewController(registerVC, animated: false)
             }
             .disposed(by: disposeBag)
@@ -218,7 +216,7 @@ class MonthlyVC: UIViewController {
     
     /* 이달의 발견 세부 화면 표시 */
     func presentMonthlyView(emotion: Emotion) {
-        guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: MonthlyEmotionVC.storyboardID) as? MonthlyEmotionVC else { return }
+        guard let detailVC = Route.getVC(.monthlyEmotionVC) as? MonthlyEmotionVC else { return }
         detailVC.viewModel = MonthlyEmotionViewModel(date: Date(), emotion: emotion)
         self.navigationController?.pushViewController(detailVC, animated: true)
     }

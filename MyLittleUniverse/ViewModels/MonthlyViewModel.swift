@@ -26,9 +26,9 @@ class MonthlyViewModel {
     let ranking1: Observable<EmotionCount?>
     let ranking2: Observable<EmotionCount?>
     let ranking3: Observable<EmotionCount?>
-    private let sortedRankings: Observable<[Dictionary<Emotion, Int>.Element]>
     
-    let disposeBag = DisposeBag()
+    private let sortedRankings: Observable<[Dictionary<Emotion, Int>.Element]>
+    private let disposeBag = DisposeBag()
     
     init(date: Date) {
         let date = Observable.just(date)

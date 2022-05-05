@@ -9,11 +9,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class AlertViewController: UIViewController {
-    static let storyboardID = "alertView"
-    
+class AlertVC: UIViewController {
     var vm = AlertViewModel()
-    var disposeBag = DisposeBag()
+    private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
