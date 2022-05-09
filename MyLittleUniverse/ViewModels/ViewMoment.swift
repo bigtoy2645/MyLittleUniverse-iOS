@@ -11,16 +11,13 @@ import UIKit
 struct ViewMoment {
     let emotion: String
     let date: String
-    let description: String
+    let text: String
     let image: UIImage?
 
     init(_ item: Moment) {
         emotion = item.emotion.word
-        description = item.description
+        text = item.text
         image = UIImage(data: item.imageData)
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY.MM.dd"
-        date = formatter.string(from: item.date)
+        date = "\(item.year).\(item.month).\(item.day)"
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Emotion: Hashable {
+struct Emotion: Hashable, Codable {
     let word: String
     let origin: String
     let part: partSpeech
@@ -18,7 +18,7 @@ extension Emotion {
     static let empty = Emotion(word: "N/A", origin: "N/A", part: .notAvailable, definition: "N/A")
 }
 
-enum partSpeech: String {
+enum partSpeech: String, Codable {
     case noun = "명"
     case verb = "동"
     case adjective = "형"

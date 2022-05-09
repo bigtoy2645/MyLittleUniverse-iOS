@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 
 class InitVC: UIViewController {
-    var name = Observable.of("마리유")
+    var userName = Observable.of(Repository.instance.userName)
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -19,7 +19,7 @@ class InitVC: UIViewController {
     
     /* Binding */
     func setupBindings() {
-        name.map { "반가워요\n\($0)님!" }
+        userName.map { "반가워요\n\($0)님!" }
             .bind(to: lblName.rx.text)
             .disposed(by: disposeBag)
         

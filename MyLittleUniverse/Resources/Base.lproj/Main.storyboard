@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BIh-pz-BLh">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BIh-pz-BLh">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -187,27 +187,14 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UhE-nT-CWq" customClass="GIDSignInButton">
-                                <rect key="frame" x="30" y="518.5" width="48" height="48"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="3eA-3z-Qyc"/>
-                                    <constraint firstAttribute="width" constant="48" id="jOA-NR-P8a"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="googleLoginButtonPressed:" destination="BYZ-38-t0r" eventType="valueChanged" id="wFF-bz-LYE"/>
-                                </connections>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="BackgroundGreen"/>
                         <constraints>
-                            <constraint firstItem="UhE-nT-CWq" firstAttribute="top" secondItem="rPf-Kr-zzL" secondAttribute="bottom" constant="16" id="1oO-Oa-Gls"/>
                             <constraint firstItem="huY-Gi-JCw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="3Ve-EJ-W7n"/>
                             <constraint firstItem="jn8-bd-bWk" firstAttribute="top" secondItem="rPf-Kr-zzL" secondAttribute="top" id="5Di-fU-jAg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="jn8-bd-bWk" secondAttribute="trailing" constant="30" id="7lN-2S-XP6"/>
                             <constraint firstItem="8QE-Pc-0cE" firstAttribute="leading" secondItem="huY-Gi-JCw" secondAttribute="leading" id="CyL-eB-kbd"/>
-                            <constraint firstItem="UhE-nT-CWq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="JCM-wb-EDl"/>
                             <constraint firstItem="8QE-Pc-0cE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="MtS-En-uIt"/>
                             <constraint firstItem="huY-Gi-JCw" firstAttribute="top" secondItem="qjB-sv-Rx1" secondAttribute="bottom" constant="16" id="Nft-uf-G1O"/>
                             <constraint firstItem="rPf-Kr-zzL" firstAttribute="top" secondItem="huY-Gi-JCw" secondAttribute="bottom" constant="16" id="Zl5-68-3Li"/>
@@ -221,7 +208,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="5kJ-xO-zgg"/>
                     <connections>
-                        <outlet property="btnGoogleLogin" destination="UhE-nT-CWq" id="82e-9a-AkX"/>
                         <outlet property="btnLogin" destination="huY-Gi-JCw" id="JWz-Cv-sL3"/>
                         <outlet property="lblTitle" destination="8QE-Pc-0cE" id="MJH-9H-tnR"/>
                         <outlet property="txtID" destination="hBk-na-bsn" id="W1a-SI-vj1"/>
@@ -785,6 +771,7 @@
                         <outlet property="lblRanking1Days" destination="u7J-oJ-QWG" id="2c1-xt-Taf"/>
                         <outlet property="lblRanking2" destination="TWc-7h-sc3" id="ock-s0-oXT"/>
                         <outlet property="lblRanking3" destination="Zv9-1h-peo" id="mId-9d-7u0"/>
+                        <outlet property="lblUserName" destination="s6Y-2v-nGE" id="bPv-bZ-WIs"/>
                         <outlet property="rankingView" destination="u1l-t1-OBM" id="SOe-c8-Pdy"/>
                         <outlet property="scrollView" destination="ApY-sc-80G" id="o5A-Ss-I9V"/>
                         <outlet property="tabView" destination="MRL-QB-CNr" id="Irb-lc-PLy"/>
@@ -1898,9 +1885,6 @@
         </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

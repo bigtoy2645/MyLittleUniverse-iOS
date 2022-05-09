@@ -34,4 +34,23 @@ extension UIColor {
             blue: rgb & 0xFF
         )
     }
+    
+    /* RGB Hex */
+    func rgb() -> Int? {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        
+        if getRed(&red, green: &green, blue: &blue, alpha: &alpha) {
+            let iRed = Int(red * 255.0)
+            let iGreen = Int(green * 255.0)
+            let iBlue = Int(blue * 255.0)
+            let iAlpha = Int(alpha * 255.0)
+            let rgb = (iAlpha << 24) + (iRed << 16) + (iGreen << 8) + iBlue
+            return rgb
+        }
+        
+        return nil
+    }
 }

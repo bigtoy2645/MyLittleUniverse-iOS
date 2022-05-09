@@ -45,7 +45,7 @@ class MomentTableViewCell: UITableViewCell {
             })
             .disposed(by: disposeBag)
         
-        moment.map { $0.description }
+        moment.map { $0.text }
             .asObservable()
             .bind(to: lblDescription.rx.text)
             .disposed(by: disposeBag)

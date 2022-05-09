@@ -10,12 +10,13 @@ import RxSwift
 import RxCocoa
 
 class MonthlyVC: UIViewController {
-    let viewModel = MonthlyViewModel(date: Date())
+    let viewModel = MonthlyViewModel()
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        lblUserName.text = "\(Repository.instance.userName)님의"
         btnMainEmotion.layer.borderWidth = 1
         btnMainEmotion.layer.cornerRadius = 13
         btnMainEmotion.layer.borderColor = btnMainEmotion.currentTitleColor.cgColor
@@ -79,7 +80,7 @@ class MonthlyVC: UIViewController {
             .bind(to: colDays.rx.items(cellIdentifier: DayChipCell.identifier,
                                           cellType: DayChipCell.self)) { index, day, cell in
                 cell.lblDay.text = String(day)
-                let isRecorded = self.viewModel.recoredDays.value.contains(day)
+                let isRecorded = self.viewModel.recordedDays.value.contains(day)
                 cell.isSelected = (self.viewModel.selectedDay.value == index)
                 cell.isRecorded.accept(isRecorded)
             }
@@ -226,6 +227,7 @@ class MonthlyVC: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var tabView: UIView!
     
+    @IBOutlet weak var lblUserName: UILabel!
     @IBOutlet weak var btnMainEmotion: UIButton!
     
     @IBOutlet weak var rankingView: UIStackView!

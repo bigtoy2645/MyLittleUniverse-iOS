@@ -6,8 +6,6 @@ target 'MyLittleUniverse' do
   use_frameworks!
 
   # Pods for MyLittleUniverse
-  pod 'Firebase/Auth'
-  pod 'GoogleSignIn'
   pod 'RxSwift', '6.2.0'
   pod 'RxCocoa', '6.2.0'
   pod 'RxGesture'
