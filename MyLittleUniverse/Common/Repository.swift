@@ -15,7 +15,7 @@ class Repository: NSObject {
     public private(set) var userName: String = ""
     public private(set) var moments = BehaviorRelay<[Moment]>(value: [])
     
-    private var user = BehaviorRelay<User>(value: User(name: ""))
+    private var user = BehaviorRelay<User>(value: User(name: "마리유"))
     private let disposeBag = DisposeBag()
     
     override init() {

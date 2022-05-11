@@ -12,6 +12,7 @@
 		1A0C85B527DE02C00056B8B8 /* PictureStickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0C85B427DE02C00056B8B8 /* PictureStickerCell.swift */; };
 		1A26D2662826501B006A8086 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A26D2652826501B006A8086 /* User.swift */; };
 		1A26D26828265BF6006A8086 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A26D26728265BF6006A8086 /* Date+Extension.swift */; };
+		1A26D26A282BE269006A8086 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A26D269282BE269006A8086 /* Array+Extension.swift */; };
 		1A46168D2781B0F100D2A090 /* MonthlyEmotionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46168C2781B0F100D2A090 /* MonthlyEmotionVC.swift */; };
 		1A4616912787120E00D2A090 /* Moment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616902787120E00D2A090 /* Moment.swift */; };
 		1A461694278715C800D2A090 /* MomentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A461692278715C800D2A090 /* MomentTableViewCell.swift */; };
@@ -67,6 +68,7 @@
 		1A0C85B427DE02C00056B8B8 /* PictureStickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureStickerCell.swift; sourceTree = "<group>"; };
 		1A26D2652826501B006A8086 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1A26D26728265BF6006A8086 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		1A26D269282BE269006A8086 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		1A46168C2781B0F100D2A090 /* MonthlyEmotionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyEmotionVC.swift; sourceTree = "<group>"; };
 		1A4616902787120E00D2A090 /* Moment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Moment.swift; sourceTree = "<group>"; };
 		1A461692278715C800D2A090 /* MomentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentTableViewCell.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				1AD64EB927CE528D00E07EF5 /* UICollectionView+Extension.swift */,
 				1A0C85AC27DDF0790056B8B8 /* UIImage+Extension.swift */,
 				1A26D26728265BF6006A8086 /* Date+Extension.swift */,
+				1A26D269282BE269006A8086 /* Array+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -481,6 +484,7 @@
 				1A0C85AF27DE003F0056B8B8 /* PictureStickerVC.swift in Sources */,
 				1A4616B627C0E78D00D2A090 /* ShapeStickerVC.swift in Sources */,
 				1AAA1C06281990DB0054CB5F /* Emotion.swift in Sources */,
+				1A26D26A282BE269006A8086 /* Array+Extension.swift in Sources */,
 				1A4616A527A51C8D00D2A090 /* PaintEmotionListVC.swift in Sources */,
 				1AD64EBC27D510E100E07EF5 /* AlertVC.swift in Sources */,
 				1A46169F279B04A000D2A090 /* PaintVC.swift in Sources */,

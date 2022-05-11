@@ -81,9 +81,11 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         // 저장
         btnSave.rx.tap
             .bind {
+                self.pageVC.currentView.value?.focusSticker = nil
                 guard let paintVC = self.pageVC.currentView.value,
                       let paintImageData = paintVC.paintView.asImage().pngData() else { return }
                 var textLabel = "", textColor = 0x000000
+                
                 if let textSticker = paintVC.labelSticker.stickerView as? UILabel {
                     textLabel = textSticker.text ?? ""
                     textColor = textSticker.textColor.rgb() ?? 0x000000
@@ -125,10 +127,15 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                             Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
                                 self.dismiss(animated: false)
                                 guard let controllers = self.navigationController?.viewControllers else { return }
-                                for vc in controllers {
-                                    if vc is MonthlyVC {
-                                        self.navigationController?.popToViewController(vc, animated: false)
-                                        break
+                                if controllers.filter({ $0 is MonthlyVC }).isEmpty {
+                                    let homeVC = Route.getVC(.monthlyVC)
+                                    self.navigationController?.pushViewController(homeVC, animated: false)
+                                } else {
+                                    for vc in controllers {
+                                        if vc is MonthlyVC {
+                                            self.navigationController?.popToViewController(vc, animated: false)
+                                            break
+                                        }
                                     }
                                 }
                             }

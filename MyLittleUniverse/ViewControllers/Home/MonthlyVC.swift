@@ -26,6 +26,12 @@ class MonthlyVC: UIViewController {
         
         setupBindings()
         
+        // TODO - itemSelected Event X
+        let dayIndex = IndexPath(row: viewModel.selectedIndex.value, section: 0)
+        colDays.selectItem(at: dayIndex,
+                           animated: false,
+                           scrollPosition: .right)
+        
         // 감정 등록 화면으로 이동
         let registerVC = Route.getVC(.selectStatusVC)
         self.navigationController?.pushViewController(registerVC, animated: false)
@@ -78,26 +84,33 @@ class MonthlyVC: UIViewController {
         
         Observable.of(Array(1...31))
             .bind(to: colDays.rx.items(cellIdentifier: DayChipCell.identifier,
-                                          cellType: DayChipCell.self)) { index, day, cell in
+                                       cellType: DayChipCell.self)) { index, day, cell in
                 cell.lblDay.text = String(day)
                 let isRecorded = self.viewModel.recordedDays.value.contains(day)
-                cell.isSelected = (self.viewModel.selectedDay.value == index)
+                cell.isSelected = (self.viewModel.selectedIndex.value == index)
                 cell.isRecorded.accept(isRecorded)
             }
-            .disposed(by: disposeBag)
+                                       .disposed(by: disposeBag)
         
         colDays.rx.itemSelected
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { index in
-                self.viewModel.selectedDay.accept(index.row)
+                self.viewModel.selectedIndex.accept(index.row)
             })
             .disposed(by: disposeBag)
         
         viewModel.selectedMoments
-            .bind(to: colMomentsOfDay.rx.items(cellIdentifier: DayMomentCell.identifier,
-                                               cellType: DayMomentCell.self)) { index, moment, cell in
-                cell.moment.accept(moment)
+            .map { _ in
+                let height = self.colMomentsOfDay.contentSize.height
+                if height <= 0 { return self.momentsHeight.constant }
+                return height
             }
+            .bind(to: momentsHeight.rx.constant)
+            .disposed(by: disposeBag)
+        
+        viewModel.selectedMoments
+            .bind(to: colMomentsOfDay.rx.items(cellIdentifier: DayMomentCell.identifier,
+                                               cellType: DayMomentCell.self)) { index, moment, cell in cell.moment.accept(moment) }
             .disposed(by: disposeBag)
     }
     
@@ -127,7 +140,7 @@ class MonthlyVC: UIViewController {
     
     /* 랭킹 Binding */
     func rankingBinding() {
-        viewModel.ranking0
+        viewModel.rankings.map { $0[0] }
             .bind { ranking in
                 let rankingView = self.rankingView.arrangedSubviews[0]
                 self.lblRanking0.text = ranking.emotion.word
@@ -144,7 +157,7 @@ class MonthlyVC: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        viewModel.ranking1
+        viewModel.rankings.map { $0[safe: 1] }
             .bind { ranking in
                 let rankingView = self.rankingView.arrangedSubviews[1]
                 guard let ranking = ranking else {
@@ -166,7 +179,7 @@ class MonthlyVC: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        viewModel.ranking2
+        viewModel.rankings.map { $0[safe: 2] }
             .bind { ranking in
                 let rankingView = self.rankingView.arrangedSubviews[2]
                 guard let ranking = ranking else {
@@ -187,7 +200,7 @@ class MonthlyVC: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        viewModel.ranking3
+        viewModel.rankings.map { $0[safe: 3] }
             .bind { ranking in
                 let rankingView = self.rankingView.arrangedSubviews[3]
                 guard let ranking = ranking else {
@@ -240,6 +253,7 @@ class MonthlyVC: UIViewController {
     
     @IBOutlet weak var colDays: UICollectionView!
     @IBOutlet weak var colMomentsOfDay: UICollectionView!
+    @IBOutlet weak var momentsHeight: NSLayoutConstraint!
     
     @IBOutlet weak var btnHome: UIButton!
     @IBOutlet weak var btnRegister: UIButton!
