@@ -70,7 +70,7 @@ class MonthlyVC: UIViewController {
             .disposed(by: disposeBag)
         
         btnMainEmotion.rx.tap
-            .bind { self.presentMonthlyView(emotion: self.viewModel.mainEmotion.value) }
+            .bind { self.presentMonthlyView(0) }
             .disposed(by: disposeBag)
         
         // 날짜별 감정
@@ -142,18 +142,8 @@ class MonthlyVC: UIViewController {
     func rankingBinding() {
         viewModel.rankings.map { $0[0] }
             .bind { ranking in
-                let rankingView = self.rankingView.arrangedSubviews[0]
                 self.lblRanking0.text = ranking.emotion.word
                 self.lblRanking0Days.text = "\(ranking.count) days"
-                
-                rankingView.rx
-                    .tapGesture()
-                    .when(.recognized)
-                    .subscribe(onNext: { _ in
-                        self.presentMonthlyView(emotion: ranking.emotion)
-                    })
-                    .disposed(by: self.disposeBag)
-                
             }
             .disposed(by: disposeBag)
         
@@ -167,15 +157,6 @@ class MonthlyVC: UIViewController {
                 rankingView.isHidden = false
                 self.lblRanking1.text = ranking.emotion.word
                 self.lblRanking1Days.text = "\(ranking.count) days"
-                
-                rankingView.rx
-                    .tapGesture()
-                    .when(.recognized)
-                    .subscribe(onNext: { _ in
-                        self.presentMonthlyView(emotion: ranking.emotion)
-                    })
-                    .disposed(by: self.disposeBag)
-                
             }
             .disposed(by: disposeBag)
         
@@ -188,15 +169,6 @@ class MonthlyVC: UIViewController {
                 }
                 rankingView.isHidden = false
                 self.lblRanking2.text = ranking.emotion.word
-                
-                rankingView.rx
-                    .tapGesture()
-                    .when(.recognized)
-                    .subscribe(onNext: { _ in
-                        self.presentMonthlyView(emotion: ranking.emotion)
-                    })
-                    .disposed(by: self.disposeBag)
-                
             }
             .disposed(by: disposeBag)
         
@@ -208,16 +180,7 @@ class MonthlyVC: UIViewController {
                     return
                 }
                 rankingView.isHidden = false
-                self.lblRanking1.text = ranking.emotion.word
-                
-                rankingView.rx
-                    .tapGesture()
-                    .when(.recognized)
-                    .subscribe(onNext: { _ in
-                        self.presentMonthlyView(emotion: ranking.emotion)
-                    })
-                    .disposed(by: self.disposeBag)
-                
+                self.lblRanking3.text = ranking.emotion.word
             }
             .disposed(by: disposeBag)
         
@@ -226,12 +189,24 @@ class MonthlyVC: UIViewController {
                 self.rankingView.arrangedSubviews[4].isHidden = emotions.count <= 4
             }
             .disposed(by: disposeBag)
+        
+        for rankingIndex in 0..<4 {
+            if let subview = rankingView.arrangedSubviews[safe: rankingIndex] {
+                subview.rx
+                    .tapGesture()
+                    .when(.recognized)
+                    .subscribe(onNext: { _ in self.presentMonthlyView(rankingIndex) })
+                    .disposed(by: self.disposeBag)
+            }
+        }
     }
     
     /* 이달의 발견 세부 화면 표시 */
-    func presentMonthlyView(emotion: Emotion) {
-        guard let detailVC = Route.getVC(.monthlyEmotionVC) as? MonthlyEmotionVC else { return }
-        detailVC.viewModel = MonthlyEmotionViewModel(date: Date(), emotion: emotion)
+    func presentMonthlyView(_ index: Int) {
+        guard let detailVC = Route.getVC(.monthlyEmotionVC) as? MonthlyEmotionVC,
+              let emotionCount = viewModel.rankings.value[safe: index] else { return }
+        
+        detailVC.viewModel = MonthlyEmotionViewModel(emotion: emotionCount.emotion)
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     

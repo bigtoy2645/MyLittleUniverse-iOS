@@ -19,7 +19,6 @@
 		1A461695278715C800D2A090 /* MomentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A461693278715C800D2A090 /* MomentTableViewCell.xib */; };
 		1A46169927959A0000D2A090 /* SelectStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169827959A0000D2A090 /* SelectStatusVC.swift */; };
 		1A46169B2795A52700D2A090 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169A2795A52700D2A090 /* StatusCell.swift */; };
-		1A46169D27971CD800D2A090 /* ViewMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169C27971CD700D2A090 /* ViewMoment.swift */; };
 		1A46169F279B04A000D2A090 /* PaintVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46169E279B04A000D2A090 /* PaintVC.swift */; };
 		1A4616A527A51C8D00D2A090 /* PaintEmotionListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616A427A51C8D00D2A090 /* PaintEmotionListVC.swift */; };
 		1A4616A727AC13C500D2A090 /* PaintPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4616A627AC13C500D2A090 /* PaintPageVC.swift */; };
@@ -75,7 +74,6 @@
 		1A461693278715C800D2A090 /* MomentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MomentTableViewCell.xib; sourceTree = "<group>"; };
 		1A46169827959A0000D2A090 /* SelectStatusVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStatusVC.swift; sourceTree = "<group>"; };
 		1A46169A2795A52700D2A090 /* StatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusCell.swift; sourceTree = "<group>"; };
-		1A46169C27971CD700D2A090 /* ViewMoment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMoment.swift; sourceTree = "<group>"; };
 		1A46169E279B04A000D2A090 /* PaintVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintVC.swift; sourceTree = "<group>"; };
 		1A4616A427A51C8D00D2A090 /* PaintEmotionListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintEmotionListVC.swift; sourceTree = "<group>"; };
 		1A4616A627AC13C500D2A090 /* PaintPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintPageVC.swift; sourceTree = "<group>"; };
@@ -186,7 +184,6 @@
 			children = (
 				1AAA1BF927F811A20054CB5F /* MonthlyViewModel.swift */,
 				1AAA1BFD27F89E630054CB5F /* MonthlyEmotionViewModel.swift */,
-				1A46169C27971CD700D2A090 /* ViewMoment.swift */,
 				1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */,
 			);
 			path = ViewModels;
@@ -504,7 +501,6 @@
 				1ACFA30827410ED600821337 /* MonthlyVC.swift in Sources */,
 				1AAA1C08281AE3B50054CB5F /* Status.swift in Sources */,
 				1AAA1C0A281EB05B0054CB5F /* DayMomentCell.swift in Sources */,
-				1A46169D27971CD800D2A090 /* ViewMoment.swift in Sources */,
 				1A4616912787120E00D2A090 /* Moment.swift in Sources */,
 				1AE216F127C27A1B002E945E /* emotionCell.swift in Sources */,
 				1A26D2662826501B006A8086 /* User.swift in Sources */,

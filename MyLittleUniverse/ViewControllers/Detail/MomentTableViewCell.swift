@@ -12,7 +12,7 @@ class MomentTableViewCell: UITableViewCell {
     static let nibName = "MomentTableViewCell"
     static let identifier = "momentCell"
     
-    var moment: ViewMoment
+    var moment = Moment.empty
     private var disposeBag = DisposeBag()
     
     override func layoutSubviews() {
@@ -23,26 +23,17 @@ class MomentTableViewCell: UITableViewCell {
         
         setupBindings()
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        moment = ViewMoment(Moment.empty)
-        super.init(coder: aDecoder)
-    }
     
     /* Binding */
     func setupBindings() {
         let moment = Observable.just(self.moment)
         
-        moment.map { $0.image }
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] image in
-                if let frame = self?.frame {
-                    let imageView = UIImageView(frame: frame)
-                    imageView.image = image
-                    self?.backgroundView = UIView()
-                    self?.backgroundView?.addSubview(imageView)
-                }
-            })
+        moment.map { UIColor(rgb: $0.bgColor) }
+            .bind(to: contentView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+        
+        moment.map { UIImage(data: $0.imageData) }
+            .bind(to: imageCard.rx.image)
             .disposed(by: disposeBag)
         
         moment.map { $0.text }
@@ -50,11 +41,11 @@ class MomentTableViewCell: UITableViewCell {
             .bind(to: lblDescription.rx.text)
             .disposed(by: disposeBag)
         
-        moment.map { $0.date }
+        moment.map { "\($0.year).\($0.month).\($0.day)" }
             .bind(to: lblDate.rx.text)
             .disposed(by: disposeBag)
         
-        moment.map { $0.emotion }
+        moment.map { $0.emotion.word }
             .bind(to: lblEmotion.rx.text)
             .disposed(by: disposeBag)
     }
@@ -70,4 +61,6 @@ class MomentTableViewCell: UITableViewCell {
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var lblEmotion: UILabel!
+    @IBOutlet weak var imageCard: UIImageView!
+    @IBOutlet weak var btnKebab: UIButton!
 }

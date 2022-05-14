@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 class MonthlyEmotionVC: UIViewController, UITableViewDelegate, UIGestureRecognizerDelegate {
-    var viewModel = MonthlyEmotionViewModel(date: Date(), emotion: Emotion.empty)
+    var viewModel = MonthlyEmotionViewModel(emotion: Emotion.empty)
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -41,12 +41,24 @@ class MonthlyEmotionVC: UIViewController, UITableViewDelegate, UIGestureRecogniz
             }
             .disposed(by: disposeBag)
         
+        sortingView.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                let isLatest = self.viewModel.isLatest.value
+                self.viewModel.isLatest.accept(!isLatest)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isLatest
+            .map { $0 ? "최신순" : "등록일순" }
+            .bind(to: lblSorting.rx.text)
+            .disposed(by: disposeBag)
+        
         viewModel.moments
             .bind(to: tableView.rx.items(cellIdentifier: MomentTableViewCell.identifier,
-                                         cellType: MomentTableViewCell.self)) {
-                _, item, cell in
-                cell.moment = ViewMoment(item)
-            }
+                                         cellType: MomentTableViewCell.self)
+            ) { _, item, cell in cell.moment = item }
             .disposed(by: disposeBag)
         
         viewModel.emotionString
@@ -70,7 +82,9 @@ class MonthlyEmotionVC: UIViewController, UITableViewDelegate, UIGestureRecogniz
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var btnBack: UIButton!
-    @IBOutlet weak var btnSorting: UIButton!
+    
+    @IBOutlet weak var sortingView: UIStackView!
+    @IBOutlet weak var lblSorting: UILabel!
     
     @IBOutlet weak var lblEmotion: UILabel!
     @IBOutlet weak var lblDate: UILabel!
