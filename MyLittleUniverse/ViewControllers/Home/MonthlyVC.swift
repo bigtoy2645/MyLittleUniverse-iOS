@@ -110,7 +110,10 @@ class MonthlyVC: UIViewController {
         
         viewModel.selectedMoments
             .bind(to: colMomentsOfDay.rx.items(cellIdentifier: DayMomentCell.identifier,
-                                               cellType: DayMomentCell.self)) { index, moment, cell in cell.moment.accept(moment) }
+                                               cellType: DayMomentCell.self)) { index, moment, cell in
+                cell.moment.accept(moment)
+                cell.layoutIfNeeded()
+            }
             .disposed(by: disposeBag)
     }
     

@@ -58,7 +58,10 @@ class MonthlyEmotionVC: UIViewController, UITableViewDelegate, UIGestureRecogniz
         viewModel.moments
             .bind(to: tableView.rx.items(cellIdentifier: MomentTableViewCell.identifier,
                                          cellType: MomentTableViewCell.self)
-            ) { _, item, cell in cell.moment = item }
+            ) { _, item, cell in
+                cell.moment.onNext(item)
+                cell.layoutIfNeeded()
+            }
             .disposed(by: disposeBag)
         
         viewModel.emotionString
@@ -75,7 +78,7 @@ class MonthlyEmotionVC: UIViewController, UITableViewDelegate, UIGestureRecogniz
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 460
+        return UITableView.automaticDimension
     }
     
     // MARK: - InterfaceBuilder Links

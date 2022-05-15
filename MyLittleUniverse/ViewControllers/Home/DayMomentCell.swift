@@ -26,6 +26,10 @@ class DayMomentCell: UICollectionViewCell {
             .bind(to: lblStatus.rx.text)
             .disposed(by: disposeBag)
         
+        moment.map { UIColor(rgb: $0.bgColor).isLight() ? UIColor.black : UIColor.white }
+            .bind(to: lblStatus.rx.textColor)
+            .disposed(by: disposeBag)
+        
         moment.map { UIImage(data: $0.imageData) }
             .bind(to: imageView.rx.image)
             .disposed(by: disposeBag)
