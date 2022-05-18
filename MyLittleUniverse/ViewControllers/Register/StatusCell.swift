@@ -16,7 +16,7 @@ class StatusCell: UICollectionViewCell {
         super.init(coder: coder)
         
         layer.borderWidth = 0.5
-        layer.borderColor = UIColor.bgGreen70?.cgColor
+        layer.borderColor = UIColor.bgGreen70.cgColor
     }
     
     override var isSelected: Bool {

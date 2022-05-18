@@ -55,6 +55,11 @@ class Repository: NSObject {
         moments.accept(newMoments)
     }
     
+    /* 사용자 이름 등록 */
+    func register(userName: String) {
+        user.accept(User(name: userName))
+    }
+    
     enum Key: String {
         case user = "User"
         case moments = "Moments"

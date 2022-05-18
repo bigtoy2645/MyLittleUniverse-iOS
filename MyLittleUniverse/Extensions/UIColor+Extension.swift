@@ -8,15 +8,15 @@
 import UIKit
 
 extension UIColor {
-    static let bgGreen = UIColor(named: "BackgroundGreen")
-    static let bgGreen70 = UIColor(named: "BackgroundGreen70")
-    static let pointPurple = UIColor(named: "PointPurple")
-    static let pointYellow = UIColor(named: "PointYellow")
-    static let pointLightYellow = UIColor(named: "PointLightYellow")
-    static let mainBlack = UIColor(named: "MainBlack") ?? .black
-    static let errorRed = UIColor(named: "ErrorRed")
-    static let mediumGray = UIColor(named: "MediumGray")
-    static let disableGray = UIColor(named: "DisableGray") ?? .systemGray6
+    static let bgGreen = UIColor(named: "BackgroundGreen")!
+    static let bgGreen70 = UIColor(named: "BackgroundGreen70")!
+    static let pointPurple = UIColor(named: "PointPurple")!
+    static let pointYellow = UIColor(named: "PointYellow")!
+    static let pointLightYellow = UIColor(named: "PointLightYellow")!
+    static let mainBlack = UIColor(named: "MainBlack")!
+    static let errorRed = UIColor(named: "ErrorRed")!
+    static let mediumGray = UIColor(named: "MediumGray")!
+    static let disableGray = UIColor(named: "DisableGray")!
     
     convenience init(red: Int, green: Int, blue: Int, a: Int = 0xFF) {
         self.init(

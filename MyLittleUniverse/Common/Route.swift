@@ -9,6 +9,7 @@ import UIKit
 
 class Route {
     enum ViewId: String {
+        case nickNameVC = "nickNameView"
         case initVC = "initView"
         case alertVC = "alertView"
         case monthlyVC = "homeView"
@@ -29,6 +30,12 @@ class Route {
     static func getVC(_ viewId: ViewId) -> UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         return storyboard.instantiateViewController(withIdentifier: viewId.rawValue)
+    }
+    
+    static func switchHome() {
+        let homeVC = Route.getVC(.monthlyVC)
+        UIApplication.shared.windows.first?.rootViewController = UINavigationController(rootViewController: homeVC)
+        UIApplication.shared.windows.first?.makeKeyAndVisible()
     }
 }
 
