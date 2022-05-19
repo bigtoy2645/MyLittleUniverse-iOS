@@ -13,6 +13,7 @@ class MomentTableViewCell: UITableViewCell {
     static let identifier = "momentCell"
     
     var moment = BehaviorSubject<Moment>(value: Moment.empty)
+    let textColor = BehaviorSubject<UIColor>(value: UIColor.black)
     private var disposeBag = DisposeBag()
     
     override func layoutSubviews() {
@@ -28,10 +29,6 @@ class MomentTableViewCell: UITableViewCell {
     func setupBindings() {
         moment.map { UIColor(rgb: $0.bgColor) }
             .bind(to: contentView.rx.backgroundColor)
-            .disposed(by: disposeBag)
-        
-        moment.map { UIColor(rgb: $0.bgColor).isLight() ? UIColor.black : UIColor.white }
-            .bind(to: btnKebab.rx.tintColor)
             .disposed(by: disposeBag)
         
         moment.map { UIImage(data: $0.imageData) }
@@ -55,12 +52,29 @@ class MomentTableViewCell: UITableViewCell {
             .bind(to: lblEmotion.rx.text)
             .disposed(by: disposeBag)
         
-        moment.subscribe(onNext: {
-            let textColor = $0.text.isEmpty ? self.btnKebab.tintColor : UIColor(rgb: $0.textColor)
-                self.lblDate.textColor = textColor
-                self.lblSeperator.textColor = textColor
-                self.lblEmotion.textColor = textColor
-            })
+        // Color
+        moment.map { UIColor(rgb: $0.textColor) }
+            .subscribe(onNext: textColor.onNext(_:))
+            .disposed(by: disposeBag)
+        
+        textColor
+            .bind(to: btnKebab.rx.tintColor)
+            .disposed(by: disposeBag)
+        
+        textColor
+            .bind(to: lblDate.rx.textColor)
+            .disposed(by: disposeBag)
+        
+        textColor
+            .bind(to: lblSeperator.rx.textColor)
+            .disposed(by: disposeBag)
+        
+        textColor
+            .bind(to: lblEmotion.rx.textColor)
+            .disposed(by: disposeBag)
+        
+        textColor
+            .bind(to: lblDescription.rx.textColor)
             .disposed(by: disposeBag)
     }
     

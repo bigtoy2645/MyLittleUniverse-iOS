@@ -15,10 +15,6 @@ class DayMomentCell: UICollectionViewCell {
     var moment = BehaviorRelay<Moment>(value: Moment.empty)
     private var disposeBag = DisposeBag()
     
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var statueView: UIView!
-    @IBOutlet weak var lblStatus: UILabel!
-    
     override func layoutSubviews() {
         layer.cornerRadius = 8
         
@@ -26,7 +22,7 @@ class DayMomentCell: UICollectionViewCell {
             .bind(to: lblStatus.rx.text)
             .disposed(by: disposeBag)
         
-        moment.map { UIColor(rgb: $0.bgColor).isLight() ? UIColor.black : UIColor.white }
+        moment.map { UIColor(rgb: $0.textColor) }
             .bind(to: lblStatus.rx.textColor)
             .disposed(by: disposeBag)
         
@@ -43,4 +39,10 @@ class DayMomentCell: UICollectionViewCell {
         super.prepareForReuse()
         disposeBag = DisposeBag()
     }
+    
+    // MARK: - InterfaceBuilder Links
+    
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var statueView: UIView!
+    @IBOutlet weak var lblStatus: UILabel!
 }

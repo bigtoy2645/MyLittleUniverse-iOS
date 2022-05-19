@@ -84,17 +84,20 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                 self.pageVC.currentView.value?.focusSticker = nil
                 guard let paintVC = self.pageVC.currentView.value,
                       let paintImageData = paintVC.paintView.asImage().pngData() else { return }
-                var textLabel = "", textColor = 0x000000
+                
+                let bgColor = paintVC.bgColor.value
+                var textLabel = ""
+                var textColor = UIColor(rgb: bgColor).isLight() ? 0x000000 : 0xFFFFFF
                 
                 if let textSticker = paintVC.labelSticker.stickerView as? UILabel {
                     textLabel = textSticker.text ?? ""
-                    textColor = textSticker.textColor.rgb() ?? 0x000000
+                    textColor = textSticker.textColor.rgb() ?? textColor
                 }
                 let moment = Moment(emotion: paintVC.emotion,
                                     text: textLabel,
                                     textColor: textColor,
                                     imageData: paintImageData,
-                                    bgColor: paintVC.bgColor.value)
+                                    bgColor: bgColor)
                 
                 Repository.instance.add(moment: moment)
                 // 저장 완료
