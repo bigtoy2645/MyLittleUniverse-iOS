@@ -38,9 +38,9 @@ class MonthlyEmotionViewModel {
             .map { isLatestOrder -> [Moment] in
                 var moments = self.moments.value
                 if isLatestOrder {
-                    moments = moments.sorted { $0.day > $1.day }
+                    moments = moments.sorted { $0.timeStamp > $1.timeStamp }
                 } else {
-                    moments = moments.sorted { $0.day < $1.day }
+                    moments = moments.sorted { $0.timeStamp < $1.timeStamp }
                 }
                 return moments
             }

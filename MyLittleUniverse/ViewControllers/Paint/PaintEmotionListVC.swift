@@ -12,7 +12,8 @@ import RxCocoa
 class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
     var pageVC = PaintPageVC()
     let emotions = BehaviorRelay<[Emotion]>(value: [])
-    var selectedIndex = BehaviorRelay(value: 0)
+    let selectedIndex = BehaviorRelay(value: 0)
+    let timeStamp = BehaviorRelay<Date>(value: Date())
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -93,7 +94,8 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                     textLabel = textSticker.text ?? ""
                     textColor = textSticker.textColor.rgb() ?? textColor
                 }
-                let moment = Moment(emotion: paintVC.emotion,
+                let moment = Moment(timeStamp: self.timeStamp.value.timeIntervalSinceReferenceDate,
+                                    emotion: paintVC.emotion,
                                     text: textLabel,
                                     textColor: textColor,
                                     imageData: paintImageData,

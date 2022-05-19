@@ -7,9 +7,11 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     let allStatus: [Status] = [.positive, .negative, .neutral, .random]
+    let timeStamp = BehaviorRelay<Date>(value: Date())
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -17,7 +19,7 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY. MM. dd. EEE. hh:mm a"
-        lblDate.text = formatter.string(from: Date())
+        lblDate.text = formatter.string(from: timeStamp.value)
         
         setupBindings()
     }
@@ -48,6 +50,7 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
                     guard let detailVC = Route.getVC(.selectEmotionsVC) as? SelectEmotionsVC else { return }
                     let status = self.allStatus[index.row]
                     detailVC.status.accept(status)
+                    detailVC.timeStamp.accept(self.timeStamp.value)
                     self.navigationController?.pushViewController(detailVC, animated: false)
                 }
             })

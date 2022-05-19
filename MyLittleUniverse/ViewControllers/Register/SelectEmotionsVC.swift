@@ -15,6 +15,7 @@ class SelectEmotionsVC: UIViewController,
     let status = BehaviorRelay<Status>(value: .positive)
     let selectedEmotions = BehaviorRelay<[Emotion]>(value: [])
     let selectedEmotionCount = BehaviorRelay<Int>(value: 0)
+    let timeStamp = BehaviorRelay<Date>(value: Date())
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -110,6 +111,7 @@ class SelectEmotionsVC: UIViewController,
             .bind {
                 guard let paintListVC = Route.getVC(.paintEmotionListVC) as? PaintEmotionListVC else { return }
                 // 선택한 Emotion 전달
+                paintListVC.timeStamp.accept(self.timeStamp.value)
                 paintListVC.emotions.accept(self.selectedEmotions.value)
                 self.navigationController?.pushViewController(paintListVC, animated: false)
             }
