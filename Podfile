@@ -10,4 +10,5 @@ target 'MyLittleUniverse' do
   pod 'RxCocoa', '6.2.0'
   pod 'RxGesture'
   pod 'Alamofire'
+  pod 'FSCalendar'
 end

@@ -134,9 +134,11 @@ class MonthlyVC: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        // TODO - 마이페이지로 이동
+        // 마이페이지로 이동
         btnMypage.rx.tap
             .bind {
+                let myPageVC = Route.getVC(.myPageVC)
+                self.navigationController?.pushViewController(myPageVC, animated: false)
             }
             .disposed(by: disposeBag)
     }

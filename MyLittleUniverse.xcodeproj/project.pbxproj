@@ -51,6 +51,7 @@
 		1AD64EBC27D510E100E07EF5 /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBB27D510E100E07EF5 /* AlertVC.swift */; };
 		1AD64EBE27D8E80D00E07EF5 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBD27D8E80D00E07EF5 /* Alert.swift */; };
 		1AD64EC027D8E87F00E07EF5 /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */; };
+		1AE11D5F2836693C0050AA31 /* MyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11D5E2836693C0050AA31 /* MyPageVC.swift */; };
 		1AE216F127C27A1B002E945E /* emotionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F027C27A1B002E945E /* emotionCell.swift */; };
 		1AE216F327C27B6E002E945E /* SelectEmotionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F227C27B6E002E945E /* SelectEmotionsVC.swift */; };
 		1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F527CA0AD6002E945E /* UIView+Extension.swift */; };
@@ -108,6 +109,7 @@
 		1AD64EBB27D510E100E07EF5 /* AlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertVC.swift; sourceTree = "<group>"; };
 		1AD64EBD27D8E80D00E07EF5 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
+		1AE11D5E2836693C0050AA31 /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
 		1AE216F027C27A1B002E945E /* emotionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = emotionCell.swift; sourceTree = "<group>"; };
 		1AE216F227C27B6E002E945E /* SelectEmotionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEmotionsVC.swift; sourceTree = "<group>"; };
 		1AE216F527CA0AD6002E945E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				1AAA1C01281841180054CB5F /* InitVC.swift */,
 				1A8D9B65273AAA7400A1BA53 /* ViewController.swift */,
 				1AD64EBB27D510E100E07EF5 /* AlertVC.swift */,
+				1AE11D5D2836691B0050AA31 /* MyPage */,
 				1A8BC73B27DE2ED200068851 /* Home */,
 				1AAA1BFC27F8935B0054CB5F /* Detail */,
 				1AE216F427C27C27002E945E /* Register */,
@@ -313,6 +316,14 @@
 				1AE216F927CA8456002E945E /* StickerEdgeView.xib */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		1AE11D5D2836691B0050AA31 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				1AE11D5E2836693C0050AA31 /* MyPageVC.swift */,
+			);
+			path = MyPage;
 			sourceTree = "<group>";
 		};
 		1AE216F427C27C27002E945E /* Register */ = {
@@ -482,6 +493,7 @@
 				1A4616B627C0E78D00D2A090 /* ShapeStickerVC.swift in Sources */,
 				1AAA1C06281990DB0054CB5F /* Emotion.swift in Sources */,
 				1A26D26A282BE269006A8086 /* Array+Extension.swift in Sources */,
+				1AE11D5F2836693C0050AA31 /* MyPageVC.swift in Sources */,
 				1A4616A527A51C8D00D2A090 /* PaintEmotionListVC.swift in Sources */,
 				1AD64EBC27D510E100E07EF5 /* AlertVC.swift in Sources */,
 				1A46169F279B04A000D2A090 /* PaintVC.swift in Sources */,
@@ -655,7 +667,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = MyLittleUniverse/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -677,7 +689,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = MyLittleUniverse/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
