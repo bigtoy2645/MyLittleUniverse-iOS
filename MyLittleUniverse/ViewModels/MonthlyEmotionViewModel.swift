@@ -34,7 +34,10 @@ class MonthlyEmotionViewModel {
         
         emotionString = Observable.just(emotion.word)
         numOfDayString = moments.map { "for \($0.count) days" }
-        dateString = Observable.of("\(date.year).\(date.month)")
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY.MM"
+        dateString = Observable.of(formatter.string(from: date))
         
         isLatest
             .map { isLatestOrder -> [Moment] in

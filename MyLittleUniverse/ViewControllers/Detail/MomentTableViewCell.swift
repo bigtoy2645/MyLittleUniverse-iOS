@@ -50,9 +50,14 @@ class MomentTableViewCell: UITableViewCell {
             .bind(to: lblDescription.rx.text)
             .disposed(by: disposeBag)
         
-        moment.map { "\($0.year).\($0.month).\($0.day)" }
-            .bind(to: lblDate.rx.text)
-            .disposed(by: disposeBag)
+        moment.map {
+            let formatter = DateFormatter()
+            let date = Date(timeIntervalSinceReferenceDate: $0.timeStamp)
+            formatter.dateFormat = "YYYY.MM.dd"
+            return formatter.string(from: date)
+        }
+        .bind(to: lblDate.rx.text)
+        .disposed(by: disposeBag)
         
         moment.map { $0.emotion.word }
             .bind(to: lblEmotion.rx.text)
