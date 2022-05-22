@@ -25,6 +25,7 @@ class Route {
         case clippingStickerVC = "paintClippingPictureStickerView"
         case selectStatusVC = "selectStatusView"
         case myPageVC = "myPageView"
+        case myUniverseVC = "myUniverseView"
     }
     
     /* ViewController */

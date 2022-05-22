@@ -52,6 +52,7 @@
 		1AD64EBE27D8E80D00E07EF5 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBD27D8E80D00E07EF5 /* Alert.swift */; };
 		1AD64EC027D8E87F00E07EF5 /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */; };
 		1AE11D5F2836693C0050AA31 /* MyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11D5E2836693C0050AA31 /* MyPageVC.swift */; };
+		1AE11D61283940220050AA31 /* MyUniverseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11D60283940220050AA31 /* MyUniverseVC.swift */; };
 		1AE216F127C27A1B002E945E /* emotionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F027C27A1B002E945E /* emotionCell.swift */; };
 		1AE216F327C27B6E002E945E /* SelectEmotionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F227C27B6E002E945E /* SelectEmotionsVC.swift */; };
 		1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F527CA0AD6002E945E /* UIView+Extension.swift */; };
@@ -110,6 +111,7 @@
 		1AD64EBD27D8E80D00E07EF5 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
 		1AE11D5E2836693C0050AA31 /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
+		1AE11D60283940220050AA31 /* MyUniverseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUniverseVC.swift; sourceTree = "<group>"; };
 		1AE216F027C27A1B002E945E /* emotionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = emotionCell.swift; sourceTree = "<group>"; };
 		1AE216F227C27B6E002E945E /* SelectEmotionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEmotionsVC.swift; sourceTree = "<group>"; };
 		1AE216F527CA0AD6002E945E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				1AE11D5E2836693C0050AA31 /* MyPageVC.swift */,
+				1AE11D60283940220050AA31 /* MyUniverseVC.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 				1A4616B827C12FBA00D2A090 /* TextStickerVC.swift in Sources */,
 				1AAA1BF727F748390054CB5F /* ClippingPictureStickerVC.swift in Sources */,
 				1A0C85AF27DE003F0056B8B8 /* PictureStickerVC.swift in Sources */,
+				1AE11D61283940220050AA31 /* MyUniverseVC.swift in Sources */,
 				1A4616B627C0E78D00D2A090 /* ShapeStickerVC.swift in Sources */,
 				1AAA1C06281990DB0054CB5F /* Emotion.swift in Sources */,
 				1A26D26A282BE269006A8086 /* Array+Extension.swift in Sources */,

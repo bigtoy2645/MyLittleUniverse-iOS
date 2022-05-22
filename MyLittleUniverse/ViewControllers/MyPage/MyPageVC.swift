@@ -32,21 +32,24 @@ class MyPageVC: UIViewController {
     
     /* Binding */
     func setupBindings() {
+        // 이전달
         btnLeft.rx.tap
             .bind { self.moveCalendarPage(moveUp: false) }
             .disposed(by: disposeBag)
         
+        // 다음달
         btnRight.rx.tap
             .bind { self.moveCalendarPage(moveUp: true) }
             .disposed(by: disposeBag)
         
+        // 현재 페이지 날짜
         currentPage.map {
             let formatter = DateFormatter()
             formatter.dateFormat = "YYYY. MM"
             return formatter.string(from: $0)
         }
-            .bind(to: lblDate.rx.text)
-            .disposed(by: disposeBag)
+        .bind(to: lblDate.rx.text)
+        .disposed(by: disposeBag)
         
         // 연월 선택
         dateSelectorView.rx
@@ -62,6 +65,19 @@ class MyPageVC: UIViewController {
             .subscribe(onNext: {
                 self.calendar.select($0, scrollToDate: true)
             })
+            .disposed(by: disposeBag)
+        
+        // 나의 세계로 이동
+        btnCount.rx.tap
+            .bind {
+                let universeVC = Route.getVC(.myUniverseVC)
+                self.navigationController?.pushViewController(universeVC, animated: false)
+            }
+            .disposed(by: disposeBag)
+        
+        Repository.instance.moments
+            .map { String($0.count) }
+            .bind(to: btnCount.rx.title(for: .normal))
             .disposed(by: disposeBag)
         
         // 기록 보관하기
@@ -198,9 +214,9 @@ extension MyPageVC: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegate
         return false
     }
     
-//    /* 달력 날짜에 이벤트 표시 */
-//    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-//        if let tasks = todoScheduled[date.toString()], tasks.count > 0 { return 1 }
-//        return 0
-//    }
+    //    /* 달력 날짜에 이벤트 표시 */
+    //    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+    //        if let tasks = todoScheduled[date.toString()], tasks.count > 0 { return 1 }
+    //        return 0
+    //    }
 }
