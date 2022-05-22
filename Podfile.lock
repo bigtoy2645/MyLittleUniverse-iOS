@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.4.3)
+  - DropDown (2.3.13)
   - FSCalendar (2.8.1)
   - RxCocoa (6.2.0):
     - RxRelay (= 6.2.0)
@@ -13,6 +14,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - DropDown
   - FSCalendar
   - RxCocoa (= 6.2.0)
   - RxGesture
@@ -21,6 +23,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - DropDown
     - FSCalendar
     - RxCocoa
     - RxGesture
@@ -29,12 +32,13 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   FSCalendar: 5245140456fcbcac5824c203b98bd8068bdfee1a
   RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
   RxGesture: abadd243fc36db74df43dfc893829ddde94f1a3d
   RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
 
-PODFILE CHECKSUM: 0757719198e845d0d08d7c0ffc993c975ca230fd
+PODFILE CHECKSUM: 6a24425f2782b29070decc6392b7fdcc608939c4
 
 COCOAPODS: 1.10.1

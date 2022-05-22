@@ -7,21 +7,27 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
+import DropDown
 
 class MomentTableViewCell: UITableViewCell {
     static let nibName = "MomentTableViewCell"
     static let identifier = "momentCell"
     
-    var moment = BehaviorSubject<Moment>(value: Moment.empty)
+    var moment = BehaviorRelay<Moment>(value: Moment.empty)
     let textColor = BehaviorSubject<UIColor>(value: UIColor.black)
+    var imageSavedHandler: (() -> Void)?
+    var removeHandler: ((Moment) -> Void)?
+    private let dropDown = DropDown()
     private var disposeBag = DisposeBag()
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 30, bottom: 15, right: 30))
         contentView.layer.cornerRadius = 10
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 30, bottom: 15, right: 30))
         
+        setupDropDown()
         setupBindings()
     }
     
@@ -50,6 +56,10 @@ class MomentTableViewCell: UITableViewCell {
         
         moment.map { $0.emotion.word }
             .bind(to: lblEmotion.rx.text)
+            .disposed(by: disposeBag)
+        
+        btnKebab.rx.tap
+            .bind { self.dropDown.show() }
             .disposed(by: disposeBag)
         
         // Color
@@ -84,8 +94,52 @@ class MomentTableViewCell: UITableViewCell {
         disposeBag = DisposeBag()
     }
     
+    /* DropDown 설정 */
+    func setupDropDown() {
+        dropDown.dataSource = ["저장", "삭제"]
+        dropDown.layer.cornerRadius = 8
+        dropDown.width = 57
+        dropDown.cellHeight = 40
+        dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
+            cell.optionLabel.textAlignment = .center
+        }
+        dropDown.textFont = UIFont.systemFont(ofSize: 14, weight: .medium)
+        dropDown.anchorView = btnKebab
+        if let anchorView = dropDown.anchorView?.plainView {
+            dropDown.bottomOffset = CGPoint(x: -(57 - anchorView.bounds.width),
+                                            y: (anchorView.bounds.height) / 2)
+        }
+        
+        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            if index == 0 {
+                btnKebab.isHidden = true
+                UIImageWriteToSavedPhotosAlbum(contentView.asImage(),
+                                               self,
+                                               #selector(imageSaved(image:didFinishSavingWithError:contextInfo:)),
+                                               nil)
+            } else {
+                removeHandler?(moment.value)
+            }
+            self.dropDown.clearSelection()
+        }
+        
+        DropDown.appearance().textColor = .mainBlack
+        DropDown.appearance().selectedTextColor = .mainBlack
+        DropDown.appearance().backgroundColor = .white
+        DropDown.appearance().selectionBackgroundColor = .disableGray
+        DropDown.appearance().setupCornerRadius(8)
+        dropDown.dismissMode = .automatic
+    }
+    
+    /* 이미지 저장 */
+    @objc func imageSaved(image: UIImage, didFinishSavingWithError error: Error, contextInfo: UnsafeMutableRawPointer?) {
+        btnKebab.isHidden = false
+        imageSavedHandler?()
+    }
+    
     // MARK: - InterfaceBuilder Links
     
+    @IBOutlet weak var cardView: UIStackView!
     @IBOutlet weak var descriptionView: UIView!
     @IBOutlet weak var lblDescription: UILabel!
     

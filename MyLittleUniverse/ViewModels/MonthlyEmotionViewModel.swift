@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 class MonthlyEmotionViewModel {
-    let moments: BehaviorRelay<[Moment]>
+    let moments = BehaviorRelay<[Moment]>(value: [])
     let isLatest = BehaviorRelay<Bool>(value: true)
     
     let emotionString: Observable<String>
@@ -23,12 +23,14 @@ class MonthlyEmotionViewModel {
     init(emotion: Emotion) {
         let date = Date()
         
-        let savedMoments = Repository.instance.moments.value.filter {
-                    $0.year == $0.year &&
-                    $0.month == date.month &&
-                    $0.emotion == emotion
-                }
-        moments = BehaviorRelay(value: savedMoments)
+        Repository.instance.moments
+            .map { $0.filter {
+                $0.year == $0.year &&
+                $0.month == date.month &&
+                $0.emotion == emotion }
+            }
+            .subscribe(onNext: moments.accept(_:))
+            .disposed(by: disposeBag)
         
         emotionString = Observable.just(emotion.word)
         numOfDayString = moments.map { "for \($0.count) days" }
