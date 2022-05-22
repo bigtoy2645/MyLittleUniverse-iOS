@@ -23,6 +23,7 @@ class ColorChipVC: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        colColorChip.backgroundColor = .clear
         setupBindings()
     }
     

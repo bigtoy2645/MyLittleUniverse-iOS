@@ -21,6 +21,7 @@ class PictureStickerVC: UIViewController, UICollectionViewDelegate, UICollection
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        colSticker.backgroundColor = .clear
         setupBindings()
     }
     

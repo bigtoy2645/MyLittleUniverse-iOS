@@ -22,6 +22,7 @@ class ShapeStickerVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        colSticker.backgroundColor = .clear
         setupBindings()
     }
     

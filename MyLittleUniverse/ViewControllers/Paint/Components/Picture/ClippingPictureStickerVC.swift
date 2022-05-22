@@ -16,6 +16,7 @@ class ClippingPictureStickerVC: UIViewController, UICollectionViewDelegate, UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        colSticker.backgroundColor = .clear
         setupBindings()
     }
     
