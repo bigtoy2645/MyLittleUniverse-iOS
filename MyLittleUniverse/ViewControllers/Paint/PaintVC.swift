@@ -190,14 +190,11 @@ class PaintVC: UIViewController {
         btnText.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                if self.stickers.isEmpty {
-                    self.presentTextButtonAlert()
-                } else {
-                    self.selectedControl = self.btnText
-                    if let textVC = self.textSticker {
-                        self.selectButton(item: self.btnText)
-                        self.present(asChildViewController: textVC)
-                    }
+                
+                self.selectedControl = self.btnText
+                if let textVC = self.textSticker {
+                    self.selectButton(item: self.btnText)
+                    self.present(asChildViewController: textVC)
                 }
             }
             .disposed(by: disposeBag)
@@ -228,22 +225,6 @@ class PaintVC: UIViewController {
                 if let redo = self.redoFunctions.popLast() { redo() }
             }
             .disposed(by: disposeBag)
-    }
-    
-    func presentTextButtonAlert() {
-        guard let alertToast = Route.getVC(.alertVC) as? AlertVC else { return }
-        
-        alertToast.modalPresentationStyle = .overFullScreen
-        let alert = Alert(title: "앗, 아직 그림이 없어요.\n사진이나 도형으로 그림을 그린 후\n작성해 주세요.")
-        alertToast.vm.alert.accept(alert)
-        
-        self.present(alertToast, animated: false) {
-            DispatchQueue.main.async {
-                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
-                    self.dismiss(animated: false)
-                }
-            }
-        }
     }
     
     /* 색상 선택 화면 표시 */
