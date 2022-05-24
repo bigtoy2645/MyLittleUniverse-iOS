@@ -32,7 +32,7 @@
 		1A8BC73D27DE2EF200068851 /* DayChipCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BC73C27DE2EF200068851 /* DayChipCell.swift */; };
 		1A8D9B62273AAA7400A1BA53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D9B61273AAA7400A1BA53 /* AppDelegate.swift */; };
 		1A8D9B64273AAA7400A1BA53 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D9B63273AAA7400A1BA53 /* SceneDelegate.swift */; };
-		1A8D9B66273AAA7400A1BA53 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D9B65273AAA7400A1BA53 /* ViewController.swift */; };
+		1A8D9B66273AAA7400A1BA53 /* NameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D9B65273AAA7400A1BA53 /* NameVC.swift */; };
 		1A8D9B69273AAA7400A1BA53 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D9B67273AAA7400A1BA53 /* Main.storyboard */; };
 		1A8D9B6B273AAA7500A1BA53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D9B6A273AAA7500A1BA53 /* Assets.xcassets */; };
 		1A8D9B6E273AAA7500A1BA53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D9B6C273AAA7500A1BA53 /* LaunchScreen.storyboard */; };
@@ -90,7 +90,7 @@
 		1A8D9B5E273AAA7400A1BA53 /* MyLittleUniverse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLittleUniverse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8D9B61273AAA7400A1BA53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A8D9B63273AAA7400A1BA53 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1A8D9B65273AAA7400A1BA53 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1A8D9B65273AAA7400A1BA53 /* NameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameVC.swift; sourceTree = "<group>"; };
 		1A8D9B68273AAA7400A1BA53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1A8D9B6A273AAA7500A1BA53 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A8D9B6D273AAA7500A1BA53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -297,7 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				1AAA1C01281841180054CB5F /* InitVC.swift */,
-				1A8D9B65273AAA7400A1BA53 /* ViewController.swift */,
+				1A8D9B65273AAA7400A1BA53 /* NameVC.swift */,
 				1AD64EBB27D510E100E07EF5 /* AlertVC.swift */,
 				1AE11D5D2836691B0050AA31 /* MyPage */,
 				1A8BC73B27DE2ED200068851 /* Home */,
@@ -476,7 +476,7 @@
 			files = (
 				1AAA1BFB27F811A20054CB5F /* MonthlyViewModel.swift in Sources */,
 				1A26D26828265BF6006A8086 /* Date+Extension.swift in Sources */,
-				1A8D9B66273AAA7400A1BA53 /* ViewController.swift in Sources */,
+				1A8D9B66273AAA7400A1BA53 /* NameVC.swift in Sources */,
 				1A4616B227AFCA0A00D2A090 /* UIColor+Extension.swift in Sources */,
 				1A8D9B62273AAA7400A1BA53 /* AppDelegate.swift in Sources */,
 				1AD64EC027D8E87F00E07EF5 /* AlertViewModel.swift in Sources */,
@@ -669,6 +669,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = MyLittleUniverse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -676,7 +677,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yurim.MyLittleUniverse;
+				PRODUCT_BUNDLE_IDENTIFIER = com.youyoung.MyLittleUniverse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -691,6 +692,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = MyLittleUniverse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -698,7 +700,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yurim.MyLittleUniverse;
+				PRODUCT_BUNDLE_IDENTIFIER = com.youyoung.MyLittleUniverse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
