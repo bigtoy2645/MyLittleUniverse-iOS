@@ -34,7 +34,7 @@ class MomentTableViewCell: UITableViewCell {
     /* Binding */
     func setupBindings() {
         moment.map { UIColor(rgb: $0.bgColor) }
-            .bind(to: contentView.rx.backgroundColor)
+            .bind(to: cardView.rx.backgroundColor)
             .disposed(by: disposeBag)
         
         moment.map { UIImage(data: $0.imageData) }
@@ -117,11 +117,7 @@ class MomentTableViewCell: UITableViewCell {
         
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             if index == 0 {
-                btnKebab.isHidden = true
-                UIImageWriteToSavedPhotosAlbum(contentView.asImage(),
-                                               self,
-                                               #selector(imageSaved(image:didFinishSavingWithError:contextInfo:)),
-                                               nil)
+                saveImage()
             } else {
                 removeHandler?(moment.value)
             }
@@ -137,8 +133,15 @@ class MomentTableViewCell: UITableViewCell {
     }
     
     /* 이미지 저장 */
+    func saveImage() {
+        UIImageWriteToSavedPhotosAlbum(cardView.asImage(),
+                                       self,
+                                       #selector(imageSaved(image:didFinishSavingWithError:contextInfo:)),
+                                       nil)
+    }
+    
+    /* 이미지 저장 후 */
     @objc func imageSaved(image: UIImage, didFinishSavingWithError error: Error, contextInfo: UnsafeMutableRawPointer?) {
-        btnKebab.isHidden = false
         imageSavedHandler?()
     }
     
