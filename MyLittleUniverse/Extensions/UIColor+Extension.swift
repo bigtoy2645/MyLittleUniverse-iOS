@@ -17,6 +17,7 @@ extension UIColor {
     static let errorRed = UIColor(named: "ErrorRed")!
     static let mediumGray = UIColor(named: "MediumGray")!
     static let disableGray = UIColor(named: "DisableGray")!
+    static let gray300 = UIColor(named: "Gray300")!
     
     convenience init(red: Int, green: Int, blue: Int, a: Int = 0xFF) {
         self.init(

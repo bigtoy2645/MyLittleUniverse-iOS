@@ -49,7 +49,7 @@ class ViewController: UIViewController {
             .disposed(by: disposeBag)
         
         length.map {
-            if $0 == 0 { return UIColor(rgb: 0xC4C4C4) }
+            if $0 == 0 { return .gray300 }
             return self.isValid.value ? .black : .errorRed
         }
         .bind(to: underLineView.rx.backgroundColor)

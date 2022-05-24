@@ -1755,7 +1755,7 @@
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5qA-sh-nV0">
                                         <rect key="frame" x="16" y="10" width="322" height="160"/>
-                                        <color key="textColor" systemColor="labelColor"/>
+                                        <color key="textColor" name="MainBlack"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
@@ -1898,10 +1898,10 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gjX-l9-wLG">
-                                                        <rect key="frame" x="75.5" y="32" width="197.5" height="1"/>
+                                                        <rect key="frame" x="75.5" y="32.5" width="197.5" height="0.5"/>
                                                         <color key="backgroundColor" name="BackgroundGreen"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="1" id="4J0-XL-wbI"/>
+                                                            <constraint firstAttribute="height" constant="0.5" id="4J0-XL-wbI"/>
                                                         </constraints>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3u0-A8-S9C">
@@ -2320,9 +2320,6 @@
         <namedColor name="PointYellow">
             <color red="1" green="0.81176470588235294" blue="0.32941176470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

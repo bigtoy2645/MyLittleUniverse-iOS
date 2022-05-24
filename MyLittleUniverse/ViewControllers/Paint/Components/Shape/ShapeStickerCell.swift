@@ -14,6 +14,6 @@ class ShapeStickerCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         sticker.contentMode = .scaleAspectFit
-        self.tintColor = UIColor(rgb: 0xC4C4C4)
+        self.tintColor = .gray300
     }
 }

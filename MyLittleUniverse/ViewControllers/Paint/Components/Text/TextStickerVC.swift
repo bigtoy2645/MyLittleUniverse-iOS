@@ -14,6 +14,7 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
     let maxCount = 40
     var completeHandler: ((String) -> ())?
     private let disposeBag = DisposeBag()
+    private let placeHolder = "감정을 만났던 상황 또는 나만의 감정 의미를 적어보세요."
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +22,10 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
         lblPartOfSpeech.layer.borderWidth = 1
         lblPartOfSpeech.layer.borderColor = lblPartOfSpeech.textColor.cgColor
         textArea.layer.borderWidth = 1
-        textArea.layer.borderColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        textArea.layer.borderColor = UIColor.gray300.cgColor
         textArea.layer.cornerRadius = 10
+        textView.text = placeHolder
+        textView.textColor = .disableGray
         
         setupBindings()
     }
@@ -54,7 +57,9 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
                 DispatchQueue.main.async {
                     self.lblCount.text = "\(changedText.count)/\(self.maxCount)"
                 }
-                self.completeHandler?(changedText)
+                if changedText != self.placeHolder {
+                    self.completeHandler?(changedText)
+                }
             })
             .disposed(by: disposeBag)
         
@@ -64,6 +69,28 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
                 (new.count <= self.maxCount) ? new : previous
             }
             .bind(to: textView.rx.text)
+            .disposed(by: disposeBag)
+        
+        // TextView Focus
+        textView.rx.didBeginEditing
+            .subscribe(onNext: {
+                self.textArea.layer.borderColor = UIColor.mainBlack.cgColor
+                if self.textView.text == self.placeHolder {
+                    self.textView.text = ""
+                    self.textView.textColor = .mainBlack
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        // TextView Unfocus
+        textView.rx.didEndEditing
+            .subscribe(onNext: {
+                self.textArea.layer.borderColor = UIColor.gray300.cgColor
+                if self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    self.textView.text = self.placeHolder
+                    self.textView.textColor = .disableGray
+                }
+            })
             .disposed(by: disposeBag)
     }
     
