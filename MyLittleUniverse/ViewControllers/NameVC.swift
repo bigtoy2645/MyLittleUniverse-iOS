@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  NameVC.swift
 //  MyLittleUniverse
 //
 //  Created by yurim on 2021/11/09.
@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ViewController: UIViewController {
+class NameVC: UIViewController {
     let length = BehaviorRelay<Int>(value: 0)
     let isValid = BehaviorRelay<Bool>(value: false)
     
@@ -106,12 +106,19 @@ class ViewController: UIViewController {
         navigationController?.overrideUserInterfaceStyle = .dark
     }
     
+    /* 화면 클릭 시 키보드 내림 */
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
+    /* 등록된 감정 개수에 따라 다음 화면 표시 */
     private func pushNextVC() {
         let nextViewId: Route.ViewId = Repository.instance.moments.value.isEmpty ? .initVC : .monthlyVC
         let nextVC = Route.getVC(nextViewId)
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
     
+    /* 정규식 검증 */
     private func checkNamePolicy(text: String) -> Bool {
         let arr = Array(text)
         let pattern = "^[가-힣ㄱ-ㅎㅏ-ㅣ]$"
