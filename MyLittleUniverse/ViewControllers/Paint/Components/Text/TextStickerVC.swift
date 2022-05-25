@@ -26,6 +26,7 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
         textArea.layer.cornerRadius = 10
         textView.text = placeHolder
         textView.textColor = .disableGray
+        textView.textContainer.maximumNumberOfLines = 2
         
         setupBindings()
     }

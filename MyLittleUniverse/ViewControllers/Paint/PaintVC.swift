@@ -19,6 +19,7 @@ class PaintVC: UIViewController {
     var emotion = Emotion.empty
     var stickers = [StickerEdgeView]()
     let labelSticker = StickerEdgeView()
+    let labelView = UIView()
     var bgColor = BehaviorRelay<Int>(value: 0xFFFFFF)
     var selectedControl: UIButton?
     var stickerIndex = 0
@@ -73,6 +74,12 @@ class PaintVC: UIViewController {
         super.viewDidLoad()
         
         paintView.clipsToBounds = true
+        labelView.bounds = .zero
+        labelView.translatesAutoresizingMaskIntoConstraints = false
+        labelView.heightAnchor.constraint(equalToConstant: 96).isActive = true
+        stackPaintView.addArrangedSubview(labelView)
+        labelView.isHidden = true
+        
         setupBindings()
     }
     
@@ -122,11 +129,12 @@ class PaintVC: UIViewController {
             .disposed(by: disposeBag)
         
         // 배경 색상 설정
-        bgColor.asObservable()
-            .observe(on: MainScheduler.instance)
-            .bind { hexColor in
-                self.paintView.backgroundColor = UIColor(rgb: hexColor)
-            }
+        bgColor.map { UIColor(rgb: $0) }
+            .bind(to: paintView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+        
+        bgColor.map { UIColor(rgb: $0) }
+            .bind(to: labelView.rx.backgroundColor)
             .disposed(by: disposeBag)
         
         // 색상 선택 완료
@@ -190,13 +198,22 @@ class PaintVC: UIViewController {
         btnText.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                
                 self.selectedControl = self.btnText
                 if let textVC = self.textSticker {
                     self.selectButton(item: self.btnText)
                     self.present(asChildViewController: textVC)
                 }
             }
+            .disposed(by: disposeBag)
+        
+        // 하단 텍스트 스크롤
+        labelSticker.sticker.map { $0.text?.isEmpty ?? true }
+            .subscribe(onNext: {
+                self.labelView.isHidden = $0
+                if !$0 {
+                    self.scrollPaintView.scrollRectToVisible(self.labelView.frame, animated: true)
+                }
+            })
             .disposed(by: disposeBag)
         
         // Paint View 배경 클릭 시
@@ -435,6 +452,9 @@ class PaintVC: UIViewController {
     @IBOutlet weak var stackBackground: UIStackView!
     @IBOutlet weak var btnAddBgColor: UIButton!
     @IBOutlet weak var btnEditBgColor: UIButton!
+    
+    @IBOutlet weak var scrollPaintView: UIScrollView!
+    @IBOutlet weak var stackPaintView: UIStackView!
     @IBOutlet weak var paintView: UIView!
     @IBOutlet weak var componentView: UIView!
     @IBOutlet weak var leftControls: UIStackView!
@@ -542,11 +562,11 @@ extension PaintVC: UIGestureRecognizerDelegate {
     
     /* 설명 추가 */
     private func addTextSticker(text: String) {
-        if let labelView = labelSticker.stickerView as? UILabel {
-            labelView.sizeToFit()
-            labelView.numberOfLines = text.components(separatedBy: "\n").count
-            labelSticker.frame.size = CGSize(width: labelView.frame.width + 36,
-                                             height: labelView.frame.height + 36)
+        if let label = labelSticker.stickerView as? UILabel {
+            label.sizeToFit()
+            label.numberOfLines = text.components(separatedBy: "\n").count
+            labelSticker.frame.size = CGSize(width: label.frame.width + 36,
+                                             height: label.frame.height + 36)
         }
         labelSticker.sticker.accept(Sticker(type: .text, text: text, hexColor: 0x000000))
         if text.isEmpty {
@@ -554,10 +574,10 @@ extension PaintVC: UIGestureRecognizerDelegate {
             focusSticker = nil
             return
         }
-        labelSticker.center = paintView.center
+        labelSticker.center = CGPoint(x: labelView.frame.width / 2, y: labelView.frame.height / 2)
         focusSticker = labelSticker
         
-        if paintView.subviews.contains(labelSticker) { return }
+        if labelView.subviews.contains(labelSticker) { return }
         
         // 스티커 삭제
         labelSticker.setLeftTopButton {
@@ -576,7 +596,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
                                                 action: #selector(self.handleTapGesture(recognizer:)))
         labelSticker.addGestureRecognizer(tapGesture)
         
-        paintView.addSubview(labelSticker)
+        labelView.addSubview(labelSticker)
     }
     
     /* FocusSticker 변경 */
