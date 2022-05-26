@@ -17,6 +17,11 @@ class InitVC: UIViewController {
         setupBindings()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.overrideUserInterfaceStyle = .light
+    }
+    
     /* Binding */
     func setupBindings() {
         userName.map { "반가워요\n\($0)님!" }

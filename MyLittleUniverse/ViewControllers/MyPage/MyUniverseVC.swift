@@ -23,6 +23,11 @@ class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.overrideUserInterfaceStyle = .light
+    }
+    
     /* Binding */
     func setupBindings() {
         btnBack.rx.tap

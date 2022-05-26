@@ -120,7 +120,7 @@ class NameVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.overrideUserInterfaceStyle = .dark
+        navigationController?.overrideUserInterfaceStyle = .light
     }
     
     /* 화면 클릭 시 키보드 내림 */
