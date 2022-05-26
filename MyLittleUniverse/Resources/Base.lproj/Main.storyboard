@@ -1776,10 +1776,10 @@
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84o-Ns-laR">
-                                <rect key="frame" x="30" y="90" width="354" height="180"/>
+                                <rect key="frame" x="30" y="90" width="354" height="190"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5qA-sh-nV0">
-                                        <rect key="frame" x="16" y="10" width="322" height="160"/>
+                                        <rect key="frame" x="16" y="10" width="322" height="170"/>
                                         <color key="textColor" name="MainBlack"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1794,7 +1794,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/40" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mkN-sH-4I1">
-                                <rect key="frame" x="30" y="278" width="354" height="12"/>
+                                <rect key="frame" x="30" y="288" width="354" height="12"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" name="MediumGray"/>
                                 <nil key="highlightedColor"/>
@@ -1814,7 +1814,7 @@
                             <constraint firstItem="mkN-sH-4I1" firstAttribute="centerX" secondItem="wbQ-5L-leb" secondAttribute="centerX" id="g2O-UQ-4R1"/>
                             <constraint firstItem="kQJ-Y7-Cvi" firstAttribute="centerX" secondItem="wbQ-5L-leb" secondAttribute="centerX" id="jyj-yR-kzK"/>
                             <constraint firstItem="84o-Ns-laR" firstAttribute="centerX" secondItem="wbQ-5L-leb" secondAttribute="centerX" id="mRL-Ke-R6I"/>
-                            <constraint firstItem="V8D-os-d8U" firstAttribute="bottom" secondItem="mkN-sH-4I1" secondAttribute="bottom" constant="10" id="oOE-xy-lba"/>
+                            <constraint firstItem="V8D-os-d8U" firstAttribute="bottom" secondItem="mkN-sH-4I1" secondAttribute="bottom" id="oOE-xy-lba"/>
                         </constraints>
                     </view>
                     <size key="freeformSize" width="414" height="300"/>

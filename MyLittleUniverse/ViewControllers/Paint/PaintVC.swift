@@ -10,19 +10,16 @@ import RxSwift
 import RxGesture
 import RxCocoa
 
-struct Handler {
-    let undo: (() -> Void)
-    let redo: (() -> Void)
-}
-
 class PaintVC: UIViewController {
-    var emotion = Emotion.empty
+    let viewModel = PaintViewModel()
+    private let disposeBag = DisposeBag()
+    
     var stickers = [StickerEdgeView]()
     let labelSticker = StickerEdgeView()
     let labelView = UIView()
-    var bgColor = BehaviorRelay<Int>(value: 0xFFFFFF)
+    
     var selectedControl: UIButton?
-    var stickerIndex = 0
+    var stickerCount = 0
     var stickerPos: [CGPoint] = []
     var isBgColorSelected = false
     var focusSticker: StickerEdgeView? {
@@ -31,7 +28,7 @@ class PaintVC: UIViewController {
             focusSticker?.isSelected = true
             
             let currentComponentView = self.componentView.subviews.last
-            if let colorOffImage = UIImage(named: "edge/Color-Off_24"),
+            if let colorOffImage = UIImage.colorOff,
                currentComponentView == self.colorChips?.view {
                 oldValue?.changeButtonImage(colorOffImage, position: .rightTop)
                 self.presentColorPicker(mode: .sticker)
@@ -44,7 +41,7 @@ class PaintVC: UIViewController {
             DispatchQueue.main.async {
                 let isUndoEnable = self.undoFunctions.count > 0
                 self.btnUndo.isEnabled = isUndoEnable
-                if let undoImage = UIImage(named: isUndoEnable ? "Undo-On_24" : "Undo-Off_24") {
+                if let undoImage: UIImage = isUndoEnable ? .undoOn : .undoOff {
                     self.btnUndo.setImage(undoImage, for: .normal)
                 }
             }
@@ -55,7 +52,7 @@ class PaintVC: UIViewController {
             DispatchQueue.main.async {
                 let isRedoEnable = self.redoFunctions.count > 0
                 self.btnRedo.isEnabled = isRedoEnable
-                if let redoImage = UIImage(named: isRedoEnable ? "Redo-On_24" : "Redo-Off_24") {
+                if let redoImage: UIImage = isRedoEnable ? .redoOn : .redoOff {
                     self.btnRedo.setImage(redoImage, for: .normal)
                 }
             }
@@ -68,7 +65,6 @@ class PaintVC: UIViewController {
     }
     
     var colorPickerMode: ColorPickerMode = .background
-    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,13 +75,12 @@ class PaintVC: UIViewController {
         labelView.heightAnchor.constraint(equalToConstant: 96).isActive = true
         stackPaintView.addArrangedSubview(labelView)
         labelView.isHidden = true
+        configureTextSticker()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         setupBindings()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.overrideUserInterfaceStyle = .dark
     }
     
     override func viewDidLayoutSubviews() {
@@ -129,11 +124,11 @@ class PaintVC: UIViewController {
             .disposed(by: disposeBag)
         
         // 배경 색상 설정
-        bgColor.map { UIColor(rgb: $0) }
+        viewModel.bgColor
             .bind(to: paintView.rx.backgroundColor)
             .disposed(by: disposeBag)
         
-        bgColor.map { UIColor(rgb: $0) }
+        viewModel.bgColor
             .bind(to: labelView.rx.backgroundColor)
             .disposed(by: disposeBag)
         
@@ -141,13 +136,7 @@ class PaintVC: UIViewController {
         btnDone.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                var buttonImage: UIImage?
-                if self.focusSticker?.sticker.value.type == .picture {
-                    buttonImage = UIImage(named: "edge/Edit-Off_24")
-                } else {
-                    buttonImage = UIImage(named: "edge/Color-Off_24")
-                }
-                
+                let buttonImage: UIImage? = self.focusSticker?.sticker.value.type == .picture ? .editOff : .colorOff
                 if let buttonImage = buttonImage {
                     self.focusSticker?.changeButtonImage(buttonImage, position: .rightTop)
                 }
@@ -208,8 +197,10 @@ class PaintVC: UIViewController {
         
         // 하단 텍스트 스크롤
         labelSticker.sticker.map { $0.text?.isEmpty ?? true }
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: {
                 self.labelView.isHidden = $0
+                self.scrollPaintView.layoutIfNeeded()
                 if !$0 {
                     self.scrollPaintView.scrollRectToVisible(self.labelView.frame, animated: true)
                 }
@@ -221,6 +212,14 @@ class PaintVC: UIViewController {
             .when(.recognized)
             .subscribe { _ in
                 self.focusSticker = nil
+                self.view.endEditing(true)
+            }
+            .disposed(by: disposeBag)
+        
+        labelView.rx.tapGesture()
+            .when(.recognized)
+            .subscribe { _ in
+                self.view.endEditing(true)
             }
             .disposed(by: disposeBag)
         
@@ -244,15 +243,29 @@ class PaintVC: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
     /* 색상 선택 화면 표시 */
     func presentColorPicker(mode: ColorPickerMode) {
         if let colorVC = self.colorChips {
             present(asChildViewController: colorVC)
             colorPickerMode = mode
             if mode == .background {        // 기존 배경 색상 지정
-                colorVC.selectedColor.onNext(bgColor.value)
+                colorVC.selectedColor.onNext(viewModel.bgHexColor.value)
             } else if mode == .sticker {    // 기존 스티커 색상 지정
-                if let colorOnImage = UIImage(named: "edge/Color-On_24") {
+                if let colorOnImage: UIImage = .colorOn {
                     self.focusSticker?.changeButtonImage(colorOnImage, position: .rightTop)
                 }
                 colorVC.selectedColor.onNext(focusSticker?.sticker.value.hexColor)
@@ -275,7 +288,7 @@ class PaintVC: UIViewController {
         clippingVC.originImage.onNext(image)
         present(asChildViewController: clippingVC)
         
-        if let editOnImage = UIImage(named: "edge/Edit-On_24") {
+        if let editOnImage: UIImage = .editOn {
             self.focusSticker?.changeButtonImage(editOnImage, position: .rightTop)
         }
         
@@ -303,15 +316,15 @@ class PaintVC: UIViewController {
     
     /* leftControl 이미지 변경 */
     func selectButton(item: UIButton) {
-        let pictureImage = item == btnPicture ? "Photo-On_24" : "Photo-Off_24"
-        let lineShapeImage = item == btnLineShape ? "Line-Shape-On_24" : "Line-Shape-Off_24"
-        let fillShapeImage = item == btnFillShape ? "Fill-Shape-On_24" : "Fill-Shape-Off_24"
-        let textImage = item == btnText ? "Text-On_24" : "Text-Off_24"
+        let pictureImage: UIImage? = item == btnPicture ? .photoOn : .photoOff
+        let lineShapeImage: UIImage? = item == btnLineShape ? .lineShapeOn : .lineShapeOff
+        let fillShapeImage: UIImage? = item == btnFillShape ? .fillShapeOn : .fillShapeOff
+        let textImage: UIImage? = item == btnText ? .textOn : .textOff
         
-        btnPicture.setImage(UIImage(named: pictureImage), for: .normal)
-        btnLineShape.setImage(UIImage(named: lineShapeImage), for: .normal)
-        btnFillShape.setImage(UIImage(named: fillShapeImage), for: .normal)
-        btnText.setImage(UIImage(named: textImage), for: .normal)
+        btnPicture.setImage(pictureImage, for: .normal)
+        btnLineShape.setImage(lineShapeImage, for: .normal)
+        btnFillShape.setImage(fillShapeImage, for: .normal)
+        btnText.setImage(textImage, for: .normal)
     }
     
     /* 스티커 색상 변경 */
@@ -338,13 +351,13 @@ class PaintVC: UIViewController {
     private func pickColor(_ hexColor: Int, isUndoAction: Bool = false) {
         if self.colorPickerMode == .background {    // 배경 색상 변경
             if isBgColorSelected {
-                let oldHexColor = self.bgColor.value
-                undoFunctions.append(Handler(undo: { self.bgColor.accept(oldHexColor) },
-                                             redo: { self.bgColor.accept(hexColor) }))
+                let oldHexColor = self.viewModel.bgHexColor.value
+                undoFunctions.append(Handler(undo: { self.viewModel.bgHexColor.accept(oldHexColor) },
+                                             redo: { self.viewModel.bgHexColor.accept(hexColor) }))
             } else {
                 isBgColorSelected = true
             }
-            self.bgColor.accept(hexColor)
+            self.viewModel.bgHexColor.accept(hexColor)
         } else if self.colorPickerMode == .sticker, // 스티커 색상 변경
                   let stickerView = self.focusSticker {
             var sticker = stickerView.sticker.value
@@ -417,7 +430,7 @@ class PaintVC: UIViewController {
     
     private lazy var textSticker: TextStickerVC? = {
         guard let textVC = Route.getVC(.textStickerVC) as? TextStickerVC else { return nil }
-        textVC.emotion.accept(emotion)
+        textVC.emotion.accept(viewModel.emotion.value)
         textVC.completeHandler = { (description) in
             DispatchQueue.main.async {
                 self.addTextSticker(text: description)
@@ -481,10 +494,10 @@ extension PaintVC: UIGestureRecognizerDelegate {
         // TODO - 32 -> 상대값
         let size = paintView.frame.width / 3 + 32
         imageSticker.frame.size = CGSize(width: size, height: size)
-        imageSticker.center = centerPos ?? stickerPos[stickerIndex % stickerPos.count]
+        imageSticker.center = centerPos ?? stickerPos[stickerCount % stickerPos.count]
         imageSticker.contentMode = .scaleAspectFit
         imageSticker.sticker.accept(sticker)
-        stickerIndex += 1
+        stickerCount += 1
         
         // 스티커 삭제
         imageSticker.setLeftTopButton {
@@ -505,7 +518,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
                 self.presentColorPicker(mode: .sticker)
             }
         } else if sticker.type == .picture {
-            imageSticker.setRightTopButton(image: UIImage(named: "edge/Edit-Off_24")) {
+            imageSticker.setRightTopButton(image: .editOff) {
                 self.presentClippingMask(image: sticker.image)
             }
         }
@@ -563,6 +576,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
     /* 설명 추가 */
     private func addTextSticker(text: String) {
         if let label = labelSticker.stickerView as? UILabel {
+            label.text = text
             label.sizeToFit()
             label.numberOfLines = text.components(separatedBy: "\n").count
             labelSticker.frame.size = CGSize(width: label.frame.width + 36,
@@ -576,9 +590,9 @@ extension PaintVC: UIGestureRecognizerDelegate {
         }
         labelSticker.center = CGPoint(x: labelView.frame.width / 2, y: labelView.frame.height / 2)
         focusSticker = labelSticker
-        
-        if labelView.subviews.contains(labelSticker) { return }
-        
+    }
+    
+    func configureTextSticker() {
         // 스티커 삭제
         labelSticker.setLeftTopButton {
             self.textSticker?.textView.text = ""
@@ -595,7 +609,6 @@ extension PaintVC: UIGestureRecognizerDelegate {
         let tapGesture = UITapGestureRecognizer(target: self,
                                                 action: #selector(self.handleTapGesture(recognizer:)))
         labelSticker.addGestureRecognizer(tapGesture)
-        
         labelView.addSubview(labelSticker)
     }
     

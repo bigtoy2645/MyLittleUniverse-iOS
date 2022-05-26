@@ -45,7 +45,7 @@ class PaintPageVC: UIPageViewController {
                 self.views.removeAll()
                 for index in 0..<emotions.count {
                     if let paintVC = Route.getVC(.paintVC) as? PaintVC {
-                        paintVC.emotion = emotions[index]
+                        paintVC.viewModel.emotion.accept(emotions[index])
                         self.views.append(paintVC)
                     }
                 }

@@ -32,6 +32,11 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         saveView.layer.mask = gradientLayer
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.overrideUserInterfaceStyle = .dark
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentSize.width > (scrollView.bounds.origin.x + view.frame.width - saveView.frame.width * 0.6) ||
             scrollView.contentSize.width == 0 {
@@ -86,7 +91,7 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                 guard let paintVC = self.pageVC.currentView.value,
                       let paintImageData = paintVC.paintView.asImage().pngData() else { return }
                 
-                let bgColor = paintVC.bgColor.value
+                let bgColor = paintVC.viewModel.bgHexColor.value
                 var textLabel = ""
                 var textColor = UIColor(rgb: bgColor).isLight() ? 0x000000 : 0xFFFFFF
                 
@@ -95,7 +100,7 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                     textColor = textSticker.textColor.rgb() ?? textColor
                 }
                 let moment = Moment(timeStamp: self.timeStamp.value.timeIntervalSinceReferenceDate,
-                                    emotion: paintVC.emotion,
+                                    emotion: paintVC.viewModel.emotion.value,
                                     text: textLabel,
                                     textColor: textColor,
                                     imageData: paintImageData,
@@ -103,6 +108,8 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                 
                 Repository.instance.add(moment: moment)
                 // 저장 완료
+                paintVC.view.endEditing(true)
+                paintVC.scrollPaintView.setContentOffset(.zero, animated: true)
                 self.presentSavedView(paintVC.paintView)
             }
             .disposed(by: disposeBag)

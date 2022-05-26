@@ -53,6 +53,7 @@
 		1AD64EC027D8E87F00E07EF5 /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */; };
 		1AE11D5F2836693C0050AA31 /* MyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11D5E2836693C0050AA31 /* MyPageVC.swift */; };
 		1AE11D61283940220050AA31 /* MyUniverseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11D60283940220050AA31 /* MyUniverseVC.swift */; };
+		1AE11D63283E57BC0050AA31 /* PaintViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11D62283E57BC0050AA31 /* PaintViewModel.swift */; };
 		1AE216F127C27A1B002E945E /* emotionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F027C27A1B002E945E /* emotionCell.swift */; };
 		1AE216F327C27B6E002E945E /* SelectEmotionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F227C27B6E002E945E /* SelectEmotionsVC.swift */; };
 		1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F527CA0AD6002E945E /* UIView+Extension.swift */; };
@@ -112,6 +113,7 @@
 		1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
 		1AE11D5E2836693C0050AA31 /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
 		1AE11D60283940220050AA31 /* MyUniverseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUniverseVC.swift; sourceTree = "<group>"; };
+		1AE11D62283E57BC0050AA31 /* PaintViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintViewModel.swift; sourceTree = "<group>"; };
 		1AE216F027C27A1B002E945E /* emotionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = emotionCell.swift; sourceTree = "<group>"; };
 		1AE216F227C27B6E002E945E /* SelectEmotionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEmotionsVC.swift; sourceTree = "<group>"; };
 		1AE216F527CA0AD6002E945E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				1AAA1BF927F811A20054CB5F /* MonthlyViewModel.swift */,
 				1AAA1BFD27F89E630054CB5F /* MonthlyEmotionViewModel.swift */,
 				1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */,
+				1AE11D62283E57BC0050AA31 /* PaintViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				1A4616912787120E00D2A090 /* Moment.swift in Sources */,
 				1AE216F127C27A1B002E945E /* emotionCell.swift in Sources */,
 				1A26D2662826501B006A8086 /* User.swift in Sources */,
+				1AE11D63283E57BC0050AA31 /* PaintViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

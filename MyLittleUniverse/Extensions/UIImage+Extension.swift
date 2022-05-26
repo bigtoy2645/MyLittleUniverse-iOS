@@ -9,6 +9,23 @@ import UIKit
 import Alamofire
 
 extension UIImage {
+    static let colorOn = UIImage(named: "edge/Color-On_24")
+    static let colorOff = UIImage(named: "edge/Color-Off_24")
+    static let editOn = UIImage(named: "edge/Edit-On_24")
+    static let editOff = UIImage(named: "edge/Edit-Off_24")
+    static let undoOn = UIImage(named: "Undo-On_24")
+    static let undoOff = UIImage(named: "Undo-Off_24")
+    static let redoOn = UIImage(named: "Redo-On_24")
+    static let redoOff = UIImage(named: "Redo-Off_24")
+    static let photoOn = UIImage(named: "Photo-On_24")
+    static let photoOff = UIImage(named: "Photo-Off_24")
+    static let lineShapeOn = UIImage(named: "Line-Shape-On_24")
+    static let lineShapeOff = UIImage(named: "Line-Shape-Off_24")
+    static let fillShapeOn = UIImage(named: "Fill-Shape-On_24")
+    static let fillShapeOff = UIImage(named: "Fill-Shape-Off_24")
+    static let textOn = UIImage(named: "Text-On_24")
+    static let textOff = UIImage(named: "Text-Off_24")
+    
     /* 이미지 다운로드 */
     static func download(from url: String, completion: @escaping ((UIImage?) -> Void)) {
         AF.download(url)
