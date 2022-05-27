@@ -55,13 +55,20 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
             .orEmpty
             .distinctUntilChanged()
             .subscribe(onNext: { changedText in
-                DispatchQueue.main.async {
-                    self.lblCount.text = "\(changedText.count)/\(self.maxCount)"
-                }
                 if changedText != self.placeHolder {
                     self.completeHandler?(changedText)
                 }
             })
+            .disposed(by: disposeBag)
+        
+        // 글자 수
+        textView.rx.text
+            .orEmpty
+            .map {
+                let count = ($0 == self.placeHolder ? 0 : $0.count)
+                return "\(count)/\(self.maxCount)"
+            }
+            .bind(to: lblCount.rx.text)
             .disposed(by: disposeBag)
         
         // 글자 수 제한
@@ -87,7 +94,7 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
         textView.rx.didEndEditing
             .subscribe(onNext: {
                 self.textArea.layer.borderColor = UIColor.gray300.cgColor
-                if self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                if self.textView.text.isEmpty {
                     self.textView.text = self.placeHolder
                     self.textView.textColor = .disableGray
                 }

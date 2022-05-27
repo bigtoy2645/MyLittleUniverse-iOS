@@ -75,6 +75,7 @@ class PaintVC: UIViewController {
         labelView.heightAnchor.constraint(equalToConstant: 96).isActive = true
         stackPaintView.addArrangedSubview(labelView)
         labelView.isHidden = true
+        labelSticker.sticker.accept(Sticker(type: .text, text: "", hexColor: 0x000000))
         configureTextSticker()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -575,14 +576,16 @@ extension PaintVC: UIGestureRecognizerDelegate {
     
     /* 설명 추가 */
     private func addTextSticker(text: String) {
-        if let label = labelSticker.stickerView as? UILabel {
+        if let label = labelSticker.stickerView as? UILabel,
+           let textArea = textSticker?.textView {
             label.text = text
-            label.sizeToFit()
-            label.numberOfLines = text.components(separatedBy: "\n").count
-            labelSticker.frame.size = CGSize(width: label.frame.width + 36,
-                                             height: label.frame.height + 36)
+            label.numberOfLines = 2
+            let size = label.sizeThatFits(textArea.visibleSize)
+            labelSticker.frame.size = CGSize(width: size.width + 36, height: size.height + 36)
+            labelSticker.layoutIfNeeded()
         }
-        labelSticker.sticker.accept(Sticker(type: .text, text: text, hexColor: 0x000000))
+        let labelColor = labelSticker.sticker.value.hexColor
+        labelSticker.sticker.accept(Sticker(type: .text, text: text, hexColor: labelColor))
         if text.isEmpty {
             labelSticker.stickerView?.frame.size = CGSize.zero
             focusSticker = nil
