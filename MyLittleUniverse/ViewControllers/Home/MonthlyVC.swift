@@ -26,15 +26,19 @@ class MonthlyVC: UIViewController {
         
         setupBindings()
         
-        // TODO - itemSelected Event X
-        let dayIndex = IndexPath(row: viewModel.selectedIndex.value, section: 0)
-        colDays.selectItem(at: dayIndex,
-                           animated: false,
-                           scrollPosition: .right)
-        
         // 감정 등록 화면으로 이동
         let registerVC = Route.getVC(.selectStatusVC)
         self.navigationController?.pushViewController(registerVC, animated: false)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        // 선택한 날짜 가운데로 스크롤
+        let dayIndex = IndexPath(row: viewModel.selectedIndex.value, section: 0)
+        colDays.selectItem(at: dayIndex,
+                           animated: true,
+                           scrollPosition: .centeredHorizontally)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,20 +103,19 @@ class MonthlyVC: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        viewModel.selectedMoments
-            .map { _ in
-                let height = self.colMomentsOfDay.contentSize.height
-                if height <= 0 { return self.momentsHeight.constant }
-                return height
-            }
-            .bind(to: momentsHeight.rx.constant)
+        colMomentsOfDay.rx.willDisplayCell
+            .subscribe(onNext: { _ in
+                var height = self.colMomentsOfDay.contentSize.height
+                if height <= 0 { height = self.momentsHeight.constant }
+                self.momentsHeight.constant = height
+                self.view.layoutIfNeeded()
+            })
             .disposed(by: disposeBag)
         
         viewModel.selectedMoments
             .bind(to: colMomentsOfDay.rx.items(cellIdentifier: DayMomentCell.identifier,
                                                cellType: DayMomentCell.self)) { index, moment, cell in
                 cell.moment.accept(moment)
-                cell.layoutIfNeeded()
             }
             .disposed(by: disposeBag)
     }
