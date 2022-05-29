@@ -18,6 +18,7 @@ class PaintViewModel {
     let bgHexColor = BehaviorRelay<Int>(value: 0xFFFFFF)
     let emotion = BehaviorRelay<Emotion>(value: Emotion.empty)
     let bgColor = BehaviorSubject<UIColor>(value: .white)
+    let leftControl = BehaviorRelay<UIButton?>(value: nil)
     
     private let disposeBag = DisposeBag()
     

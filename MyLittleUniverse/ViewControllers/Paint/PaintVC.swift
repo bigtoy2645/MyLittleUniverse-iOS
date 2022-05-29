@@ -18,7 +18,6 @@ class PaintVC: UIViewController {
     let labelSticker = StickerEdgeView()
     let labelView = UIView()
     
-    var selectedControl: UIButton?
     var stickerCount = 0
     var stickerPos: [CGPoint] = []
     var isBgColorSelected = false
@@ -146,54 +145,60 @@ class PaintVC: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        // 그림 스티커
-        btnPicture.rx.tap
+        // LeftControl Button
+        viewModel.leftControl
             .observe(on: MainScheduler.instance)
             .bind {
-                self.selectedControl = self.btnPicture
-                if let stickerVC = self.pictureStickers {
-                    self.selectButton(item: self.btnPicture)
-                    self.present(asChildViewController: stickerVC)
+                guard let button = $0 else { return }
+                self.selectLeftControl(item: button)
+                var childVC: UIViewController?
+                
+                switch button {
+                case self.btnPicture:
+                    childVC = self.pictureStickers
+                    self.scrollPaintView.scrollRectToVisible(self.paintView.frame, animated: true)
+                case self.btnLineShape:
+                    childVC = self.shapeStickers
+                    self.shapeStickers?.type.onNext(.lineShape)
+                    self.scrollPaintView.scrollRectToVisible(self.paintView.frame, animated: true)
+                case self.btnFillShape:
+                    childVC = self.shapeStickers
+                    self.shapeStickers?.type.onNext(.fillShape)
+                    self.scrollPaintView.scrollRectToVisible(self.paintView.frame, animated: true)
+                case self.btnText:
+                    childVC = self.textSticker
+                    self.focusSticker = self.labelSticker
+                    self.scrollPaintView.scrollRectToVisible(self.labelView.frame, animated: true)
+                default: break
+                }
+                
+                if let childVC = childVC {
+                    self.present(asChildViewController: childVC)
                 }
             }
             .disposed(by: disposeBag)
         
+        // 그림 스티커
+        btnPicture.rx.tap
+            .observe(on: MainScheduler.instance)
+            .bind { self.viewModel.leftControl.accept(self.btnPicture) }
+            .disposed(by: disposeBag)
+        
         // 라인 도형 스티커
         btnLineShape.rx.tap
-            .observe(on: MainScheduler.instance)
-            .bind {
-                self.selectedControl = self.btnLineShape
-                if let stickerVC = self.shapeStickers {
-                    self.selectButton(item: self.btnLineShape)
-                    self.present(asChildViewController: stickerVC)
-                    stickerVC.type.onNext(.lineShape)
-                }
-            }
+            .bind { self.viewModel.leftControl.accept(self.btnLineShape) }
             .disposed(by: disposeBag)
         
         // 도형 스티커
         btnFillShape.rx.tap
             .observe(on: MainScheduler.instance)
-            .bind {
-                self.selectedControl = self.btnFillShape
-                if let stickerVC = self.shapeStickers {
-                    self.selectButton(item: self.btnFillShape)
-                    self.present(asChildViewController: stickerVC)
-                    stickerVC.type.onNext(.fillShape)
-                }
-            }
+            .bind { self.viewModel.leftControl.accept(self.btnFillShape) }
             .disposed(by: disposeBag)
         
         // 텍스트
         btnText.rx.tap
             .observe(on: MainScheduler.instance)
-            .bind {
-                self.selectedControl = self.btnText
-                if let textVC = self.textSticker {
-                    self.selectButton(item: self.btnText)
-                    self.present(asChildViewController: textVC)
-                }
-            }
+            .bind { self.viewModel.leftControl.accept(self.btnText) }
             .disposed(by: disposeBag)
         
         // 하단 텍스트 스크롤
@@ -311,12 +316,12 @@ class PaintVC: UIViewController {
         btnRedo.isHidden = false
         btnDone.isHidden = true
         
-        let selectedButton = selectedControl ?? btnPicture
+        let selectedButton = viewModel.leftControl.value ?? btnPicture
         selectedButton?.sendActions(for: .touchUpInside)
     }
     
     /* leftControl 이미지 변경 */
-    func selectButton(item: UIButton) {
+    func selectLeftControl(item: UIButton) {
         let pictureImage: UIImage? = item == btnPicture ? .photoOn : .photoOff
         let lineShapeImage: UIImage? = item == btnLineShape ? .lineShapeOn : .lineShapeOff
         let fillShapeImage: UIImage? = item == btnFillShape ? .fillShapeOn : .fillShapeOff
