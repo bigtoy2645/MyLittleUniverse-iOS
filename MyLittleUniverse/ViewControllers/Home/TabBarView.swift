@@ -91,14 +91,3 @@ class TabBarView: UIView {
     @IBOutlet weak var btnRegister: UIButton!
     @IBOutlet weak var btnMypage: UIButton!
 }
-
-extension UINavigationController {
-    func popToVC(_ vc: AnyClass, animated: Bool = false) {
-        for controller in viewControllers {
-            if controller.isKind(of: vc) {
-                popToViewController(controller, animated: false)
-                break
-            }
-        }
-    }
-}
