@@ -43,6 +43,12 @@ class MonthlyVC: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.overrideUserInterfaceStyle = .light
         scrollView.setContentOffset(.zero, animated: false)
+        
+        if viewModel.rankings.value.count > 2 {
+            tabView.transform = CGAffineTransform(translationX: 0, y: self.tabView.frame.height)
+        } else {
+            tabView.transform = CGAffineTransform(translationX: 0, y: 0)
+        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -75,10 +81,12 @@ class MonthlyVC: UIViewController {
         super.viewDidAppear(animated)
         
         // 말풍선 애니메이션
-        UIView.animate(withDuration: 1.0, delay: 0, options: [.repeat, .autoreverse], animations: {
-            self.bubbleView.transform = CGAffineTransform(translationX: 0, y: 10)
-        }) { _ in
-            self.bubbleView.transform = CGAffineTransform(translationX: 0, y: 0)
+        if !bubbleView.isHidden {
+            UIView.animate(withDuration: 1.0, delay: 0, options: [.repeat, .autoreverse], animations: {
+                self.bubbleView.transform = CGAffineTransform(translationX: 0, y: 10)
+            }) { _ in
+                self.bubbleView.transform = CGAffineTransform(translationX: 0, y: 0)
+            }
         }
     }
     
@@ -232,13 +240,26 @@ class MonthlyVC: UIViewController {
 extension MonthlyVC: UIScrollViewDelegate {
     /* 스크롤 시 탭바 표시 */
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        tabView.hideWithAnimation(hidden: false)
+        animateTabView()
     }
     
     /* 스크롤 중단 시 탭바 숨기기 */
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
-            self.tabView.hideWithAnimation(hidden: true)
+        animateTabView()
+    }
+    
+    /* 랭킹 3개 이상 등록되면 탭바 고정 */
+    func animateTabView() {
+        if viewModel.rankings.value.count > 2 {
+            if self.scrollView.contentOffset.equalTo(.zero) {
+                UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
+                    self.tabView.transform = CGAffineTransform(translationX: 0, y: self.tabView.frame.height)
+                })
+            } else if tabView.transform.ty > 0 {
+                UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
+                    self.tabView.transform = CGAffineTransform(translationX: 0, y: 0)
+                })
+            }
         }
     }
 }

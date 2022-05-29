@@ -15,16 +15,6 @@ extension UIView {
         case right
     }
     
-    /* 슬라이드 애니메이션으로 숨기기 */
-    func hideWithAnimation(hidden: Bool) {
-        let slideUp = CGAffineTransform(translationX: 0, y: 0)
-        let slideDown = CGAffineTransform(translationX: 0, y: self.frame.height)
-        
-        UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
-            self.transform = hidden ? slideDown : slideUp
-        })
-    }
-    
     /* 그림자 추가 */
     func addShadow(location: ShadowLocation,
                    color: UIColor = UIColor.disableGray,

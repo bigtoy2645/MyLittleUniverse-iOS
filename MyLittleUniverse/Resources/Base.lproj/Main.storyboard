@@ -422,7 +422,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="1556"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t93-gp-TPS">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1545"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1535"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="0Mf-cB-uln" userLabel="Title Label">
                                                 <rect key="frame" x="30" y="30" width="354" height="63.5"/>
@@ -698,7 +698,7 @@
                                     <constraint firstItem="YT9-jI-ncQ" firstAttribute="bottom" secondItem="MRL-QB-CNr" secondAttribute="bottom" id="c9R-u4-tzG"/>
                                     <constraint firstItem="t93-gp-TPS" firstAttribute="width" secondItem="YT9-jI-ncQ" secondAttribute="width" id="eDK-mg-KS2"/>
                                     <constraint firstItem="t93-gp-TPS" firstAttribute="top" secondItem="p2U-b3-zdz" secondAttribute="top" id="fnt-xn-t8C"/>
-                                    <constraint firstItem="p2U-b3-zdz" firstAttribute="bottom" secondItem="v6O-sT-Avg" secondAttribute="bottom" constant="50" id="p9U-3Y-PuP"/>
+                                    <constraint firstItem="p2U-b3-zdz" firstAttribute="bottom" secondItem="v6O-sT-Avg" secondAttribute="bottom" constant="40" id="p9U-3Y-PuP"/>
                                     <constraint firstItem="t93-gp-TPS" firstAttribute="leading" secondItem="p2U-b3-zdz" secondAttribute="leading" id="trZ-1s-PGS"/>
                                     <constraint firstItem="MRL-QB-CNr" firstAttribute="leading" secondItem="p2U-b3-zdz" secondAttribute="leading" id="y2w-ub-ERM"/>
                                 </constraints>
@@ -1108,7 +1108,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1z5-ky-nOp">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1z5-ky-nOp">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5DO-Q6-XBJ">
@@ -1164,7 +1164,6 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </tableView>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" priority="250" constant="850" id="4XW-Nm-ZTh"/>
                                             <constraint firstItem="ed3-YQ-RHh" firstAttribute="leading" secondItem="plv-ay-F2i" secondAttribute="trailing" id="Dk9-Xz-GhJ"/>
@@ -1179,6 +1178,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="5DO-Q6-XBJ" firstAttribute="leading" secondItem="KEr-yh-5i3" secondAttribute="leading" id="GTl-6S-gnB"/>
                                     <constraint firstItem="5DO-Q6-XBJ" firstAttribute="top" secondItem="KEr-yh-5i3" secondAttribute="top" id="LP4-dq-Dad"/>
