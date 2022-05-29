@@ -44,6 +44,8 @@ class MonthlyVC: UIViewController {
         navigationController?.overrideUserInterfaceStyle = .light
         scrollView.setContentOffset(.zero, animated: false)
         
+        viewModel.selectedIndex.accept(viewModel.selectedIndex.value)
+        
         if viewModel.rankings.value.count > 2 {
             tabView.transform = CGAffineTransform(translationX: 0, y: self.tabView.frame.height)
         } else {
