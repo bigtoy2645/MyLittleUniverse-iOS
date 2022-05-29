@@ -16,11 +16,16 @@ class MonthlyVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.navigationItem.backBarButtonItem?.isEnabled = false
         lblUserName.text = "\(Repository.instance.userName)님의"
         btnMainEmotion.layer.borderWidth = 1
         btnMainEmotion.layer.cornerRadius = 13
         btnMainEmotion.layer.borderColor = btnMainEmotion.currentTitleColor.cgColor
         tabView.addShadow(location: .top)
+        imgBubble.addShadow(location: .bottom,
+                            color: UIColor(red: 0, green: 0, blue: 0, alpha: 0.25),
+                            opacity: 1.0,
+                            radius: 8)
         
         scrollView.delegate = self
         
@@ -31,6 +36,12 @@ class MonthlyVC: UIViewController {
         self.navigationController?.pushViewController(registerVC, animated: false)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.overrideUserInterfaceStyle = .light
+        scrollView.setContentOffset(.zero, animated: false)
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
@@ -39,12 +50,6 @@ class MonthlyVC: UIViewController {
         colDays.selectItem(at: dayIndex,
                            animated: true,
                            scrollPosition: .centeredHorizontally)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.overrideUserInterfaceStyle = .light
-        scrollView.setContentOffset(.zero, animated: false)
     }
     
     override func viewDidLayoutSubviews() {
@@ -60,6 +65,19 @@ class MonthlyVC: UIViewController {
             layer.fillMode = .forwards
             ranking.layer.insertSublayer(layer, at: 0)
             ranking.backgroundColor = .clear
+        }
+        
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // 말풍선 애니메이션
+        UIView.animate(withDuration: 1.0, delay: 0, options: [.repeat, .autoreverse], animations: {
+            self.bubbleView.transform = CGAffineTransform(translationX: 0, y: 10)
+        }) { _ in
+            self.bubbleView.transform = CGAffineTransform(translationX: 0, y: 0)
         }
     }
     
@@ -198,6 +216,10 @@ class MonthlyVC: UIViewController {
             }
             .disposed(by: disposeBag)
         
+        viewModel.rankings.map { $0.count != 1 }
+            .bind(to: bubbleView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
         for rankingIndex in 0..<4 {
             if let subview = rankingView.arrangedSubviews[safe: rankingIndex] {
                 subview.rx
@@ -241,6 +263,9 @@ class MonthlyVC: UIViewController {
     @IBOutlet weak var btnHome: UIButton!
     @IBOutlet weak var btnRegister: UIButton!
     @IBOutlet weak var btnMypage: UIButton!
+    
+    @IBOutlet weak var bubbleView: UIView!
+    @IBOutlet weak var imgBubble: UIImageView!
 }
 
 // MARK: - UIScrollViewDelegate
