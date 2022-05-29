@@ -11,12 +11,12 @@ import RxRelay
 import FSCalendar
 
 class MyPageVC: UIViewController {
-    var currentPage = BehaviorRelay<Date>(value: Date())
-    let selectedDate = BehaviorRelay<Date>(value: Date())
+    let viewModel = MyPageViewModel()
     private let datePicker = UIDatePicker()
     private var toolBar = UIToolbar()
     private var oldSelectedDate: Date?
     private var dateComponents = DateComponents()
+    private var installMonth: Date?
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -25,6 +25,18 @@ class MyPageVC: UIViewController {
         btnCount.layer.cornerRadius = btnCount.frame.width / 2
         btnCount.layer.borderWidth = 1
         btnCount.layer.borderColor = UIColor.bgGreen.cgColor
+        
+        tabView.addShadow(location: .top)
+        tabView.vc = self
+        
+        // 앱 설치된 월
+        if let docUrlPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.path,
+           let createdDate = try? FileManager.default.attributesOfItem(atPath: docUrlPath)[.creationDate] as? Date {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "YYYY-MM-dd"
+            let dateString = "\(createdDate.year)-\(createdDate.month)-01"
+            installMonth = formatter.date(from: dateString)
+        }
         
         setupCalendar()
         setupBindings()
@@ -37,6 +49,11 @@ class MyPageVC: UIViewController {
     
     /* Binding */
     func setupBindings() {
+        // 사용자명
+        viewModel.userName
+            .bind(to: lblUser.rx.text)
+            .disposed(by: disposeBag)
+        
         // 이전달
         btnLeft.rx.tap
             .bind { self.moveCalendarPage(moveUp: false) }
@@ -48,13 +65,9 @@ class MyPageVC: UIViewController {
             .disposed(by: disposeBag)
         
         // 현재 페이지 날짜
-        currentPage.map {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "YYYY. MM"
-            return formatter.string(from: $0)
-        }
-        .bind(to: lblDate.rx.text)
-        .disposed(by: disposeBag)
+        viewModel.calendarDate
+            .bind(to: lblDate.rx.text)
+            .disposed(by: disposeBag)
         
         // 연월 선택
         dateSelectorView.rx
@@ -97,13 +110,15 @@ class MyPageVC: UIViewController {
     func setupCalendar() {
         calendar.delegate = self
         calendar.dataSource = self
-        calendar.select(selectedDate.value)
+        calendar.select(viewModel.selectedDate.value)
         calendar.scrollEnabled = true
         calendar.calendarHeaderView.isHidden = true
         calendar.headerHeight = 0
         calendar.today = nil
         calendar.placeholderType = .fillSixRows
         calendar.appearance.eventDefaultColor = .mainBlack
+        calendar.appearance.eventSelectionColor = .mainBlack
+        calendar.appearance.eventOffset = CGPoint(x: 0, y: 5)
         calendar.appearance.selectionColor = .pointYellow
         calendar.appearance.titleFont = UIFont.systemFont(ofSize: 14, weight: .regular)
         calendar.appearance.titleDefaultColor = .mediumGray
@@ -136,6 +151,7 @@ class MyPageVC: UIViewController {
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.backgroundColor = .white
+        datePicker.minimumDate = installMonth
         
         let pickerHeight: CGFloat = 300
         let toolBarHeight: CGFloat = 50
@@ -163,8 +179,9 @@ class MyPageVC: UIViewController {
         var dateComponents = DateComponents()
         dateComponents.month = moveUp ? 1 : -1
         
-        if let page = currentCalendar.date(byAdding: dateComponents, to: currentPage.value) {
+        if let page = currentCalendar.date(byAdding: dateComponents, to: viewModel.currentPage.value) {
             calendar.setCurrentPage(page, animated: true)
+            calendar.select(page)
         }
     }
     
@@ -188,6 +205,7 @@ class MyPageVC: UIViewController {
     }
     
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var lblUser: UILabel!
     @IBOutlet weak var btnCount: UIButton!
     
     @IBOutlet weak var dateSelectorView: UIStackView!
@@ -196,7 +214,8 @@ class MyPageVC: UIViewController {
     @IBOutlet weak var btnRight: UIButton!
     @IBOutlet weak var calendar: FSCalendar!
     @IBOutlet weak var backUpView: UIView!
-    
+
+    @IBOutlet weak var tabView: TabBarView!
 }
 
 // MARK: - FSCalendar
@@ -204,24 +223,26 @@ class MyPageVC: UIViewController {
 extension MyPageVC: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
     /* 날짜 선택 */
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        selectedDate.accept(date)
+        viewModel.selectedDate.accept(date)
     }
     
     /* 달력 페이지 변경 */
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        currentPage.accept(calendar.currentPage)
+        viewModel.currentPage.accept(calendar.currentPage)
     }
     
-    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
-        let currentPageDate = currentPage.value
-        if date.year == currentPageDate.year,
-           date.month == currentPageDate.month { return true }
-        return false
+    /* 달력 날짜에 이벤트 표시 */
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        let isRegistered = viewModel.moments.value.contains { moment in
+            moment.year == date.year &&
+            moment.month == date.month &&
+            moment.day == date.day
+        }
+        return isRegistered ? 1 : 0
     }
     
-    //    /* 달력 날짜에 이벤트 표시 */
-    //    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-    //        if let tasks = todoScheduled[date.toString()], tasks.count > 0 { return 1 }
-    //        return 0
-    //    }
+    /* 최초 설치 월 이후 달력 표시 */
+    func minimumDate(for calendar: FSCalendar) -> Date {
+        return installMonth ?? Date()
+    }
 }

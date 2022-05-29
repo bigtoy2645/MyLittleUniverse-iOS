@@ -133,6 +133,12 @@ class NameVC: UIViewController {
         let nextViewId: Route.ViewId = Repository.instance.moments.value.isEmpty ? .initVC : .monthlyVC
         let nextVC = Route.getVC(nextViewId)
         self.navigationController?.pushViewController(nextVC, animated: false)
+        
+        if nextViewId == .monthlyVC {
+            // 감정 등록 화면으로 이동
+            let registerVC = Route.getVC(.selectStatusVC)
+            nextVC.navigationController?.pushViewController(registerVC, animated: false)
+        }
     }
     
     /* 정규식 검증 */

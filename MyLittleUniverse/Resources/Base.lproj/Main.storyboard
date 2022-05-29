@@ -415,11 +415,11 @@
             <objects>
                 <viewController storyboardIdentifier="homeView" id="KBJ-bO-BNw" customClass="MonthlyVC" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4I4-Wx-BoD">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="1350"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="1600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ApY-sc-80G">
-                                <rect key="frame" x="0.0" y="44" width="414" height="1306"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="1556"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t93-gp-TPS">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="1425"/>
@@ -719,36 +719,11 @@
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MRL-QB-CNr">
-                                                <rect key="frame" x="0.0" y="1257" width="414" height="83"/>
-                                                <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="6BC-Ki-65q">
-                                                        <rect key="frame" x="70" y="16" width="274" height="24"/>
-                                                        <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IPv-AY-yb4">
-                                                                <rect key="frame" x="0.0" y="0.0" width="91.5" height="24"/>
-                                                                <color key="tintColor" name="BackgroundGreen"/>
-                                                                <state key="normal" image="Home_24"/>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="coC-9o-8nj">
-                                                                <rect key="frame" x="91.5" y="0.0" width="91" height="24"/>
-                                                                <color key="tintColor" name="BackgroundGreen"/>
-                                                                <state key="normal" image="Add_24"/>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qf4-ge-Xfk">
-                                                                <rect key="frame" x="182.5" y="0.0" width="91.5" height="24"/>
-                                                                <color key="tintColor" name="BackgroundGreen"/>
-                                                                <state key="normal" image="Mypage_24"/>
-                                                            </button>
-                                                        </subviews>
-                                                    </stackView>
-                                                </subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MRL-QB-CNr" customClass="TabBarView" customModule="MyLittleUniverse" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="1476" width="414" height="80"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="83" id="BLx-KM-5sJ"/>
-                                                    <constraint firstItem="6BC-Ki-65q" firstAttribute="leading" secondItem="MRL-QB-CNr" secondAttribute="leading" constant="70" id="gl0-LR-3Xy"/>
-                                                    <constraint firstItem="6BC-Ki-65q" firstAttribute="top" secondItem="MRL-QB-CNr" secondAttribute="top" constant="16" id="nf4-lI-AIe"/>
-                                                    <constraint firstItem="6BC-Ki-65q" firstAttribute="centerX" secondItem="MRL-QB-CNr" secondAttribute="centerX" id="xaD-Pe-rEA"/>
+                                                    <constraint firstAttribute="height" constant="80" id="BLx-KM-5sJ"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -764,7 +739,7 @@
                                             <constraint firstItem="Xjw-F8-A9F" firstAttribute="top" secondItem="0Mf-cB-uln" secondAttribute="bottom" constant="15" id="Pba-fY-KZr"/>
                                             <constraint firstItem="NNx-u8-250" firstAttribute="leading" secondItem="t93-gp-TPS" secondAttribute="leading" id="TWI-01-CY4"/>
                                             <constraint firstItem="1MI-jA-kNN" firstAttribute="leading" secondItem="t93-gp-TPS" secondAttribute="leading" id="WsL-sT-vwG"/>
-                                            <constraint firstAttribute="height" priority="250" constant="1306" id="Xgx-hY-0Eb"/>
+                                            <constraint firstAttribute="height" priority="250" constant="1500" id="Xgx-hY-0Eb"/>
                                             <constraint firstItem="Xjw-F8-A9F" firstAttribute="centerX" secondItem="t93-gp-TPS" secondAttribute="centerX" id="a2A-90-gDH"/>
                                             <constraint firstItem="0Mf-cB-uln" firstAttribute="top" secondItem="t93-gp-TPS" secondAttribute="top" constant="30" id="aLc-SV-FtZ"/>
                                             <constraint firstItem="NNx-u8-250" firstAttribute="centerX" secondItem="t93-gp-TPS" secondAttribute="centerX" id="jN6-5T-Zsd"/>
@@ -798,12 +773,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="WRt-nK-6P5"/>
-                    <size key="freeformSize" width="414" height="1350"/>
+                    <size key="freeformSize" width="414" height="1600"/>
                     <connections>
-                        <outlet property="btnHome" destination="IPv-AY-yb4" id="bfq-Ls-yR7"/>
                         <outlet property="btnMainEmotion" destination="AFh-XZ-Rsl" id="a7C-6V-gCF"/>
-                        <outlet property="btnMypage" destination="qf4-ge-Xfk" id="TKE-wE-wMf"/>
-                        <outlet property="btnRegister" destination="coC-9o-8nj" id="lwK-xu-DXW"/>
                         <outlet property="bubbleView" destination="mPb-NI-xhC" id="w9K-x8-9Dy"/>
                         <outlet property="colDays" destination="grw-AY-QLA" id="ZUj-Ys-PhO"/>
                         <outlet property="colMomentsOfDay" destination="NNx-u8-250" id="mvH-aE-Rhv"/>
@@ -818,7 +790,7 @@
                         <outlet property="momentsHeight" destination="efo-qg-myM" id="w1C-yV-YBg"/>
                         <outlet property="rankingView" destination="u1l-t1-OBM" id="SOe-c8-Pdy"/>
                         <outlet property="scrollView" destination="ApY-sc-80G" id="o5A-Ss-I9V"/>
-                        <outlet property="tabView" destination="MRL-QB-CNr" id="Irb-lc-PLy"/>
+                        <outlet property="tabView" destination="MRL-QB-CNr" id="MJW-gk-7gz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="skO-Qf-Pmh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1776,7 +1748,6 @@
         <!--Text StickerVC-->
         <scene sceneID="au8-55-4yd">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uFb-Wg-SKx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="paintTextView" id="DSW-jA-e2B" customClass="TextStickerVC" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wbQ-5L-leb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
@@ -1861,6 +1832,7 @@
                         <outlet property="textView" destination="5qA-sh-nV0" id="IBB-0T-dFq"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uFb-Wg-SKx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4469.5652173913049" y="654.91071428571422"/>
         </scene>
@@ -2085,6 +2057,13 @@
                                                     <constraint firstAttribute="height" constant="24" id="zGS-hE-gB3"/>
                                                 </constraints>
                                             </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wbN-KU-lFi" customClass="TabBarView" customModule="MyLittleUniverse" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="963" width="414" height="80"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="80" id="INl-fr-RRS"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -2100,11 +2079,13 @@
                                             <constraint firstItem="ndc-3u-AkY" firstAttribute="leading" secondItem="8mV-uV-1Ee" secondAttribute="leading" constant="30" id="P3G-7w-udM"/>
                                             <constraint firstItem="IeG-3O-wME" firstAttribute="leading" secondItem="8mV-uV-1Ee" secondAttribute="leading" id="TcU-tu-YJj"/>
                                             <constraint firstItem="OEJ-Hg-bPr" firstAttribute="top" secondItem="VH7-yA-v2U" secondAttribute="bottom" constant="56" id="VuX-p3-qsG"/>
+                                            <constraint firstAttribute="trailing" secondItem="wbN-KU-lFi" secondAttribute="trailing" id="b6f-VO-ADg"/>
                                             <constraint firstItem="wbV-qv-mPy" firstAttribute="top" secondItem="ndc-3u-AkY" secondAttribute="bottom" constant="16" id="cKH-dZ-2bl"/>
                                             <constraint firstItem="OEJ-Hg-bPr" firstAttribute="leading" secondItem="8mV-uV-1Ee" secondAttribute="leading" id="e8f-Rd-FU6"/>
                                             <constraint firstItem="VH7-yA-v2U" firstAttribute="top" secondItem="wbV-qv-mPy" secondAttribute="bottom" constant="16" id="eLv-yY-xQm"/>
                                             <constraint firstAttribute="trailing" secondItem="d54-Ol-3GG" secondAttribute="trailing" id="gHi-Bl-1H0"/>
                                             <constraint firstAttribute="trailing" secondItem="tJR-eC-xLO" secondAttribute="trailing" id="iNV-ON-bEV"/>
+                                            <constraint firstItem="wbN-KU-lFi" firstAttribute="leading" secondItem="8mV-uV-1Ee" secondAttribute="leading" id="j1F-vh-gim"/>
                                             <constraint firstItem="wbV-qv-mPy" firstAttribute="leading" secondItem="8mV-uV-1Ee" secondAttribute="leading" constant="30" id="kpd-g7-uzE"/>
                                             <constraint firstItem="IeG-3O-wME" firstAttribute="bottom" secondItem="tJR-eC-xLO" secondAttribute="bottom" id="oxv-HD-xzT"/>
                                             <constraint firstItem="d54-Ol-3GG" firstAttribute="leading" secondItem="8mV-uV-1Ee" secondAttribute="leading" id="p7F-EP-iCp"/>
@@ -2116,6 +2097,7 @@
                                 <constraints>
                                     <constraint firstItem="8mV-uV-1Ee" firstAttribute="width" secondItem="fdJ-sx-6U8" secondAttribute="width" id="I4t-47-hxt"/>
                                     <constraint firstItem="8mV-uV-1Ee" firstAttribute="trailing" secondItem="wIC-3J-paf" secondAttribute="trailing" id="bDR-Nb-Wqf"/>
+                                    <constraint firstItem="fdJ-sx-6U8" firstAttribute="bottom" secondItem="wbN-KU-lFi" secondAttribute="bottom" id="d2T-0x-9O2"/>
                                     <constraint firstItem="8mV-uV-1Ee" firstAttribute="leading" secondItem="wIC-3J-paf" secondAttribute="leading" id="h9q-VK-2jo"/>
                                     <constraint firstItem="8mV-uV-1Ee" firstAttribute="bottom" secondItem="wIC-3J-paf" secondAttribute="bottom" id="ppB-SF-ECl"/>
                                     <constraint firstItem="8mV-uV-1Ee" firstAttribute="top" secondItem="wIC-3J-paf" secondAttribute="top" id="umc-Bo-TJJ"/>
@@ -2143,7 +2125,9 @@
                         <outlet property="calendar" destination="VH7-yA-v2U" id="hYZ-gA-9xL"/>
                         <outlet property="dateSelectorView" destination="T7J-Qf-EbH" id="9UE-Pa-q95"/>
                         <outlet property="lblDate" destination="jn3-ou-EzZ" id="3Oz-zx-nnd"/>
+                        <outlet property="lblUser" destination="F8l-3r-9Zp" id="pBk-qr-arD"/>
                         <outlet property="scrollView" destination="ccn-Yq-FyF" id="q6U-sx-ykj"/>
+                        <outlet property="tabView" destination="wbN-KU-lFi" id="BeY-og-snZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FT5-xc-rG9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2327,7 +2311,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Add_24" width="24" height="24"/>
         <image name="Add_40" width="40" height="40"/>
         <image name="ArrowBack_24" width="24" height="24"/>
         <image name="CaretDown_16" width="16" height="16"/>
@@ -2340,10 +2323,8 @@
         <image name="Ellipse246" width="57" height="100"/>
         <image name="EmotionMarbles" width="327" height="268"/>
         <image name="Fill-Shape-Off_24" width="24" height="24"/>
-        <image name="Home_24" width="24" height="24"/>
         <image name="InitBackground" width="327" height="704"/>
         <image name="Line-Shape-Off_24" width="24" height="24"/>
-        <image name="Mypage_24" width="24" height="24"/>
         <image name="Paint_24" width="24" height="24"/>
         <image name="Photo-Off_24" width="24" height="24"/>
         <image name="Redo-Off_24" width="24" height="24"/>

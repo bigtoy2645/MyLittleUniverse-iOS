@@ -22,6 +22,7 @@ class MonthlyVC: UIViewController {
         btnMainEmotion.layer.cornerRadius = 13
         btnMainEmotion.layer.borderColor = btnMainEmotion.currentTitleColor.cgColor
         tabView.addShadow(location: .top)
+        tabView.vc = self
         imgBubble.addShadow(location: .bottom,
                             color: UIColor(red: 0, green: 0, blue: 0, alpha: 0.25),
                             opacity: 1.0,
@@ -30,10 +31,6 @@ class MonthlyVC: UIViewController {
         scrollView.delegate = self
         
         setupBindings()
-        
-        // 감정 등록 화면으로 이동
-        let registerVC = Route.getVC(.selectStatusVC)
-        self.navigationController?.pushViewController(registerVC, animated: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,8 +63,6 @@ class MonthlyVC: UIViewController {
             ranking.layer.insertSublayer(layer, at: 0)
             ranking.backgroundColor = .clear
         }
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -83,7 +78,6 @@ class MonthlyVC: UIViewController {
     
     /* Binding */
     func setupBindings() {
-        tabViewBinding()
         rankingBinding()
         
         // 이 달 제일 많이 등록된 감정
@@ -134,32 +128,6 @@ class MonthlyVC: UIViewController {
             .bind(to: colMomentsOfDay.rx.items(cellIdentifier: DayMomentCell.identifier,
                                                cellType: DayMomentCell.self)) { index, moment, cell in
                 cell.moment.accept(moment)
-            }
-            .disposed(by: disposeBag)
-    }
-    
-    /* tabView Binding */
-    func tabViewBinding() {
-        // 홈 화면으로 이동
-        btnHome.rx.tap
-            .bind {
-                self.scrollView.setContentOffset(.zero, animated: true)
-            }
-            .disposed(by: disposeBag)
-        
-        // 등록 화면으로 이동
-        btnRegister.rx.tap
-            .bind {
-                let registerVC = Route.getVC(.selectStatusVC)
-                self.navigationController?.pushViewController(registerVC, animated: false)
-            }
-            .disposed(by: disposeBag)
-        
-        // 마이페이지로 이동
-        btnMypage.rx.tap
-            .bind {
-                let myPageVC = Route.getVC(.myPageVC)
-                self.navigationController?.pushViewController(myPageVC, animated: false)
             }
             .disposed(by: disposeBag)
     }
@@ -243,7 +211,7 @@ class MonthlyVC: UIViewController {
     // MARK: - InterfaceBuilder Links
     
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var tabView: UIView!
+    @IBOutlet weak var tabView: TabBarView!
     
     @IBOutlet weak var lblUserName: UILabel!
     @IBOutlet weak var btnMainEmotion: UIButton!
@@ -260,10 +228,6 @@ class MonthlyVC: UIViewController {
     @IBOutlet weak var colMomentsOfDay: UICollectionView!
     @IBOutlet weak var momentsHeight: NSLayoutConstraint!
     
-    @IBOutlet weak var btnHome: UIButton!
-    @IBOutlet weak var btnRegister: UIButton!
-    @IBOutlet weak var btnMypage: UIButton!
-    
     @IBOutlet weak var bubbleView: UIView!
     @IBOutlet weak var imgBubble: UIImageView!
 }
@@ -275,7 +239,7 @@ extension MonthlyVC: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         tabView.hideWithAnimation(hidden: false)
     }
-    
+
     /* 스크롤 중단 시 탭바 숨기기 */
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
