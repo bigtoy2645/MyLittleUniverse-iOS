@@ -17,6 +17,7 @@ class MyPageVC: UIViewController {
     private var oldSelectedDate: Date?
     private var dateComponents = DateComponents()
     private var installMonth: Date?
+    private var cardVC: CardVC?
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -36,6 +37,11 @@ class MyPageVC: UIViewController {
             formatter.dateFormat = "YYYY-MM-dd"
             let dateString = "\(createdDate.year)-\(createdDate.month)-01"
             installMonth = formatter.date(from: dateString)
+        }
+        
+        if let cardVC = Route.getVC(.cardVC) as? CardVC {
+            self.cardVC = cardVC
+            self.present(asChildViewController: cardVC, view: cardView)
         }
         
         setupCalendar()
@@ -103,6 +109,14 @@ class MyPageVC: UIViewController {
             .tapGesture()
             .when(.recognized)
             .subscribe(onNext: { _ in self.presentBackUpAlert() })
+            .disposed(by: disposeBag)
+        
+        viewModel.selectedMoments
+            .bind { self.cardVC?.moments.accept($0) }
+            .disposed(by: disposeBag)
+        
+        cardVC?.height
+            .bind(to: cardViewHeight.rx.constant)
             .disposed(by: disposeBag)
     }
     
@@ -214,8 +228,10 @@ class MyPageVC: UIViewController {
     @IBOutlet weak var btnRight: UIButton!
     @IBOutlet weak var calendar: FSCalendar!
     @IBOutlet weak var backUpView: UIView!
-
     @IBOutlet weak var tabView: TabBarView!
+    
+    @IBOutlet weak var cardView: UIView!
+    @IBOutlet weak var cardViewHeight: NSLayoutConstraint!
 }
 
 // MARK: - FSCalendar

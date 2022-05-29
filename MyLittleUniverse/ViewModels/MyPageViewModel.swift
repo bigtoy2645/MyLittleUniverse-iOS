@@ -14,6 +14,7 @@ class MyPageViewModel {
     let currentPage = BehaviorRelay<Date>(value: Date())
     let selectedDate = BehaviorRelay<Date>(value: Date())
     let calendarDate = BehaviorRelay<String>(value: "")
+    let selectedMoments = BehaviorRelay<[Moment]>(value: [])
     let userName: Observable<String>
     
     private let disposeBag = DisposeBag()
@@ -34,5 +35,18 @@ class MyPageViewModel {
         }
         .bind(to: calendarDate)
         .disposed(by: disposeBag)
+        
+        // 선택한 날짜의 감정
+        selectedDate
+            .map { date in
+                let filtered = self.moments.value.filter {
+                    $0.year == date.year &&
+                    $0.month == date.month &&
+                    $0.day == date.day
+                }
+                return filtered
+            }
+            .subscribe(onNext: selectedMoments.accept(_:))
+            .disposed(by: disposeBag)
     }
 }

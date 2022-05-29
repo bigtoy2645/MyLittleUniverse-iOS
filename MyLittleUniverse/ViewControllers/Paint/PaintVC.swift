@@ -173,7 +173,7 @@ class PaintVC: UIViewController {
                 }
                 
                 if let childVC = childVC {
-                    self.present(asChildViewController: childVC)
+                    self.present(asChildViewController: childVC, view: self.componentView)
                 }
             }
             .disposed(by: disposeBag)
@@ -266,7 +266,7 @@ class PaintVC: UIViewController {
     /* 색상 선택 화면 표시 */
     func presentColorPicker(mode: ColorPickerMode) {
         if let colorVC = self.colorChips {
-            present(asChildViewController: colorVC)
+            present(asChildViewController: colorVC, view: componentView)
             colorPickerMode = mode
             if mode == .background {        // 기존 배경 색상 지정
                 colorVC.selectedColor.onNext(viewModel.bgHexColor.value)
@@ -292,7 +292,7 @@ class PaintVC: UIViewController {
         guard let clippingVC = clippingStickers else { return }
         
         clippingVC.originImage.onNext(image)
-        present(asChildViewController: clippingVC)
+        present(asChildViewController: clippingVC, view: componentView)
         
         if let editOnImage: UIImage = .editOn {
             self.focusSticker?.changeButtonImage(editOnImage, position: .rightTop)
@@ -445,26 +445,6 @@ class PaintVC: UIViewController {
         
         return textVC
     }()
-    
-    private func present(asChildViewController viewController: UIViewController) {
-        if componentView.subviews.contains(viewController.view) {
-            componentView.bringSubviewToFront(viewController.view)
-            return
-        }
-        
-        addChild(viewController)
-        componentView.addSubview(viewController.view)
-        
-        viewController.view.frame = componentView.bounds
-        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        viewController.didMove(toParent: self)
-    }
-    
-    private func remove(asChildViewController viewController: UIViewController) {
-        viewController.willMove(toParent: nil)
-        viewController.view.removeFromSuperview()
-        viewController.removeFromParent()
-    }
     
     // MARK: - InterfaceBuilder Links
     

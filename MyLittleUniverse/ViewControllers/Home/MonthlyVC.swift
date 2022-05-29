@@ -11,6 +11,7 @@ import RxCocoa
 
 class MonthlyVC: UIViewController {
     let viewModel = MonthlyViewModel()
+    private var cardVC: CardVC?
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -29,6 +30,11 @@ class MonthlyVC: UIViewController {
                             radius: 8)
         
         scrollView.delegate = self
+        
+        if let cardVC = Route.getVC(.cardVC) as? CardVC {
+            self.cardVC = cardVC
+            self.present(asChildViewController: cardVC, view: cardView)
+        }
         
         setupBindings()
     }
@@ -94,9 +100,6 @@ class MonthlyVC: UIViewController {
             .setDelegate(self)
             .disposed(by: disposeBag)
         
-        colMomentsOfDay.rx
-            .setDelegate(self)
-            .disposed(by: disposeBag)
         
         Observable.of(Array(1...31))
             .bind(to: colDays.rx.items(cellIdentifier: DayChipCell.identifier,
@@ -115,20 +118,12 @@ class MonthlyVC: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        colMomentsOfDay.rx.willDisplayCell
-            .subscribe(onNext: { _ in
-                var height = self.colMomentsOfDay.contentSize.height
-                if height <= 0 { height = self.momentsHeight.constant }
-                self.momentsHeight.constant = height
-                self.view.layoutIfNeeded()
-            })
+        viewModel.selectedMoments
+            .bind { self.cardVC?.moments.accept($0) }
             .disposed(by: disposeBag)
         
-        viewModel.selectedMoments
-            .bind(to: colMomentsOfDay.rx.items(cellIdentifier: DayMomentCell.identifier,
-                                               cellType: DayMomentCell.self)) { index, moment, cell in
-                cell.moment.accept(moment)
-            }
+        cardVC?.height
+            .bind(to: cardViewHeight.rx.constant)
             .disposed(by: disposeBag)
     }
     
@@ -225,8 +220,8 @@ class MonthlyVC: UIViewController {
     @IBOutlet weak var lblRanking3: UILabel!
     
     @IBOutlet weak var colDays: UICollectionView!
-    @IBOutlet weak var colMomentsOfDay: UICollectionView!
-    @IBOutlet weak var momentsHeight: NSLayoutConstraint!
+    @IBOutlet weak var cardView: UIView!
+    @IBOutlet weak var cardViewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var bubbleView: UIView!
     @IBOutlet weak var imgBubble: UIImageView!
@@ -239,7 +234,7 @@ extension MonthlyVC: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         tabView.hideWithAnimation(hidden: false)
     }
-
+    
     /* 스크롤 중단 시 탭바 숨기기 */
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
@@ -248,15 +243,10 @@ extension MonthlyVC: UIScrollViewDelegate {
     }
 }
 
-// MARK: - UICollectionView
-
 extension MonthlyVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == colMomentsOfDay {
-            let width = (view.frame.width - 75) / 2.0
-            let height = width * 4 / 3
-            return CGSize(width: width, height: height)
-        }
         return CGSize(width: 30, height: 30)
     }
 }
+
+

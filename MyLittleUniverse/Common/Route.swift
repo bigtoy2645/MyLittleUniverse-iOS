@@ -26,6 +26,7 @@ class Route {
         case selectStatusVC = "selectStatusView"
         case myPageVC = "myPageView"
         case myUniverseVC = "myUniverseView"
+        case cardVC = "cardView"
     }
     
     /* ViewController */

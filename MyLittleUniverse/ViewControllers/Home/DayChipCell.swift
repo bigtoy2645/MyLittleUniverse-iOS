@@ -12,8 +12,6 @@ import RxCocoa
 class DayChipCell: UICollectionViewCell {
     static let identifier = "dayChipCell"
     
-    @IBOutlet weak var lblDay: UILabel!
-    
     let isRecorded = BehaviorRelay<Bool>(value: false)
     private var disposeBag = DisposeBag()
     
@@ -30,11 +28,6 @@ class DayChipCell: UICollectionViewCell {
             }
             .bind(to: lblDay.rx.textColor)
             .disposed(by: disposeBag)
-        
-        isRecorded.subscribe(onNext: {
-            self.isUserInteractionEnabled = $0
-        })
-        .disposed(by: disposeBag)
     }
     
     override var isSelected: Bool {
@@ -47,4 +40,8 @@ class DayChipCell: UICollectionViewCell {
         super.prepareForReuse()
         disposeBag = DisposeBag()
     }
+    
+    // MARK: - InterfaceBuilder Links
+    
+    @IBOutlet weak var lblDay: UILabel!
 }
