@@ -71,8 +71,7 @@ class MonthlyViewModel {
             .disposed(by: disposeBag)
         
         // 선택 날짜
-        let defaultIndex = (recordedDays.value.max() ?? 1) - 1
-        selectedIndex = BehaviorRelay(value: defaultIndex)
+        selectedIndex = BehaviorRelay(value: date.day - 1)
         
         // 선택한 날짜의 감정
         selectedIndex
