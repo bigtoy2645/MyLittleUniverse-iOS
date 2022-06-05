@@ -189,7 +189,7 @@
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" red="0.89803921568627454" green="0.89803921568627454" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="huY-Gi-JCw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="3Ve-EJ-W7n"/>
                             <constraint firstItem="8QE-Pc-0cE" firstAttribute="top" secondItem="FOA-iz-6LD" secondAttribute="bottom" constant="43" id="6wJ-08-Xng"/>
@@ -684,7 +684,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MRL-QB-CNr" customClass="TabBarView" customModule="MyLittleUniverse" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="1476" width="414" height="80"/>
+                                        <rect key="frame" x="0.0" y="1489" width="414" height="80"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="BLx-KM-5sJ"/>
@@ -724,6 +724,7 @@
                         <outlet property="cardViewHeight" destination="1Fs-yS-ngo" id="WK5-U3-q0o"/>
                         <outlet property="colDays" destination="grw-AY-QLA" id="ZUj-Ys-PhO"/>
                         <outlet property="imgBubble" destination="KtC-UP-qkI" id="ULO-nH-0JO"/>
+                        <outlet property="lblMonth" destination="MFZ-ce-qEC" id="Blm-no-cQz"/>
                         <outlet property="lblRanking0" destination="HgV-eU-8rb" id="uVK-bD-NBJ"/>
                         <outlet property="lblRanking0Days" destination="G5A-JC-Szi" id="v47-YN-lGU"/>
                         <outlet property="lblRanking1" destination="qlA-Aj-cwu" id="ZPx-RY-zYU"/>
@@ -1806,7 +1807,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ccn-Yq-FyF">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="1200"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="1156"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8mV-uV-1Ee">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="1121"/>
@@ -2068,7 +2069,7 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="ccn-Yq-FyF" secondAttribute="bottom" id="9xO-Gl-7HQ"/>
                             <constraint firstItem="R2n-Wo-ey8" firstAttribute="trailing" secondItem="ccn-Yq-FyF" secondAttribute="trailing" id="FDL-pB-5Zu"/>
-                            <constraint firstItem="ccn-Yq-FyF" firstAttribute="top" secondItem="42N-yL-Gde" secondAttribute="top" id="N6D-h0-zF3"/>
+                            <constraint firstItem="ccn-Yq-FyF" firstAttribute="top" secondItem="R2n-Wo-ey8" secondAttribute="top" id="N6D-h0-zF3"/>
                             <constraint firstItem="ccn-Yq-FyF" firstAttribute="leading" secondItem="R2n-Wo-ey8" secondAttribute="leading" id="eU1-ty-5aD"/>
                         </constraints>
                     </view>
@@ -2091,7 +2092,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FT5-xc-rG9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6753.6231884057979" y="958.59375"/>
+            <point key="canvasLocation" x="6753.6231884057979" y="958.25892857142856"/>
         </scene>
         <!--Picture StickerVC-->
         <scene sceneID="4FZ-Q6-ytt">

@@ -106,10 +106,13 @@ class MonthlyVC: UIViewController {
             .disposed(by: disposeBag)
         
         // 날짜별 감정
+        viewModel.monthString
+            .bind(to: lblMonth.rx.text)
+            .disposed(by: disposeBag)
+        
         colDays.rx
             .setDelegate(self)
             .disposed(by: disposeBag)
-        
         
         Observable.of(Array(1...31))
             .bind(to: colDays.rx.items(cellIdentifier: DayChipCell.identifier,
@@ -139,8 +142,14 @@ class MonthlyVC: UIViewController {
     
     /* 랭킹 Binding */
     func rankingBinding() {
-        viewModel.rankings.map { $0[0] }
+        viewModel.rankings.map { $0[safe: 0] }
             .bind { ranking in
+                let rankingView = self.rankingView.arrangedSubviews[0]
+                guard let ranking = ranking else {
+                    rankingView.isHidden = true
+                    return
+                }
+                rankingView.isHidden = false
                 self.lblRanking0.text = ranking.emotion.word
                 self.lblRanking0Days.text = "\(ranking.count) days"
             }
@@ -229,6 +238,7 @@ class MonthlyVC: UIViewController {
     @IBOutlet weak var lblRanking2: UILabel!
     @IBOutlet weak var lblRanking3: UILabel!
     
+    @IBOutlet weak var lblMonth: UILabel!
     @IBOutlet weak var colDays: UICollectionView!
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var cardViewHeight: NSLayoutConstraint!

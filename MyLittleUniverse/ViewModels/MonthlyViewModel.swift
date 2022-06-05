@@ -32,7 +32,7 @@ class MonthlyViewModel {
         
         // 이달의 감정 목록
         Repository.instance.moments
-            .map { $0.filter { $0.year == $0.year && $0.month == date.month } }
+            .map { $0.filter { ($0.year == date.year) && ($0.month == date.month) } }
             .subscribe(onNext: moments.accept(_:))
             .disposed(by: disposeBag)
         
@@ -66,7 +66,7 @@ class MonthlyViewModel {
         monthString = Observable.of("\(date.month)월")
         
         // 메인 감정
-        rankings.map { $0[0].emotion }
+        rankings.map { $0[safe: 0]?.emotion ?? .empty }
             .subscribe(onNext: mainEmotion.accept(_:))
             .disposed(by: disposeBag)
         
