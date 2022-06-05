@@ -394,8 +394,10 @@
                         <outlet property="btnSaveAll" destination="sXd-QN-g1f" id="vmc-gE-35e"/>
                         <outlet property="colEmotion" destination="fAQ-Ov-xzj" id="tZ0-0a-tru"/>
                         <outlet property="containerView" destination="rkk-ei-mfU" id="jmw-OJ-iby"/>
+                        <outlet property="emotionLeadingConstraint" destination="3z3-pn-MTL" id="Wp4-rQ-fZW"/>
                         <outlet property="emotionTrailingConstraint" destination="0H5-fu-MJE" id="gXK-Mp-muf"/>
                         <outlet property="saveView" destination="4AU-Qf-psb" id="xOd-vL-ajQ"/>
+                        <outlet property="saveViewWidthConstraint" destination="FRF-Nm-O30" id="EGe-yo-myY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aYx-oO-t3q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

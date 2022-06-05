@@ -37,13 +37,13 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         navigationController?.overrideUserInterfaceStyle = .dark
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateEmotionScroll()
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentSize.width > (scrollView.bounds.origin.x + view.frame.width - saveView.frame.width * 0.6) ||
-            scrollView.contentSize.width == 0 {
-            emotionTrailingConstraint.constant = 10
-        } else {
-            emotionTrailingConstraint.constant = saveView.frame.width
-        }
+        updateEmotionScroll()
     }
     
     /* Binding */
@@ -220,14 +220,33 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         }
     }
     
+    /* 감정 목록 스크롤 */
+    func updateEmotionScroll() {
+        let contentSize = colEmotion.contentSize.width - colEmotion.frame.size.width - emotionTrailingConstraint.constant
+        if colEmotion.contentOffset.x >= contentSize {
+            emotionTrailingConstraint.constant = saveViewWidthConstraint.constant
+        } else {
+            emotionTrailingConstraint.constant = 10
+        }
+        
+        if colEmotion.contentOffset.x > 0 {
+            emotionLeadingConstraint.constant = 0
+        } else {
+            emotionLeadingConstraint.constant = 30
+        }
+    }
+    
     // MARK: - InterfaceBuilder Links
     
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var colEmotion: UICollectionView!
     @IBOutlet weak var btnSaveAll: UIButton!
     @IBOutlet weak var btnCancel: UIButton!
     
     @IBOutlet weak var saveView: UIView!
+    @IBOutlet weak var saveViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var btnSave: UIButton!
+    
+    @IBOutlet weak var colEmotion: UICollectionView!
+    @IBOutlet weak var emotionLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var emotionTrailingConstraint: NSLayoutConstraint!
 }
