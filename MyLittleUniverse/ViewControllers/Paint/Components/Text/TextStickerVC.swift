@@ -14,7 +14,7 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
     let maxCount = 40
     var completeHandler: ((String) -> ())?
     private let disposeBag = DisposeBag()
-    private let placeHolder = "감정을 만났던 상황 또는 나만의 감정 의미를 적어보세요."
+    private let placeHolder = "그 때의 상황 또는 나만의 의미를 적어보세요. 꼭 쓰지 않아도 괜찮아요."
     
     override func viewDidLoad() {
         super.viewDidLoad()
