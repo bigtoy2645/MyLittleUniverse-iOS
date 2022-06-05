@@ -234,7 +234,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fAQ-Ov-xzj">
-                                <rect key="frame" x="30" y="111.5" width="374" height="50"/>
+                                <rect key="frame" x="24" y="111.5" width="380" height="50"/>
                                 <color key="backgroundColor" name="BackgroundGreen"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="fi5-EQ-gmO"/>
@@ -365,7 +365,7 @@
                         <color key="backgroundColor" name="BackgroundGreen"/>
                         <constraints>
                             <constraint firstItem="4AU-Qf-psb" firstAttribute="trailing" secondItem="fAQ-Ov-xzj" secondAttribute="trailing" constant="10" id="0H5-fu-MJE"/>
-                            <constraint firstItem="fAQ-Ov-xzj" firstAttribute="leading" secondItem="QPi-cz-WSf" secondAttribute="leading" constant="30" id="3z3-pn-MTL"/>
+                            <constraint firstItem="fAQ-Ov-xzj" firstAttribute="leading" secondItem="QPi-cz-WSf" secondAttribute="leading" constant="24" id="3z3-pn-MTL"/>
                             <constraint firstItem="4AU-Qf-psb" firstAttribute="top" secondItem="UFU-07-6kG" secondAttribute="bottom" id="IS4-0a-XrI"/>
                             <constraint firstItem="UFU-07-6kG" firstAttribute="top" secondItem="QPi-cz-WSf" secondAttribute="top" id="Jp7-hF-fi8"/>
                             <constraint firstItem="rkk-ei-mfU" firstAttribute="top" secondItem="4AU-Qf-psb" secondAttribute="bottom" id="QGq-tG-Ha1"/>

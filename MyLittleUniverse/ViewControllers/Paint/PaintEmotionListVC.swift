@@ -76,22 +76,32 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
             .disposed(by: disposeBag)
         
         // 스티커 있을 때 저장 버튼 활성화
-//        pageVC.currentView.value.stickers
-//            .map {
-//                guard let stickerCount = $0.count else { return false }
-//                return stickerCount > 0
-//            }
-//            .bind(to: btnSave.rx.isEnabled)
-//            .disposed(by: disposeBag)
+        pageVC.vm.views.value.forEach { vc in
+            guard let vc = vc as? PaintVC else { return }
+            vc.vm.stickers
+                .map { stickers -> Bool in
+                    if self.pageVC.vm.currentView.value == vc { return stickers.count > 0 }
+                    return self.btnSave.isEnabled
+                }
+                .bind(to: btnSave.rx.isEnabled)
+                .disposed(by: disposeBag)
+        }
+        pageVC.vm.currentView
+            .map { vc -> Bool in
+                guard let stickerCount = vc?.vm.stickers.value.count else { return self.btnSave.isEnabled }
+                return stickerCount > 0
+            }
+            .bind(to: btnSave.rx.isEnabled)
+            .disposed(by: disposeBag)
         
         // 저장
         btnSave.rx.tap
             .bind {
-                self.pageVC.currentView.value?.focusSticker = nil
-                guard let paintVC = self.pageVC.currentView.value,
+                self.pageVC.vm.currentView.value?.focusSticker = nil
+                guard let paintVC = self.pageVC.vm.currentView.value,
                       let paintImageData = paintVC.paintView.asImage().pngData() else { return }
                 
-                let bgColor = paintVC.viewModel.bgHexColor.value
+                let bgColor = paintVC.vm.bgHexColor.value
                 var textLabel = ""
                 var textColor = UIColor(rgb: bgColor).isLight() ? 0x000000 : 0xFFFFFF
                 
@@ -100,7 +110,7 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                     textColor = textSticker.textColor.rgb() ?? textColor
                 }
                 let moment = Moment(timeStamp: self.timeStamp.value.timeIntervalSinceReferenceDate,
-                                    emotion: paintVC.viewModel.emotion.value,
+                                    emotion: paintVC.vm.emotion.value,
                                     text: textLabel,
                                     textColor: textColor,
                                     imageData: paintImageData,
@@ -162,24 +172,7 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         // 취소
         btnCancel.rx.tap
             .observe(on: MainScheduler.instance)
-            .bind {
-                guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
-                
-                alertVC.modalPresentationStyle = .overFullScreen
-                let alert = Alert(title: "선택하신 감정 단어도 모두 사라집니다.\n꾸미지 않고 종료하시겠어요?",
-                                  runButtonTitle: "종료",
-                                  cancelButtonTitle: "취소")
-                alertVC.vm.alert.accept(alert)
-                alertVC.addRunButton() {
-                    self.dismiss(animated: false)
-                    self.navigationController?.popViewController(animated: false)
-                }
-                alertVC.addCancelButton() {
-                    self.dismiss(animated: false)
-                }
-                
-                self.present(alertVC, animated: false)
-            }
+            .bind { self.presentCancelAlert() }
             .disposed(by: disposeBag)
     }
     
@@ -187,7 +180,7 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         if segue.identifier == "pageSegue" {
             guard let paintPageVC = segue.destination as? PaintPageVC else { return }
             pageVC = paintPageVC
-            pageVC.emotions.accept(emotions.value)
+            pageVC.vm.emotions.accept(emotions.value)
             pageVC.pageSwitchHandler = { (index) in
                 if index != self.selectedIndex.value {
                     self.selectedIndex.accept(index)
@@ -232,8 +225,30 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         if colEmotion.contentOffset.x > 0 {
             emotionLeadingConstraint.constant = 0
         } else {
-            emotionLeadingConstraint.constant = 30
+            emotionLeadingConstraint.constant = 24
         }
+    }
+    
+    /* 취소 다이얼로그 */
+    func presentCancelAlert() {
+        guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
+        
+        alertVC.modalPresentationStyle = .overFullScreen
+        var alertTitle = "선택하신 감정 단어도 모두 사라집니다.\n꾸미지 않고 종료하시겠어요?"
+        alertTitle = "아직 진행 중인 꾸미기가 있어요.\n저장하지 않고 종료하시겠어요?"
+        let alert = Alert(title: alertTitle,
+                          runButtonTitle: "종료",
+                          cancelButtonTitle: "취소")
+        alertVC.vm.alert.accept(alert)
+        alertVC.addRunButton() {
+            self.dismiss(animated: false)
+            self.navigationController?.popViewController(animated: false)
+        }
+        alertVC.addCancelButton() {
+            self.dismiss(animated: false)
+        }
+        
+        self.present(alertVC, animated: false)
     }
     
     // MARK: - InterfaceBuilder Links

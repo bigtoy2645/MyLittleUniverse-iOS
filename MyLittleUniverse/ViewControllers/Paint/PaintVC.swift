@@ -11,10 +11,9 @@ import RxGesture
 import RxCocoa
 
 class PaintVC: UIViewController {
-    let viewModel = PaintViewModel()
+    let vm = PaintViewModel()
     private let disposeBag = DisposeBag()
     
-    var stickers = [StickerEdgeView]()
     let labelSticker = StickerEdgeView()
     let labelView = UIView()
     
@@ -124,11 +123,11 @@ class PaintVC: UIViewController {
             .disposed(by: disposeBag)
         
         // 배경 색상 설정
-        viewModel.bgColor
+        vm.bgColor
             .bind(to: paintView.rx.backgroundColor)
             .disposed(by: disposeBag)
         
-        viewModel.bgColor
+        vm.bgColor
             .bind(to: labelView.rx.backgroundColor)
             .disposed(by: disposeBag)
         
@@ -146,7 +145,7 @@ class PaintVC: UIViewController {
             .disposed(by: disposeBag)
         
         // LeftControl Button
-        viewModel.leftControl
+        vm.leftControl
             .observe(on: MainScheduler.instance)
             .bind {
                 guard let button = $0 else { return }
@@ -181,24 +180,24 @@ class PaintVC: UIViewController {
         // 그림 스티커
         btnPicture.rx.tap
             .observe(on: MainScheduler.instance)
-            .bind { self.viewModel.leftControl.accept(self.btnPicture) }
+            .bind { self.vm.leftControl.accept(self.btnPicture) }
             .disposed(by: disposeBag)
         
         // 라인 도형 스티커
         btnLineShape.rx.tap
-            .bind { self.viewModel.leftControl.accept(self.btnLineShape) }
+            .bind { self.vm.leftControl.accept(self.btnLineShape) }
             .disposed(by: disposeBag)
         
         // 도형 스티커
         btnFillShape.rx.tap
             .observe(on: MainScheduler.instance)
-            .bind { self.viewModel.leftControl.accept(self.btnFillShape) }
+            .bind { self.vm.leftControl.accept(self.btnFillShape) }
             .disposed(by: disposeBag)
         
         // 텍스트
         btnText.rx.tap
             .observe(on: MainScheduler.instance)
-            .bind { self.viewModel.leftControl.accept(self.btnText) }
+            .bind { self.vm.leftControl.accept(self.btnText) }
             .disposed(by: disposeBag)
         
         // 하단 텍스트 스크롤
@@ -269,7 +268,7 @@ class PaintVC: UIViewController {
             present(asChildViewController: colorVC, view: componentView)
             colorPickerMode = mode
             if mode == .background {        // 기존 배경 색상 지정
-                colorVC.selectedColor.onNext(viewModel.bgHexColor.value)
+                colorVC.selectedColor.onNext(vm.bgHexColor.value)
             } else if mode == .sticker {    // 기존 스티커 색상 지정
                 if let colorOnImage: UIImage = .colorOn {
                     self.focusSticker?.changeButtonImage(colorOnImage, position: .rightTop)
@@ -316,7 +315,7 @@ class PaintVC: UIViewController {
         btnRedo.isHidden = false
         btnDone.isHidden = true
         
-        let selectedButton = viewModel.leftControl.value ?? btnPicture
+        let selectedButton = vm.leftControl.value ?? btnPicture
         selectedButton?.sendActions(for: .touchUpInside)
     }
     
@@ -335,21 +334,25 @@ class PaintVC: UIViewController {
     
     /* 스티커 색상 변경 */
     private func updateStickerColor(stickerView: StickerEdgeView, hexColor: Int) {
-        if let stickerIndex = stickers.firstIndex(of: stickerView) {
+        if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView) {
             var sticker = stickerView.sticker.value
             sticker.hexColor = hexColor
             stickerView.sticker.accept(sticker)
-            self.stickers[stickerIndex] = stickerView
+            var stickers = vm.stickers.value
+            stickers[stickerIndex] = stickerView
+            vm.stickers.accept(stickers)
         }
     }
     
     /* 스티커 이미지 변경 */
     private func updateStickerImage(stickerView: StickerEdgeView, image: UIImage?) {
-        if let stickerIndex = stickers.firstIndex(of: stickerView) {
+        if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView) {
             var sticker = stickerView.sticker.value
             sticker.image = image
             stickerView.sticker.accept(sticker)
-            self.stickers[stickerIndex] = stickerView
+            var stickers = vm.stickers.value
+            stickers[stickerIndex] = stickerView
+            vm.stickers.accept(stickers)
         }
     }
     
@@ -357,13 +360,13 @@ class PaintVC: UIViewController {
     private func pickColor(_ hexColor: Int, isUndoAction: Bool = false) {
         if self.colorPickerMode == .background {    // 배경 색상 변경
             if isBgColorSelected {
-                let oldHexColor = self.viewModel.bgHexColor.value
-                undoFunctions.append(Handler(undo: { self.viewModel.bgHexColor.accept(oldHexColor) },
-                                             redo: { self.viewModel.bgHexColor.accept(hexColor) }))
+                let oldHexColor = self.vm.bgHexColor.value
+                undoFunctions.append(Handler(undo: { self.vm.bgHexColor.accept(oldHexColor) },
+                                             redo: { self.vm.bgHexColor.accept(hexColor) }))
             } else {
                 isBgColorSelected = true
             }
-            self.viewModel.bgHexColor.accept(hexColor)
+            self.vm.bgHexColor.accept(hexColor)
         } else if self.colorPickerMode == .sticker, // 스티커 색상 변경
                   let stickerView = self.focusSticker {
             var sticker = stickerView.sticker.value
@@ -436,7 +439,7 @@ class PaintVC: UIViewController {
     
     private lazy var textSticker: TextStickerVC? = {
         guard let textVC = Route.getVC(.textStickerVC) as? TextStickerVC else { return nil }
-        textVC.emotion.accept(viewModel.emotion.value)
+        textVC.emotion.accept(vm.emotion.value)
         textVC.completeHandler = { (description) in
             DispatchQueue.main.async {
                 self.addTextSticker(text: description)
@@ -532,20 +535,20 @@ extension PaintVC: UIGestureRecognizerDelegate {
                                          redo: { self.addSticker(imageSticker) }))
         }
         
-        stickers.append(imageSticker)
+        vm.addSticker(imageSticker)
         focusSticker = imageSticker
     }
     
     /* 스티커 추가 */
     func addSticker(_ sticker: StickerEdgeView) {
         paintView.addSubview(sticker)
-        stickers.append(sticker)
+        vm.addSticker(sticker)
         focusSticker = sticker
     }
     
     /* 스티커 삭제 */
     func removeSticker(_ sticker: StickerEdgeView, isUndoAction: Bool = false) {
-        stickers = stickers.filter { $0.sticker.value != sticker.sticker.value }
+        vm.removeSticker(sticker)
         if sticker == focusSticker {
             focusSticker?.removeFromSuperview()
             focusSticker = nil
