@@ -131,9 +131,19 @@ class SelectEmotionsVC: UIViewController,
         return CGSize(width: width, height: height)
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentSize = scrollView.contentSize.height - scrollView.frame.size.height - colBottomConstraint.constant
+        if scrollView.contentOffset.y >= contentSize {
+            colBottomConstraint.constant = 120
+        } else {
+            colBottomConstraint.constant = 0
+        }
+    }
+    
     // MARK: - InterfaceBuilder Links
     
     @IBOutlet weak var colEmotions: UICollectionView!
+    @IBOutlet weak var colBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var btnDone: UIButton!
     

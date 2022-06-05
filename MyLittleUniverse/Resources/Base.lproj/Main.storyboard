@@ -1090,6 +1090,7 @@
                     <connections>
                         <outlet property="btnBack" destination="rCy-n0-wKN" id="fdH-PG-KY3"/>
                         <outlet property="btnDone" destination="dO7-UH-hcE" id="xpl-Ae-crG"/>
+                        <outlet property="colBottomConstraint" destination="IN2-h2-PG7" id="dpw-Zv-4GH"/>
                         <outlet property="colEmotions" destination="puK-ZB-1bF" id="RFe-sV-HXm"/>
                         <outlet property="lblCount" destination="kw2-Oi-k97" id="MVc-nc-yFb"/>
                         <outlet property="lblDone" destination="jMN-cm-uxe" id="yRE-2N-cSC"/>
