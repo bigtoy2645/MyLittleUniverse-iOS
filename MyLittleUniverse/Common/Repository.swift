@@ -42,10 +42,12 @@ class Repository: NSObject {
     /* 감정 추가 */
     func add(moment: Moment) {
         var newMoments = moments.value
-        if !newMoments.contains(moment) {
+        if let momentIndex = newMoments.firstIndex(of: moment) {
+            newMoments[momentIndex] = moment
+        } else {
             newMoments.append(moment)
-            moments.accept(newMoments)
         }
+        moments.accept(newMoments)
     }
     
     /* 감정 삭제 */
