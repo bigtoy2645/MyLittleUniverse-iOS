@@ -24,11 +24,9 @@ class PaintVC: UIViewController {
         didSet {
             oldValue?.isSelected = false
             focusSticker?.isSelected = true
-            
-            let currentComponentView = self.componentView.subviews.last
-            if let colorOffImage = UIImage.colorOff,
-               currentComponentView == self.colorChips?.view {
-                oldValue?.changeButtonImage(colorOffImage, position: .rightTop)
+            if self.componentView.subviews.last == self.colorChips?.view {
+                oldValue?.changeButtonImage(.colorOff, position: .rightTop)
+                oldValue?.changeEditable(false)
                 self.presentColorPicker(mode: .sticker)
             }
         }
@@ -136,9 +134,8 @@ class PaintVC: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind {
                 let buttonImage: UIImage? = self.focusSticker?.sticker.value.type == .picture ? .editOff : .colorOff
-                if let buttonImage = buttonImage {
-                    self.focusSticker?.changeButtonImage(buttonImage, position: .rightTop)
-                }
+                self.focusSticker?.changeButtonImage(buttonImage, position: .rightTop)
+                self.focusSticker?.changeEditable(false)
                 
                 self.presentStickerView()
             }
@@ -270,9 +267,8 @@ class PaintVC: UIViewController {
             if mode == .background {        // 기존 배경 색상 지정
                 colorVC.selectedColor.onNext(vm.bgHexColor.value)
             } else if mode == .sticker {    // 기존 스티커 색상 지정
-                if let colorOnImage: UIImage = .colorOn {
-                    self.focusSticker?.changeButtonImage(colorOnImage, position: .rightTop)
-                }
+                self.focusSticker?.changeButtonImage(.colorOn, position: .rightTop)
+                self.focusSticker?.changeEditable(true)
                 colorVC.selectedColor.onNext(focusSticker?.sticker.value.hexColor)
             }
             
@@ -293,9 +289,8 @@ class PaintVC: UIViewController {
         clippingVC.originImage.onNext(image)
         present(asChildViewController: clippingVC, view: componentView)
         
-        if let editOnImage: UIImage = .editOn {
-            self.focusSticker?.changeButtonImage(editOnImage, position: .rightTop)
-        }
+        focusSticker?.changeButtonImage(.editOn, position: .rightTop)
+        focusSticker?.changeEditable(true)
         
         leftControls.isHidden = true
         rightControls.isHidden = false

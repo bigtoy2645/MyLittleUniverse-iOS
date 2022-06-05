@@ -173,7 +173,7 @@ class StickerEdgeView: UIView {
     }
     
     /* 버튼 이미지 변경 */
-    func changeButtonImage(_ image: UIImage, position: ButtonPosition) {
+    func changeButtonImage(_ image: UIImage?, position: ButtonPosition) {
         switch position {
         case .leftTop:
             self.btnLeftTop.setImage(image, for: .normal)
@@ -184,6 +184,23 @@ class StickerEdgeView: UIView {
         case .rightBottom:
             self.btnRightBottom.setImage(image, for: .normal)
         }
+    }
+    
+    /* 편집 상태 변경 */
+    func changeEditable(_ isEditable: Bool) {
+        if isEditable {
+            changeButtonImage(.deleteDisabled, position: .leftTop)
+            changeButtonImage(.cloneDisabled, position: .leftBottom)
+            changeButtonImage(.sizeDisabled, position: .rightBottom)
+        } else {
+            changeButtonImage(.deleteOff, position: .leftTop)
+            changeButtonImage(.cloneOff, position: .leftBottom)
+            changeButtonImage(.sizeOff, position: .rightBottom)
+        }
+        
+        btnLeftTop.isUserInteractionEnabled = !isEditable
+        btnLeftBottom.isUserInteractionEnabled = !isEditable
+        btnRightBottom.isUserInteractionEnabled = !isEditable
     }
     
     // MARK: - InterfaceBuilder Links
