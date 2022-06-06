@@ -111,8 +111,8 @@ class SelectEmotionsVC: UIViewController,
             .bind {
                 guard let paintListVC = Route.getVC(.paintEmotionListVC) as? PaintEmotionListVC else { return }
                 // 선택한 Emotion 전달
-                paintListVC.timeStamp.accept(self.timeStamp.value)
-                paintListVC.emotions.accept(self.selectedEmotions.value)
+                paintListVC.vm.timeStamp.accept(self.timeStamp.value)
+                paintListVC.vm.emotions.accept(self.selectedEmotions.value)
                 self.navigationController?.pushViewController(paintListVC, animated: false)
             }
             .disposed(by: disposeBag)
