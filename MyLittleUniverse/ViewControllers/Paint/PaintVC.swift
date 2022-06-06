@@ -471,7 +471,10 @@ class PaintVC: UIViewController {
 
 extension PaintVC: UIGestureRecognizerDelegate {
     /* 스티커 생성 */
-    private func createSticker(_ sticker: Sticker, centerPos: CGPoint? = nil, isUndoAction: Bool = false) {
+    private func createSticker(_ sticker: Sticker,
+                               centerPos: CGPoint? = nil,
+                               transform: CGAffineTransform? = nil,
+                               isUndoAction: Bool = false) {
         let imageSticker = StickerEdgeView()
         paintView.addSubview(imageSticker)
         
@@ -479,6 +482,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
         let size = paintView.frame.width / 3 + 32
         imageSticker.frame.size = CGSize(width: size, height: size)
         imageSticker.center = centerPos ?? stickerPos[stickerCount % stickerPos.count]
+        imageSticker.transform = transform ?? imageSticker.transform
         imageSticker.contentMode = .scaleAspectFit
         imageSticker.sticker.accept(sticker)
         stickerCount += 1
@@ -493,7 +497,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
             let centerPos = CGPoint(x: imageSticker.center.x + 26,
                                     y: imageSticker.center.y + 26)
             let cloneSticker = imageSticker.sticker.value
-            self.createSticker(cloneSticker, centerPos: centerPos)
+            self.createSticker(cloneSticker, centerPos: centerPos, transform: imageSticker.transform)
         }
         
         // 스티커 색상 변경
