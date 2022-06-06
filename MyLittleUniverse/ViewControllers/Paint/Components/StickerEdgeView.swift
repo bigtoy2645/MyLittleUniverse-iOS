@@ -36,7 +36,10 @@ class StickerEdgeView: UIView {
     }
     var isSelected = false {
         didSet {
+            innerBorderView.layer.borderWidth = isSelected ? 0.2 : 0
             borderView.layer.borderWidth = isSelected ? 1 : 0
+            outborderView.layer.borderWidth = isSelected ? 0.2 : 0
+            
             btnLeftTop.isHidden = btnLeftTop.isEnabled ? !isSelected : true
             btnRightTop.isHidden = btnRightTop.isEnabled ? !isSelected : true
             btnLeftBottom.isHidden = btnLeftBottom.isEnabled ? !isSelected : true
@@ -62,6 +65,8 @@ class StickerEdgeView: UIView {
         addSubview(view)
         
         borderView.layer.borderColor = UIColor.white.cgColor
+        outborderView.layer.borderColor = UIColor.gray300.cgColor
+        innerBorderView.layer.borderColor = UIColor.gray300.cgColor
         
         let panGesture = UIPanGestureRecognizer(target: self,
                                                 action: #selector(self.handlePanGesture(recognizer:)))
@@ -210,5 +215,7 @@ class StickerEdgeView: UIView {
     @IBOutlet weak private var btnLeftBottom: UIButton!
     @IBOutlet weak private var btnRightBottom: UIButton!
     
+    @IBOutlet weak var innerBorderView: UIView!
+    @IBOutlet weak var outborderView: UIView!
     @IBOutlet weak var borderView: UIView!
 }

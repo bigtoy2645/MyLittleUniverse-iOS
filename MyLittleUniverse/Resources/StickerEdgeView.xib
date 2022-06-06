@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,6 +15,8 @@
                 <outlet property="btnLeftTop" destination="H2n-pU-jJW" id="ra8-EX-Sax"/>
                 <outlet property="btnRightBottom" destination="i2e-Z5-Hub" id="nU8-Vb-zLW"/>
                 <outlet property="btnRightTop" destination="Hiu-SR-VfU" id="vlz-s5-uYF"/>
+                <outlet property="innerBorderView" destination="xjG-OF-0Vq" id="Zge-Hm-9Og"/>
+                <outlet property="outborderView" destination="uoJ-5E-g95" id="N24-Um-W9h"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -22,8 +24,16 @@
             <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XHu-nW-s2I">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XHu-nW-s2I" userLabel="Border View">
                     <rect key="frame" x="12" y="12" width="276" height="276"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uoJ-5E-g95" userLabel="OutBorder View">
+                    <rect key="frame" x="12" y="12" width="276" height="276"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xjG-OF-0Vq" userLabel="InnerBorder View">
+                    <rect key="frame" x="13" y="13" width="274" height="274"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H2n-pU-jJW" userLabel="leftTopButton">
@@ -49,15 +59,23 @@
                 <constraint firstItem="XHu-nW-s2I" firstAttribute="top" secondItem="H2n-pU-jJW" secondAttribute="centerY" id="2UL-p8-4mO"/>
                 <constraint firstAttribute="trailing" secondItem="i2e-Z5-Hub" secondAttribute="trailing" id="4U8-wr-6xe"/>
                 <constraint firstItem="Hiu-SR-VfU" firstAttribute="centerY" secondItem="H2n-pU-jJW" secondAttribute="centerY" id="5iU-Wc-yJ0"/>
+                <constraint firstItem="Hiu-SR-VfU" firstAttribute="centerX" secondItem="uoJ-5E-g95" secondAttribute="trailing" constant="-0.20000000000000001" id="78Y-yy-es6"/>
                 <constraint firstAttribute="trailing" secondItem="Hiu-SR-VfU" secondAttribute="trailing" id="Cqh-2F-Z48"/>
+                <constraint firstItem="xjG-OF-0Vq" firstAttribute="leading" secondItem="H2n-pU-jJW" secondAttribute="centerX" constant="1" id="Dj1-uu-kTM"/>
+                <constraint firstItem="xjG-OF-0Vq" firstAttribute="top" secondItem="H2n-pU-jJW" secondAttribute="centerY" constant="1" id="EId-Zc-fb8"/>
                 <constraint firstAttribute="bottom" secondItem="ftg-5j-Vxv" secondAttribute="bottom" id="EQK-9C-Luf"/>
                 <constraint firstAttribute="bottom" secondItem="i2e-Z5-Hub" secondAttribute="bottom" id="JL7-1A-1bE"/>
                 <constraint firstItem="H2n-pU-jJW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="NwD-6G-boq"/>
                 <constraint firstItem="ftg-5j-Vxv" firstAttribute="centerX" secondItem="H2n-pU-jJW" secondAttribute="centerX" id="eeV-w4-9Wx"/>
+                <constraint firstItem="uoJ-5E-g95" firstAttribute="leading" secondItem="H2n-pU-jJW" secondAttribute="centerX" constant="-0.20000000000000001" id="hTm-GU-Ryb"/>
                 <constraint firstItem="ftg-5j-Vxv" firstAttribute="centerY" secondItem="XHu-nW-s2I" secondAttribute="bottom" id="jBL-p5-cRO"/>
+                <constraint firstItem="uoJ-5E-g95" firstAttribute="top" secondItem="H2n-pU-jJW" secondAttribute="centerY" constant="-0.20000000000000001" id="kr3-4n-6pG"/>
                 <constraint firstItem="XHu-nW-s2I" firstAttribute="leading" secondItem="H2n-pU-jJW" secondAttribute="centerX" id="mAH-Jk-w9r"/>
+                <constraint firstItem="i2e-Z5-Hub" firstAttribute="centerY" secondItem="xjG-OF-0Vq" secondAttribute="bottom" constant="1" id="pgV-9k-7wL"/>
                 <constraint firstItem="Hiu-SR-VfU" firstAttribute="centerX" secondItem="XHu-nW-s2I" secondAttribute="trailing" id="qok-pE-mPJ"/>
                 <constraint firstItem="H2n-pU-jJW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wqE-GF-wI6"/>
+                <constraint firstItem="i2e-Z5-Hub" firstAttribute="centerY" secondItem="uoJ-5E-g95" secondAttribute="bottom" constant="-0.20000000000000001" id="wyM-NR-lgk"/>
+                <constraint firstItem="i2e-Z5-Hub" firstAttribute="centerX" secondItem="xjG-OF-0Vq" secondAttribute="trailing" constant="1" id="yjC-H6-BML"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-78.260869565217391" y="-125.22321428571428"/>
