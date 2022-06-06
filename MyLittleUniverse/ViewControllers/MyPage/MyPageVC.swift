@@ -48,6 +48,13 @@ class MyPageVC: UIViewController {
         setupBindings()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        dotView.backgroundColor = .clear
+        dotView.createDottedLine(width: 1.0, color: UIColor.bgGreen.cgColor)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.overrideUserInterfaceStyle = .light
@@ -129,7 +136,7 @@ class MyPageVC: UIViewController {
         calendar.calendarHeaderView.isHidden = true
         calendar.headerHeight = 0
         calendar.today = nil
-        calendar.placeholderType = .fillSixRows
+        calendar.placeholderType = .none
         calendar.appearance.eventDefaultColor = .mainBlack
         calendar.appearance.eventSelectionColor = .mainBlack
         calendar.appearance.eventOffset = CGPoint(x: 0, y: 5)
@@ -220,6 +227,7 @@ class MyPageVC: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var lblUser: UILabel!
+    @IBOutlet weak var dotView: UIView!
     @IBOutlet weak var btnCount: UIButton!
     
     @IBOutlet weak var dateSelectorView: UIStackView!

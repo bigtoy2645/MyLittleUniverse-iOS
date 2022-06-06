@@ -48,4 +48,18 @@ extension UIView {
             layer.render(in: rendererContext.cgContext)
         }
     }
+    
+    /* 도트 무늬 라인 */
+    func createDottedLine(width: CGFloat, color: CGColor) {
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.strokeColor = color
+        shapeLayer.lineWidth = width
+        shapeLayer.lineDashPattern = [3, 5]
+        
+        let cgPath = CGMutablePath()
+        let cgPoint = [CGPoint.zero, CGPoint(x: frame.width, y: 0)]
+        cgPath.addLines(between: cgPoint)
+        shapeLayer.path = cgPath
+        layer.sublayers = [shapeLayer]
+    }
 }

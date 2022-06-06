@@ -2087,6 +2087,7 @@
                         <outlet property="cardView" destination="b82-DW-SPQ" id="Amj-gh-94S"/>
                         <outlet property="cardViewHeight" destination="aem-OL-q4h" id="rbB-dm-uuY"/>
                         <outlet property="dateSelectorView" destination="T7J-Qf-EbH" id="9UE-Pa-q95"/>
+                        <outlet property="dotView" destination="gjX-l9-wLG" id="Ce0-dL-DLV"/>
                         <outlet property="lblDate" destination="jn3-ou-EzZ" id="3Oz-zx-nnd"/>
                         <outlet property="lblUser" destination="F8l-3r-9Zp" id="pBk-qr-arD"/>
                         <outlet property="scrollView" destination="ccn-Yq-FyF" id="q6U-sx-ykj"/>
