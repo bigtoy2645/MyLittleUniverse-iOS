@@ -19,10 +19,6 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         
         setupBindings()
         
-        btnSave.isEnabled = false
-        btnSaveAll.isEnabled = false
-        btnSaveAll.setTitleColor(.white.withAlphaComponent(0.1), for: .normal)
-        
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
         gradientLayer.locations = [0.0, 0.4]
@@ -83,7 +79,7 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                     if self.pageVC.vm.currentView.value == vc { return stickers.count > 0 }
                     return self.btnSave.isEnabled
                 }
-                .bind(to: btnSave.rx.isEnabled)
+                .bind(to: vm.saveEnabled)
                 .disposed(by: disposeBag)
         }
         pageVC.vm.currentView
@@ -91,14 +87,22 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                 guard let stickerCount = vc?.vm.stickers.value.count else { return self.btnSave.isEnabled }
                 return stickerCount > 0
             }
-            .bind(to: btnSave.rx.isEnabled)
+            .bind(to: vm.saveEnabled)
             .disposed(by: disposeBag)
         
         // 저장
+        vm.saveEnabled
+            .bind(to: btnSave.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        vm.saveEnabled
+            .map { $0 ? UIColor.white : UIColor.white.withAlphaComponent(0.1) }
+            .bind(to: btnSave.rx.tintColor)
+            .disposed(by: disposeBag)
+        
         btnSave.rx.tap
             .bind {
-                self.btnSaveAll.isEnabled = true
-                self.btnSaveAll.setTitleColor(.white, for: .normal)
+                self.vm.saveAllEnabled.accept(true)
                 self.pageVC.vm.currentView.value?.focusSticker = nil
                 guard let paintVC = self.pageVC.vm.currentView.value,
                       let paintImageData = paintVC.paintView.asImage().pngData() else { return }
@@ -134,6 +138,15 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
             .disposed(by: disposeBag)
         
         // 완료
+        vm.saveAllEnabled
+            .bind(to: btnSaveAll.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        vm.saveAllEnabled
+            .map { $0 ? UIColor.white : UIColor.white.withAlphaComponent(0.1) }
+            .bind { self.btnSaveAll.setTitleColor($0, for: .normal) }
+            .disposed(by: disposeBag)
+        
         btnSaveAll.rx.tap
             .bind {
                 if self.vm.moments.value.count == self.vm.emotions.value.count {
