@@ -575,17 +575,20 @@ extension PaintVC: UIGestureRecognizerDelegate {
         labelSticker.sticker.accept(Sticker(type: .text, text: text, hexColor: labelColor))
         if text.isEmpty {
             labelSticker.stickerView?.frame.size = CGSize.zero
+            vm.removeSticker(labelSticker)
             focusSticker = nil
             return
         }
         labelSticker.center = CGPoint(x: labelView.frame.width / 2, y: labelView.frame.height / 2)
         focusSticker = labelSticker
+        vm.addSticker(labelSticker)
     }
     
     func configureTextSticker() {
         // 스티커 삭제
         labelSticker.setLeftTopButton {
             self.textSticker?.textView.text = ""
+            self.vm.removeSticker(self.labelSticker)
             self.focusSticker = nil
         }
         
