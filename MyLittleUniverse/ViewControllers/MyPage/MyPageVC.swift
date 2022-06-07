@@ -136,6 +136,7 @@ class MyPageVC: UIViewController {
         calendar.calendarHeaderView.isHidden = true
         calendar.headerHeight = 0
         calendar.today = nil
+        calendar.locale = Locale(identifier: "ko_KR")
         calendar.placeholderType = .none
         calendar.appearance.eventDefaultColor = .mainBlack
         calendar.appearance.eventSelectionColor = .mainBlack
