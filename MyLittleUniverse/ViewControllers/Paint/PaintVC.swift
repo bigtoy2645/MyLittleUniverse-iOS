@@ -79,6 +79,7 @@ class PaintVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         setupBindings()
+        btnEditBgColor.isHidden = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -130,9 +131,24 @@ class PaintVC: UIViewController {
             .bind(to: labelView.rx.backgroundColor)
             .disposed(by: disposeBag)
         
+        vm.isEditing
+            .bind(to: btnEditBgColor.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        vm.isEditing
+            .bind(to: btnUndo.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        vm.isEditing
+            .bind(to: btnRedo.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        vm.isEditing.map { !$0 }
+            .bind(to: btnDone.rx.isHidden)
+            .disposed(by: disposeBag)
+        
         // 색상 선택 완료
         btnDone.rx.tap
-            .observe(on: MainScheduler.instance)
             .bind {
                 let buttonImage: UIImage? = self.focusSticker?.sticker.value.type == .picture ? .editOff : .colorOff
                 self.focusSticker?.changeButtonImage(buttonImage, position: .rightTop)
@@ -164,7 +180,6 @@ class PaintVC: UIViewController {
                     self.scrollPaintView.scrollRectToVisible(self.paintView.frame, animated: true)
                 case self.btnText:
                     childVC = self.textSticker
-                    self.focusSticker = self.labelSticker
                     self.scrollPaintView.scrollRectToVisible(self.labelView.frame, animated: true)
                 default: break
                 }
@@ -177,7 +192,6 @@ class PaintVC: UIViewController {
         
         // 그림 스티커
         btnPicture.rx.tap
-            .observe(on: MainScheduler.instance)
             .bind { self.vm.leftControl.accept(self.btnPicture) }
             .disposed(by: disposeBag)
         
@@ -188,13 +202,11 @@ class PaintVC: UIViewController {
         
         // 도형 스티커
         btnFillShape.rx.tap
-            .observe(on: MainScheduler.instance)
             .bind { self.vm.leftControl.accept(self.btnFillShape) }
             .disposed(by: disposeBag)
         
         // 텍스트
         btnText.rx.tap
-            .observe(on: MainScheduler.instance)
             .bind { self.vm.leftControl.accept(self.btnText) }
             .disposed(by: disposeBag)
         
@@ -275,11 +287,7 @@ class PaintVC: UIViewController {
             
             leftControls.isHidden = true
             rightControls.isHidden = false
-            
-            btnEditBgColor.isHidden = true
-            btnUndo.isHidden = true
-            btnRedo.isHidden = true
-            btnDone.isHidden = false
+            vm.isEditing.accept(true)
         }
     }
     
@@ -295,21 +303,14 @@ class PaintVC: UIViewController {
         
         leftControls.isHidden = true
         rightControls.isHidden = false
-        
-        btnUndo.isHidden = true
-        btnRedo.isHidden = true
-        btnDone.isHidden = false
+        vm.isEditing.accept(true)
     }
     
     /* 스티커 추가 화면 표시 */
     func presentStickerView() {
         leftControls.isHidden = false
         rightControls.isHidden = false
-        
-        btnEditBgColor.isHidden = false
-        btnUndo.isHidden = false
-        btnRedo.isHidden = false
-        btnDone.isHidden = true
+        vm.isEditing.accept(false)
         
         let selectedButton = vm.leftControl.value ?? btnPicture
         selectedButton?.sendActions(for: .touchUpInside)
