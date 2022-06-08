@@ -80,13 +80,21 @@ class StickerEdgeView: UIView {
         let location = recognizer.location(in: self)
         let scaleX = location.x / btnRightBottom.frame.origin.x
         let scaleY = location.y / btnRightBottom.frame.origin.y
-        let scale = max(scaleX, scaleY)
+        var scale = max(scaleX, scaleY)
         
         let angleRightBottom = atan(btnRightBottom.frame.origin.y / btnRightBottom.frame.origin.x)
         let angleLocation = atan(location.y / location.x)
         let angle = angleLocation - angleRightBottom
-        
-        self.transform = self.transform.scaledBy(x: scale, y: scale).rotated(by: angle)
+
+        if recognizer.state == .began || recognizer.state == .changed {
+            let currentScale = (layer.value(forKeyPath: "transform.scale") as? NSNumber)?.floatValue
+            let minScale: CGFloat = 0.25
+            
+            if let currentScale = currentScale {
+                scale = max(scale, minScale / (CGFloat)(currentScale))
+                transform = transform.scaledBy(x: scale, y: scale).rotated(by: angle)
+            }
+        }
     }
     
     /* Binding */

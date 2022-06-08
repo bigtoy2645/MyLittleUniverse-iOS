@@ -17,6 +17,7 @@ class PaintVC: UIViewController {
     let labelSticker = StickerEdgeView()
     let labelView = UIView()
     
+    var lastScale: CGFloat = 1.0
     var stickerCount = 0
     var stickerPos: [CGPoint] = []
     var isBgColorSelected = false
@@ -634,9 +635,23 @@ extension PaintVC: UIGestureRecognizerDelegate {
     /* 크기 변경 */
     @objc func handlePinchGesture(recognizer: UIPinchGestureRecognizer) {
         changeFocusSticker(recognizer.view)
-        if let pinchView = recognizer.view {
-            pinchView.transform = pinchView.transform.scaledBy(x: recognizer.scale, y: recognizer.scale)
-            recognizer.scale = 1.0
+        
+        if recognizer.state == .began {
+            lastScale = recognizer.scale
+        }
+        guard let pinchView = recognizer.view else { return }
+        
+        if recognizer.state == .began || recognizer.state == .changed {
+            let currentScale = (pinchView.layer.value(forKeyPath: "transform.scale") as? NSNumber)?.floatValue
+            let minScale: CGFloat = 0.25
+            
+            var newScale = 1.0 - (lastScale - recognizer.scale)
+            if let currentScale = currentScale {
+                newScale = max(newScale, minScale / (CGFloat)(currentScale))
+                pinchView.transform = pinchView.transform.scaledBy(x: newScale, y: newScale)
+                recognizer.scale = 1.0
+                lastScale = recognizer.scale
+            }
         }
     }
     
