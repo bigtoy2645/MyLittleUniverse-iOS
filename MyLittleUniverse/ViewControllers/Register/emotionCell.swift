@@ -1,5 +1,5 @@
 //
-//  EmotionDetailCollectionViewCell.swift
+//  EmotionCell.swift
 //  MyLittleUniverse
 //
 //  Created by yurim on 2022/02/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class emotionCell: UICollectionViewCell {
+class EmotionCell: UICollectionViewCell {
     static let identifier = "emotionCell"
     
     @IBOutlet weak var lblStatus: UILabel!

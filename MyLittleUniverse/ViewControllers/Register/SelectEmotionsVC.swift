@@ -49,8 +49,8 @@ class SelectEmotionsVC: UIViewController,
         
         // 감정 리스트
         status.map { $0.emotions() }
-        .bind(to: colEmotions.rx.items(cellIdentifier: emotionCell.identifier,
-                                          cellType: emotionCell.self)) { index, emotion, cell in
+        .bind(to: colEmotions.rx.items(cellIdentifier: EmotionCell.identifier,
+                                          cellType: EmotionCell.self)) { index, emotion, cell in
             cell.lblStatus.text = emotion.word
         }
         .disposed(by: disposeBag)

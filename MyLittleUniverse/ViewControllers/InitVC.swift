@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 
 class InitVC: UIViewController {
-    var userName = Observable.of(Repository.instance.userName)
+    let userName = Observable.of(Repository.instance.userName)
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {

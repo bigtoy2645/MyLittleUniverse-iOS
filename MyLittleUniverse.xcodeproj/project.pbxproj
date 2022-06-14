@@ -15,6 +15,8 @@
 		1A01FBE72843AC3900457D84 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01FBE62843AC3900457D84 /* UIViewController+Extension.swift */; };
 		1A01FBE9284CE5DA00457D84 /* PaintPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01FBE8284CE5DA00457D84 /* PaintPageViewModel.swift */; };
 		1A01FBEB284E229B00457D84 /* PaintEmotionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01FBEA284E229B00457D84 /* PaintEmotionListViewModel.swift */; };
+		1A01FBEE284E324C00457D84 /* MyWordsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01FBED284E324C00457D84 /* MyWordsCell.swift */; };
+		1A01FBF0284E32B700457D84 /* MyWordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A01FBEF284E32B700457D84 /* MyWordCell.swift */; };
 		1A0C85AD27DDF0790056B8B8 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0C85AC27DDF0790056B8B8 /* UIImage+Extension.swift */; };
 		1A0C85AF27DE003F0056B8B8 /* PictureStickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0C85AE27DE003F0056B8B8 /* PictureStickerVC.swift */; };
 		1A0C85B527DE02C00056B8B8 /* PictureStickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0C85B427DE02C00056B8B8 /* PictureStickerCell.swift */; };
@@ -62,7 +64,7 @@
 		1AE11D5F2836693C0050AA31 /* MyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11D5E2836693C0050AA31 /* MyPageVC.swift */; };
 		1AE11D61283940220050AA31 /* MyUniverseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11D60283940220050AA31 /* MyUniverseVC.swift */; };
 		1AE11D63283E57BC0050AA31 /* PaintViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11D62283E57BC0050AA31 /* PaintViewModel.swift */; };
-		1AE216F127C27A1B002E945E /* emotionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F027C27A1B002E945E /* emotionCell.swift */; };
+		1AE216F127C27A1B002E945E /* EmotionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F027C27A1B002E945E /* EmotionCell.swift */; };
 		1AE216F327C27B6E002E945E /* SelectEmotionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F227C27B6E002E945E /* SelectEmotionsVC.swift */; };
 		1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F527CA0AD6002E945E /* UIView+Extension.swift */; };
 		1AE216F827CA8440002E945E /* StickerEdgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE216F727CA8440002E945E /* StickerEdgeView.swift */; };
@@ -81,6 +83,8 @@
 		1A01FBE62843AC3900457D84 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		1A01FBE8284CE5DA00457D84 /* PaintPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintPageViewModel.swift; sourceTree = "<group>"; };
 		1A01FBEA284E229B00457D84 /* PaintEmotionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintEmotionListViewModel.swift; sourceTree = "<group>"; };
+		1A01FBED284E324C00457D84 /* MyWordsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWordsCell.swift; sourceTree = "<group>"; };
+		1A01FBEF284E32B700457D84 /* MyWordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWordCell.swift; sourceTree = "<group>"; };
 		1A0C85AC27DDF0790056B8B8 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		1A0C85AE27DE003F0056B8B8 /* PictureStickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureStickerVC.swift; sourceTree = "<group>"; };
 		1A0C85B427DE02C00056B8B8 /* PictureStickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureStickerCell.swift; sourceTree = "<group>"; };
@@ -130,7 +134,7 @@
 		1AE11D5E2836693C0050AA31 /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
 		1AE11D60283940220050AA31 /* MyUniverseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUniverseVC.swift; sourceTree = "<group>"; };
 		1AE11D62283E57BC0050AA31 /* PaintViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintViewModel.swift; sourceTree = "<group>"; };
-		1AE216F027C27A1B002E945E /* emotionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = emotionCell.swift; sourceTree = "<group>"; };
+		1AE216F027C27A1B002E945E /* EmotionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionCell.swift; sourceTree = "<group>"; };
 		1AE216F227C27B6E002E945E /* SelectEmotionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEmotionsVC.swift; sourceTree = "<group>"; };
 		1AE216F527CA0AD6002E945E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		1AE216F727CA8440002E945E /* StickerEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerEdgeView.swift; sourceTree = "<group>"; };
@@ -360,6 +364,8 @@
 			children = (
 				1AE11D5E2836693C0050AA31 /* MyPageVC.swift */,
 				1AE11D60283940220050AA31 /* MyUniverseVC.swift */,
+				1A01FBED284E324C00457D84 /* MyWordsCell.swift */,
+				1A01FBEF284E32B700457D84 /* MyWordCell.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -370,7 +376,7 @@
 				1A46169827959A0000D2A090 /* SelectStatusVC.swift */,
 				1A46169A2795A52700D2A090 /* StatusCell.swift */,
 				1AE216F227C27B6E002E945E /* SelectEmotionsVC.swift */,
-				1AE216F027C27A1B002E945E /* emotionCell.swift */,
+				1AE216F027C27A1B002E945E /* EmotionCell.swift */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -547,7 +553,9 @@
 				1AD64EBA27CE528D00E07EF5 /* UICollectionView+Extension.swift in Sources */,
 				1AAA1C0E28240B5F0054CB5F /* Route.swift in Sources */,
 				1AE216F827CA8440002E945E /* StickerEdgeView.swift in Sources */,
+				1A01FBF0284E32B700457D84 /* MyWordCell.swift in Sources */,
 				1A4616B427B8EDEF00D2A090 /* ShapeStickerCell.swift in Sources */,
+				1A01FBEE284E324C00457D84 /* MyWordsCell.swift in Sources */,
 				1A01FBE22843913400457D84 /* CardVC.swift in Sources */,
 				1A0C85AD27DDF0790056B8B8 /* UIImage+Extension.swift in Sources */,
 				1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */,
@@ -560,7 +568,7 @@
 				1AAA1C08281AE3B50054CB5F /* Status.swift in Sources */,
 				1AAA1C0A281EB05B0054CB5F /* DayMomentCell.swift in Sources */,
 				1A4616912787120E00D2A090 /* Moment.swift in Sources */,
-				1AE216F127C27A1B002E945E /* emotionCell.swift in Sources */,
+				1AE216F127C27A1B002E945E /* EmotionCell.swift in Sources */,
 				1A26D2662826501B006A8086 /* User.swift in Sources */,
 				1AE11D63283E57BC0050AA31 /* PaintViewModel.swift in Sources */,
 				1A01FBD92843648E00457D84 /* MyPageViewModel.swift in Sources */,
@@ -713,7 +721,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = MyLittleUniverse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -721,6 +729,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.youyoung.MyLittleUniverse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -736,7 +745,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = MyLittleUniverse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -744,6 +753,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.youyoung.MyLittleUniverse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

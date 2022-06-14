@@ -101,8 +101,9 @@ class MyPageVC: UIViewController {
         // 나의 세계로 이동
         btnCount.rx.tap
             .bind {
-                let universeVC = Route.getVC(.myUniverseVC)
-                self.navigationController?.pushViewController(universeVC, animated: false)
+                self.presentTBDAlert()
+//                let universeVC = Route.getVC(.myUniverseVC)
+//                self.navigationController?.pushViewController(universeVC, animated: false)
             }
             .disposed(by: disposeBag)
         
@@ -115,7 +116,7 @@ class MyPageVC: UIViewController {
         backUpView.rx
             .tapGesture()
             .when(.recognized)
-            .subscribe(onNext: { _ in self.presentBackUpAlert() })
+            .subscribe(onNext: { _ in self.presentTBDAlert() })
             .disposed(by: disposeBag)
         
         viewModel.selectedMoments
@@ -149,7 +150,7 @@ class MyPageVC: UIViewController {
     }
     
     /* 기록 보관하기 클릭 시 */
-    func presentBackUpAlert() {
+    func presentTBDAlert() {
         guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
         
         alertVC.modalPresentationStyle = .overFullScreen
