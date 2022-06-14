@@ -2350,11 +2350,11 @@
                                     <size key="itemSize" width="150" height="230"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="30" minY="0.0" maxX="30" maxY="50"/>
+                                    <inset key="sectionInset" minX="30" minY="5" maxX="30" maxY="50"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="dayMomentCell" id="ocG-wJ-Ed0" customClass="DayMomentCell" customModule="MyLittleUniverse" customModuleProvider="target">
-                                        <rect key="frame" x="30" y="0.0" width="150" height="230"/>
+                                        <rect key="frame" x="30" y="5" width="150" height="230"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="UhP-Vt-pLY">
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="230"/>
@@ -2398,7 +2398,7 @@
                                         <connections>
                                             <outlet property="imageView" destination="iHy-8U-vNY" id="jVM-Nj-xs6"/>
                                             <outlet property="lblStatus" destination="Bhd-O8-BQP" id="5zx-xf-7Ea"/>
-                                            <outlet property="statueView" destination="lzj-Ue-d1c" id="lug-5R-qt4"/>
+                                            <outlet property="statusView" destination="lzj-Ue-d1c" id="lug-5R-qt4"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

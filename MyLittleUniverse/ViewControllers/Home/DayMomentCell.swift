@@ -16,7 +16,8 @@ class DayMomentCell: UICollectionViewCell {
     private var disposeBag = DisposeBag()
     
     override func layoutSubviews() {
-        layer.cornerRadius = 8
+        addShadow(offset: CGSize(width: 0, height: 5), color: .disableGray, opacity: 0.5, radius: 6)
+        contentView.layer.cornerRadius = 8
         
         moment.map { $0.emotion.word }
             .bind(to: lblStatus.rx.text)
@@ -43,6 +44,6 @@ class DayMomentCell: UICollectionViewCell {
     // MARK: - InterfaceBuilder Links
     
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var statueView: UIView!
+    @IBOutlet weak var statusView: UIView!
     @IBOutlet weak var lblStatus: UILabel!
 }

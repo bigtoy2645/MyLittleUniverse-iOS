@@ -24,8 +24,9 @@ class MomentTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        contentView.layer.cornerRadius = 10
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 30, bottom: 15, right: 30))
+        addShadow(offset: CGSize(width: 0, height: 5), color: .disableGray, opacity: 0.5, radius: 6)
+        contentView.layer.cornerRadius = 8
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 5, left: 30, bottom: 15, right: 30))
         
         setupDropDown()
         setupBindings()
