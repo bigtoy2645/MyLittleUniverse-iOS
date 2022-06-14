@@ -312,7 +312,7 @@ class PaintVC: UIViewController {
         rightControls.isHidden = false
         vm.isEditing.accept(false)
         
-        let selectedButton = vm.leftControl.value ?? btnPicture
+        let selectedButton = vm.leftControl.value ?? btnText
         selectedButton?.sendActions(for: .touchUpInside)
     }
     
