@@ -27,6 +27,7 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.overrideUserInterfaceStyle = .dark
+        collectionView.isUserInteractionEnabled = true
     }
     
     /* Binding */
@@ -46,12 +47,14 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         collectionView.rx.itemSelected
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { index in
+                self.collectionView.isUserInteractionEnabled = false
                 Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
                     guard let detailVC = Route.getVC(.selectEmotionsVC) as? SelectEmotionsVC else { return }
                     let status = self.allStatus[index.row]
                     detailVC.status.accept(status)
                     detailVC.timeStamp.accept(self.timeStamp.value)
                     self.navigationController?.pushViewController(detailVC, animated: false)
+                    self.collectionView.isUserInteractionEnabled = true
                 }
             })
             .disposed(by: disposeBag)
