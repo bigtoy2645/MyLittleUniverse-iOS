@@ -113,7 +113,9 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                 
                 if let textSticker = paintVC.labelSticker.stickerView as? UILabel {
                     textLabel = textSticker.text ?? ""
-                    textColor = textSticker.textColor.rgb() ?? textColor
+                    if !textLabel.isEmpty {
+                        textColor = textSticker.textColor.rgb() ?? textColor
+                    }
                 }
                 let moment = Moment(timeStamp: self.vm.timeStamp.value.timeIntervalSinceReferenceDate,
                                     emotion: paintVC.vm.emotion.value,
