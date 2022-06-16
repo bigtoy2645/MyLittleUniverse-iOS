@@ -96,7 +96,6 @@ class AlertVC: UIViewController {
                 }
                 .disposed(by: self.disposeBag)
         }
-        
     }
     
     /* 취소 버튼 */

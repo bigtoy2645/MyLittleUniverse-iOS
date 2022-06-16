@@ -34,6 +34,30 @@ class DayMomentCell: UICollectionViewCell {
         moment.map { UIColor(rgb: $0.bgColor) }
             .bind(to: contentView.rx.backgroundColor)
             .disposed(by: disposeBag)
+        
+        contentView.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                guard let detailVC = Route.getVC(.cardDetailVC) as? CardDetailVC,
+                      let currentVC = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.rootViewController else { return }
+                detailVC.moment.accept(self.moment.value)
+                detailVC.imageSavedHandler = {
+                    DispatchQueue.main.async {
+                        Dialog.presentImageSaved(detailVC)
+                    }
+                }
+                detailVC.removeHandler = { moment in
+                    DispatchQueue.main.async {
+                        Dialog.presentRemove(detailVC, moment: moment) {
+                            detailVC.dismiss(animated: false)
+                        }
+                    }
+                }
+                detailVC.modalPresentationStyle = .overFullScreen
+                currentVC.present(detailVC, animated: true)
+            })
+            .disposed(by: self.disposeBag)
     }
     
     override func prepareForReuse() {

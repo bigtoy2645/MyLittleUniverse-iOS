@@ -81,5 +81,12 @@ class MonthlyViewModel {
             }
             .subscribe(onNext: selectedMoments.accept(_:))
             .disposed(by: disposeBag)
+        
+        // 이달의 감정 변경 시 감정 카드 업데이트
+        moments
+            .bind { _ in
+                self.selectedIndex.accept(self.selectedIndex.value)
+            }
+            .disposed(by: disposeBag)
     }
 }

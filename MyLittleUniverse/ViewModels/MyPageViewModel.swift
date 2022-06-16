@@ -48,5 +48,10 @@ class MyPageViewModel {
             }
             .subscribe(onNext: selectedMoments.accept(_:))
             .disposed(by: disposeBag)
+        
+        // 감정 변경 시 감정 카드 업데이트
+        moments
+            .bind { _ in self.selectedDate.accept(self.selectedDate.value) }
+            .disposed(by: disposeBag)
     }
 }

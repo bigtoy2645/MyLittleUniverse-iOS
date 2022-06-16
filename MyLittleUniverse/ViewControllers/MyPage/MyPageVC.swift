@@ -67,6 +67,11 @@ class MyPageVC: UIViewController {
             .bind(to: lblUser.rx.text)
             .disposed(by: disposeBag)
         
+        // 감정 변경 시 달력 업데이트
+        viewModel.moments
+            .bind { _ in self.calendar.reloadData() }
+            .disposed(by: disposeBag)
+        
         // 이전달
         btnLeft.rx.tap
             .bind { self.moveCalendarPage(moveUp: false) }
@@ -101,7 +106,7 @@ class MyPageVC: UIViewController {
         // 나의 세계로 이동
         btnCount.rx.tap
             .bind {
-                self.presentTBDAlert()
+                Dialog.presentTBD(self)
 //                let universeVC = Route.getVC(.myUniverseVC)
 //                self.navigationController?.pushViewController(universeVC, animated: false)
             }
@@ -116,7 +121,7 @@ class MyPageVC: UIViewController {
         backUpView.rx
             .tapGesture()
             .when(.recognized)
-            .subscribe(onNext: { _ in self.presentTBDAlert() })
+            .subscribe(onNext: { _ in Dialog.presentTBD(self) })
             .disposed(by: disposeBag)
         
         viewModel.selectedMoments
@@ -147,23 +152,6 @@ class MyPageVC: UIViewController {
         calendar.appearance.titleDefaultColor = .mediumGray
         calendar.appearance.titleSelectionColor = .mainBlack
         calendar.appearance.titlePlaceholderColor = .clear
-    }
-    
-    /* 기록 보관하기 클릭 시 */
-    func presentTBDAlert() {
-        guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
-        
-        alertVC.modalPresentationStyle = .overFullScreen
-        let alert = Alert(title: "열심히 준비 중입니다.\n업데이트가 완료되면 알려드릴게요!")
-        alertVC.vm.alert.accept(alert)
-        alertVC.vm.alert.accept(alert)
-        self.present(alertVC, animated: false) {
-            DispatchQueue.main.async {
-                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
-                    self.dismiss(animated: false)
-                }
-            }
-        }
     }
     
     /* DatePicker 표시 */

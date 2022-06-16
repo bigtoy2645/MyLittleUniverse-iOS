@@ -61,8 +61,14 @@ class MonthlyEmotionVC: UIViewController, UITableViewDelegate, UIGestureRecogniz
             ) { _, item, cell in
                 cell.moment.accept(item)
                 cell.layoutIfNeeded()
-                cell.imageSavedHandler = { self.presentImageSavedAlert() }
-                cell.removeHandler = { moment in self.presentRemoveAlert(moment: moment) }
+                cell.imageSavedHandler = { Dialog.presentImageSaved(self) }
+                cell.removeHandler = { moment in
+                    Dialog.presentRemove(self, moment: moment) {
+                        if self.viewModel.moments.value.count <= 0 {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                }
             }
             .disposed(by: disposeBag)
         
@@ -81,63 +87,6 @@ class MonthlyEmotionVC: UIViewController, UITableViewDelegate, UIGestureRecogniz
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
-    }
-    
-    /* 사진 저장 알림 */
-    func presentImageSavedAlert() {
-        guard let alertToast = Route.getVC(.alertVC) as? AlertVC else { return }
-        
-        alertToast.modalPresentationStyle = .overFullScreen
-        let alert = Alert(title: "사진 앱에 저장되었습니다.",
-                          imageName: "Union")
-        alertToast.vm.alert.accept(alert)
-        
-        self.present(alertToast, animated: false) {
-            DispatchQueue.main.async {
-                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
-                    self.dismiss(animated: false)
-                }
-            }
-        }
-    }
-    
-    /* 삭제 전 */
-    func presentRemoveAlert(moment: Moment) {
-        guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
-        
-        alertVC.modalPresentationStyle = .overFullScreen
-        let alert = Alert(title: "삭제한 기록은 복원이 불가합니다.\n정말로 삭제하시겠어요?",
-                          runButtonTitle: "삭제",
-                          cancelButtonTitle: "취소")
-        alertVC.vm.alert.accept(alert)
-        alertVC.addCancelButton() { self.dismiss(animated: false) }
-        alertVC.addRunButton(color: UIColor.errorRed) {
-            self.dismiss(animated: false)
-            Repository.instance.remove(moment: moment)
-            self.presentRemoveToast()
-        }
-        
-        self.present(alertVC, animated: false)
-    }
-    
-    /* 삭제 완료 */
-    func presentRemoveToast() {
-        guard let alertToast = Route.getVC(.alertVC) as? AlertVC else { return }
-        
-        alertToast.modalPresentationStyle = .overFullScreen
-        let alert = Alert(title: "삭제되었습니다.")
-        alertToast.vm.alert.accept(alert)
-        
-        self.present(alertToast, animated: false) {
-            DispatchQueue.main.async {
-                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
-                    self.dismiss(animated: false)
-                    if self.viewModel.moments.value.count <= 0 {
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                }
-            }
-        }
     }
     
     // MARK: - InterfaceBuilder Links
