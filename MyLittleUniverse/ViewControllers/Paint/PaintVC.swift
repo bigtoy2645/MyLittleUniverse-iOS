@@ -615,7 +615,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
     
     /* 드래그 */
     @objc func handlePanGesture(recognizer: UIPanGestureRecognizer) {
-        changeFocusSticker(recognizer.view)
+        if recognizer.view != focusSticker?.plainView { return }
         recognizer.view?.center = recognizer.location(in: paintView)
     }
     
@@ -626,7 +626,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
     
     /* 회전 */
     @objc func handleRotateGesture(recognizer: UIRotationGestureRecognizer) {
-        changeFocusSticker(recognizer.view)
+        if recognizer.view != focusSticker?.plainView { return }
         if let rotationView = recognizer.view {
             rotationView.transform = rotationView.transform.rotated(by: recognizer.rotation)
             recognizer.rotation = 0.0
@@ -635,8 +635,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
     
     /* 크기 변경 */
     @objc func handlePinchGesture(recognizer: UIPinchGestureRecognizer) {
-        changeFocusSticker(recognizer.view)
-        
+        if recognizer.view != focusSticker?.plainView { return }
         if recognizer.state == .began {
             lastScale = recognizer.scale
         }
