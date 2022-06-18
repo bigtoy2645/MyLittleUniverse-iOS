@@ -644,7 +644,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
         
         if recognizer.state == .began || recognizer.state == .changed {
             let currentScale = (pinchView.layer.value(forKeyPath: "transform.scale") as? NSNumber)?.floatValue
-            let minScale: CGFloat = 0.25
+            let minScale: CGFloat = 0.5
             
             var newScale = 1.0 - (lastScale - recognizer.scale)
             if let currentScale = currentScale {

@@ -88,7 +88,7 @@ class StickerEdgeView: UIView {
 
         if recognizer.state == .began || recognizer.state == .changed {
             let currentScale = (layer.value(forKeyPath: "transform.scale") as? NSNumber)?.floatValue
-            let minScale: CGFloat = 0.25
+            let minScale: CGFloat = 0.5
             
             if let currentScale = currentScale {
                 scale = max(scale, minScale / (CGFloat)(currentScale))
