@@ -21,33 +21,36 @@
             <rect key="frame" x="0.0" y="0.0" width="519" height="80"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="9GV-gH-rZs">
-                    <rect key="frame" x="16" y="16" width="487" height="24"/>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="9GV-gH-rZs">
+                    <rect key="frame" x="42" y="0.0" width="435" height="56"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CzE-3y-5aE">
-                            <rect key="frame" x="0.0" y="0.0" width="162.5" height="24"/>
+                            <rect key="frame" x="0.0" y="0.0" width="127.5" height="56"/>
                             <color key="tintColor" name="BackgroundGreen"/>
                             <state key="normal" image="Home_24"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tNb-oL-6zS">
-                            <rect key="frame" x="162.5" y="0.0" width="162" height="24"/>
+                            <rect key="frame" x="153.5" y="0.0" width="128" height="56"/>
                             <color key="tintColor" name="BackgroundGreen"/>
                             <state key="normal" image="Add_24"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WaO-d8-9Fy">
-                            <rect key="frame" x="324.5" y="0.0" width="162.5" height="24"/>
+                            <rect key="frame" x="307.5" y="0.0" width="127.5" height="56"/>
                             <color key="tintColor" name="BackgroundGreen"/>
                             <state key="normal" image="Mypage_24"/>
                         </button>
                     </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="56" id="w5Z-OQ-zRC"/>
+                    </constraints>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="9GV-gH-rZs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="3h1-Rr-Pyv"/>
+                <constraint firstItem="9GV-gH-rZs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="42" id="3h1-Rr-Pyv"/>
                 <constraint firstItem="9GV-gH-rZs" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="N3i-DF-vhx"/>
-                <constraint firstItem="9GV-gH-rZs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="Ney-YP-nBK"/>
+                <constraint firstItem="9GV-gH-rZs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Ney-YP-nBK"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="213.768115942029" y="-152.67857142857142"/>
