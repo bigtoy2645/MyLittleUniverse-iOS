@@ -17,7 +17,8 @@ class PaintVC: UIViewController {
     let labelSticker = StickerEdgeView()
     let labelView = UIView()
     
-    var lastScale: CGFloat = 1.0
+    private var lastScale: CGFloat = 1.0
+    private var lastPoint: CGPoint = .zero
     var stickerCount = 0
     var stickerPos: [CGPoint] = []
     var isBgColorSelected = false
@@ -265,7 +266,7 @@ class PaintVC: UIViewController {
             }
         }
     }
-
+    
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
@@ -615,8 +616,17 @@ extension PaintVC: UIGestureRecognizerDelegate {
     
     /* 드래그 */
     @objc func handlePanGesture(recognizer: UIPanGestureRecognizer) {
-        if recognizer.view != focusSticker?.plainView { return }
-        recognizer.view?.center = recognizer.location(in: paintView)
+        guard let focusView = focusSticker?.plainView,
+              recognizer.view == focusView else { return }
+        switch recognizer.state {
+        case .began:
+            lastPoint = focusView.center
+        case .changed:
+            let translation = recognizer.translation(in: view)
+            focusView.center = CGPoint(x: lastPoint.x + translation.x,
+                                       y: lastPoint.y + translation.y)
+        default: break
+        }
     }
     
     /* 선택 시 Focus 변경 */
