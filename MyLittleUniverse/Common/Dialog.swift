@@ -27,7 +27,7 @@ class Dialog {
     }
     
     /* 사진 저장 알림 */
-    static func presentImageSaved(_ viewController: UIViewController) {
+    static func presentImageSaved(_ viewController: UIViewController, completion: (() -> Void)? = nil) {
         guard let alertToast = Route.getVC(.alertVC) as? AlertVC else { return }
         
         alertToast.modalPresentationStyle = .overFullScreen
@@ -39,6 +39,7 @@ class Dialog {
             DispatchQueue.main.async {
                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
                     viewController.dismiss(animated: false)
+                    completion?()
                 }
             }
         }

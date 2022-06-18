@@ -44,7 +44,9 @@ class DayMomentCell: UICollectionViewCell {
                 detailVC.moment.accept(self.moment.value)
                 detailVC.imageSavedHandler = {
                     DispatchQueue.main.async {
-                        Dialog.presentImageSaved(detailVC)
+                        Dialog.presentImageSaved(detailVC) {
+                            detailVC.dismiss(animated: false)
+                        }
                     }
                 }
                 detailVC.removeHandler = { moment in

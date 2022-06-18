@@ -19,13 +19,13 @@ class CardDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        cardView.layer.cornerRadius = 8
+        
         setupBindings()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        dialogView.layer.cornerRadius = 4
     }
     
     /* Binding */
