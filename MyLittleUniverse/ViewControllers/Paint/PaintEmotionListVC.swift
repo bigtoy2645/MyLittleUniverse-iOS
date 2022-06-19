@@ -134,7 +134,6 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                 
                 // 저장 완료
                 paintVC.view.endEditing(true)
-                paintVC.scrollPaintView.setContentOffset(.zero, animated: true)
                 self.presentSavedView(paintVC.paintView)
             }
             .disposed(by: disposeBag)

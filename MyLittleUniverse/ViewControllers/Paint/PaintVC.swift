@@ -14,11 +14,9 @@ class PaintVC: UIViewController {
     let vm = PaintViewModel()
     private let disposeBag = DisposeBag()
     
-    let labelSticker = StickerEdgeView()
-    let labelView = UIView()
-    
     private var lastScale: CGFloat = 1.0
     private var lastPoint: CGPoint = .zero
+    let labelSticker = StickerEdgeView()
     var stickerCount = 0
     var stickerPos: [CGPoint] = []
     var isBgColorSelected = false
@@ -68,12 +66,6 @@ class PaintVC: UIViewController {
         super.viewDidLoad()
         
         paintView.clipsToBounds = true
-        labelView.bounds = .zero
-        labelView.translatesAutoresizingMaskIntoConstraints = false
-        labelView.heightAnchor.constraint(equalToConstant: 96).isActive = true
-        stackPaintView.addArrangedSubview(labelView)
-        labelView.isHidden = true
-        labelSticker.sticker.accept(Sticker(type: .text, text: "", hexColor: 0x000000))
         configureTextSticker()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -128,10 +120,6 @@ class PaintVC: UIViewController {
             .bind(to: paintView.rx.backgroundColor)
             .disposed(by: disposeBag)
         
-        vm.bgColor
-            .bind(to: labelView.rx.backgroundColor)
-            .disposed(by: disposeBag)
-        
         vm.isEditing
             .bind(to: btnEditBgColor.rx.isHidden)
             .disposed(by: disposeBag)
@@ -170,18 +158,14 @@ class PaintVC: UIViewController {
                 switch button {
                 case self.btnPicture:
                     childVC = self.pictureStickers
-                    self.scrollPaintView.scrollRectToVisible(self.paintView.frame, animated: true)
                 case self.btnLineShape:
                     childVC = self.shapeStickers
                     self.shapeStickers?.type.onNext(.lineShape)
-                    self.scrollPaintView.scrollRectToVisible(self.paintView.frame, animated: true)
                 case self.btnFillShape:
                     childVC = self.shapeStickers
                     self.shapeStickers?.type.onNext(.fillShape)
-                    self.scrollPaintView.scrollRectToVisible(self.paintView.frame, animated: true)
                 case self.btnText:
                     childVC = self.textSticker
-                    self.scrollPaintView.scrollRectToVisible(self.labelView.frame, animated: true)
                 default: break
                 }
                 
@@ -211,30 +195,11 @@ class PaintVC: UIViewController {
             .bind { self.vm.leftControl.accept(self.btnText) }
             .disposed(by: disposeBag)
         
-        // 하단 텍스트 스크롤
-        labelSticker.sticker.map { $0.text?.isEmpty ?? true }
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: {
-                self.labelView.isHidden = $0
-                self.scrollPaintView.layoutIfNeeded()
-                if !$0 {
-                    self.scrollPaintView.scrollRectToVisible(self.labelView.frame, animated: true)
-                }
-            })
-            .disposed(by: disposeBag)
-        
         // Paint View 배경 클릭 시
         paintView.rx.tapGesture()
             .when(.recognized)
             .subscribe { _ in
                 self.focusSticker = nil
-                self.view.endEditing(true)
-            }
-            .disposed(by: disposeBag)
-        
-        labelView.rx.tapGesture()
-            .when(.recognized)
-            .subscribe { _ in
                 self.view.endEditing(true)
             }
             .disposed(by: disposeBag)
@@ -453,8 +418,6 @@ class PaintVC: UIViewController {
     @IBOutlet weak var btnAddBgColor: UIButton!
     @IBOutlet weak var btnEditBgColor: UIButton!
     
-    @IBOutlet weak var scrollPaintView: UIScrollView!
-    @IBOutlet weak var stackPaintView: UIStackView!
     @IBOutlet weak var paintView: UIView!
     @IBOutlet weak var componentView: UIView!
     @IBOutlet weak var leftControls: UIStackView!
@@ -569,25 +532,29 @@ extension PaintVC: UIGestureRecognizerDelegate {
         if let label = labelSticker.stickerView as? UILabel,
            let textArea = textSticker?.textView {
             label.text = text
-            label.numberOfLines = 2
+            label.numberOfLines = 0
             let size = label.sizeThatFits(textArea.visibleSize)
             labelSticker.frame.size = CGSize(width: size.width + 36, height: size.height + 36)
             labelSticker.layoutIfNeeded()
         }
         let labelColor = labelSticker.sticker.value.hexColor
         labelSticker.sticker.accept(Sticker(type: .text, text: text, hexColor: labelColor))
+        vm.removeSticker(labelSticker)
         if text.isEmpty {
             labelSticker.stickerView?.frame.size = CGSize.zero
-            vm.removeSticker(labelSticker)
             focusSticker = nil
             return
         }
-        labelSticker.center = CGPoint(x: labelView.frame.width / 2, y: labelView.frame.height / 2)
+        labelSticker.center = stickerPos[0]
         focusSticker = labelSticker
         vm.addSticker(labelSticker)
     }
     
+    /* 텍스트 스티커 설정 */
     func configureTextSticker() {
+        labelSticker.sticker.accept(Sticker(type: .text, text: "", hexColor: 0x000000))
+        paintView.addSubview(labelSticker)
+        
         // 스티커 삭제
         labelSticker.setLeftTopButton {
             self.textSticker?.textView.text = ""
@@ -604,8 +571,9 @@ extension PaintVC: UIGestureRecognizerDelegate {
         labelSticker.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self,
                                                 action: #selector(self.handleTapGesture(recognizer:)))
-        labelSticker.addGestureRecognizer(tapGesture)
-        labelView.addSubview(labelSticker)
+        let panGesture = UIPanGestureRecognizer(target: self,
+                                                action: #selector(self.handlePanGesture(recognizer:)))
+        labelSticker.gestureRecognizers = [panGesture, tapGesture]
     }
     
     /* FocusSticker 변경 */

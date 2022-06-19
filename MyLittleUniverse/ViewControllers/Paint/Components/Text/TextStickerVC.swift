@@ -11,7 +11,7 @@ import RxCocoa
 
 class TextStickerVC: UIViewController, UITextViewDelegate {
     var emotion = BehaviorRelay<Emotion>(value: Emotion.empty)
-    let maxCount = 40
+    let maxCount = 200
     var completeHandler: ((String) -> ())?
     private let disposeBag = DisposeBag()
     private let placeHolder = "그 때의 상황 또는 나만의 의미를 적어보세요. 꼭 쓰지 않아도 괜찮아요."
@@ -26,7 +26,7 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
         textArea.layer.cornerRadius = 10
         textView.text = placeHolder
         textView.textColor = .disableGray
-        textView.textContainer.maximumNumberOfLines = 2
+        textView.textContainer.maximumNumberOfLines = 0
         
         setupBindings()
     }
@@ -107,17 +107,6 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
                                           options: .usesLineFragmentOrigin,
                                           attributes: [NSAttributedString.Key.font: font],
                                           context: nil).size
-    }
-
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-        var textWidth = textView.frame.inset(by: textView.textContainerInset).width
-        textWidth -= 2.0 * textView.textContainer.lineFragmentPadding
-        
-        let boundingRect = sizeOfString(newText, constrainedToWidth: Double(textWidth), font: textView.font!)
-        let numberOfLines = boundingRect.height / textView.font!.lineHeight;
-
-        return numberOfLines <= 2
     }
     
     // MARK: - InterfaceBuilder Links
