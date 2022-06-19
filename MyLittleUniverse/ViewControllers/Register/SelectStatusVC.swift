@@ -12,6 +12,7 @@ import RxCocoa
 class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     let allStatus: [Status] = [.positive, .negative, .neutral, .random]
     let timeStamp = BehaviorRelay<Date>(value: Date())
+    static var parentView: UIViewController?
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -20,6 +21,8 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY. MM. dd. EEE. hh:mm a"
         lblDate.text = formatter.string(from: timeStamp.value)
+        
+        SelectStatusVC.parentView = navigationController?.previousViewController
         
         setupBindings()
     }

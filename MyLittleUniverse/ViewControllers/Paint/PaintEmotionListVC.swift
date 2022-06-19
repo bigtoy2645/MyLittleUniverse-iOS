@@ -251,7 +251,11 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         alertVC.vm.alert.accept(alert)
         alertVC.addRunButton() {
             self.dismiss(animated: false)
-            self.navigationController?.popViewController(animated: false)
+            if SelectStatusVC.parentView is MyPageVC {
+                self.navigationController?.popToVC(MyPageVC.self)
+            } else {
+                self.navigationController?.popToVC(MonthlyVC.self)
+            }
         }
         alertVC.addCancelButton() {
             self.dismiss(animated: false)
