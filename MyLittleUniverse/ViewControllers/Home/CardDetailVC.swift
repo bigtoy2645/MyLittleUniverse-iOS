@@ -20,7 +20,9 @@ class CardDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        cardView.layer.cornerRadius = 8
+        cardContentView.layer.cornerRadius = 8
+        cardContentView.clipsToBounds = true
+        cardView.clipsToBounds = true
         
         setupBindings()
     }
@@ -37,15 +39,6 @@ class CardDetailVC: UIViewController {
         
         moment.map { UIImage(data: $0.imageData) }
             .bind(to: imageCard.rx.image)
-            .disposed(by: disposeBag)
-        
-        moment.map { $0.text.isEmpty }
-            .observe(on: MainScheduler.instance)
-            .bind(to: descriptionView.rx.isHidden)
-            .disposed(by: disposeBag)
-        
-        moment.map { $0.text }
-            .bind(to: lblDescription.rx.text)
             .disposed(by: disposeBag)
         
         moment.map {
@@ -78,10 +71,6 @@ class CardDetailVC: UIViewController {
             .bind(to: lblEmotion.rx.textColor)
             .disposed(by: disposeBag)
         
-        textColor
-            .bind(to: lblDescription.rx.textColor)
-            .disposed(by: disposeBag)
-        
         btnSave.rx.tap
             .bind {
                 self.imageSaver.saveImage(self.cardView.asImage(),
@@ -106,10 +95,9 @@ class CardDetailVC: UIViewController {
     // MARK: - InterfaceBuilder Links
     
     @IBOutlet weak var dialogView: UIView!
+    @IBOutlet weak var cardContentView: UIView!
     @IBOutlet weak var cardView: UIStackView!
     @IBOutlet weak var imageCard: UIImageView!
-    @IBOutlet weak var descriptionView: UIView!
-    @IBOutlet weak var lblDescription: UILabel!
     
     @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var lblSeperator: UILabel!

@@ -43,15 +43,6 @@ class MomentTableViewCell: UITableViewCell {
             .bind(to: imageCard.rx.image)
             .disposed(by: disposeBag)
         
-        moment.map { $0.text.isEmpty }
-            .observe(on: MainScheduler.instance)
-            .bind(to: descriptionView.rx.isHidden)
-            .disposed(by: disposeBag)
-        
-        moment.map { $0.text }
-            .bind(to: lblDescription.rx.text)
-            .disposed(by: disposeBag)
-        
         moment.map {
             let formatter = DateFormatter()
             let date = Date(timeIntervalSinceReferenceDate: $0.timeStamp)
@@ -88,10 +79,6 @@ class MomentTableViewCell: UITableViewCell {
         
         textColor
             .bind(to: lblEmotion.rx.textColor)
-            .disposed(by: disposeBag)
-        
-        textColor
-            .bind(to: lblDescription.rx.textColor)
             .disposed(by: disposeBag)
     }
     
@@ -138,8 +125,6 @@ class MomentTableViewCell: UITableViewCell {
     // MARK: - InterfaceBuilder Links
     
     @IBOutlet weak var cardView: UIStackView!
-    @IBOutlet weak var descriptionView: UIView!
-    @IBOutlet weak var lblDescription: UILabel!
     
     @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var lblSeperator: UILabel!
