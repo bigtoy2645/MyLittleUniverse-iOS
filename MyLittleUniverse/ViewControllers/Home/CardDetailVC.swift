@@ -14,6 +14,7 @@ class CardDetailVC: UIViewController {
     let textColor = BehaviorSubject<UIColor>(value: UIColor.black)
     var imageSavedHandler: (() -> Void)?
     var removeHandler: ((Moment) -> Void)?
+    private var imageSaver = ImageSaver()
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -82,7 +83,11 @@ class CardDetailVC: UIViewController {
             .disposed(by: disposeBag)
         
         btnSave.rx.tap
-            .bind { self.saveImage() }
+            .bind {
+                self.imageSaver.saveImage(self.cardView.asImage(),
+                                          target: self,
+                                          handler: self.imageSavedHandler)
+            }
             .disposed(by: disposeBag)
         
         btnRemove.rx.tap
@@ -96,19 +101,6 @@ class CardDetailVC: UIViewController {
                 self.dismiss(animated: true)
             }
             .disposed(by: disposeBag)
-    }
-    
-    /* 이미지 저장 */
-    func saveImage() {
-        UIImageWriteToSavedPhotosAlbum(cardView.asImage(),
-                                       self,
-                                       #selector(imageSaved(image:didFinishSavingWithError:contextInfo:)),
-                                       nil)
-    }
-    
-    /* 이미지 저장 후 */
-    @objc func imageSaved(image: UIImage, didFinishSavingWithError error: Error, contextInfo: UnsafeMutableRawPointer?) {
-        imageSavedHandler?()
     }
     
     // MARK: - InterfaceBuilder Links

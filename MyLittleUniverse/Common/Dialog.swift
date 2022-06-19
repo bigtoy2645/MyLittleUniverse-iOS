@@ -83,4 +83,28 @@ class Dialog {
             }
         }
     }
+    
+    /* 사진 권한 설정 */
+    static func presentPhotoPermission(_ viewController: UIViewController) {
+        guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
+        
+        alertVC.modalPresentationStyle = .overFullScreen
+        let alert = Alert(title: "감정 카드 저장을 원하시면\n설정에서 사진 접근을 허용하세요.",
+                          subtitle: "설정 - 마이리틀유니버스 - 사진 접근 허용",
+                          imageName: "Caution_32",
+                          runButtonTitle: "설정")
+        alertVC.vm.alert.accept(alert)
+        alertVC.addRunButton(color: UIColor.mainBlack) {
+            viewController.dismiss(animated: false)
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                    NSLog("Settings opened: \(success)")
+                })
+            }
+        }
+        
+        viewController.present(alertVC, animated: false)
+    }
 }

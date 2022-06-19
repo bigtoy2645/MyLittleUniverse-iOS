@@ -18,6 +18,7 @@ class MomentTableViewCell: UITableViewCell {
     let textColor = BehaviorSubject<UIColor>(value: UIColor.black)
     var imageSavedHandler: (() -> Void)?
     var removeHandler: ((Moment) -> Void)?
+    private let imageSaver = ImageSaver()
     private let dropDown = DropDown()
     private var disposeBag = DisposeBag()
     
@@ -118,7 +119,8 @@ class MomentTableViewCell: UITableViewCell {
         
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             if index == 0 {
-                saveImage()
+                let currentVC = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.rootViewController
+                imageSaver.saveImage(cardView.asImage(), target: currentVC, handler: imageSavedHandler)
             } else {
                 removeHandler?(moment.value)
             }
@@ -131,19 +133,6 @@ class MomentTableViewCell: UITableViewCell {
         DropDown.appearance().selectionBackgroundColor = .disableGray
         DropDown.appearance().setupCornerRadius(8)
         dropDown.dismissMode = .automatic
-    }
-    
-    /* 이미지 저장 */
-    func saveImage() {
-        UIImageWriteToSavedPhotosAlbum(cardView.asImage(),
-                                       self,
-                                       #selector(imageSaved(image:didFinishSavingWithError:contextInfo:)),
-                                       nil)
-    }
-    
-    /* 이미지 저장 후 */
-    @objc func imageSaved(image: UIImage, didFinishSavingWithError error: Error, contextInfo: UnsafeMutableRawPointer?) {
-        imageSavedHandler?()
     }
     
     // MARK: - InterfaceBuilder Links
