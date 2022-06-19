@@ -458,12 +458,10 @@ extension PaintVC: UIGestureRecognizerDelegate {
             self.removeSticker(imageSticker)
         }
         
-        // 스티커 복제
+        // 스티커 90도 회전
         imageSticker.setLeftBottomButton {
-            let centerPos = CGPoint(x: imageSticker.center.x + 26,
-                                    y: imageSticker.center.y + 26)
-            let cloneSticker = imageSticker.sticker.value
-            self.createSticker(cloneSticker, centerPos: centerPos, transform: imageSticker.transform)
+            guard let stickerView = imageSticker.stickerView else { return }
+            stickerView.transform = stickerView.transform.rotated(by: .pi / 2)
         }
         
         // 스티커 색상 변경

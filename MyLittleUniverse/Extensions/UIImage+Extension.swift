@@ -24,6 +24,9 @@ extension UIImage {
     static let sizeOn = UIImage(named: "edge/Size-On_24")
     static let sizeOff = UIImage(named: "edge/Size-Off_24")
     static let sizeDisabled = UIImage(named: "edge/Size-Disabled_24")
+    static let rotateOn = UIImage(named: "edge/Rotate-On_24")
+    static let rotateOff = UIImage(named: "edge/Rotate-Off_24")
+    static let rotateDisabled = UIImage(named: "edge/Rotate-Disabled_24")
     
     static let undoOn = UIImage(named: "Undo-On_24")
     static let undoOff = UIImage(named: "Undo-Off_24")
