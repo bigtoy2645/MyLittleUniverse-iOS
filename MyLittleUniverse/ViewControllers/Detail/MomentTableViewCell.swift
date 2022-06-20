@@ -26,8 +26,8 @@ class MomentTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         addShadow(offset: CGSize(width: 0, height: 5), color: .disableGray, opacity: 0.5, radius: 6)
-        contentView.layer.cornerRadius = 8
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 5, left: 30, bottom: 15, right: 30))
+        cardContentView.clipsToBounds = true
+        cardContentView.layer.cornerRadius = 8
         
         setupDropDown()
         setupBindings()
@@ -124,6 +124,7 @@ class MomentTableViewCell: UITableViewCell {
     
     // MARK: - InterfaceBuilder Links
     
+    @IBOutlet weak var cardContentView: UIView!
     @IBOutlet weak var cardView: UIStackView!
     
     @IBOutlet weak var lblDate: UILabel!

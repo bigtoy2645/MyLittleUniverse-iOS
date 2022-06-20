@@ -66,6 +66,7 @@ class PaintVC: UIViewController {
         super.viewDidLoad()
         
         paintView.clipsToBounds = true
+        seperatorView.isHidden = true
         configureTextSticker()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -105,6 +106,7 @@ class PaintVC: UIViewController {
                 self.stackBackground.isHidden = true
                 self.presentColorPicker(mode: .background)
                 self.btnDone.isEnabled = false
+                self.seperatorView.isHidden = false
             }
             .disposed(by: disposeBag)
         
@@ -418,6 +420,8 @@ class PaintVC: UIViewController {
     @IBOutlet weak var btnAddBgColor: UIButton!
     @IBOutlet weak var btnEditBgColor: UIButton!
     
+    @IBOutlet weak var seperatorView: UIView!
+    @IBOutlet weak var controlView: UIView!
     @IBOutlet weak var paintView: UIView!
     @IBOutlet weak var componentView: UIView!
     @IBOutlet weak var leftControls: UIStackView!
