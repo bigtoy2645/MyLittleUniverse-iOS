@@ -1031,7 +1031,7 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dO7-UH-hcE">
-                                <rect key="frame" x="30" y="806" width="354" height="56"/>
+                                <rect key="frame" x="30" y="800" width="354" height="56"/>
                                 <color key="backgroundColor" name="BackgroundGreen"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="DnI-0b-jD5"/>
@@ -1057,7 +1057,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="HNP-Z6-NI1">
-                                <rect key="frame" x="139" y="809" width="136.5" height="50"/>
+                                <rect key="frame" x="139" y="803" width="136.5" height="50"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o7D-RK-aKG">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -1096,7 +1096,7 @@
                             <constraint firstItem="puK-ZB-1bF" firstAttribute="centerX" secondItem="KRQ-Hc-X9Q" secondAttribute="centerX" id="EqX-BB-5wf"/>
                             <constraint firstItem="dO7-UH-hcE" firstAttribute="centerY" secondItem="HNP-Z6-NI1" secondAttribute="centerY" id="F2g-5H-35x"/>
                             <constraint firstAttribute="bottom" secondItem="puK-ZB-1bF" secondAttribute="bottom" id="IN2-h2-PG7"/>
-                            <constraint firstItem="1Hr-P8-Dc7" firstAttribute="bottom" secondItem="dO7-UH-hcE" secondAttribute="bottom" id="Nch-X0-NfX"/>
+                            <constraint firstAttribute="bottom" secondItem="dO7-UH-hcE" secondAttribute="bottom" constant="40" id="Nch-X0-NfX"/>
                             <constraint firstItem="zl5-aL-cHg" firstAttribute="centerX" secondItem="KRQ-Hc-X9Q" secondAttribute="centerX" id="Ntg-ic-QPd"/>
                             <constraint firstItem="rCy-n0-wKN" firstAttribute="leading" secondItem="1Hr-P8-Dc7" secondAttribute="leading" constant="14" id="XOH-8D-lAV"/>
                             <constraint firstItem="dO7-UH-hcE" firstAttribute="leading" secondItem="1Hr-P8-Dc7" secondAttribute="leading" constant="30" id="fHN-Yz-DQF"/>
