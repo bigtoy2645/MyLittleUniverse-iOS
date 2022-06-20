@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="InitBackground" translatesAutoresizingMaskIntoConstraints="NO" id="1v7-9D-gY1">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="InitBackground" translatesAutoresizingMaskIntoConstraints="NO" id="1v7-9D-gY1">
                                 <rect key="frame" x="24" y="108" width="366" height="788"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7OH-MI-bZ4">
@@ -63,7 +63,7 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EmotionMarbles" translatesAutoresizingMaskIntoConstraints="NO" id="a0W-Ih-UIQ">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EmotionMarbles" translatesAutoresizingMaskIntoConstraints="NO" id="a0W-Ih-UIQ">
                                 <rect key="frame" x="24" y="628" width="366" height="268"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Circle" translatesAutoresizingMaskIntoConstraints="NO" id="1Gm-Wf-V8a">
@@ -86,12 +86,13 @@
                             <constraint firstItem="C9d-1t-drQ" firstAttribute="top" secondItem="1Gm-Wf-V8a" secondAttribute="bottom" constant="48" id="4jK-Pm-gUd"/>
                             <constraint firstItem="1v7-9D-gY1" firstAttribute="leading" secondItem="lPg-3n-Onr" secondAttribute="leading" constant="24" id="5Bw-Mu-NGt"/>
                             <constraint firstItem="a0W-Ih-UIQ" firstAttribute="leading" secondItem="1v7-9D-gY1" secondAttribute="leading" id="6ff-fx-CNf"/>
+                            <constraint firstItem="a0W-Ih-UIQ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="7OH-MI-bZ4" secondAttribute="bottom" constant="20" id="PoC-KA-FfH"/>
                             <constraint firstItem="a0W-Ih-UIQ" firstAttribute="centerX" secondItem="mXr-z4-48c" secondAttribute="centerX" id="Qb6-WT-nMi"/>
                             <constraint firstItem="AsJ-Mt-1ew" firstAttribute="top" secondItem="C9d-1t-drQ" secondAttribute="bottom" constant="24" id="TZd-Zv-1M6"/>
                             <constraint firstItem="1v7-9D-gY1" firstAttribute="top" secondItem="1Gm-Wf-V8a" secondAttribute="centerY" id="X3e-m1-fAe"/>
                             <constraint firstItem="7OH-MI-bZ4" firstAttribute="top" secondItem="AsJ-Mt-1ew" secondAttribute="bottom" constant="24" id="brX-fF-h1O"/>
                             <constraint firstItem="1v7-9D-gY1" firstAttribute="centerX" secondItem="mXr-z4-48c" secondAttribute="centerX" id="c8x-1w-Fgi"/>
-                            <constraint firstItem="1v7-9D-gY1" firstAttribute="bottom" secondItem="a0W-Ih-UIQ" secondAttribute="bottom" id="cbt-eg-ymx"/>
+                            <constraint firstItem="1v7-9D-gY1" firstAttribute="bottom" secondItem="a0W-Ih-UIQ" secondAttribute="bottom" priority="250" id="cbt-eg-ymx"/>
                             <constraint firstItem="AsJ-Mt-1ew" firstAttribute="leading" secondItem="1v7-9D-gY1" secondAttribute="leading" constant="35" id="dgM-YH-9gi"/>
                             <constraint firstItem="7OH-MI-bZ4" firstAttribute="centerX" secondItem="mXr-z4-48c" secondAttribute="centerX" id="hid-2I-5yk"/>
                             <constraint firstAttribute="bottom" secondItem="1v7-9D-gY1" secondAttribute="bottom" id="rPK-VJ-yPt"/>

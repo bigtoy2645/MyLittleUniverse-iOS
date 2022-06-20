@@ -50,7 +50,7 @@ class TabBarView: UIView {
                 if navigation.viewControllers.filter({ $0 is MonthlyVC }).isEmpty {
                     navigation.pushViewController(Route.getVC(.monthlyVC), animated: false)
                 } else {
-                    navigation.popToVC(MonthlyVC.self)
+                    _ = navigation.popToVC(MonthlyVC.self)
                 }
             }
             .disposed(by: disposeBag)
@@ -79,7 +79,7 @@ class TabBarView: UIView {
                 if navigation.viewControllers.filter({ $0 is MyPageVC }).isEmpty {
                     navigation.pushViewController(Route.getVC(.myPageVC), animated: false)
                 } else {
-                    navigation.popToVC(MyPageVC.self)
+                    _ = navigation.popToVC(MyPageVC.self)
                 }
             }
             .disposed(by: disposeBag)

@@ -53,6 +53,12 @@ class DayMomentCell: UICollectionViewCell {
                     DispatchQueue.main.async {
                         Dialog.presentRemove(detailVC, moment: moment) {
                             detailVC.dismiss(animated: false)
+                            if let navigation = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.rootViewController as? UINavigationController,
+                               Repository.instance.moments.value.count <= 0 {
+                                if !navigation.popToVC(InitVC.self, animated: true) {
+                                    navigation.pushViewController(Route.getVC(.initVC), animated: false)
+                                }
+                            }
                         }
                     }
                 }
