@@ -127,12 +127,13 @@ class PaintVC: UIViewController {
                     self.edgeView.center = stickerView.center
                     stickerView.translatesAutoresizingMaskIntoConstraints = false
                     self.edgeConstraint = [
-                        stickerView.topAnchor.constraint(equalTo: self.edgeView.stickerView.topAnchor, constant: 0),
-                        stickerView.bottomAnchor.constraint(equalTo: self.edgeView.stickerView.bottomAnchor, constant: 0),
-                        stickerView.leftAnchor.constraint(equalTo: self.edgeView.stickerView.leftAnchor, constant: 0),
-                        stickerView.rightAnchor.constraint(equalTo: self.edgeView.stickerView.rightAnchor, constant: 0),
+                        stickerView.topAnchor.constraint(equalTo: self.edgeView.innerBorderView.topAnchor, constant: 3),
+                        stickerView.bottomAnchor.constraint(equalTo: self.edgeView.innerBorderView.bottomAnchor, constant: -3),
+                        stickerView.leftAnchor.constraint(equalTo: self.edgeView.innerBorderView.leftAnchor, constant: 3),
+                        stickerView.rightAnchor.constraint(equalTo: self.edgeView.innerBorderView.rightAnchor, constant: -3),
                     ]
                     NSLayoutConstraint.activate(self.edgeConstraint)
+                    self.edgeView.stickerView = stickerView
                     self.oldSticker = stickerView
                 }
             }
@@ -603,28 +604,28 @@ extension PaintVC: UIGestureRecognizerDelegate {
     
     /* 텍스트 스티커 설정 */
     func configureTextSticker() {
-        labelSticker.sticker.accept(Sticker(type: .text, text: "", hexColor: 0x000000))
-        paintView.addSubview(labelSticker)
-        
-        // 스티커 삭제
-        labelSticker.setLeftTopButton {
-            self.textSticker?.textView.text = ""
-            self.vm.removeSticker(self.labelSticker)
-            self.vm.focusSticker.accept(nil)
-        }
-        
-        // 글자 색상 변경
-        labelSticker.setRightTopButton {
-            self.presentColorPicker(mode: .sticker)
-        }
-        
-        // Gesture
-        labelSticker.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self,
-                                                action: #selector(self.handleTapGesture(recognizer:)))
-        let panGesture = UIPanGestureRecognizer(target: self,
-                                                action: #selector(self.handlePanGesture(recognizer:)))
-        labelSticker.gestureRecognizers = [panGesture, tapGesture]
+//        labelSticker.sticker.accept(Sticker(type: .text, text: "", hexColor: 0x000000))
+//        paintView.addSubview(labelSticker)
+//
+//        // 스티커 삭제
+//        labelSticker.setLeftTopButton {
+//            self.textSticker?.textView.text = ""
+//            self.vm.removeSticker(self.labelSticker)
+//            self.vm.focusSticker.accept(nil)
+//        }
+//
+//        // 글자 색상 변경
+//        labelSticker.setRightTopButton {
+//            self.presentColorPicker(mode: .sticker)
+//        }
+//
+//        // Gesture
+//        labelSticker.isUserInteractionEnabled = true
+//        let tapGesture = UITapGestureRecognizer(target: self,
+//                                                action: #selector(self.handleTapGesture(recognizer:)))
+//        let panGesture = UIPanGestureRecognizer(target: self,
+//                                                action: #selector(self.handlePanGesture(recognizer:)))
+//        labelSticker.gestureRecognizers = [panGesture, tapGesture]
     }
     
     /* 드래그 */
