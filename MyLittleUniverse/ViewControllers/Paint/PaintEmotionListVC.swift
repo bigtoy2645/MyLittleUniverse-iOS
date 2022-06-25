@@ -103,7 +103,7 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
         btnSave.rx.tap
             .bind {
                 self.vm.saveAllEnabled.accept(true)
-                self.pageVC.vm.currentView.value?.focusSticker = nil
+                self.pageVC.vm.currentView.value?.vm.focusSticker.accept(nil)
                 guard let paintVC = self.pageVC.vm.currentView.value,
                       let paintImageData = paintVC.paintView.asImage().pngData() else { return }
                 
@@ -111,12 +111,12 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                 var textLabel = ""
                 var textColor = UIColor(rgb: bgColor).isLight() ? 0x000000 : 0xFFFFFF
                 
-                if let textSticker = paintVC.labelSticker.stickerView as? UILabel {
-                    textLabel = textSticker.text ?? ""
-                    if !textLabel.isEmpty {
-                        textColor = textSticker.textColor.rgb() ?? textColor
-                    }
-                }
+//                if let textSticker = paintVC.labelSticker.stickerView as? UILabel {
+//                    textLabel = textSticker.text ?? ""
+//                    if !textLabel.isEmpty {
+//                        textColor = textSticker.textColor.rgb() ?? textColor
+//                    }
+//                }
                 let moment = Moment(timeStamp: self.vm.timeStamp.value.timeIntervalSinceReferenceDate,
                                     emotion: paintVC.vm.emotion.value,
                                     text: textLabel,

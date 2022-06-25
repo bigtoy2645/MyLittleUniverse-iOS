@@ -15,7 +15,8 @@ struct Handler {
 }
 
 class PaintViewModel {
-    let stickers = BehaviorRelay<[StickerEdgeView]>(value: [])
+    let stickers = BehaviorRelay<[UIView]>(value: [])
+    let focusSticker = BehaviorRelay<UIView?>(value: nil)
     let bgHexColor = BehaviorRelay<Int>(value: 0xFFFFFF)
     let emotion = BehaviorRelay<Emotion>(value: Emotion.empty)
     let bgColor = BehaviorSubject<UIColor>(value: .white)
@@ -31,15 +32,15 @@ class PaintViewModel {
     }
     
     /* 스티커 추가 */
-    func addSticker(_ sticker: StickerEdgeView) {
+    func addSticker(_ sticker: UIView) {
         var newStickers = stickers.value
         newStickers.append(sticker)
         stickers.accept(newStickers)
     }
     
     /* 스티커 삭제 */
-    func removeSticker(_ sticker: StickerEdgeView) {
-        let newStickers = stickers.value.filter { $0.sticker.value != sticker.sticker.value }
+    func removeSticker(_ sticker: UIView) {
+        let newStickers = stickers.value.filter { $0 != sticker }
         stickers.accept(newStickers)
     }
 }

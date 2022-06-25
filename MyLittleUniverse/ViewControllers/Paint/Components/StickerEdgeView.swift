@@ -11,6 +11,7 @@ import RxCocoa
 
 class StickerEdgeView: UIView {
     let sticker = BehaviorRelay<Sticker>(value: Sticker(type: .picture))
+    let stickerView = UIView()
     private let disposeBag = DisposeBag()
     
     enum ButtonPosition {
@@ -18,33 +19,6 @@ class StickerEdgeView: UIView {
         case leftBottom
         case rightTop
         case rightBottom
-    }
-    
-    var stickerView: UIView? {
-        didSet {
-            guard let stickerView = stickerView,
-                  !borderView.contains(stickerView) else { return }
-            DispatchQueue.main.async {
-                self.borderView.addSubview(stickerView)
-                stickerView.translatesAutoresizingMaskIntoConstraints = false
-                stickerView.topAnchor.constraint(equalTo: self.borderView.topAnchor, constant: 4).isActive = true
-                stickerView.bottomAnchor.constraint(equalTo: self.borderView.bottomAnchor, constant: -4).isActive = true
-                stickerView.leftAnchor.constraint(equalTo: self.borderView.leftAnchor, constant: 4).isActive = true
-                stickerView.rightAnchor.constraint(equalTo: self.borderView.rightAnchor, constant: -4).isActive = true
-            }
-        }
-    }
-    var isSelected = false {
-        didSet {
-            innerBorderView.layer.borderWidth = isSelected ? 0.2 : 0
-            borderView.layer.borderWidth = isSelected ? 1 : 0
-            outborderView.layer.borderWidth = isSelected ? 0.2 : 0
-            
-            btnLeftTop.isHidden = btnLeftTop.isEnabled ? !isSelected : true
-            btnRightTop.isHidden = btnRightTop.isEnabled ? !isSelected : true
-            btnLeftBottom.isHidden = btnLeftBottom.isEnabled ? !isSelected : true
-            btnRightBottom.isHidden = btnRightBottom.isEnabled ? !isSelected : true
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -71,6 +45,17 @@ class StickerEdgeView: UIView {
         let panGesture = UIPanGestureRecognizer(target: self,
                                                 action: #selector(self.handlePanGesture(recognizer:)))
         btnRightBottom.gestureRecognizers = [panGesture]
+        
+        self.addSubview(stickerView)
+        stickerView.translatesAutoresizingMaskIntoConstraints = false
+        stickerView.topAnchor.constraint(equalTo: self.innerBorderView.topAnchor, constant: 3).isActive = true
+        stickerView.bottomAnchor.constraint(equalTo: self.innerBorderView.bottomAnchor, constant: -3).isActive = true
+        stickerView.leftAnchor.constraint(equalTo: self.innerBorderView.leftAnchor, constant: 3).isActive = true
+        stickerView.rightAnchor.constraint(equalTo: self.innerBorderView.rightAnchor, constant: -3).isActive = true
+        
+        innerBorderView.layer.borderWidth = 0.2
+        borderView.layer.borderWidth = 1
+        outborderView.layer.borderWidth = 0.2
         
         setupBindings()
     }
@@ -99,46 +84,46 @@ class StickerEdgeView: UIView {
     
     /* Binding */
     func setupBindings() {
-        // 이미지 스티커
-        sticker.asObservable()
-            .map { ($0.image, $0.hexColor) }
-            .observe(on: MainScheduler.instance)
-            .bind { image, hexColor in
-                guard let image = image else { return }
-                if let imageView = self.stickerView as? UIImageView {
-                    imageView.image = image
-                    imageView.tintColor = UIColor(rgb: hexColor)
-                } else {
-                    let imageView = UIImageView()
-                    imageView.clipsToBounds = true
-                    imageView.tintColor = UIColor(rgb: hexColor)
-                    imageView.image = image
-                    imageView.contentMode = .scaleAspectFit
-                    self.stickerView = imageView
-                }
-            }
-            .disposed(by: disposeBag)
-        
-        // 텍스트 스티커
-        sticker.asObservable()
-            .map { ($0.text, $0.hexColor) }
-            .observe(on: MainScheduler.instance)
-            .bind { text, hexColor in
-                guard let text = text else { return }
-                if let labelView = self.stickerView as? UILabel {
-                    labelView.text = text
-                    labelView.textColor = UIColor(rgb: hexColor)
-                    labelView.sizeToFit()
-                } else {
-                    let lblText = UILabel()
-                    lblText.text = text
-                    lblText.textColor = .black
-                    lblText.textAlignment = .center
-                    lblText.lineBreakMode = .byClipping
-                    self.stickerView = lblText
-                }
-            }
-            .disposed(by: disposeBag)
+//        // 이미지 스티커
+//        sticker.asObservable()
+//            .map { ($0.image, $0.hexColor) }
+//            .observe(on: MainScheduler.instance)
+//            .bind { image, hexColor in
+//                guard let image = image else { return }
+//                if let imageView = self.stickerView as? UIImageView {
+//                    imageView.image = image
+//                    imageView.tintColor = UIColor(rgb: hexColor)
+//                } else {
+//                    let imageView = UIImageView()
+//                    imageView.clipsToBounds = true
+//                    imageView.tintColor = UIColor(rgb: hexColor)
+//                    imageView.image = image
+//                    imageView.contentMode = .scaleAspectFit
+//                    self.stickerView = imageView
+//                }
+//            }
+//            .disposed(by: disposeBag)
+//        
+//        // 텍스트 스티커
+//        sticker.asObservable()
+//            .map { ($0.text, $0.hexColor) }
+//            .observe(on: MainScheduler.instance)
+//            .bind { text, hexColor in
+//                guard let text = text else { return }
+//                if let labelView = self.stickerView as? UILabel {
+//                    labelView.text = text
+//                    labelView.textColor = UIColor(rgb: hexColor)
+//                    labelView.sizeToFit()
+//                } else {
+//                    let lblText = UILabel()
+//                    lblText.text = text
+//                    lblText.textColor = .black
+//                    lblText.textAlignment = .center
+//                    lblText.lineBreakMode = .byClipping
+//                    self.stickerView = lblText
+//                }
+//            }
+//            .disposed(by: disposeBag)
     }
     
     /* 좌상단 버튼 */
