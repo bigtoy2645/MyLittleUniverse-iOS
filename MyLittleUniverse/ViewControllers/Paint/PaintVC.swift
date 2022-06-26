@@ -16,8 +16,7 @@ class PaintVC: UIViewController {
     
     private var lastScale: CGFloat = 1.0
     private var lastPoint: CGPoint = .zero
-//    let labelView = UILabel()
-//    lazy var labelSticker = StickerView(sticker: Sticker(type: .text), view: labelView)
+    var labelSticker = StickerView(sticker: Sticker(type: .text), view: UIView())
     var stickerCount = 0
     var stickerPos: [CGPoint] = []
     var isBgColorSelected = false
@@ -60,14 +59,13 @@ class PaintVC: UIViewController {
         
         paintView.clipsToBounds = true
         seperatorView.isHidden = true
-        configureTextSticker()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         paintView.addSubview(edgeView)
-        edgeView.frame.size = CGSize(width: view.frame.width / 3 + 32,
-                                     height: view.frame.width / 3 + 32)
+        edgeView.bounds.size = CGSize(width: view.frame.width / 3 + 32,
+                                      height: view.frame.width / 3 + 32)
         edgeView.center = paintView.center
         configEdgeButton()
         
@@ -114,8 +112,9 @@ class PaintVC: UIViewController {
                 guard let sticker = sticker else { return }
                 
                 let stickerView = sticker.view
-                self.edgeView.transform = stickerView.transform
                 self.edgeView.center = stickerView.center
+                self.edgeView.transform = stickerView.transform
+                self.edgeView.bounds.size = CGSize(width: stickerView.bounds.width + 32, height: stickerView.bounds.height + 32)
                 stickerView.translatesAutoresizingMaskIntoConstraints = false
                 self.edgeConstraint = [
                     stickerView.topAnchor.constraint(equalTo: self.edgeView.innerBorderView.topAnchor, constant: 3),
@@ -124,6 +123,7 @@ class PaintVC: UIViewController {
                     stickerView.rightAnchor.constraint(equalTo: self.edgeView.innerBorderView.rightAnchor, constant: -3),
                 ]
                 NSLayoutConstraint.activate(self.edgeConstraint)
+                self.edgeView.layoutSubviews()
                 self.edgeView.stickerView = stickerView
                 if self.oldSticker?.sticker.value.type != sticker.sticker.value.type {
                     let image: UIImage? = sticker.sticker.value.type == .picture ? .editOff : .colorOff
@@ -479,6 +479,10 @@ extension PaintVC: UIGestureRecognizerDelegate {
         // 스티커 삭제
         edgeView.setLeftTopButton {
             if let focusSticker = self.vm.focusSticker.value {
+                if focusSticker.sticker.value.type == .text {
+                    self.textSticker?.textView.text = ""
+                    self.textSticker?.textView.endEditing(true)
+                }
                 self.removeSticker(focusSticker)
             }
         }
@@ -493,10 +497,11 @@ extension PaintVC: UIGestureRecognizerDelegate {
         // 스티커 색상 변경
         edgeView.setRightTopButton {
             guard let focusSticker = self.vm.focusSticker.value else { return }
-            if focusSticker.sticker.value.type == .shape {
+            let stickerType = focusSticker.sticker.value.type
+            if stickerType == .shape || stickerType == .text {
                 self.presentColorPicker(mode: .sticker)
             }
-            else if focusSticker.sticker.value.type == .picture {
+            else if stickerType == .picture {
                 let image = (focusSticker.view as? UIImageView)?.image
                 self.presentClippingMask(image: image)
             }
@@ -533,7 +538,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
         imageSticker.translatesAutoresizingMaskIntoConstraints = true
         
         let size = paintView.frame.width / 3
-        imageSticker.frame.size = CGSize(width: size, height: size)
+        imageSticker.bounds.size = CGSize(width: size, height: size)
         imageSticker.center = centerPos ?? stickerPos[stickerCount % stickerPos.count]
         imageSticker.transform = transform ?? imageSticker.transform
         
@@ -555,7 +560,6 @@ extension PaintVC: UIGestureRecognizerDelegate {
         vm.addSticker(stickerView)
         vm.focusSticker.accept(stickerView)
         edgeView.transform = .identity
-        edgeView.frame.size = CGSize(width: imageSticker.frame.width + 32, height: imageSticker.frame.height + 32)
     }
     
     /* 스티커 추가 */
@@ -584,51 +588,41 @@ extension PaintVC: UIGestureRecognizerDelegate {
     
     /* 설명 추가 */
     private func addTextSticker(text: String) {
-//        if let label = labelSticker.stickerView as? UILabel,
-//           let textArea = textSticker?.textView {
-//            label.text = text
-//            label.numberOfLines = 0
-//            let size = label.sizeThatFits(textArea.visibleSize)
-//            labelSticker.frame.size = CGSize(width: size.width + 36, height: size.height + 36)
-//            labelSticker.layoutIfNeeded()
-//        }
-//        let labelColor = labelSticker.sticker.value.hexColor
-//        labelSticker.sticker.accept(Sticker(type: .text, text: text, hexColor: labelColor))
-//        vm.removeSticker(labelSticker)
-//        if text.isEmpty {
-//            labelSticker.stickerView?.frame.size = CGSize.zero
-//            vm.focusSticker.accept(nil)
-//            return
-//        }
-//        labelSticker.center = stickerPos[0]
-//        vm.focusSticker.accept(labelSticker)
-//        vm.addSticker(labelSticker)
-    }
-    
-    /* 텍스트 스티커 설정 */
-    func configureTextSticker() {
-//        labelSticker.sticker.accept(Sticker(type: .text, text: "", hexColor: 0x000000))
-//        paintView.addSubview(labelSticker)
-//
-//        // 스티커 삭제
-//        labelSticker.setLeftTopButton {
-//            self.textSticker?.textView.text = ""
-//            self.vm.removeSticker(self.labelSticker)
-//            self.vm.focusSticker.accept(nil)
-//        }
-//
-//        // 글자 색상 변경
-//        labelSticker.setRightTopButton {
-//            self.presentColorPicker(mode: .sticker)
-//        }
-//
-//        // Gesture
-//        labelSticker.isUserInteractionEnabled = true
-//        let tapGesture = UITapGestureRecognizer(target: self,
-//                                                action: #selector(self.handleTapGesture(recognizer:)))
-//        let panGesture = UIPanGestureRecognizer(target: self,
-//                                                action: #selector(self.handlePanGesture(recognizer:)))
-//        labelSticker.gestureRecognizers = [panGesture, tapGesture]
+        var labelView = UILabel()
+        if let oldLabelView = labelSticker.view as? UILabel,
+           paintView.subviews.contains(labelSticker.view) {
+            labelView = oldLabelView
+            vm.removeSticker(labelSticker)
+        } else {
+            edgeView.transform = .identity
+            labelView.textColor = .black
+            labelView.textAlignment = .center
+            labelView.lineBreakMode = .byClipping
+            labelView.isUserInteractionEnabled = true
+            let tapGesture = UITapGestureRecognizer(target: self,
+                                                    action: #selector(self.handleTapGesture(recognizer:)))
+            labelView.gestureRecognizers = [tapGesture]
+            paintView.insertSubview(labelView, belowSubview: edgeView)
+        }
+        
+        labelSticker.view = labelView
+        if let textArea = textSticker?.textView {
+            labelView.text = text
+            labelView.numberOfLines = 0
+            let size = labelView.sizeThatFits(textArea.visibleSize)
+            labelView.bounds.size = CGSize(width: size.width + 10, height: size.height + 10)
+        }
+        
+        let labelColor = labelView.textColor.rgb() ?? labelSticker.sticker.value.hexColor
+        labelSticker.sticker.accept(Sticker(type: .text, text: text, hexColor: labelColor))
+        if text.isEmpty {
+            labelSticker.view.bounds.size = CGSize.zero
+            vm.focusSticker.accept(nil)
+            return
+        }
+        labelView.center = stickerPos[0]
+        vm.focusSticker.accept(labelSticker)
+        vm.addSticker(labelSticker)
     }
     
     /* 드래그 */

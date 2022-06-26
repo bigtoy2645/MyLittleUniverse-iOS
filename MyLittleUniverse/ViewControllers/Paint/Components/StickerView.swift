@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-struct StickerView {
+class StickerView {
     let sticker = BehaviorRelay<Sticker>(value: Sticker(type: .shape))
     var view = UIView()
     private let disposeBag = DisposeBag()
@@ -33,14 +33,6 @@ struct StickerView {
                     imageView.image = image
                     imageView.tintColor = UIColor(rgb: hexColor)
                 }
-//                else {
-//                    let imageView = UIImageView()
-//                    imageView.clipsToBounds = true
-//                    imageView.tintColor = UIColor(rgb: hexColor)
-//                    imageView.image = image
-//                    imageView.contentMode = .scaleAspectFit
-//                    view = imageView
-//                }
             }
             .disposed(by: disposeBag)
 
@@ -53,16 +45,7 @@ struct StickerView {
                 if let labelView = self.view as? UILabel {
                     labelView.text = text
                     labelView.textColor = UIColor(rgb: hexColor)
-                    labelView.sizeToFit()
                 }
-//                else {
-//                    let lblText = UILabel()
-//                    lblText.text = text
-//                    lblText.textColor = .black
-//                    lblText.textAlignment = .center
-//                    lblText.lineBreakMode = .byClipping
-//                    self.view = lblText
-//                }
             }
             .disposed(by: disposeBag)
     }
