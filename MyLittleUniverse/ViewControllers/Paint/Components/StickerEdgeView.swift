@@ -71,6 +71,7 @@ class StickerEdgeView: UIView {
                 stickerView.transform = stickerView.transform.scaledBy(x: scale, y: scale).rotated(by: angle)
             }
         }
+        updateHorizontal(state: recognizer.state, transform: stickerView.transform)
     }
     
     /* 좌상단 버튼 */
@@ -146,6 +147,28 @@ class StickerEdgeView: UIView {
         btnLeftTop.isUserInteractionEnabled = !isEditable
         btnLeftBottom.isUserInteractionEnabled = !isEditable
         btnRightBottom.isUserInteractionEnabled = !isEditable
+    }
+    
+    /* 수직/수평 */
+    func updateHorizontal(state: UIGestureRecognizer.State, transform: CGAffineTransform) {
+        if state == .began || state == .changed {
+            let radians = atan2f(Float(transform.b), Float(transform.a))
+            let degrees = Int(round(abs(radians * (180 / .pi))))
+            if degrees % 90 == 0 {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                borderView.layer.borderColor = UIColor.pointPurple.cgColor
+                innerBorderView.layer.borderColor = UIColor.pointPurple.cgColor
+                outborderView.layer.borderColor = UIColor.pointPurple.cgColor
+            } else {
+                borderView.layer.borderColor = UIColor.white.cgColor
+                innerBorderView.layer.borderColor = UIColor.gray300.cgColor
+                outborderView.layer.borderColor = UIColor.gray300.cgColor
+            }
+        } else {
+            borderView.layer.borderColor = UIColor.white.cgColor
+            innerBorderView.layer.borderColor = UIColor.gray300.cgColor
+            outborderView.layer.borderColor = UIColor.gray300.cgColor
+        }
     }
     
     // MARK: - InterfaceBuilder Links

@@ -474,7 +474,6 @@ class PaintVC: UIViewController {
 // MARK: - Sticker Functions
 
 extension PaintVC: UIGestureRecognizerDelegate {
-    
     func configEdgeButton() {
         // 스티커 삭제
         edgeView.setLeftTopButton {
@@ -656,6 +655,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
             rotationView.transform = rotationView.transform.rotated(by: recognizer.rotation)
             if let focusSticker = vm.focusSticker.value?.view {
                 focusSticker.transform = focusSticker.transform.rotated(by: recognizer.rotation)
+                edgeView.updateHorizontal(state: recognizer.state, transform: focusSticker.transform)
             }
             recognizer.rotation = 0.0
         }
