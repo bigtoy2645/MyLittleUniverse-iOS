@@ -67,8 +67,10 @@ class StickerEdgeView: UIView {
             
             if let currentScale = currentScale {
                 scale = max(scale, minScale / (CGFloat)(currentScale))
-                transform = transform.scaledBy(x: scale, y: scale).rotated(by: angle)
-                stickerView.transform = stickerView.transform.scaledBy(x: scale, y: scale).rotated(by: angle)
+                bounds.size = CGSize(width: bounds.width * scale, height: bounds.height * scale)
+                transform = transform.rotated(by: angle)
+                stickerView.bounds.size = CGSize(width: stickerView.bounds.width * scale, height: stickerView.bounds.height * scale)
+                stickerView.transform = stickerView.transform.rotated(by: angle)
             }
         }
         updateHorizontal(state: recognizer.state, transform: stickerView.transform)

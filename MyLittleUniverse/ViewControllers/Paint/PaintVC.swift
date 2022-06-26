@@ -609,6 +609,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
         if let textArea = textSticker?.textView {
             labelView.text = text
             labelView.numberOfLines = 0
+            labelView.adjustsFontSizeToFitWidth = true
             let size = labelView.sizeThatFits(textArea.visibleSize)
             labelView.bounds.size = CGSize(width: size.width + 10, height: size.height + 10)
         }
@@ -676,10 +677,9 @@ extension PaintVC: UIGestureRecognizerDelegate {
             var newScale = 1.0 - (lastScale - recognizer.scale)
             if let currentScale = currentScale {
                 newScale = max(newScale, minScale / (CGFloat)(currentScale))
-                
-                pinchView.transform = pinchView.transform.scaledBy(x: newScale, y: newScale)
+                pinchView.bounds.size = CGSize(width: pinchView.bounds.width * newScale, height: pinchView.bounds.height * newScale)
                 if let focusSticker = vm.focusSticker.value?.view {
-                    focusSticker.transform = focusSticker.transform.scaledBy(x: newScale, y: newScale)
+                    focusSticker.bounds.size = CGSize(width: focusSticker.bounds.width * newScale, height: focusSticker.bounds.height * newScale)
                 }
                 recognizer.scale = 1.0
                 lastScale = recognizer.scale
