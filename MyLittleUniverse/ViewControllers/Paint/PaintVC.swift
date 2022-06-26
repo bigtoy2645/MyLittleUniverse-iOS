@@ -489,11 +489,12 @@ extension PaintVC: UIGestureRecognizerDelegate {
         // 스티커 90도 회전
         edgeView.setLeftBottomButton {
             if let stickerView = self.vm.focusSticker.value?.view {
+                self.edgeView.transform = self.edgeView.transform.rotated(by: .pi / 2)
                 stickerView.transform = stickerView.transform.rotated(by: .pi / 2)
             }
         }
         
-        // 스티커 색상 변경
+        // 스티커 색상/모양 변경
         edgeView.setRightTopButton {
             guard let focusSticker = self.vm.focusSticker.value else { return }
             let stickerType = focusSticker.sticker.value.type
@@ -501,7 +502,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
                 self.presentColorPicker(mode: .sticker)
             }
             else if stickerType == .picture {
-                let image = (focusSticker.view as? UIImageView)?.image
+                let image = focusSticker.sticker.value.image
                 self.presentClippingMask(image: image)
             }
         }
