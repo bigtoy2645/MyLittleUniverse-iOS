@@ -71,6 +71,10 @@ class StickerEdgeView: UIView {
                 transform = transform.rotated(by: angle)
                 stickerView.bounds.size = CGSize(width: stickerView.bounds.width * scale, height: stickerView.bounds.height * scale)
                 stickerView.transform = stickerView.transform.rotated(by: angle)
+                if let labelSticker = stickerView as? UILabel {
+                    let font = labelSticker.font.pointSize
+                    labelSticker.font = .systemFont(ofSize: font * scale)
+                }
             }
         }
         updateHorizontal(state: recognizer.state, transform: stickerView.transform)

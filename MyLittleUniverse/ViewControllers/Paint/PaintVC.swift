@@ -595,10 +595,14 @@ extension PaintVC: UIGestureRecognizerDelegate {
             vm.removeSticker(labelSticker)
         } else {
             edgeView.transform = .identity
+            labelView.numberOfLines = 0
             labelView.textColor = .black
             labelView.textAlignment = .center
             labelView.lineBreakMode = .byClipping
             labelView.isUserInteractionEnabled = true
+            labelView.adjustsFontSizeToFitWidth = true
+            labelView.minimumScaleFactor = 0.1
+            labelView.center = stickerPos[0]
             let tapGesture = UITapGestureRecognizer(target: self,
                                                     action: #selector(self.handleTapGesture(recognizer:)))
             labelView.gestureRecognizers = [tapGesture]
@@ -607,11 +611,9 @@ extension PaintVC: UIGestureRecognizerDelegate {
         
         labelSticker.view = labelView
         if let textArea = textSticker?.textView {
-            labelView.text = text
-            labelView.numberOfLines = 0
-            labelView.adjustsFontSizeToFitWidth = true
-            let size = labelView.sizeThatFits(textArea.visibleSize)
-            labelView.bounds.size = CGSize(width: size.width + 10, height: size.height + 10)
+                labelView.text = text
+                let size = labelView.sizeThatFits(textArea.visibleSize)
+                labelView.bounds.size = CGSize(width: size.width + 10, height: size.height + 10)
         }
         
         let labelColor = labelView.textColor.rgb() ?? labelSticker.sticker.value.hexColor
@@ -621,7 +623,6 @@ extension PaintVC: UIGestureRecognizerDelegate {
             vm.focusSticker.accept(nil)
             return
         }
-        labelView.center = stickerPos[0]
         vm.focusSticker.accept(labelSticker)
         vm.addSticker(labelSticker)
     }
@@ -680,6 +681,10 @@ extension PaintVC: UIGestureRecognizerDelegate {
                 pinchView.bounds.size = CGSize(width: pinchView.bounds.width * newScale, height: pinchView.bounds.height * newScale)
                 if let focusSticker = vm.focusSticker.value?.view {
                     focusSticker.bounds.size = CGSize(width: focusSticker.bounds.width * newScale, height: focusSticker.bounds.height * newScale)
+                    if let labelSticker = focusSticker as? UILabel {
+                        let font = labelSticker.font.pointSize
+                        labelSticker.font = .systemFont(ofSize: font * newScale)
+                    }
                 }
                 recognizer.scale = 1.0
                 lastScale = recognizer.scale
