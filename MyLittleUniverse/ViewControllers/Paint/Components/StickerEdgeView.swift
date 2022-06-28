@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 class StickerEdgeView: UIView {
-    let sticker = BehaviorRelay<Sticker>(value: Sticker(type: .picture))
+    var stickerView = UIView()
     private let disposeBag = DisposeBag()
     
     enum ButtonPosition {
@@ -18,33 +18,6 @@ class StickerEdgeView: UIView {
         case leftBottom
         case rightTop
         case rightBottom
-    }
-    
-    var stickerView: UIView? {
-        didSet {
-            guard let stickerView = stickerView,
-                  !borderView.contains(stickerView) else { return }
-            DispatchQueue.main.async {
-                self.borderView.addSubview(stickerView)
-                stickerView.translatesAutoresizingMaskIntoConstraints = false
-                stickerView.topAnchor.constraint(equalTo: self.borderView.topAnchor, constant: 4).isActive = true
-                stickerView.bottomAnchor.constraint(equalTo: self.borderView.bottomAnchor, constant: -4).isActive = true
-                stickerView.leftAnchor.constraint(equalTo: self.borderView.leftAnchor, constant: 4).isActive = true
-                stickerView.rightAnchor.constraint(equalTo: self.borderView.rightAnchor, constant: -4).isActive = true
-            }
-        }
-    }
-    var isSelected = false {
-        didSet {
-            innerBorderView.layer.borderWidth = isSelected ? 0.2 : 0
-            borderView.layer.borderWidth = isSelected ? 1 : 0
-            outborderView.layer.borderWidth = isSelected ? 0.2 : 0
-            
-            btnLeftTop.isHidden = btnLeftTop.isEnabled ? !isSelected : true
-            btnRightTop.isHidden = btnRightTop.isEnabled ? !isSelected : true
-            btnLeftBottom.isHidden = btnLeftBottom.isEnabled ? !isSelected : true
-            btnRightBottom.isHidden = btnRightBottom.isEnabled ? !isSelected : true
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -68,11 +41,13 @@ class StickerEdgeView: UIView {
         outborderView.layer.borderColor = UIColor.gray300.cgColor
         innerBorderView.layer.borderColor = UIColor.gray300.cgColor
         
+        borderView.layer.borderWidth = 1
+        outborderView.layer.borderWidth = 0.2
+        innerBorderView.layer.borderWidth = 0.2
+        
         let panGesture = UIPanGestureRecognizer(target: self,
                                                 action: #selector(self.handlePanGesture(recognizer:)))
         btnRightBottom.gestureRecognizers = [panGesture]
-        
-        setupBindings()
     }
     
     /* 드래그 */
@@ -92,53 +67,17 @@ class StickerEdgeView: UIView {
             
             if let currentScale = currentScale {
                 scale = max(scale, minScale / (CGFloat)(currentScale))
-                transform = transform.scaledBy(x: scale, y: scale).rotated(by: angle)
+                bounds.size = CGSize(width: bounds.width * scale, height: bounds.height * scale)
+                transform = transform.rotated(by: angle)
+                stickerView.bounds.size = CGSize(width: stickerView.bounds.width * scale, height: stickerView.bounds.height * scale)
+                stickerView.transform = stickerView.transform.rotated(by: angle)
+                if let labelSticker = stickerView as? UILabel {
+                    let font = labelSticker.font.pointSize
+                    labelSticker.font = .systemFont(ofSize: font * scale)
+                }
             }
         }
-    }
-    
-    /* Binding */
-    func setupBindings() {
-        // 이미지 스티커
-        sticker.asObservable()
-            .map { ($0.image, $0.hexColor) }
-            .observe(on: MainScheduler.instance)
-            .bind { image, hexColor in
-                guard let image = image else { return }
-                if let imageView = self.stickerView as? UIImageView {
-                    imageView.image = image
-                    imageView.tintColor = UIColor(rgb: hexColor)
-                } else {
-                    let imageView = UIImageView()
-                    imageView.clipsToBounds = true
-                    imageView.tintColor = UIColor(rgb: hexColor)
-                    imageView.image = image
-                    imageView.contentMode = .scaleAspectFit
-                    self.stickerView = imageView
-                }
-            }
-            .disposed(by: disposeBag)
-        
-        // 텍스트 스티커
-        sticker.asObservable()
-            .map { ($0.text, $0.hexColor) }
-            .observe(on: MainScheduler.instance)
-            .bind { text, hexColor in
-                guard let text = text else { return }
-                if let labelView = self.stickerView as? UILabel {
-                    labelView.text = text
-                    labelView.textColor = UIColor(rgb: hexColor)
-                    labelView.sizeToFit()
-                } else {
-                    let lblText = UILabel()
-                    lblText.text = text
-                    lblText.textColor = .black
-                    lblText.textAlignment = .center
-                    lblText.lineBreakMode = .byClipping
-                    self.stickerView = lblText
-                }
-            }
-            .disposed(by: disposeBag)
+        updateHorizontal(state: recognizer.state, transform: stickerView.transform)
     }
     
     /* 좌상단 버튼 */
@@ -214,6 +153,28 @@ class StickerEdgeView: UIView {
         btnLeftTop.isUserInteractionEnabled = !isEditable
         btnLeftBottom.isUserInteractionEnabled = !isEditable
         btnRightBottom.isUserInteractionEnabled = !isEditable
+    }
+    
+    /* 수직/수평 */
+    func updateHorizontal(state: UIGestureRecognizer.State, transform: CGAffineTransform) {
+        if state == .began || state == .changed {
+            let radians = atan2f(Float(transform.b), Float(transform.a))
+            let degrees = Int(round(abs(radians * (180 / .pi))))
+            if degrees % 90 == 0 {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                borderView.layer.borderColor = UIColor.pointPurple.cgColor
+                innerBorderView.layer.borderColor = UIColor.pointPurple.cgColor
+                outborderView.layer.borderColor = UIColor.pointPurple.cgColor
+            } else {
+                borderView.layer.borderColor = UIColor.white.cgColor
+                innerBorderView.layer.borderColor = UIColor.gray300.cgColor
+                outborderView.layer.borderColor = UIColor.gray300.cgColor
+            }
+        } else {
+            borderView.layer.borderColor = UIColor.white.cgColor
+            innerBorderView.layer.borderColor = UIColor.gray300.cgColor
+            outborderView.layer.borderColor = UIColor.gray300.cgColor
+        }
     }
     
     // MARK: - InterfaceBuilder Links

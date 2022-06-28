@@ -55,7 +55,9 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
             .orEmpty
             .distinctUntilChanged()
             .subscribe(onNext: { changedText in
-                if changedText != self.placeHolder {
+                if !self.textView.isFirstResponder {
+                    self.textViewFocusOut()
+                } else if changedText != self.placeHolder {
                     self.completeHandler?(changedText)
                 }
             })
@@ -92,14 +94,17 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
         
         // TextView Unfocus
         textView.rx.didEndEditing
-            .subscribe(onNext: {
-                self.textArea.layer.borderColor = UIColor.gray300.cgColor
-                if self.textView.text.isEmpty {
-                    self.textView.text = self.placeHolder
-                    self.textView.textColor = .disableGray
-                }
-            })
+            .subscribe(onNext: { self.textViewFocusOut() })
             .disposed(by: disposeBag)
+    }
+
+    /* TextView Focus Out */
+    func textViewFocusOut() {
+        self.textArea.layer.borderColor = UIColor.gray300.cgColor
+        if self.textView.text.isEmpty {
+            self.textView.text = self.placeHolder
+            self.textView.textColor = .disableGray
+        }
     }
     
     func sizeOfString(_ string: String, constrainedToWidth width: Double, font: UIFont) -> CGSize {
