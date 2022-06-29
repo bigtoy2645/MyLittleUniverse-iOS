@@ -23,29 +23,10 @@ class PaintVC: UIViewController {
     var edgeView = StickerEdgeView()
     var edgeConstraint: [NSLayoutConstraint] = []
     var oldSticker: StickerView?
-    
-    private var undoFunctions: [Handler] = [] {
-        didSet {
-            DispatchQueue.main.async {
-                let isUndoEnable = self.undoFunctions.count > 0
-                self.btnUndo.isEnabled = isUndoEnable
-                if let undoImage: UIImage = isUndoEnable ? .undoOn : .undoOff {
-                    self.btnUndo.setImage(undoImage, for: .normal)
-                }
-            }
-        }
-    }
-    private var redoFunctions: [(() -> Void)] = [] {
-        didSet {
-            DispatchQueue.main.async {
-                let isRedoEnable = self.redoFunctions.count > 0
-                self.btnRedo.isEnabled = isRedoEnable
-                if let redoImage: UIImage = isRedoEnable ? .redoOn : .redoOff {
-                    self.btnRedo.setImage(redoImage, for: .normal)
-                }
-            }
-        }
-    }
+    let canUndo = BehaviorRelay<Bool>(value: false)
+    let canRedo = BehaviorRelay<Bool>(value: false)
+    let undoHandler = UndoManager()
+    let redoHandler = UndoManager()
     
     enum ColorPickerMode {
         case background
@@ -71,6 +52,22 @@ class PaintVC: UIViewController {
         
         setupBindings()
         btnEditBgColor.isHidden = true
+        
+        canUndo
+            .bind(to: btnUndo.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        canUndo.map { $0 ? UIImage.undoOn : UIImage.undoOff }
+            .bind(to: btnUndo.rx.image())
+            .disposed(by: disposeBag)
+        
+        canRedo
+            .bind(to: btnRedo.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        canRedo.map { $0 ? UIImage.redoOn : UIImage.redoOff }
+            .bind(to: btnRedo.rx.image())
+            .disposed(by: disposeBag)
     }
     
     override func viewDidLayoutSubviews() {
@@ -243,9 +240,10 @@ class PaintVC: UIViewController {
         btnUndo.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                if let handler = self.undoFunctions.popLast() {
-                    handler.undo()
-                    self.redoFunctions.append(handler.redo)
+                if self.undoHandler.canUndo {
+                    self.undoHandler.undo()
+                    self.canRedo.accept(true)
+                    self.canUndo.accept(self.undoHandler.canUndo)
                 }
             }
             .disposed(by: disposeBag)
@@ -254,7 +252,10 @@ class PaintVC: UIViewController {
         btnRedo.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                if let redo = self.redoFunctions.popLast() { redo() }
+                if self.redoHandler.canUndo {
+                    self.redoHandler.undo()
+                    self.canRedo.accept(self.redoHandler.canUndo)
+                }
             }
             .disposed(by: disposeBag)
     }
@@ -331,7 +332,7 @@ class PaintVC: UIViewController {
     }
     
     /* 스티커 색상 변경 */
-    private func updateStickerColor(stickerView: StickerView, hexColor: Int) {
+    private func updateSticker(_ stickerView: StickerView, hexColor: Int) {
         if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView) {
             var sticker = stickerView.sticker.value
             sticker.hexColor = hexColor
@@ -343,7 +344,7 @@ class PaintVC: UIViewController {
     }
     
     /* 스티커 이미지 변경 */
-    private func updateStickerImage(stickerView: StickerView, image: UIImage?) {
+    private func updateSticker(_ stickerView: StickerView, image: UIImage?) {
         if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView),
            let imageSticker = stickerView.view as? UIImageView {
             imageSticker.image = image
@@ -353,40 +354,67 @@ class PaintVC: UIViewController {
         }
     }
     
-    /* 색상 선택 */
-    private func pickColor(_ hexColor: Int, isUndoAction: Bool = false) {
-        if self.colorPickerMode == .background {    // 배경 색상 변경
-            if isBgColorSelected {
-                let oldHexColor = self.vm.bgHexColor.value
-                undoFunctions.append(Handler(undo: { self.vm.bgHexColor.accept(oldHexColor) },
-                                             redo: { self.vm.bgHexColor.accept(hexColor) }))
-            } else {
-                isBgColorSelected = true
+    /* 배경 색상 선택 */
+    private func pickBgColor(_ hexColor: Int) {
+        if isBgColorSelected {
+            let oldHexColor = self.vm.bgHexColor.value
+            undoHandler.registerUndo(withTarget: self) {
+                $0.vm.bgHexColor.accept(oldHexColor)
+                $0.redoHandler.registerUndo(withTarget: self) { $0.pickBgColor(hexColor) }
             }
-            self.vm.bgHexColor.accept(hexColor)
-        } else if self.colorPickerMode == .sticker, // 스티커 색상 변경
-                  let stickerView = self.vm.focusSticker.value {
-            let oldHexColor = stickerView.sticker.value.hexColor
-            
-            let handler = Handler {
-                self.updateStickerColor(stickerView: stickerView, hexColor: oldHexColor)
-            } redo: {
-                self.updateStickerColor(stickerView: stickerView, hexColor: hexColor)
-            }
-            undoFunctions.append(handler)
-            
-            var sticker = stickerView.sticker.value
-            sticker.hexColor = hexColor
-            stickerView.sticker.accept(sticker)
-            self.vm.focusSticker.accept(stickerView)
+            canUndo.accept(true)
+        } else {
+            isBgColorSelected = true
         }
+        self.vm.bgHexColor.accept(hexColor)
+    }
+    
+    /* 스티커 색상 선택 */
+    private func pickSticker(_ stickerView: StickerView, hexColor: Int) {
+        let oldHexColor = stickerView.sticker.value.hexColor
+        
+        undoHandler.registerUndo(withTarget: self) {
+            $0.updateSticker(stickerView, hexColor: oldHexColor)
+            $0.redoHandler.registerUndo(withTarget: self) {
+                $0.pickSticker(stickerView, hexColor: hexColor)
+            }
+        }
+        canUndo.accept(true)
+        
+        var sticker = stickerView.sticker.value
+        sticker.hexColor = hexColor
+        stickerView.sticker.accept(sticker)
+        self.vm.focusSticker.accept(stickerView)
+    }
+    
+    /* 스티커 모양 선택 */
+    func pickSticker(_ stickerView: StickerView, clippingImage: UIImage) {
+        guard let imageSticker = stickerView.view as? UIImageView else { return }
+        
+        let oldImage = imageSticker.image
+        self.undoHandler.registerUndo(withTarget: self) {
+            $0.updateSticker(stickerView, image: oldImage)
+            $0.redoHandler.registerUndo(withTarget: self) {
+                $0.pickSticker(stickerView, clippingImage: clippingImage)
+            }
+        }
+        self.canUndo.accept(true)
+        
+        imageSticker.image = clippingImage
+        stickerView.view = imageSticker
+        self.vm.focusSticker.accept(stickerView)
     }
     
     private lazy var colorChips: ColorChipVC? = {
         guard let colorVC = Route.getVC(.colorChipVC) as? ColorChipVC else { return nil }
         colorVC.completeHandler = { (hexColor) in
             DispatchQueue.main.async {
-                self.pickColor(hexColor)
+                if self.colorPickerMode == .background {
+                    self.pickBgColor(hexColor)
+                }
+                else if self.colorPickerMode == .sticker, let focusSticker = self.vm.focusSticker.value {
+                    self.pickSticker(focusSticker, hexColor: hexColor)
+                }
                 self.btnDone.isEnabled = true
             }
         }
@@ -407,18 +435,9 @@ class PaintVC: UIViewController {
     private lazy var clippingStickers: ClippingPictureStickerVC? = {
         guard let stickerVC = Route.getVC(.clippingStickerVC) as? ClippingPictureStickerVC else { return nil }
         stickerVC.completeHandler = { (image) in
-            DispatchQueue.main.async {
-                if let image = image,
-                   var stickerView = self.vm.focusSticker.value,
-                   let imageSticker = stickerView.view as? UIImageView {
-                    let oldImage = imageSticker.image
-                    self.undoFunctions.append(Handler(undo: { self.updateStickerImage(stickerView: stickerView, image: oldImage) },
-                                                      redo: { self.updateStickerImage(stickerView: stickerView, image: image) }))
-                    
-                    imageSticker.image = image
-                    stickerView.view = imageSticker
-                    self.vm.focusSticker.accept(stickerView)
-                }
+            if let focusSticker = self.vm.focusSticker.value,
+               let image = image {
+                self.pickSticker(focusSticker, clippingImage: image)
             }
         }
         
@@ -524,11 +543,27 @@ extension PaintVC: UIGestureRecognizerDelegate {
     }
     
     /* 스티커 생성 */
-    private func createSticker(_ sticker: Sticker,
-                               centerPos: CGPoint? = nil,
-                               transform: CGAffineTransform? = nil,
-                               isUndoAction: Bool = false) {
+    private func createSticker(_ stickerView: StickerView, isUndo: Bool = false) {
+        paintView.insertSubview(stickerView.view, belowSubview: edgeView)
+        stickerCount += 1
         
+        if !isUndo {
+            undoHandler.registerUndo(withTarget: self) {
+                $0.removeSticker(stickerView, isUndo: true)
+                $0.redoHandler.registerUndo(withTarget: self) {
+                    $0.createSticker(stickerView)
+                }
+            }
+            canUndo.accept(true)
+        }
+        
+        vm.addSticker(stickerView)
+        vm.focusSticker.accept(stickerView)
+        edgeView.transform = .identity
+    }
+    
+    /* 스티커 생성 */
+    private func createSticker(_ sticker: Sticker, isUndo: Bool = false) {
         let imageSticker = UIImageView()
         paintView.insertSubview(imageSticker, belowSubview: edgeView)
         imageSticker.clipsToBounds = true
@@ -539,8 +574,8 @@ extension PaintVC: UIGestureRecognizerDelegate {
         
         let size = paintView.frame.width / 3
         imageSticker.bounds.size = CGSize(width: size, height: size)
-        imageSticker.center = centerPos ?? stickerPos[stickerCount % stickerPos.count]
-        imageSticker.transform = transform ?? imageSticker.transform
+        imageSticker.center = stickerPos[stickerCount % stickerPos.count]
+        imageSticker.transform = imageSticker.transform
         
         stickerCount += 1
         
@@ -552,9 +587,14 @@ extension PaintVC: UIGestureRecognizerDelegate {
         let stickerView = StickerView(sticker: sticker, view: imageSticker)
         
         // Undo/Redo
-        if !isUndoAction {
-            undoFunctions.append(Handler(undo: { self.removeSticker(stickerView, isUndoAction: true) },
-                                         redo: { self.addSticker(stickerView) }))
+        if !isUndo {
+            undoHandler.registerUndo(withTarget: self) {
+                $0.removeSticker(stickerView, isUndo: true)
+                $0.redoHandler.registerUndo(withTarget: self) {
+                    $0.createSticker(stickerView)
+                }
+            }
+            canUndo.accept(true)
         }
         
         vm.addSticker(stickerView)
@@ -571,7 +611,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
     }
     
     /* 스티커 삭제 */
-    func removeSticker(_ stickerView: StickerView, isUndoAction: Bool = false) {
+    func removeSticker(_ stickerView: StickerView, isUndo: Bool = false) {
         vm.removeSticker(stickerView)
         if stickerView == vm.focusSticker.value {
             vm.focusSticker.value?.view.removeFromSuperview()
@@ -580,9 +620,12 @@ extension PaintVC: UIGestureRecognizerDelegate {
             stickerView.view.removeFromSuperview()
         }
         
-        if !isUndoAction {
-            undoFunctions.append(Handler(undo: { self.addSticker(stickerView) },
-                                         redo: { self.removeSticker(stickerView) }))
+        if !isUndo {
+            undoHandler.registerUndo(withTarget: self) {
+                $0.createSticker(stickerView, isUndo: true)
+                $0.redoHandler.registerUndo(withTarget: self) { $0.removeSticker(stickerView) }
+            }
+            canUndo.accept(true)
         }
     }
     

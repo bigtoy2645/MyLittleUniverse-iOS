@@ -9,11 +9,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-struct Handler {
-    let undo: (() -> Void)
-    let redo: (() -> Void)
-}
-
 class PaintViewModel {
     let stickers = BehaviorRelay<[StickerView]>(value: [])
     let focusSticker = BehaviorRelay<StickerView?>(value: nil)
