@@ -11,6 +11,7 @@ import RxCocoa
 
 class TextStickerVC: UIViewController, UITextViewDelegate {
     var emotion = BehaviorRelay<Emotion>(value: Emotion.empty)
+    let isFocused = PublishSubject<Bool>()
     let maxCount = 200
     var completeHandler: ((String) -> ())?
     private let disposeBag = DisposeBag()
@@ -89,12 +90,16 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
                     self.textView.text = ""
                     self.textView.textColor = .mainBlack
                 }
+                self.isFocused.onNext(true)
             })
             .disposed(by: disposeBag)
         
         // TextView Unfocus
         textView.rx.didEndEditing
-            .subscribe(onNext: { self.textViewFocusOut() })
+            .subscribe(onNext: {
+                self.textViewFocusOut()
+                self.isFocused.onNext(false)
+            })
             .disposed(by: disposeBag)
     }
 
