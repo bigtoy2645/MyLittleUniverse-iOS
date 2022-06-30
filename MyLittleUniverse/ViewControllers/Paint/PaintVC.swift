@@ -331,29 +331,6 @@ class PaintVC: UIViewController {
         btnText.setImage(textImage, for: .normal)
     }
     
-    /* 스티커 색상 변경 */
-    private func updateSticker(_ stickerView: StickerView, hexColor: Int) {
-        if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView) {
-            var sticker = stickerView.sticker.value
-            sticker.hexColor = hexColor
-            stickerView.sticker.accept(sticker)
-            var stickers = vm.stickers.value
-            stickers[stickerIndex] = stickerView
-            vm.stickers.accept(stickers)
-        }
-    }
-    
-    /* 스티커 이미지 변경 */
-    private func updateSticker(_ stickerView: StickerView, image: UIImage?) {
-        if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView),
-           let imageSticker = stickerView.view as? UIImageView {
-            imageSticker.image = image
-            var stickers = vm.stickers.value
-            stickers[stickerIndex] = StickerView(sticker: stickerView.sticker.value, view: imageSticker)
-            vm.stickers.accept(stickers)
-        }
-    }
-    
     /* 배경 색상 선택 */
     private func pickBgColor(_ hexColor: Int) {
         if isBgColorSelected {
@@ -403,6 +380,18 @@ class PaintVC: UIViewController {
         imageSticker.image = clippingImage
         stickerView.view = imageSticker
         self.vm.focusSticker.accept(stickerView)
+    }
+    
+    /* 스티커 위치 변경 */
+    func changeStickerPosition(_ stickerView: StickerView, center: CGPoint, lastCenter: CGPoint) {
+        updateSticker(stickerView, center: center)
+        undoHandler.registerUndo(withTarget: self) {
+            $0.updateSticker(stickerView, center: lastCenter)
+            $0.redoHandler.registerUndo(withTarget: self) {
+                $0.changeStickerPosition(stickerView, center: center, lastCenter: lastCenter)
+            }
+        }
+        canUndo.accept(true)
     }
     
     private lazy var colorChips: ColorChipVC? = {
@@ -673,14 +662,19 @@ extension PaintVC: UIGestureRecognizerDelegate {
     /* 드래그 */
     @objc func handlePanGesture(recognizer: UIPanGestureRecognizer) {
         guard let focusView = recognizer.view else { return }
+        let translation = recognizer.translation(in: view)
         
         switch recognizer.state {
         case .began:
             lastPoint = focusView.center
         case .changed:
-            let translation = recognizer.translation(in: view)
             focusView.center = CGPoint(x: lastPoint.x + translation.x,
                                        y: lastPoint.y + translation.y)
+        case .ended:
+            if let focusSticker = self.vm.focusSticker.value {
+                self.changeStickerPosition(focusSticker, center: CGPoint(x: self.lastPoint.x + translation.x,
+                                                                         y: self.lastPoint.y + translation.y), lastCenter: lastPoint)
+            }
         default: break
         }
     }
@@ -739,5 +733,34 @@ extension PaintVC: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+    
+    /* 스티커 색상 변경 */
+    private func updateSticker(_ stickerView: StickerView, hexColor: Int) {
+        if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView) {
+            var sticker = stickerView.sticker.value
+            sticker.hexColor = hexColor
+            stickerView.sticker.accept(sticker)
+            var stickers = vm.stickers.value
+            stickers[stickerIndex] = stickerView
+            vm.stickers.accept(stickers)
+        }
+    }
+    
+    /* 스티커 이미지 변경 */
+    private func updateSticker(_ stickerView: StickerView, image: UIImage?) {
+        if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView),
+           let imageSticker = stickerView.view as? UIImageView {
+            imageSticker.image = image
+            var stickers = vm.stickers.value
+            stickers[stickerIndex] = StickerView(sticker: stickerView.sticker.value, view: imageSticker)
+            vm.stickers.accept(stickers)
+        }
+    }
+    
+    /* 스티커 위치 변경 */
+    private func updateSticker(_ stickerView: StickerView, center: CGPoint) {
+        self.vm.focusSticker.accept(stickerView)
+        edgeView.center = center
     }
 }
