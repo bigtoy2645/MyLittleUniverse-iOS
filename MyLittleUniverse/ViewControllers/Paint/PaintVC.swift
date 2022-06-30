@@ -434,25 +434,27 @@ class PaintVC: UIViewController {
         var sticker = stickerView.sticker.value
         sticker.hexColor = hexColor
         stickerView.sticker.accept(sticker)
-        self.vm.focusSticker.accept(stickerView)
+        vm.focusSticker.accept(stickerView)
     }
     
     /* 스티커 모양 선택 */
     func pickSticker(_ stickerView: StickerView, clippingImage: UIImage) {
         guard let imageSticker = stickerView.view as? UIImageView else { return }
         
-        let oldImage = imageSticker.image
-        self.undoHandler.registerUndo(withTarget: self) {
+        let oldImage = stickerView.sticker.value.image
+        undoHandler.registerUndo(withTarget: self) {
             $0.updateSticker(stickerView, image: oldImage)
             $0.redoHandler.registerUndo(withTarget: self) {
                 $0.pickSticker(stickerView, clippingImage: clippingImage)
             }
         }
-        self.canUndo.accept(true)
+        canUndo.accept(true)
         
         imageSticker.image = clippingImage
-        stickerView.view = imageSticker
-        self.vm.focusSticker.accept(stickerView)
+        var sticker = stickerView.sticker.value
+        sticker.image = clippingImage
+        stickerView.sticker.accept(sticker)
+        vm.focusSticker.accept(stickerView)
     }
     
     /* 스티커 위치 변경 */
@@ -785,11 +787,12 @@ extension PaintVC: UIGestureRecognizerDelegate {
     
     /* 스티커 이미지 변경 */
     private func updateSticker(_ stickerView: StickerView, image: UIImage?) {
-        if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView),
-           let imageSticker = stickerView.view as? UIImageView {
-            imageSticker.image = image
+        if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView) {
+            var sticker = stickerView.sticker.value
+            sticker.image = image
+            stickerView.sticker.accept(sticker)
             var stickers = vm.stickers.value
-            stickers[stickerIndex] = StickerView(sticker: stickerView.sticker.value, view: imageSticker)
+            stickers[stickerIndex] = stickerView
             vm.stickers.accept(stickers)
         }
     }
