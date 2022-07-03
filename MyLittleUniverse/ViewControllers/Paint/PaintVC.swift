@@ -26,6 +26,7 @@ class PaintVC: UIViewController {
     let undoHandler = UndoManager()
     let redoHandler = UndoManager()
     private var lastScale: CGFloat = 1.0
+    private var lastSize: CGSize = .zero
     private var lastPoint: CGPoint = .zero
     private var lastTransform: CGAffineTransform = .identity
     private var lastText: String = ""
@@ -469,6 +470,30 @@ class PaintVC: UIViewController {
         canUndo.accept(true)
     }
     
+    /* 스티커 회전 변경 */
+    func changeStickerTransform(_ stickerView: StickerView, transform: CGAffineTransform, lastTransform: CGAffineTransform) {
+        updateSticker(stickerView, transform: transform)
+        undoHandler.registerUndo(withTarget: self) {
+            $0.updateSticker(stickerView, transform: lastTransform)
+            $0.redoHandler.registerUndo(withTarget: self) {
+                $0.changeStickerTransform(stickerView, transform: transform, lastTransform: lastTransform)
+            }
+        }
+        canUndo.accept(true)
+    }
+    
+    /* 스티커 크기 변경 */
+    func changeStickerSize(_ stickerView: StickerView, size: CGSize, lastSize: CGSize) {
+        updateSticker(stickerView, size: size)
+        undoHandler.registerUndo(withTarget: self) {
+            $0.updateSticker(stickerView, size: lastSize)
+            $0.redoHandler.registerUndo(withTarget: self) {
+                $0.changeStickerSize(stickerView, size: size, lastSize: lastSize)
+            }
+        }
+        canUndo.accept(true)
+    }
+    
     /* 텍스트 스티커 내용 변경 */
     func changeTextSticker(_ text: String) {
         addTextSticker(text: text)
@@ -521,9 +546,11 @@ extension PaintVC: UIGestureRecognizerDelegate {
         
         // 스티커 90도 회전
         edgeView.setLeftBottomButton {
-            if let stickerView = self.vm.focusSticker.value?.view {
+            if let stickerView = self.vm.focusSticker.value {
                 self.edgeView.transform = self.edgeView.transform.rotated(by: .pi / 2)
-                stickerView.transform = stickerView.transform.rotated(by: .pi / 2)
+                self.changeStickerTransform(stickerView,
+                                            transform: stickerView.view.transform.rotated(by: .pi / 2),
+                                            lastTransform: stickerView.view.transform)
             }
         }
         
@@ -542,6 +569,13 @@ extension PaintVC: UIGestureRecognizerDelegate {
         
         // 스티커 사이즈/각도 변경
         edgeView.setRightBottomButton { }
+        edgeView.transHanlder = { before, after in
+            if let stickerView = self.vm.focusSticker.value {
+                self.changeStickerTransform(stickerView,
+                                            transform: after,
+                                            lastTransform: before)
+            }
+        }
         
         // Gesture
         edgeView.isUserInteractionEnabled = true
@@ -740,30 +774,27 @@ extension PaintVC: UIGestureRecognizerDelegate {
     
     /* 크기 변경 */
     @objc func handlePinchGesture(recognizer: UIPinchGestureRecognizer) {
+        guard let pinchView = recognizer.view,
+              let focusSticker = vm.focusSticker.value else { return }
+        
         if recognizer.state == .began {
             lastScale = recognizer.scale
+            lastSize = focusSticker.view.bounds.size
         }
-        guard let pinchView = recognizer.view else { return }
+        
+        var newScale = 1.0 - (lastScale - recognizer.scale)
+        let currentScale = (pinchView.layer.value(forKeyPath: "transform.scale") as? NSNumber)?.floatValue ?? 1.0
+        let minScale: CGFloat = 0.5
         
         if recognizer.state == .began || recognizer.state == .changed {
-            let currentScale = (pinchView.layer.value(forKeyPath: "transform.scale") as? NSNumber)?.floatValue
-            let minScale: CGFloat = 0.5
-            
-            var newScale = 1.0 - (lastScale - recognizer.scale)
-            if let currentScale = currentScale {
-                newScale = max(newScale, minScale / (CGFloat)(currentScale))
-                pinchView.bounds.size = CGSize(width: pinchView.bounds.width * newScale, height: pinchView.bounds.height * newScale)
-                if let focusSticker = vm.focusSticker.value?.view {
-                    focusSticker.bounds.size = CGSize(width: focusSticker.bounds.width * newScale,
-                                                      height: focusSticker.bounds.height * newScale)
-                    if let labelSticker = focusSticker as? UILabel {
-                        let font = labelSticker.font.pointSize
-                        labelSticker.font = .systemFont(ofSize: font * newScale)
-                    }
-                }
-                recognizer.scale = 1.0
-                lastScale = recognizer.scale
-            }
+            newScale = max(newScale, minScale / (CGFloat)(currentScale))
+            updateSticker(focusSticker, scale: newScale)
+            recognizer.scale = 1.0
+            lastScale = recognizer.scale
+        } else if recognizer.state == .ended {
+            let newSize = CGSize(width: focusSticker.view.bounds.size.width * newScale,
+                                 height: focusSticker.view.bounds.size.height * newScale)
+            changeStickerSize(focusSticker, size: newSize, lastSize: lastSize)
         }
     }
     
@@ -803,20 +834,27 @@ extension PaintVC: UIGestureRecognizerDelegate {
         self.vm.focusSticker.accept(stickerView)
     }
     
-    /* 스티커 회전/크기 변경 */
+    /* 스티커 회전 변경 */
     private func updateSticker(_ stickerView: StickerView, transform: CGAffineTransform) {
         stickerView.view.transform = transform
         self.vm.focusSticker.accept(stickerView)
     }
     
-    func changeStickerTransform(_ stickerView: StickerView, transform: CGAffineTransform, lastTransform: CGAffineTransform) {
-        updateSticker(stickerView, transform: transform)
-        undoHandler.registerUndo(withTarget: self) {
-            $0.updateSticker(stickerView, transform: lastTransform)
-            $0.redoHandler.registerUndo(withTarget: self) {
-                $0.changeStickerTransform(stickerView, transform: transform, lastTransform: lastTransform)
-            }
+    /* 스티커 크기 변경 */
+    private func updateSticker(_ stickerView: StickerView, scale: CGFloat) {
+        stickerView.view.bounds.size = CGSize(width: stickerView.view.bounds.width * scale,
+                                              height: stickerView.view.bounds.height * scale)
+        if let labelSticker = stickerView.view as? UILabel {
+            let font = labelSticker.font.pointSize
+            labelSticker.font = .systemFont(ofSize: font * scale)
         }
-        canUndo.accept(true)
+        self.vm.focusSticker.accept(stickerView)
+    }
+    
+    /* 스티커 크기 변경 */
+    private func updateSticker(_ stickerView: StickerView, size: CGSize) {
+        let oldSize = stickerView.view.bounds.size
+        let scale = 1 + (size.width - oldSize.width) / oldSize.width
+        updateSticker(stickerView, scale: scale)
     }
 }
