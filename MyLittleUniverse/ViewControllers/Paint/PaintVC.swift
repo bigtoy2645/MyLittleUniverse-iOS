@@ -14,8 +14,6 @@ class PaintVC: UIViewController {
     let vm = PaintViewModel()
     private let disposeBag = DisposeBag()
     
-    private var lastScale: CGFloat = 1.0
-    private var lastPoint: CGPoint = .zero
     var labelSticker = StickerView(sticker: Sticker(type: .text), view: UIView())
     var stickerCount = 0
     var stickerPos: [CGPoint] = []
@@ -23,29 +21,15 @@ class PaintVC: UIViewController {
     var edgeView = StickerEdgeView()
     var edgeConstraint: [NSLayoutConstraint] = []
     var oldSticker: StickerView?
-    
-    private var undoFunctions: [Handler] = [] {
-        didSet {
-            DispatchQueue.main.async {
-                let isUndoEnable = self.undoFunctions.count > 0
-                self.btnUndo.isEnabled = isUndoEnable
-                if let undoImage: UIImage = isUndoEnable ? .undoOn : .undoOff {
-                    self.btnUndo.setImage(undoImage, for: .normal)
-                }
-            }
-        }
-    }
-    private var redoFunctions: [(() -> Void)] = [] {
-        didSet {
-            DispatchQueue.main.async {
-                let isRedoEnable = self.redoFunctions.count > 0
-                self.btnRedo.isEnabled = isRedoEnable
-                if let redoImage: UIImage = isRedoEnable ? .redoOn : .redoOff {
-                    self.btnRedo.setImage(redoImage, for: .normal)
-                }
-            }
-        }
-    }
+    let canUndo = BehaviorRelay<Bool>(value: false)
+    let canRedo = BehaviorRelay<Bool>(value: false)
+    let undoHandler = UndoManager()
+    let redoHandler = UndoManager()
+    private var lastScale: CGFloat = 1.0
+    private var lastSize: CGSize = .zero
+    private var lastPoint: CGPoint = .zero
+    private var lastTransform: CGAffineTransform = .identity
+    private var lastText: String = ""
     
     enum ColorPickerMode {
         case background
@@ -53,6 +37,11 @@ class PaintVC: UIViewController {
     }
     
     var colorPickerMode: ColorPickerMode = .background
+    var textVC = TextStickerVC()
+    var colorChipVC = ColorChipVC()
+    var pictureVC = PictureStickerVC()
+    var clippingVC = ClippingPictureStickerVC()
+    var shapeVC = ShapeStickerVC()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +52,8 @@ class PaintVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
+        initStickerVC()
+        
         paintView.addSubview(edgeView)
         edgeView.bounds.size = CGSize(width: view.frame.width / 3 + 32,
                                       height: view.frame.width / 3 + 32)
@@ -71,6 +62,22 @@ class PaintVC: UIViewController {
         
         setupBindings()
         btnEditBgColor.isHidden = true
+        
+        canUndo
+            .bind(to: btnUndo.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        canUndo.map { $0 ? UIImage.undoOn : UIImage.undoOff }
+            .bind(to: btnUndo.rx.image())
+            .disposed(by: disposeBag)
+        
+        canRedo
+            .bind(to: btnRedo.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        canRedo.map { $0 ? UIImage.redoOn : UIImage.redoOff }
+            .bind(to: btnRedo.rx.image())
+            .disposed(by: disposeBag)
     }
     
     override func viewDidLayoutSubviews() {
@@ -192,15 +199,15 @@ class PaintVC: UIViewController {
                 
                 switch button {
                 case self.btnPicture:
-                    childVC = self.pictureStickers
+                    childVC = self.pictureVC
                 case self.btnLineShape:
-                    childVC = self.shapeStickers
-                    self.shapeStickers?.type.onNext(.lineShape)
+                    childVC = self.shapeVC
+                    self.shapeVC.type.onNext(.lineShape)
                 case self.btnFillShape:
-                    childVC = self.shapeStickers
-                    self.shapeStickers?.type.onNext(.fillShape)
+                    childVC = self.shapeVC
+                    self.shapeVC.type.onNext(.fillShape)
                 case self.btnText:
-                    childVC = self.textSticker
+                    childVC = self.textVC
                 default: break
                 }
                 
@@ -243,9 +250,10 @@ class PaintVC: UIViewController {
         btnUndo.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                if let handler = self.undoFunctions.popLast() {
-                    handler.undo()
-                    self.redoFunctions.append(handler.redo)
+                if self.undoHandler.canUndo {
+                    self.undoHandler.undo()
+                    self.canRedo.accept(true)
+                    self.canUndo.accept(self.undoHandler.canUndo)
                 }
             }
             .disposed(by: disposeBag)
@@ -254,9 +262,80 @@ class PaintVC: UIViewController {
         btnRedo.rx.tap
             .observe(on: MainScheduler.instance)
             .bind {
-                if let redo = self.redoFunctions.popLast() { redo() }
+                if self.redoHandler.canUndo {
+                    self.redoHandler.undo()
+                    self.canRedo.accept(self.redoHandler.canUndo)
+                }
             }
             .disposed(by: disposeBag)
+        
+        // TextView Focus
+        textVC.isFocused
+            .subscribe(onNext: { isFocused in
+                if isFocused {
+                    self.lastText = self.labelSticker.sticker.value.text ?? ""
+                } else {
+                    self.changeTextSticker(self.labelSticker.sticker.value.text ?? "")
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    /* 스티커 추가 화면 초기화 */
+    func initStickerVC() {
+        if let textVC = Route.getVC(.textStickerVC) as? TextStickerVC {
+            textVC.emotion.accept(vm.emotion.value)
+            textVC.completeHandler = { (description) in
+                DispatchQueue.main.async {
+                    self.addTextSticker(text: description)
+                }
+            }
+            self.textVC = textVC
+        }
+        
+        if let colorChipVC = Route.getVC(.colorChipVC) as? ColorChipVC {
+            colorChipVC.completeHandler = { (hexColor) in
+                DispatchQueue.main.async {
+                    if self.colorPickerMode == .background {
+                        self.pickBgColor(hexColor)
+                    }
+                    else if self.colorPickerMode == .sticker, let focusSticker = self.vm.focusSticker.value {
+                        self.pickSticker(focusSticker, hexColor: hexColor)
+                    }
+                    self.btnDone.isEnabled = true
+                }
+            }
+            self.colorChipVC = colorChipVC
+        }
+        
+        if let pictureVC = Route.getVC(.pictureStickerVC) as? PictureStickerVC {
+            pictureVC.completeHandler = { (image) in
+                DispatchQueue.main.async {
+                    if let image = image { self.createSticker(Sticker(type: .picture, image: image)) }
+                }
+            }
+            self.pictureVC = pictureVC
+        }
+        
+        if let clippingVC = Route.getVC(.clippingStickerVC) as? ClippingPictureStickerVC {
+            clippingVC.completeHandler = { (image) in
+                if let focusSticker = self.vm.focusSticker.value,
+                   let image = image {
+                    self.pickSticker(focusSticker, clippingImage: image)
+                }
+            }
+            self.clippingVC = clippingVC
+        }
+        
+        if let shapeVC = Route.getVC(.shapeStickerVC) as? ShapeStickerVC {
+            shapeVC.completeHandler = { (image) in
+                DispatchQueue.main.async {
+                    if let image = image { self.createSticker(Sticker(type: .shape, image: image)) }
+                }
+            }
+            
+            self.shapeVC = shapeVC
+        }
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -275,27 +354,23 @@ class PaintVC: UIViewController {
     
     /* 색상 선택 화면 표시 */
     func presentColorPicker(mode: ColorPickerMode) {
-        if let colorVC = self.colorChips {
-            present(asChildViewController: colorVC, view: componentView)
-            colorPickerMode = mode
-            if mode == .background {        // 기존 배경 색상 지정
-                colorVC.selectedColor.onNext(vm.bgHexColor.value)
-            } else if mode == .sticker {    // 기존 스티커 색상 지정
-                self.edgeView.changeButtonImage(.colorOn, position: .rightTop)
-                self.edgeView.changeEditable(true)
-                colorVC.selectedColor.onNext(vm.focusSticker.value?.sticker.value.hexColor)
-            }
-            
-            leftControls.isHidden = true
-            rightControls.isHidden = false
-            vm.isEditing.accept(true)
+        present(asChildViewController: colorChipVC, view: componentView)
+        colorPickerMode = mode
+        if mode == .background {        // 기존 배경 색상 지정
+            colorChipVC.selectedColor.onNext(vm.bgHexColor.value)
+        } else if mode == .sticker {    // 기존 스티커 색상 지정
+            self.edgeView.changeButtonImage(.colorOn, position: .rightTop)
+            self.edgeView.changeEditable(true)
+            colorChipVC.selectedColor.onNext(vm.focusSticker.value?.sticker.value.hexColor)
         }
+        
+        leftControls.isHidden = true
+        rightControls.isHidden = false
+        vm.isEditing.accept(true)
     }
     
     /* 색상 선택 화면 표시 */
     func presentClippingMask(image: UIImage?) {
-        guard let clippingVC = clippingStickers else { return }
-        
         clippingVC.originImage.onNext(image)
         present(asChildViewController: clippingVC, view: componentView)
         
@@ -330,123 +405,106 @@ class PaintVC: UIViewController {
         btnText.setImage(textImage, for: .normal)
     }
     
-    /* 스티커 색상 변경 */
-    private func updateStickerColor(stickerView: StickerView, hexColor: Int) {
-        if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView) {
-            var sticker = stickerView.sticker.value
-            sticker.hexColor = hexColor
-            stickerView.sticker.accept(sticker)
-            var stickers = vm.stickers.value
-            stickers[stickerIndex] = stickerView
-            vm.stickers.accept(stickers)
+    /* 배경 색상 선택 */
+    private func pickBgColor(_ hexColor: Int) {
+        if isBgColorSelected {
+            let oldHexColor = self.vm.bgHexColor.value
+            undoHandler.registerUndo(withTarget: self) {
+                $0.vm.bgHexColor.accept(oldHexColor)
+                $0.redoHandler.registerUndo(withTarget: self) { $0.pickBgColor(hexColor) }
+            }
+            canUndo.accept(true)
+        } else {
+            isBgColorSelected = true
         }
+        self.vm.bgHexColor.accept(hexColor)
     }
     
-    /* 스티커 이미지 변경 */
-    private func updateStickerImage(stickerView: StickerView, image: UIImage?) {
-        if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView),
-           let imageSticker = stickerView.view as? UIImageView {
-            imageSticker.image = image
-            var stickers = vm.stickers.value
-            stickers[stickerIndex] = StickerView(sticker: stickerView.sticker.value, view: imageSticker)
-            vm.stickers.accept(stickers)
+    /* 스티커 색상 선택 */
+    private func pickSticker(_ stickerView: StickerView, hexColor: Int) {
+        let oldHexColor = stickerView.sticker.value.hexColor
+        
+        undoHandler.registerUndo(withTarget: self) {
+            $0.updateSticker(stickerView, hexColor: oldHexColor)
+            $0.redoHandler.registerUndo(withTarget: self) {
+                $0.pickSticker(stickerView, hexColor: hexColor)
+            }
         }
+        canUndo.accept(true)
+        
+        var sticker = stickerView.sticker.value
+        sticker.hexColor = hexColor
+        stickerView.sticker.accept(sticker)
+        vm.focusSticker.accept(stickerView)
     }
     
-    /* 색상 선택 */
-    private func pickColor(_ hexColor: Int, isUndoAction: Bool = false) {
-        if self.colorPickerMode == .background {    // 배경 색상 변경
-            if isBgColorSelected {
-                let oldHexColor = self.vm.bgHexColor.value
-                undoFunctions.append(Handler(undo: { self.vm.bgHexColor.accept(oldHexColor) },
-                                             redo: { self.vm.bgHexColor.accept(hexColor) }))
-            } else {
-                isBgColorSelected = true
+    /* 스티커 모양 선택 */
+    func pickSticker(_ stickerView: StickerView, clippingImage: UIImage) {
+        guard let imageSticker = stickerView.view as? UIImageView else { return }
+        
+        let oldImage = stickerView.sticker.value.image
+        undoHandler.registerUndo(withTarget: self) {
+            $0.updateSticker(stickerView, image: oldImage)
+            $0.redoHandler.registerUndo(withTarget: self) {
+                $0.pickSticker(stickerView, clippingImage: clippingImage)
             }
-            self.vm.bgHexColor.accept(hexColor)
-        } else if self.colorPickerMode == .sticker, // 스티커 색상 변경
-                  let stickerView = self.vm.focusSticker.value {
-            let oldHexColor = stickerView.sticker.value.hexColor
-            
-            let handler = Handler {
-                self.updateStickerColor(stickerView: stickerView, hexColor: oldHexColor)
-            } redo: {
-                self.updateStickerColor(stickerView: stickerView, hexColor: hexColor)
-            }
-            undoFunctions.append(handler)
-            
-            var sticker = stickerView.sticker.value
-            sticker.hexColor = hexColor
-            stickerView.sticker.accept(sticker)
-            self.vm.focusSticker.accept(stickerView)
         }
+        canUndo.accept(true)
+        
+        imageSticker.image = clippingImage
+        var sticker = stickerView.sticker.value
+        sticker.image = clippingImage
+        stickerView.sticker.accept(sticker)
+        vm.focusSticker.accept(stickerView)
     }
     
-    private lazy var colorChips: ColorChipVC? = {
-        guard let colorVC = Route.getVC(.colorChipVC) as? ColorChipVC else { return nil }
-        colorVC.completeHandler = { (hexColor) in
-            DispatchQueue.main.async {
-                self.pickColor(hexColor)
-                self.btnDone.isEnabled = true
+    /* 스티커 위치 변경 */
+    func changeStickerPosition(_ stickerView: StickerView, center: CGPoint, lastCenter: CGPoint) {
+        updateSticker(stickerView, center: center)
+        undoHandler.registerUndo(withTarget: self) {
+            $0.updateSticker(stickerView, center: lastCenter)
+            $0.redoHandler.registerUndo(withTarget: self) {
+                $0.changeStickerPosition(stickerView, center: center, lastCenter: lastCenter)
             }
         }
-        return colorVC
-    }()
+        canUndo.accept(true)
+    }
     
-    private lazy var pictureStickers: PictureStickerVC? = {
-        guard let stickerVC = Route.getVC(.pictureStickerVC) as? PictureStickerVC else { return nil }
-        stickerVC.completeHandler = { (image) in
-            DispatchQueue.main.async {
-                if let image = image { self.createSticker(Sticker(type: .picture, image: image)) }
+    /* 스티커 회전 변경 */
+    func changeStickerTransform(_ stickerView: StickerView, transform: CGAffineTransform, lastTransform: CGAffineTransform) {
+        updateSticker(stickerView, transform: transform)
+        undoHandler.registerUndo(withTarget: self) {
+            $0.updateSticker(stickerView, transform: lastTransform)
+            $0.redoHandler.registerUndo(withTarget: self) {
+                $0.changeStickerTransform(stickerView, transform: transform, lastTransform: lastTransform)
             }
         }
-        
-        return stickerVC
-    }()
+        canUndo.accept(true)
+    }
     
-    private lazy var clippingStickers: ClippingPictureStickerVC? = {
-        guard let stickerVC = Route.getVC(.clippingStickerVC) as? ClippingPictureStickerVC else { return nil }
-        stickerVC.completeHandler = { (image) in
-            DispatchQueue.main.async {
-                if let image = image,
-                   var stickerView = self.vm.focusSticker.value,
-                   let imageSticker = stickerView.view as? UIImageView {
-                    let oldImage = imageSticker.image
-                    self.undoFunctions.append(Handler(undo: { self.updateStickerImage(stickerView: stickerView, image: oldImage) },
-                                                      redo: { self.updateStickerImage(stickerView: stickerView, image: image) }))
-                    
-                    imageSticker.image = image
-                    stickerView.view = imageSticker
-                    self.vm.focusSticker.accept(stickerView)
-                }
+    /* 스티커 크기 변경 */
+    func changeStickerSize(_ stickerView: StickerView, size: CGSize, lastSize: CGSize) {
+        updateSticker(stickerView, size: size)
+        undoHandler.registerUndo(withTarget: self) {
+            $0.updateSticker(stickerView, size: lastSize)
+            $0.redoHandler.registerUndo(withTarget: self) {
+                $0.changeStickerSize(stickerView, size: size, lastSize: lastSize)
             }
         }
-        
-        return stickerVC
-    }()
+        canUndo.accept(true)
+    }
     
-    private lazy var shapeStickers: ShapeStickerVC? = {
-        guard let stickerVC = Route.getVC(.shapeStickerVC) as? ShapeStickerVC else { return nil }
-        stickerVC.completeHandler = { (image) in
-            DispatchQueue.main.async {
-                if let image = image { self.createSticker(Sticker(type: .shape, image: image)) }
+    /* 텍스트 스티커 내용 변경 */
+    func changeTextSticker(_ text: String) {
+        addTextSticker(text: text)
+        undoHandler.registerUndo(withTarget: self) {
+            $0.addTextSticker(text: self.lastText)
+            $0.redoHandler.registerUndo(withTarget: self) {
+                $0.changeTextSticker(text)
             }
         }
-        
-        return stickerVC
-    }()
-    
-    private lazy var textSticker: TextStickerVC? = {
-        guard let textVC = Route.getVC(.textStickerVC) as? TextStickerVC else { return nil }
-        textVC.emotion.accept(vm.emotion.value)
-        textVC.completeHandler = { (description) in
-            DispatchQueue.main.async {
-                self.addTextSticker(text: description)
-            }
-        }
-        
-        return textVC
-    }()
+        canUndo.accept(true)
+    }
     
     // MARK: - InterfaceBuilder Links
     
@@ -479,8 +537,8 @@ extension PaintVC: UIGestureRecognizerDelegate {
         edgeView.setLeftTopButton {
             if let focusSticker = self.vm.focusSticker.value {
                 if focusSticker.sticker.value.type == .text {
-                    self.textSticker?.textView.text = ""
-                    self.textSticker?.textView.endEditing(true)
+                    self.textVC.textView.text = ""
+                    self.textVC.textView.endEditing(true)
                 }
                 self.removeSticker(focusSticker)
             }
@@ -488,9 +546,11 @@ extension PaintVC: UIGestureRecognizerDelegate {
         
         // 스티커 90도 회전
         edgeView.setLeftBottomButton {
-            if let stickerView = self.vm.focusSticker.value?.view {
+            if let stickerView = self.vm.focusSticker.value {
                 self.edgeView.transform = self.edgeView.transform.rotated(by: .pi / 2)
-                stickerView.transform = stickerView.transform.rotated(by: .pi / 2)
+                self.changeStickerTransform(stickerView,
+                                            transform: stickerView.view.transform.rotated(by: .pi / 2),
+                                            lastTransform: stickerView.view.transform)
             }
         }
         
@@ -509,6 +569,12 @@ extension PaintVC: UIGestureRecognizerDelegate {
         
         // 스티커 사이즈/각도 변경
         edgeView.setRightBottomButton { }
+        edgeView.transHanlder = { beforeTrans, afterTrans, beforeSize, afterSize in
+            guard let stickerView = self.vm.focusSticker.value else { return }
+            
+            self.changeStickerTransform(stickerView, transform: afterTrans, lastTransform: beforeTrans)
+            self.changeStickerSize(stickerView, size: afterSize, lastSize: beforeSize)
+        }
         
         // Gesture
         edgeView.isUserInteractionEnabled = true
@@ -524,11 +590,27 @@ extension PaintVC: UIGestureRecognizerDelegate {
     }
     
     /* 스티커 생성 */
-    private func createSticker(_ sticker: Sticker,
-                               centerPos: CGPoint? = nil,
-                               transform: CGAffineTransform? = nil,
-                               isUndoAction: Bool = false) {
+    private func createSticker(_ stickerView: StickerView, isUndo: Bool = false) {
+        paintView.insertSubview(stickerView.view, belowSubview: edgeView)
+        stickerCount += 1
         
+        if !isUndo {
+            undoHandler.registerUndo(withTarget: self) {
+                $0.removeSticker(stickerView, isUndo: true)
+                $0.redoHandler.registerUndo(withTarget: self) {
+                    $0.createSticker(stickerView)
+                }
+            }
+            canUndo.accept(true)
+        }
+        
+        vm.addSticker(stickerView)
+        vm.focusSticker.accept(stickerView)
+        edgeView.transform = .identity
+    }
+    
+    /* 스티커 생성 */
+    private func createSticker(_ sticker: Sticker, isUndo: Bool = false) {
         let imageSticker = UIImageView()
         paintView.insertSubview(imageSticker, belowSubview: edgeView)
         imageSticker.clipsToBounds = true
@@ -539,8 +621,8 @@ extension PaintVC: UIGestureRecognizerDelegate {
         
         let size = paintView.frame.width / 3
         imageSticker.bounds.size = CGSize(width: size, height: size)
-        imageSticker.center = centerPos ?? stickerPos[stickerCount % stickerPos.count]
-        imageSticker.transform = transform ?? imageSticker.transform
+        imageSticker.center = stickerPos[stickerCount % stickerPos.count]
+        imageSticker.transform = imageSticker.transform
         
         stickerCount += 1
         
@@ -552,9 +634,14 @@ extension PaintVC: UIGestureRecognizerDelegate {
         let stickerView = StickerView(sticker: sticker, view: imageSticker)
         
         // Undo/Redo
-        if !isUndoAction {
-            undoFunctions.append(Handler(undo: { self.removeSticker(stickerView, isUndoAction: true) },
-                                         redo: { self.addSticker(stickerView) }))
+        if !isUndo {
+            undoHandler.registerUndo(withTarget: self) {
+                $0.removeSticker(stickerView, isUndo: true)
+                $0.redoHandler.registerUndo(withTarget: self) {
+                    $0.createSticker(stickerView)
+                }
+            }
+            canUndo.accept(true)
         }
         
         vm.addSticker(stickerView)
@@ -571,7 +658,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
     }
     
     /* 스티커 삭제 */
-    func removeSticker(_ stickerView: StickerView, isUndoAction: Bool = false) {
+    func removeSticker(_ stickerView: StickerView, isUndo: Bool = false) {
         vm.removeSticker(stickerView)
         if stickerView == vm.focusSticker.value {
             vm.focusSticker.value?.view.removeFromSuperview()
@@ -580,9 +667,12 @@ extension PaintVC: UIGestureRecognizerDelegate {
             stickerView.view.removeFromSuperview()
         }
         
-        if !isUndoAction {
-            undoFunctions.append(Handler(undo: { self.addSticker(stickerView) },
-                                         redo: { self.removeSticker(stickerView) }))
+        if !isUndo {
+            undoHandler.registerUndo(withTarget: self) {
+                $0.createSticker(stickerView, isUndo: true)
+                $0.redoHandler.registerUndo(withTarget: self) { $0.removeSticker(stickerView) }
+            }
+            canUndo.accept(true)
         }
     }
     
@@ -610,10 +700,11 @@ extension PaintVC: UIGestureRecognizerDelegate {
         }
         
         labelSticker.view = labelView
-        if let textArea = textSticker?.textView {
-                labelView.text = text
-                let size = labelView.sizeThatFits(textArea.visibleSize)
-                labelView.bounds.size = CGSize(width: size.width + 10, height: size.height + 10)
+        if let textArea = textVC.textView {
+            labelView.text = text
+            textArea.text = text
+            let size = labelView.sizeThatFits(textArea.visibleSize)
+            labelView.bounds.size = CGSize(width: size.width + 10, height: size.height + 10)
         }
         
         let labelColor = labelView.textColor.rgb() ?? labelSticker.sticker.value.hexColor
@@ -630,14 +721,19 @@ extension PaintVC: UIGestureRecognizerDelegate {
     /* 드래그 */
     @objc func handlePanGesture(recognizer: UIPanGestureRecognizer) {
         guard let focusView = recognizer.view else { return }
+        let translation = recognizer.translation(in: view)
+        let nextCenter = CGPoint(x: lastPoint.x + translation.x,
+                                 y: lastPoint.y + translation.y)
         
         switch recognizer.state {
         case .began:
             lastPoint = focusView.center
         case .changed:
-            let translation = recognizer.translation(in: view)
-            focusView.center = CGPoint(x: lastPoint.x + translation.x,
-                                       y: lastPoint.y + translation.y)
+            focusView.center = nextCenter
+        case .ended:
+            if let focusSticker = self.vm.focusSticker.value {
+                self.changeStickerPosition(focusSticker, center: nextCenter, lastCenter: lastPoint)
+            }
         default: break
         }
     }
@@ -654,41 +750,50 @@ extension PaintVC: UIGestureRecognizerDelegate {
     
     /* 회전 */
     @objc func handleRotateGesture(recognizer: UIRotationGestureRecognizer) {
-        if let rotationView = recognizer.view {
+        guard let rotationView = recognizer.view else { return }
+        
+        switch recognizer.state {
+        case .began:
+            lastTransform = rotationView.transform
+        case .changed:
             rotationView.transform = rotationView.transform.rotated(by: recognizer.rotation)
-            if let focusSticker = vm.focusSticker.value?.view {
-                focusSticker.transform = focusSticker.transform.rotated(by: recognizer.rotation)
-                edgeView.updateHorizontal(state: recognizer.state, transform: focusSticker.transform)
+        case .ended:
+            if let focusSticker = self.vm.focusSticker.value {
+                changeStickerTransform(focusSticker, transform: rotationView.transform.rotated(by: recognizer.rotation), lastTransform: lastTransform)
             }
-            recognizer.rotation = 0.0
+        default: break
         }
+        
+        if let focusSticker = vm.focusSticker.value?.view {
+            focusSticker.transform = focusSticker.transform.rotated(by: recognizer.rotation)
+            edgeView.updateHorizontal(state: recognizer.state, transform: focusSticker.transform)
+        }
+        recognizer.rotation = 0.0
     }
     
     /* 크기 변경 */
     @objc func handlePinchGesture(recognizer: UIPinchGestureRecognizer) {
+        guard let pinchView = recognizer.view,
+              let focusSticker = vm.focusSticker.value else { return }
+        
         if recognizer.state == .began {
             lastScale = recognizer.scale
+            lastSize = focusSticker.view.bounds.size
         }
-        guard let pinchView = recognizer.view else { return }
+        
+        var newScale = 1.0 - (lastScale - recognizer.scale)
+        let currentScale = (pinchView.layer.value(forKeyPath: "transform.scale") as? NSNumber)?.floatValue ?? 1.0
+        let minScale: CGFloat = 0.5
         
         if recognizer.state == .began || recognizer.state == .changed {
-            let currentScale = (pinchView.layer.value(forKeyPath: "transform.scale") as? NSNumber)?.floatValue
-            let minScale: CGFloat = 0.5
-            
-            var newScale = 1.0 - (lastScale - recognizer.scale)
-            if let currentScale = currentScale {
-                newScale = max(newScale, minScale / (CGFloat)(currentScale))
-                pinchView.bounds.size = CGSize(width: pinchView.bounds.width * newScale, height: pinchView.bounds.height * newScale)
-                if let focusSticker = vm.focusSticker.value?.view {
-                    focusSticker.bounds.size = CGSize(width: focusSticker.bounds.width * newScale, height: focusSticker.bounds.height * newScale)
-                    if let labelSticker = focusSticker as? UILabel {
-                        let font = labelSticker.font.pointSize
-                        labelSticker.font = .systemFont(ofSize: font * newScale)
-                    }
-                }
-                recognizer.scale = 1.0
-                lastScale = recognizer.scale
-            }
+            newScale = max(newScale, minScale / (CGFloat)(currentScale))
+            updateSticker(focusSticker, scale: newScale)
+            recognizer.scale = 1.0
+            lastScale = recognizer.scale
+        } else if recognizer.state == .ended {
+            let newSize = CGSize(width: focusSticker.view.bounds.size.width * newScale,
+                                 height: focusSticker.view.bounds.size.height * newScale)
+            changeStickerSize(focusSticker, size: newSize, lastSize: lastSize)
         }
     }
     
@@ -696,5 +801,59 @@ extension PaintVC: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+    
+    /* 스티커 색상 변경 */
+    private func updateSticker(_ stickerView: StickerView, hexColor: Int) {
+        if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView) {
+            var sticker = stickerView.sticker.value
+            sticker.hexColor = hexColor
+            stickerView.sticker.accept(sticker)
+            var stickers = vm.stickers.value
+            stickers[stickerIndex] = stickerView
+            vm.stickers.accept(stickers)
+        }
+    }
+    
+    /* 스티커 이미지 변경 */
+    private func updateSticker(_ stickerView: StickerView, image: UIImage?) {
+        if let stickerIndex = vm.stickers.value.firstIndex(of: stickerView) {
+            var sticker = stickerView.sticker.value
+            sticker.image = image
+            stickerView.sticker.accept(sticker)
+            var stickers = vm.stickers.value
+            stickers[stickerIndex] = stickerView
+            vm.stickers.accept(stickers)
+        }
+    }
+    
+    /* 스티커 위치 변경 */
+    private func updateSticker(_ stickerView: StickerView, center: CGPoint) {
+        stickerView.view.center = center
+        self.vm.focusSticker.accept(stickerView)
+    }
+    
+    /* 스티커 회전 변경 */
+    private func updateSticker(_ stickerView: StickerView, transform: CGAffineTransform) {
+        stickerView.view.transform = transform
+        self.vm.focusSticker.accept(stickerView)
+    }
+    
+    /* 스티커 크기 변경 */
+    private func updateSticker(_ stickerView: StickerView, scale: CGFloat) {
+        stickerView.view.bounds.size = CGSize(width: stickerView.view.bounds.width * scale,
+                                              height: stickerView.view.bounds.height * scale)
+        if let labelSticker = stickerView.view as? UILabel {
+            let font = labelSticker.font.pointSize
+            labelSticker.font = .systemFont(ofSize: font * scale)
+        }
+        self.vm.focusSticker.accept(stickerView)
+    }
+    
+    /* 스티커 크기 변경 */
+    private func updateSticker(_ stickerView: StickerView, size: CGSize) {
+        let oldSize = stickerView.view.bounds.size
+        let scale = 1 + (size.width - oldSize.width) / oldSize.width
+        updateSticker(stickerView, scale: scale)
     }
 }

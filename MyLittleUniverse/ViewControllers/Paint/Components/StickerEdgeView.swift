@@ -11,6 +11,10 @@ import RxCocoa
 
 class StickerEdgeView: UIView {
     var stickerView = UIView()
+    var lastTransform: CGAffineTransform = .identity
+    var lastSize: CGSize = .zero
+    var transHanlder: ((_ beforeTrans: CGAffineTransform, _ afterTrans: CGAffineTransform,
+                        _ beforeSize: CGSize, _ afterSize: CGSize) -> ())?
     private let disposeBag = DisposeBag()
     
     enum ButtonPosition {
@@ -60,7 +64,11 @@ class StickerEdgeView: UIView {
         let angleRightBottom = atan(btnRightBottom.frame.origin.y / btnRightBottom.frame.origin.x)
         let angleLocation = atan(location.y / location.x)
         let angle = angleLocation - angleRightBottom
-
+        
+        if recognizer.state == .began {
+            lastTransform = stickerView.transform
+            lastSize = stickerView.bounds.size
+        }
         if recognizer.state == .began || recognizer.state == .changed {
             let currentScale = (layer.value(forKeyPath: "transform.scale") as? NSNumber)?.floatValue
             let minScale: CGFloat = 0.5
@@ -76,7 +84,10 @@ class StickerEdgeView: UIView {
                     labelSticker.font = .systemFont(ofSize: font * scale)
                 }
             }
+        } else if recognizer.state == .ended {
+            transHanlder?(lastTransform, stickerView.transform, lastSize, stickerView.bounds.size)
         }
+        
         updateHorizontal(state: recognizer.state, transform: stickerView.transform)
     }
     
