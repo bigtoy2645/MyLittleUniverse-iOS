@@ -569,12 +569,11 @@ extension PaintVC: UIGestureRecognizerDelegate {
         
         // 스티커 사이즈/각도 변경
         edgeView.setRightBottomButton { }
-        edgeView.transHanlder = { before, after in
-            if let stickerView = self.vm.focusSticker.value {
-                self.changeStickerTransform(stickerView,
-                                            transform: after,
-                                            lastTransform: before)
-            }
+        edgeView.transHanlder = { beforeTrans, afterTrans, beforeSize, afterSize in
+            guard let stickerView = self.vm.focusSticker.value else { return }
+            
+            self.changeStickerTransform(stickerView, transform: afterTrans, lastTransform: beforeTrans)
+            self.changeStickerSize(stickerView, size: afterSize, lastSize: beforeSize)
         }
         
         // Gesture
