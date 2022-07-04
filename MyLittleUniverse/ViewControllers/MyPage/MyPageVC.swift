@@ -107,8 +107,8 @@ class MyPageVC: UIViewController {
         btnCount.rx.tap
             .bind {
                 Dialog.presentTBD(self)
-//                let universeVC = Route.getVC(.myUniverseVC)
-//                self.navigationController?.pushViewController(universeVC, animated: false)
+                //                let universeVC = Route.getVC(.myUniverseVC)
+                //                self.navigationController?.pushViewController(universeVC, animated: false)
             }
             .disposed(by: disposeBag)
         
@@ -190,7 +190,9 @@ class MyPageVC: UIViewController {
         var dateComponents = DateComponents()
         dateComponents.month = moveUp ? 1 : -1
         
-        if let page = currentCalendar.date(byAdding: dateComponents, to: viewModel.currentPage.value) {
+        if let page = currentCalendar.date(byAdding: dateComponents, to: viewModel.currentPage.value),
+           let installMonth = installMonth,
+           page.timeIntervalSinceReferenceDate > installMonth.timeIntervalSinceReferenceDate {
             calendar.setCurrentPage(page, animated: true)
             calendar.select(page)
         }
