@@ -36,6 +36,15 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateEmotionScroll()
+        
+        let stickerHeight = view.frame.height - containerView.frame.origin.y - containerView.frame.width - 64
+        if stickerHeight < containerView.frame.width / 2 {
+            heightConstraint.constant = view.frame.height + containerView.frame.width / 2 - stickerHeight
+            scrollView.isScrollEnabled = true
+        } else {
+            heightConstraint.constant = scrollView.frame.height
+            scrollView.isScrollEnabled = false
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -297,6 +306,9 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
     
     // MARK: - InterfaceBuilder Links
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var btnSaveAll: UIButton!
     @IBOutlet weak var btnCancel: UIButton!
