@@ -74,17 +74,18 @@ class SplashVC: UIViewController {
         }
         alertVC.addRunButton(color: UIColor.mainBlack) {
             self.dismiss(animated: false)
-            self.openAppStore()
+            if !self.openAppStore() { self.pushNextViewController() }
         }
         
         self.present(alertVC, animated: false)
     }
     
     /* 앱스토어 열기 */
-    func openAppStore() {
+    func openAppStore() -> Bool {
         guard let url = URL(string: "itms-apps://itunes.apple.com/app/id1626273907"),
-              UIApplication.shared.canOpenURL(url) else { return }
+              UIApplication.shared.canOpenURL(url) else { return false }
         
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        return true
     }
 }
