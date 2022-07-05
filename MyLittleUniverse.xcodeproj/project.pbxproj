@@ -65,6 +65,7 @@
 		1AD64EBE27D8E80D00E07EF5 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBD27D8E80D00E07EF5 /* Alert.swift */; };
 		1AD64EC027D8E87F00E07EF5 /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */; };
 		1AD7161128675AF70056452C /* StickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7161028675AF70056452C /* StickerView.swift */; };
+		1AD71613287463420056452C /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD71612287463420056452C /* SplashVC.swift */; };
 		1AE11D5F2836693C0050AA31 /* MyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11D5E2836693C0050AA31 /* MyPageVC.swift */; };
 		1AE11D61283940220050AA31 /* MyUniverseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11D60283940220050AA31 /* MyUniverseVC.swift */; };
 		1AE11D63283E57BC0050AA31 /* PaintViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11D62283E57BC0050AA31 /* PaintViewModel.swift */; };
@@ -139,6 +140,7 @@
 		1AD64EBD27D8E80D00E07EF5 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		1AD64EBF27D8E87F00E07EF5 /* AlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
 		1AD7161028675AF70056452C /* StickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerView.swift; sourceTree = "<group>"; };
+		1AD71612287463420056452C /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		1AE11D5E2836693C0050AA31 /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
 		1AE11D60283940220050AA31 /* MyUniverseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUniverseVC.swift; sourceTree = "<group>"; };
 		1AE11D62283E57BC0050AA31 /* PaintViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintViewModel.swift; sourceTree = "<group>"; };
@@ -346,6 +348,7 @@
 		1ACFA2FF2740F17B00821337 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1AD71612287463420056452C /* SplashVC.swift */,
 				1AAA1C01281841180054CB5F /* InitVC.swift */,
 				1A8D9B65273AAA7400A1BA53 /* NameVC.swift */,
 				1AD64EBB27D510E100E07EF5 /* AlertVC.swift */,
@@ -545,6 +548,7 @@
 				1AAA1BFE27F89E630054CB5F /* MonthlyEmotionViewModel.swift in Sources */,
 				1A46168D2781B0F100D2A090 /* MonthlyEmotionVC.swift in Sources */,
 				1A01FBF2285A23A600457D84 /* CardDetailVC.swift in Sources */,
+				1AD71613287463420056452C /* SplashVC.swift in Sources */,
 				1A4616A927AE5C6300D2A090 /* PaintEmotionCell.swift in Sources */,
 				1A4616AB27AE8E7800D2A090 /* ColorChipVC.swift in Sources */,
 				1A4616A727AC13C500D2A090 /* PaintPageVC.swift in Sources */,
@@ -745,7 +749,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.youyoung.MyLittleUniverse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -769,7 +773,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.youyoung.MyLittleUniverse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
