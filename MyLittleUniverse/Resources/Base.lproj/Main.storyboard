@@ -259,14 +259,14 @@
                                                 </collectionViewFlowLayout>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="paintEmotionCell" id="YdH-cn-hwp" customClass="PaintEmotionCell" customModule="MyLittleUniverse" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="-7" width="105" height="46"/>
+                                                        <rect key="frame" x="0.0" y="0.5" width="81" height="31"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="pio-KZ-alD">
-                                                            <rect key="frame" x="0.0" y="0.0" width="105" height="46"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="81" height="31"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="기대되는" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fnV-Qs-5xV">
-                                                                    <rect key="frame" x="10" y="5" width="85" height="36"/>
+                                                                    <rect key="frame" x="10" y="5" width="61" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                     <color key="textColor" white="1" alpha="0.51830893004966883" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
@@ -279,34 +279,10 @@
                                                                 <constraint firstItem="fnV-Qs-5xV" firstAttribute="leading" secondItem="pio-KZ-alD" secondAttribute="leading" constant="10" id="lff-gd-L6t"/>
                                                             </constraints>
                                                         </collectionViewCellContentView>
-                                                        <size key="customSize" width="105" height="46"/>
+                                                        <size key="customSize" width="81" height="31"/>
                                                         <connections>
                                                             <outlet property="lblEmotion" destination="fnV-Qs-5xV" id="Mbq-Xm-wKL"/>
                                                         </connections>
-                                                    </collectionViewCell>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="gc9-MV-nsN">
-                                                        <rect key="frame" x="115" y="-7" width="105" height="46"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="PFa-NU-9H5">
-                                                            <rect key="frame" x="0.0" y="0.0" width="105" height="46"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                        </collectionViewCellContentView>
-                                                    </collectionViewCell>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="n7G-Ki-2Tn">
-                                                        <rect key="frame" x="230" y="-7" width="105" height="46"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="bFq-e6-1Mb">
-                                                            <rect key="frame" x="0.0" y="0.0" width="105" height="46"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                        </collectionViewCellContentView>
-                                                    </collectionViewCell>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="E2N-BI-mXV">
-                                                        <rect key="frame" x="345" y="-7" width="105" height="46"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="aVD-ol-giG">
-                                                            <rect key="frame" x="0.0" y="0.0" width="105" height="46"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                        </collectionViewCellContentView>
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>
@@ -393,7 +369,6 @@
                                             <constraint firstAttribute="height" priority="250" constant="852" id="RlT-jM-Cah"/>
                                             <constraint firstItem="fAQ-Ov-xzj" firstAttribute="top" secondItem="UFU-07-6kG" secondAttribute="bottom" constant="16" id="bCL-BO-9w3"/>
                                             <constraint firstItem="UFU-07-6kG" firstAttribute="top" secondItem="aPI-zq-M8W" secondAttribute="top" id="cxO-UE-Lhn"/>
-                                            <constraint firstItem="fAQ-Ov-xzj" firstAttribute="top" secondItem="aPI-zq-M8W" secondAttribute="top" constant="67.5" id="hUr-Co-Bix"/>
                                             <constraint firstAttribute="trailing" secondItem="rkk-ei-mfU" secondAttribute="trailing" id="nT1-9a-oGK"/>
                                             <constraint firstAttribute="trailing" secondItem="UFU-07-6kG" secondAttribute="trailing" id="q2g-Jy-8je"/>
                                             <constraint firstItem="4AU-Qf-psb" firstAttribute="top" secondItem="UFU-07-6kG" secondAttribute="bottom" id="tUK-IW-7rU"/>
@@ -2432,16 +2407,16 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iHy-8U-vNY">
-                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="181.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="iHy-8U-vNY" secondAttribute="height" multiplier="1:1" id="FAx-FS-aaM"/>
                                                     </constraints>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lzj-Ue-d1c" userLabel="Status View">
-                                                    <rect key="frame" x="0.0" y="181.5" width="150" height="48.5"/>
+                                                    <rect key="frame" x="0.0" y="150" width="150" height="80"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="기대되는" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bhd-O8-BQP">
-                                                            <rect key="frame" x="54" y="6" width="42" height="24.5"/>
+                                                            <rect key="frame" x="54" y="6" width="42" height="56"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" name="BackgroundGreen"/>
                                                             <nil key="highlightedColor"/>
@@ -2459,7 +2434,6 @@
                                                 <constraint firstItem="lzj-Ue-d1c" firstAttribute="top" secondItem="iHy-8U-vNY" secondAttribute="bottom" id="D0c-EL-Z0U"/>
                                                 <constraint firstItem="iHy-8U-vNY" firstAttribute="top" secondItem="UhP-Vt-pLY" secondAttribute="top" id="D4u-ba-DwA"/>
                                                 <constraint firstAttribute="bottom" secondItem="lzj-Ue-d1c" secondAttribute="bottom" id="Lzw-Dc-Ejp"/>
-                                                <constraint firstItem="lzj-Ue-d1c" firstAttribute="height" secondItem="iHy-8U-vNY" secondAttribute="height" multiplier="0.266" id="R8Z-om-EWm"/>
                                                 <constraint firstAttribute="trailing" secondItem="iHy-8U-vNY" secondAttribute="trailing" id="dIu-Ym-q4O"/>
                                                 <constraint firstItem="iHy-8U-vNY" firstAttribute="leading" secondItem="UhP-Vt-pLY" secondAttribute="leading" id="kpn-g3-YHZ"/>
                                                 <constraint firstItem="lzj-Ue-d1c" firstAttribute="leading" secondItem="UhP-Vt-pLY" secondAttribute="leading" id="uTI-7U-0Tv"/>

@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
+class PaintEmotionListVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     var pageVC = PaintPageVC()
     let vm = PaintEmotionListViewModel()
     private let disposeBag = DisposeBag()
@@ -302,6 +302,10 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegate {
                 }
             }
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: 30, height: 30)
     }
     
     // MARK: - InterfaceBuilder Links
