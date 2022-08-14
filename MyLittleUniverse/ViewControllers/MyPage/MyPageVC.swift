@@ -144,12 +144,8 @@ class MyPageVC: UIViewController {
         calendar.today = nil
         calendar.locale = Locale(identifier: "ko_KR")
         calendar.placeholderType = .none
-        calendar.appearance.eventDefaultColor = .mainBlack
-        calendar.appearance.eventSelectionColor = .mainBlack
-        calendar.appearance.eventOffset = CGPoint(x: 0, y: 5)
         calendar.appearance.selectionColor = .pointYellow
         calendar.appearance.titleFont = UIFont.systemFont(ofSize: 14, weight: .regular)
-        calendar.appearance.titleDefaultColor = .mediumGray
         calendar.appearance.titleSelectionColor = .mainBlack
         calendar.appearance.titlePlaceholderColor = .clear
     }
@@ -247,14 +243,14 @@ extension MyPageVC: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegate
         viewModel.currentPage.accept(calendar.currentPage)
     }
     
-    /* 달력 날짜에 이벤트 표시 */
-    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+    /* 달력 날짜 색상 표시 */
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
         let isRegistered = viewModel.moments.value.contains { moment in
             moment.year == date.year &&
             moment.month == date.month &&
             moment.day == date.day
         }
-        return isRegistered ? 1 : 0
+        return isRegistered ? .mainBlack : .mediumGray
     }
     
     /* 최초 설치 월 이후 달력 표시 */
