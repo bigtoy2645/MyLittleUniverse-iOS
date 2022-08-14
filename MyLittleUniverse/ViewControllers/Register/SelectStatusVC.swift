@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UIGestureRecognizerDelegate {
     let allStatus: [Status] = [.positive, .negative, .neutral, .random]
     let timeStamp = BehaviorRelay<Date>(value: Date())
     static var parentView: UIViewController?
@@ -22,6 +22,7 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         formatter.dateFormat = "YYYY. MM. dd. EEE. hh:mm a"
         lblDate.text = formatter.string(from: timeStamp.value)
         
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         SelectStatusVC.parentView = navigationController?.previousViewController
         
         setupBindings()
@@ -29,8 +30,15 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.overrideUserInterfaceStyle = .dark
+        
         collectionView.isUserInteractionEnabled = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        navigationController?.overrideUserInterfaceStyle = .dark
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     /* Binding */

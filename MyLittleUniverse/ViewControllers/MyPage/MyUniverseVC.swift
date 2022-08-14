@@ -17,7 +17,6 @@ class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate, UITableViewDe
         super.viewDidLoad()
         
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         // Cell 등록
         tblWords.rowHeight = UITableView.automaticDimension
@@ -26,9 +25,11 @@ class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate, UITableViewDe
         setupBindings()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         navigationController?.overrideUserInterfaceStyle = .light
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     /* Binding */

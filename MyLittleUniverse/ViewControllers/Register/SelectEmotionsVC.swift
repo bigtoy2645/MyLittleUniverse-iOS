@@ -26,14 +26,15 @@ class SelectEmotionsVC: UIViewController,
         viewCount.layer.cornerRadius = 10
         
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
 
         setupBindings()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         navigationController?.overrideUserInterfaceStyle = .light
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     /* Binding */

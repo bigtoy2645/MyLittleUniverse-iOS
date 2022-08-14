@@ -8,18 +8,23 @@
 import UIKit
 import RxSwift
 
-class InitVC: UIViewController {
+class InitVC: UIViewController, UIGestureRecognizerDelegate {
     let userName = Observable.of(Repository.instance.userName)
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBindings()
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        self.viewDidAppear(animated)
+        
         navigationController?.overrideUserInterfaceStyle = .light
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     /* Binding */

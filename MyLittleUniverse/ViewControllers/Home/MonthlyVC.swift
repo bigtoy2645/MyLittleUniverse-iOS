@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class MonthlyVC: UIViewController {
+class MonthlyVC: UIViewController, UIGestureRecognizerDelegate {
     let viewModel = MonthlyViewModel()
     private var cardVC: CardVC?
     private let disposeBag = DisposeBag()
@@ -17,7 +17,6 @@ class MonthlyVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationItem.backBarButtonItem?.isEnabled = false
         lblUserName.text = "\(Repository.instance.userName)님의"
         btnMainEmotion.layer.borderWidth = 1
         btnMainEmotion.layer.cornerRadius = 13
@@ -30,6 +29,7 @@ class MonthlyVC: UIViewController {
                             radius: 8)
         
         scrollView.delegate = self
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         if let cardVC = Route.getVC(.cardVC) as? CardVC {
             self.cardVC = cardVC
@@ -41,7 +41,7 @@ class MonthlyVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.overrideUserInterfaceStyle = .light
+        
         scrollView.setContentOffset(.zero, animated: false)
         
         viewModel.selectedIndex.accept(viewModel.selectedIndex.value)
@@ -81,6 +81,9 @@ class MonthlyVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        navigationController?.overrideUserInterfaceStyle = .light
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         // 말풍선 애니메이션
         if !bubbleView.isHidden {

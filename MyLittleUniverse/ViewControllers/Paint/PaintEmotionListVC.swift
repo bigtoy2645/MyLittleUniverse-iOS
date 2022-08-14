@@ -28,12 +28,6 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegateFlowLayout, 
         saveView.layer.mask = gradientLayer
         
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.overrideUserInterfaceStyle = .dark
     }
     
     override func viewDidLayoutSubviews() {
@@ -48,6 +42,13 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegateFlowLayout, 
             heightConstraint.constant = scrollView.frame.height
             scrollView.isScrollEnabled = false
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        navigationController?.overrideUserInterfaceStyle = .dark
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
