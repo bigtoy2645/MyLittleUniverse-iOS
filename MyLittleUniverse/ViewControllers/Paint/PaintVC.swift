@@ -742,6 +742,9 @@ extension PaintVC: UIGestureRecognizerDelegate {
     @objc func handleTapGesture(recognizer: UITapGestureRecognizer) {
         for sticker in vm.stickers.value {
             if sticker.view == recognizer.view {
+                if sticker.sticker.value.type == .text {
+                    vm.leftControl.accept(self.btnText)
+                }
                 vm.focusSticker.accept(sticker)
                 break
             }
