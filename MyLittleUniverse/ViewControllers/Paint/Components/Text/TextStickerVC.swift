@@ -55,11 +55,9 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
         textView.rx.text
             .orEmpty
             .distinctUntilChanged()
-            .subscribe(onNext: { changedText in
+            .subscribe(onNext: { _ in
                 if !self.textView.isFirstResponder {
                     self.textViewFocusOut()
-                } else if changedText != self.placeHolder {
-                    self.completeHandler?(changedText)
                 }
             })
             .disposed(by: disposeBag)
@@ -109,6 +107,9 @@ class TextStickerVC: UIViewController, UITextViewDelegate {
         if self.textView.text.isEmpty {
             self.textView.text = self.placeHolder
             self.textView.textColor = .disableGray
+        }
+        if self.textView.text != self.placeHolder {
+            self.completeHandler?(self.textView.text)
         }
     }
     
