@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class PaintEmotionListVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+class PaintEmotionListVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UIGestureRecognizerDelegate {
     var pageVC = PaintPageVC()
     let vm = PaintEmotionListViewModel()
     private let disposeBag = DisposeBag()
@@ -26,6 +26,9 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegateFlowLayout, 
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
         gradientLayer.frame = saveView.bounds
         saveView.layer.mask = gradientLayer
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
