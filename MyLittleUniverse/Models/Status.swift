@@ -62,7 +62,15 @@ let positiveEmotions = [
     Emotion(word: "짜릿한", origin: "짜릿하다", part: .adjective, definition: "심리적 자극을 받아 마음이 순간적으로 조금 흥분되고 떨리는 듯하다."),
     Emotion(word: "후련한", origin: "후련하다", part: .adjective, definition: "좋지 아니하던 속이 풀리거나 내려서 시원하다."),
     Emotion(word: "감동적인", origin: "감동적", part: .adverb, definition: "크게 느끼어 마음이 움직이는."),
-    Emotion(word: "힘이 나는", origin: "힘 나다", part: .inverb, definition: "자신감이나 용기가 생기다.")
+    Emotion(word: "보람찬", origin: "보람차다", part: .adjective, definition: "어떤 일을 한 뒤에 결과가 몹시 좋아서 자랑스러움과 자부심을 갖게 할 만큼 만족스럽다."),
+    Emotion(word: "신기한", origin: "신기하다", part: .adjective, definition: "믿을 수 없을 정도로 색다르고 놀랍다."),
+    Emotion(word: "새로운", origin: "새롭다", part: .adjective, definition: "전과 달리 생생하고 산뜻하게 느껴지는 맛이 있다."),
+    Emotion(word: "소중한", origin: "소중하다", part: .adjective, definition: "매우 귀중하다."),
+    Emotion(word: "아늑한", origin: "아늑하다", part: .adjective, definition: "따뜻하고 포근한 느낌이 있다."),
+    Emotion(word: "그윽한", origin: "그윽하다", part: .adjective, definition: "깊숙하여 아늑하고 고요하다."),
+    Emotion(word: "달콤한", origin: "달콤하다", part: .adjective, definition: "흥미가 나게 아기자기하거나 간드러진 느낌이 있다."),
+    Emotion(word: "감미한", origin: "감미하다", part: .adjective, definition: "맛이나 느낌 따위가 달콤하고 좋다."),
+    Emotion(word: "고마운", origin: "고맙다", part: .adjective, definition: "남이 베풀어 준 호의나 도움 따위에 대하여 마음이 흐뭇하고 즐겁다.")
 ]
 
 let negativeEmotions = [
@@ -98,7 +106,25 @@ let negativeEmotions = [
     Emotion(word: "울적한", origin: "울적하다", part: .adjective, definition: "마음이 답답하고 쓸쓸하다."),
     Emotion(word: "긴장되는", origin: "긴장되다", part: .verb, definition: "마음을 조이고 정신을 바짝 차리게 되다."),
     Emotion(word: "우울한", origin: "우울하다", part: .adjective, definition: "근심스럽거나 답답하여 활기가 없다."),
-    Emotion(word: "찝찝한", origin: "찝찝하다", part: .adjective, definition: "개운하지 않고 무엇인가 마음에 걸리는 데가 있다.")
+    Emotion(word: "찝찝한", origin: "찝찝하다", part: .adjective, definition: "개운하지 않고 무엇인가 마음에 걸리는 데가 있다."),
+    Emotion(word: "짜증나는", origin: "짜증나다", part: .inverb, definition: "마음에 탐탁하지 않아서 역정이 나다."),
+    Emotion(word: "심란한", origin: "심란하다", part: .adjective, definition: "마음이 어수선하다."),
+    Emotion(word: "속상한", origin: "속상하다", part: .adjective, definition: "화가 나거나 걱정이 되는 따위로 인하여 마음이 불편하고 우울하다."),
+    Emotion(word: "화나는", origin: "화나다", part: .verb, definition: "성이 나서 화기가 생기다."),
+    Emotion(word: "분노하는", origin: "분노하다", part: .verb, definition: "분개하여 몹시 성을 내다."),
+    Emotion(word: "불쾌한", origin: "불쾌하다", part: .adjective, definition: "못마땅하여 기분이 좋지 아니하다."),
+    Emotion(word: "민망한", origin: "민망하다", part: .adjective, definition: "낯을 들고 대하기가 부끄럽다."),
+    Emotion(word: "더러운", origin: "더럽다", part: .adjective, definition: "못마땅하거나 불쾌하다."),
+    Emotion(word: "못마땅한", origin: "못마땅하다", part: .adjective, definition: "마음에 들지 않아 좋지 않다."),
+    Emotion(word: "수치스러운", origin: "수치스럽다", part: .adjective, definition: "다른 사람을 볼 낯이 없거나 스스로 떳떳하지 못한 느낌이 있다."),
+    Emotion(word: "불만스러운", origin: "불만스럽다", part: .adjective, definition: "보기에 마음에 차지 않아 언짢은 느낌이 있다."),
+    Emotion(word: "부루퉁한", origin: "부루퉁하다", part: .adjective, definition: "불만스럽거나 못마땅하여 성난 빛이 얼굴에 나타나 있다."),
+    Emotion(word: "열받는", origin: "열받다", part: .inverb, definition: "어떤 일에 화가 나거나 흥분을 하여 몸이 달아오르다."),
+    Emotion(word: "막막한", origin: "막막하다", part: .adjective, definition: "꽉 막힌 듯이 답답하다."),
+    Emotion(word: "처진", origin: "처지다", part: .verb, definition: "감정 혹은 기분 따위가 바닥으로 잠겨 가라앉다."),
+    Emotion(word: "쓸쓸한", origin: "쓸쓸하다", part: .adjective, definition: "외롭고 적적하다."),
+    Emotion(word: "방황하는", origin: "방황하다", part: .verb, definition: "분명한 방향이나 목표를 정하지 못하고 갈팡질팡하다."),
+    Emotion(word: "지치는", origin: "지치다", part: .verb, definition: "힘든 일을 하거나 어떤 일에 시달려서 기운이 빠지다.")
 ]
 
 let neutralEmotions = [
@@ -112,5 +138,10 @@ let neutralEmotions = [
     Emotion(word: "묘한", origin: "묘하다", part: .adjective, definition: "일이나 이야기의 내용 따위가 기이하여 표현하거나 규정하기 어렵다."),
     Emotion(word: "애매한", origin: "애매하다", part: .adjective, definition: "희미하여 분명하지 아니하다."),
     Emotion(word: "멍한", origin: "멍하다", part: .adjective, definition: "정신이 나간 것처럼 자극에 대한 반응이 없다."),
-    Emotion(word: "회복된", origin: "회복되다", part: .verb, definition: "원래의 상태로 돌아가거나 원래의 상태가 되찾아지다.")
+    Emotion(word: "회복된", origin: "회복되다", part: .verb, definition: "원래의 상태로 돌아가거나 원래의 상태가 되찾아지다."),
+    Emotion(word: "새삼스러운", origin: "새삼스럽다", part: .adjective, definition: "이미 알고 있는 사실에 대하여 느껴지는 감정이 갑자기 새로운 데가 있다."),
+    Emotion(word: "울컥한", origin: "울컥하다", part: .verb, definition: "격한 감정이 갑자기 일어나다."),
+    Emotion(word: "고요한", origin: "고요하다", part: .adjective, definition: "조용하고 잠잠하다."),
+    Emotion(word: "헷갈리는", origin: "헷갈리다", part: .verb, definition: "여러 가지가 뒤섞여 갈피를 잡지 못하다."),
+    Emotion(word: "아쉬운", origin: "아쉽다", part: .adjective, definition: "미련이 남아 서운하다.")
 ]
