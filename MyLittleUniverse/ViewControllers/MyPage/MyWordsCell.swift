@@ -13,7 +13,7 @@ class MyWordsCell: UITableViewCell, UICollectionViewDelegateFlowLayout, UICollec
     static let identifier = "wordsCell"
     let words = BehaviorRelay<[String]>(value: [])
     private let disposeBag = DisposeBag()
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupBinding()
@@ -28,7 +28,8 @@ class MyWordsCell: UITableViewCell, UICollectionViewDelegateFlowLayout, UICollec
         words
         .bind(to: colWords.rx.items(cellIdentifier: MyWordCell.identifier,
                                           cellType: MyWordCell.self)) { index, word, cell in
-            cell.lblWord.text = word
+            cell.word.accept(word)
+            cell.layoutIfNeeded()
         }
         .disposed(by: disposeBag)
     }
@@ -40,6 +41,10 @@ class MyWordsCell: UITableViewCell, UICollectionViewDelegateFlowLayout, UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 100)
     }
-
+    
     @IBOutlet weak var colWords: UICollectionView!
+    @IBOutlet weak var viewConsonant: UIView!
+    @IBOutlet weak var lblConsonant: UILabel!
+    @IBOutlet weak var consonantTop: NSLayoutConstraint!
+    @IBOutlet weak var consonantBottom: NSLayoutConstraint!
 }

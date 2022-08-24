@@ -11,6 +11,7 @@ import RxCocoa
 
 class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate {
     let moments = BehaviorRelay<[[String]]>(value: [])
+    let consonantList = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"]
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -43,8 +44,15 @@ class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate, UITableViewDe
         Repository.instance.moments
             .map {
                 var setWords = Set<String>()
+                var section = Array(repeating: [String](), count: self.consonantList.count)
+                
                 $0.forEach { setWords.insert($0.emotion.word) }
-                return [Array(setWords)]
+                for word in setWords {
+                    let index = self.getConsonantIndex(word)
+                    section[index].append(word)
+                }
+                
+                return section.filter { $0.count > 0 }
             }
             .bind(to: moments)
             .disposed(by: disposeBag)
@@ -52,9 +60,21 @@ class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate, UITableViewDe
         moments
             .bind(to: tblWords.rx.items(cellIdentifier: MyWordsCell.identifier,
                                         cellType: MyWordsCell.self)
-            ) { _, item, cell in
+            ) { index, item, cell in
                 let words = item
                 cell.words.accept(words)
+                cell.lblConsonant.text = self.consonantList[self.getConsonantIndex(words[0])]
+                if index == 0 {
+                    cell.consonantTop.constant = 24
+                    cell.viewConsonant.clipsToBounds = true
+                    cell.viewConsonant.layer.cornerRadius = 13
+                    cell.viewConsonant.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+                } else if index == self.moments.value.count - 1 {
+                    cell.consonantBottom.constant = 24
+                    cell.viewConsonant.clipsToBounds = true
+                    cell.viewConsonant.layer.cornerRadius = 13
+                    cell.viewConsonant.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+                }
                 cell.layoutIfNeeded()
             }
             .disposed(by: disposeBag)
@@ -62,6 +82,17 @@ class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate, UITableViewDe
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
+    }
+    
+    /* 자음 인덱스 */
+    func getConsonantIndex(_ word: String) -> Int {
+        let octal = word.unicodeScalars[word.unicodeScalars.startIndex].value
+        var index = (octal - 0xac00) / 28 / 21
+        // 쌍자음
+        if index == 1 || index == 4 || index == 8 || index == 10 || index == 13 {
+            index -= 1
+        }
+        return Int(index)
     }
     
     // MARK: - InterfaceBuilder Links

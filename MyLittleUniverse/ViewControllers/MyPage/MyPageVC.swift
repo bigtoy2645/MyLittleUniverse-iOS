@@ -106,9 +106,8 @@ class MyPageVC: UIViewController {
         // 나의 세계로 이동
         btnCount.rx.tap
             .bind {
-                Dialog.presentTBD(self)
-                //                let universeVC = Route.getVC(.myUniverseVC)
-                //                self.navigationController?.pushViewController(universeVC, animated: false)
+                let universeVC = Route.getVC(.myUniverseVC)
+                self.navigationController?.pushViewController(universeVC, animated: false)
             }
             .disposed(by: disposeBag)
         

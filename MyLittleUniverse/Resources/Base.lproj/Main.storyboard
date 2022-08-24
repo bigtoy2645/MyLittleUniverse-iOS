@@ -1137,7 +1137,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1z5-ky-nOp">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1z5-ky-nOp">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5DO-Q6-XBJ">
@@ -1199,10 +1199,10 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="112"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Jxa-h4-hMe">
-                                                                    <rect key="frame" x="50" y="27" width="244" height="58"/>
+                                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Jxa-h4-hMe">
+                                                                    <rect key="frame" x="50" y="27" width="289" height="58"/>
                                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                                    <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="8" minimumInteritemSpacing="24" id="FWA-Gl-Sjd">
+                                                                    <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="8" minimumInteritemSpacing="20" id="FWA-Gl-Sjd">
                                                                         <size key="itemSize" width="64" height="49"/>
                                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -1237,16 +1237,40 @@
                                                                         </collectionViewCell>
                                                                     </cells>
                                                                 </collectionView>
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cv1-ys-wPp" userLabel="Consonant View">
+                                                                    <rect key="frame" x="369" y="0.0" width="25" height="112"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ㄱ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H16-iF-eSy">
+                                                                            <rect key="frame" x="6" y="47.5" width="13" height="17"/>
+                                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                                                            <color key="textColor" name="MediumGray"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                    </subviews>
+                                                                    <color key="backgroundColor" name="Gray100"/>
+                                                                    <constraints>
+                                                                        <constraint firstItem="H16-iF-eSy" firstAttribute="centerX" secondItem="cv1-ys-wPp" secondAttribute="centerX" id="8bN-Aq-Srn"/>
+                                                                        <constraint firstItem="H16-iF-eSy" firstAttribute="centerY" secondItem="cv1-ys-wPp" secondAttribute="centerY" id="QRw-mP-ydu"/>
+                                                                        <constraint firstAttribute="width" constant="25" id="pkb-0X-e31"/>
+                                                                    </constraints>
+                                                                </view>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="Jxa-h4-hMe" firstAttribute="centerY" secondItem="08D-nG-Wem" secondAttribute="centerY" id="De4-qJ-AU1"/>
                                                                 <constraint firstItem="Jxa-h4-hMe" firstAttribute="leading" secondItem="08D-nG-Wem" secondAttribute="leadingMargin" constant="30" id="LkK-c2-n7S"/>
-                                                                <constraint firstAttribute="trailingMargin" secondItem="Jxa-h4-hMe" secondAttribute="trailing" constant="100" id="YKg-3s-inL"/>
+                                                                <constraint firstAttribute="trailing" secondItem="cv1-ys-wPp" secondAttribute="trailing" constant="20" id="NZR-0f-YKF"/>
                                                                 <constraint firstItem="Jxa-h4-hMe" firstAttribute="top" secondItem="08D-nG-Wem" secondAttribute="topMargin" constant="16" id="cr1-sA-pdJ"/>
+                                                                <constraint firstItem="cv1-ys-wPp" firstAttribute="leading" secondItem="Jxa-h4-hMe" secondAttribute="trailing" constant="30" id="pbH-v7-KC0"/>
+                                                                <constraint firstItem="cv1-ys-wPp" firstAttribute="top" secondItem="08D-nG-Wem" secondAttribute="top" id="qtb-fL-2k5"/>
+                                                                <constraint firstAttribute="bottom" secondItem="cv1-ys-wPp" secondAttribute="bottom" id="toM-2w-2pZ"/>
                                                             </constraints>
                                                         </tableViewCellContentView>
                                                         <connections>
                                                             <outlet property="colWords" destination="Jxa-h4-hMe" id="7u1-Mx-Bvi"/>
+                                                            <outlet property="consonantBottom" destination="toM-2w-2pZ" id="VYO-Nh-LUN"/>
+                                                            <outlet property="consonantTop" destination="qtb-fL-2k5" id="QnZ-eY-syM"/>
+                                                            <outlet property="lblConsonant" destination="H16-iF-eSy" id="Piy-Ao-veD"/>
+                                                            <outlet property="viewConsonant" destination="cv1-ys-wPp" id="hzU-aA-Bch"/>
                                                         </connections>
                                                     </tableViewCell>
                                                 </prototypes>
@@ -2689,6 +2713,9 @@
         </namedColor>
         <namedColor name="ErrorRed">
             <color red="0.97254901960784312" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Gray100">
+            <color red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="MainBlack">
             <color red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
