@@ -76,12 +76,13 @@ class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate, UITableViewDe
                     cell.viewConsonant.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
                 }
                 cell.layoutIfNeeded()
+                cell.collectionHeight.constant = cell.colWords.collectionViewLayout.collectionViewContentSize.height
             }
             .disposed(by: disposeBag)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return UITableView.automaticDimension
     }
     
     /* 자음 인덱스 */
