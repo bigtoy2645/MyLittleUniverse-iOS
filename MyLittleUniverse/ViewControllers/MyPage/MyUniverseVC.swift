@@ -52,7 +52,7 @@ class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate, UITableViewDe
                     section[index].append(word)
                 }
                 
-                return section.filter { $0.count > 0 }
+                return section.map { $0.sorted(by: <) }.filter { $0.count > 0 }
             }
             .bind(to: moments)
             .disposed(by: disposeBag)
