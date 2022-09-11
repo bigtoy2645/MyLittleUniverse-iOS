@@ -17,11 +17,10 @@ class InitVC: UIViewController, UIGestureRecognizerDelegate {
         setupBindings()
         
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.viewDidAppear(animated)
+        super.viewDidAppear(animated)
         
         navigationController?.overrideUserInterfaceStyle = .light
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
