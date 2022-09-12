@@ -57,6 +57,7 @@
 		1AAA1C08281AE3B50054CB5F /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAA1C07281AE3B50054CB5F /* Status.swift */; };
 		1AAA1C0A281EB05B0054CB5F /* DayMomentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAA1C09281EB05B0054CB5F /* DayMomentCell.swift */; };
 		1AAA1C0E28240B5F0054CB5F /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAA1C0D28240B5F0054CB5F /* Route.swift */; };
+		1AC1AF2228CF4A1B000FB56A /* ColorWellCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC1AF2128CF4A1B000FB56A /* ColorWellCell.swift */; };
 		1ACFA3062740F7E400821337 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA3052740F7E400821337 /* GoogleService-Info.plist */; };
 		1ACFA30827410ED600821337 /* MonthlyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFA30727410ED600821337 /* MonthlyVC.swift */; };
 		1AD64EB827CE0F0100E07EF5 /* Sticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EB727CE0F0100E07EF5 /* Sticker.swift */; };
@@ -132,6 +133,7 @@
 		1AAA1C07281AE3B50054CB5F /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		1AAA1C09281EB05B0054CB5F /* DayMomentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayMomentCell.swift; sourceTree = "<group>"; };
 		1AAA1C0D28240B5F0054CB5F /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		1AC1AF2128CF4A1B000FB56A /* ColorWellCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorWellCell.swift; sourceTree = "<group>"; };
 		1ACFA3052740F7E400821337 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1ACFA30727410ED600821337 /* MonthlyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyVC.swift; sourceTree = "<group>"; };
 		1AD64EB727CE0F0100E07EF5 /* Sticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sticker.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			children = (
 				1A4616AA27AE8E7800D2A090 /* ColorChipVC.swift */,
 				1A4616AC27AE909100D2A090 /* ColorChipCell.swift */,
+				1AC1AF2128CF4A1B000FB56A /* ColorWellCell.swift */,
 			);
 			path = ColorChip;
 			sourceTree = "<group>";
@@ -576,6 +579,7 @@
 				1A01FBEE284E324C00457D84 /* MyWordsCell.swift in Sources */,
 				1A01FBE22843913400457D84 /* CardVC.swift in Sources */,
 				1A0C85AD27DDF0790056B8B8 /* UIImage+Extension.swift in Sources */,
+				1AC1AF2228CF4A1B000FB56A /* ColorWellCell.swift in Sources */,
 				1AE216F627CA0AD6002E945E /* UIView+Extension.swift in Sources */,
 				1AD64EBE27D8E80D00E07EF5 /* Alert.swift in Sources */,
 				1A01FBE72843AC3900457D84 /* UIViewController+Extension.swift in Sources */,
@@ -744,7 +748,7 @@
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = MyLittleUniverse/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -768,7 +772,7 @@
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
 				INFOPLIST_FILE = MyLittleUniverse/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

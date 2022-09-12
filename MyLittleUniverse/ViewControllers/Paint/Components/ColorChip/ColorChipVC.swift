@@ -7,9 +7,10 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
-class ColorChipVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
-    var hexColors = BehaviorSubject<[Int]>(value: [
+class ColorChipVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
+    var hexColors = BehaviorRelay<[Int]>(value: [
         0xF03636, 0xFA6103, 0xFFC123, 0xF6E43E, 0x69C852, 0x5DBBFF, 0x2C41AC, 0x6D3289,
         0xF34757, 0xF45039, 0xFA9926, 0xECCD2B, 0x2DAE85, 0x223C2D, 0x294966, 0x3C2347,
         0xFFB8B7, 0xFFD9C3, 0xFFECC7, 0xA3C4DC, 0x7C99FF, 0xD4B9EC, 0x9F88C8, 0x975BE4,
@@ -23,6 +24,7 @@ class ColorChipVC: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        colColorChip.dataSource = self
         colColorChip.backgroundColor = .clear
         setupBindings()
     }
@@ -31,14 +33,6 @@ class ColorChipVC: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
     func setupBindings() {
         colColorChip.rx
             .setDelegate(self)
-            .disposed(by: disposeBag)
-        
-        // 컬러칩 나열하기
-        hexColors.asObserver()
-            .bind(to: colColorChip.rx.items(cellIdentifier: ColorChipCell.identifier,
-                                            cellType: ColorChipCell.self)) { index, hexValue, cell in
-                cell.hexColor = hexValue
-            }
             .disposed(by: disposeBag)
         
         // 컬러칩 선택
@@ -55,26 +49,55 @@ class ColorChipVC: UIViewController, UICollectionViewDelegateFlowLayout, UIColle
         selectedColor
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: {
-                do {
-                    if let hexColor = $0,
-                       let indexRow = try self.hexColors.value().firstIndex(of: hexColor) {
-                        self.colColorChip.selectItem(at: IndexPath(row: indexRow, section: 0),
-                                                     animated: false,
-                                                     scrollPosition: .top)
-                    } else {
-                        self.colColorChip.deselectAll()
-                    }
-                } catch let error {
-                    NSLog("Error : \(error.localizedDescription)")
+                if let hexColor = $0,
+                   let indexRow = self.hexColors.value.firstIndex(of: hexColor) {
+                    self.colColorChip.selectItem(at: IndexPath(row: indexRow, section: 0),
+                                                 animated: false,
+                                                 scrollPosition: .top)
+                } else {
+                    self.colColorChip.deselectAll()
                 }
             })
             .disposed(by: disposeBag)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    /* 셀 크기 */
+    func collectionView(_ collectionView: UICollectionView, layout
+                        collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (view.frame.width - 64) / 8.0
         let height = width
         return CGSize(width: width, height: height)
+    }
+    
+    /* 셀 개수 */
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return hexColors.value.count
+    }
+    
+    /* 셀 그리기 */
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.row == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorWellCell.identifier, for: indexPath) as! ColorWellCell
+            cell.colorWell.addTarget(self, action: #selector(colorWellChanged(_:)), for: .valueChanged)
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorChipCell.identifier, for: indexPath) as! ColorChipCell
+            cell.hexColor = hexColors.value[indexPath.row]
+            return cell
+        }
+    }
+    
+    /* ColorWell 색상 변경 */
+    @objc func colorWellChanged(_ sender: UIColorWell) {
+        DispatchQueue.main.async {
+            self.colColorChip.selectItem(at: IndexPath(row: 0, section: 0),
+                                            animated: false,
+                                            scrollPosition: .left)
+            if let selectedColor = sender.selectedColor?.rgb() {
+                self.completeHandler?(selectedColor)
+            }
+        }
     }
     
     // MARK: - InterfaceBuilder Links
