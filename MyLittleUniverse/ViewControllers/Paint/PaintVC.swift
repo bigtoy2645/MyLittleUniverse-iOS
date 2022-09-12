@@ -544,14 +544,14 @@ extension PaintVC: UIGestureRecognizerDelegate {
             }
         }
         
-        // 스티커 90도 회전
+        // 스티커 복제
         edgeView.setLeftBottomButton {
-            if let stickerView = self.vm.focusSticker.value {
-                self.edgeView.transform = self.edgeView.transform.rotated(by: .pi / 2)
-                self.changeStickerTransform(stickerView,
-                                            transform: stickerView.view.transform.rotated(by: .pi / 2),
-                                            lastTransform: stickerView.view.transform)
-            }
+            guard let focusSticker = self.vm.focusSticker.value else { return }
+            
+            let centerPos = CGPoint(x: focusSticker.view.center.x + 26,
+                                    y: focusSticker.view.center.y + 26)
+            
+            self.createSticker(focusSticker.sticker.value, size: focusSticker.view.bounds.size, centerPos: centerPos, transform: focusSticker.view.transform)
         }
         
         // 스티커 색상/모양 변경
@@ -589,8 +589,8 @@ extension PaintVC: UIGestureRecognizerDelegate {
         edgeView.gestureRecognizers = [panGesture, rotateGesture, pinchGesture]
     }
     
-    /* 스티커 생성 */
-    private func createSticker(_ stickerView: StickerView, isUndo: Bool = false) {
+    /* 스티커 복원 */
+    private func restoreSticker(_ stickerView: StickerView, isUndo: Bool = false) {
         paintView.insertSubview(stickerView.view, belowSubview: edgeView)
         stickerCount += 1
         
@@ -598,7 +598,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
             undoHandler.registerUndo(withTarget: self) {
                 $0.removeSticker(stickerView, isUndo: true)
                 $0.redoHandler.registerUndo(withTarget: self) {
-                    $0.createSticker(stickerView)
+                    $0.restoreSticker(stickerView)
                 }
             }
             canUndo.accept(true)
@@ -606,11 +606,14 @@ extension PaintVC: UIGestureRecognizerDelegate {
         
         vm.addSticker(stickerView)
         vm.focusSticker.accept(stickerView)
-        edgeView.transform = .identity
     }
     
     /* 스티커 생성 */
-    private func createSticker(_ sticker: Sticker, isUndo: Bool = false) {
+    private func createSticker(_ sticker: Sticker,
+                               size: CGSize? = nil,
+                               centerPos: CGPoint? = nil,
+                               transform: CGAffineTransform? = nil,
+                               isUndo: Bool = false) {
         let imageSticker = UIImageView()
         paintView.insertSubview(imageSticker, belowSubview: edgeView)
         imageSticker.clipsToBounds = true
@@ -619,10 +622,16 @@ extension PaintVC: UIGestureRecognizerDelegate {
         imageSticker.contentMode = .scaleAspectFit
         imageSticker.translatesAutoresizingMaskIntoConstraints = true
         
-        let size = paintView.frame.width / 3
-        imageSticker.bounds.size = CGSize(width: size, height: size)
-        imageSticker.center = stickerPos[stickerCount % stickerPos.count]
-        imageSticker.transform = imageSticker.transform
+        if let transform = transform, let centerPos = centerPos, let size = size {
+            imageSticker.bounds.size = size
+            imageSticker.center = centerPos
+            imageSticker.transform = transform
+        } else {
+            let size = paintView.frame.width / 3
+            imageSticker.bounds.size = CGSize(width: size, height: size)
+            imageSticker.center = stickerPos[stickerCount % stickerPos.count]
+            imageSticker.transform = imageSticker.transform
+        }
         
         stickerCount += 1
         
@@ -638,7 +647,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
             undoHandler.registerUndo(withTarget: self) {
                 $0.removeSticker(stickerView, isUndo: true)
                 $0.redoHandler.registerUndo(withTarget: self) {
-                    $0.createSticker(stickerView)
+                    $0.restoreSticker(stickerView)
                 }
             }
             canUndo.accept(true)
@@ -646,7 +655,6 @@ extension PaintVC: UIGestureRecognizerDelegate {
         
         vm.addSticker(stickerView)
         vm.focusSticker.accept(stickerView)
-        edgeView.transform = .identity
     }
     
     /* 스티커 추가 */
@@ -669,7 +677,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
         
         if !isUndo {
             undoHandler.registerUndo(withTarget: self) {
-                $0.createSticker(stickerView, isUndo: true)
+                $0.restoreSticker(stickerView, isUndo: true)
                 $0.redoHandler.registerUndo(withTarget: self) { $0.removeSticker(stickerView) }
             }
             canUndo.accept(true)

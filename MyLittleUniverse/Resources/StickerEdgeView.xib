@@ -50,7 +50,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ftg-5j-Vxv" userLabel="leftBottomButton">
                     <rect key="frame" x="0.0" y="276" width="24" height="24"/>
-                    <state key="normal" image="edge/Rotate-Off_24"/>
+                    <state key="normal" image="edge/Clone-Off_24"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i2e-Z5-Hub" userLabel="rightBottomButton">
                     <rect key="frame" x="276" y="276" width="24" height="24"/>
@@ -86,9 +86,9 @@
         </view>
     </objects>
     <resources>
+        <image name="edge/Clone-Off_24" width="24" height="24"/>
         <image name="edge/Color-Off_24" width="24" height="24"/>
         <image name="edge/Delete-Off_24" width="24" height="24"/>
-        <image name="edge/Rotate-Off_24" width="24" height="24"/>
         <image name="edge/Size-Off_24" width="24" height="24"/>
     </resources>
 </document>

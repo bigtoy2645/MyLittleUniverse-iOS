@@ -153,11 +153,11 @@ class StickerEdgeView: UIView {
     func changeEditable(_ isEditable: Bool) {
         if isEditable {
             changeButtonImage(.deleteDisabled, position: .leftTop)
-            changeButtonImage(.rotateDisabled, position: .leftBottom)
+            changeButtonImage(.cloneDisabled, position: .leftBottom)
             changeButtonImage(.sizeDisabled, position: .rightBottom)
         } else {
             changeButtonImage(.deleteOff, position: .leftTop)
-            changeButtonImage(.rotateOff, position: .leftBottom)
+            changeButtonImage(.cloneOff, position: .leftBottom)
             changeButtonImage(.sizeOff, position: .rightBottom)
         }
         
