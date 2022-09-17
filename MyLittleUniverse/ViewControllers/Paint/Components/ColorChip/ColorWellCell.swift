@@ -15,7 +15,7 @@ class ColorWellCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        colorWell.selectedColor = UIColor(rgb: 0xF03636)
+        colorWell.selectedColor = UIColor(rgb: 0xFFFFFF)
         self.addSubview(colorWell)
         
         colorWell.translatesAutoresizingMaskIntoConstraints = false
