@@ -65,10 +65,15 @@ class MonthlyEmotionVC: UIViewController, UITableViewDelegate, UIGestureRecogniz
                 cell.imageSavedHandler = { Dialog.presentImageSaved(self) }
                 cell.removeHandler = { moment in
                     Dialog.presentRemove(self, moment: moment) {
-                        if let navigation = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.rootViewController as? UINavigationController,
-                           self.viewModel.moments.value.count <= 0 {
-                            if !navigation.popToVC(InitVC.self, animated: true) {
-                                navigation.pushViewController(Route.getVC(.initVC), animated: false)
+                        if let navigation = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.rootViewController as? UINavigationController {
+                            if Repository.instance.isEmpty.value {
+                                if !navigation.popToVC(InitVC.self, animated: true) {
+                                    navigation.pushViewController(Route.getVC(.initVC), animated: false)
+                                }
+                            } else if Repository.instance.isMonthEmpty.value {
+                                if !navigation.popToVC(NewMonthVC.self, animated: true) {
+                                    navigation.pushViewController(Route.getVC(.newMonthVC), animated: false)
+                                }
                             }
                         }
                     }

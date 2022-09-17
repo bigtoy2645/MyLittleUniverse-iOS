@@ -54,13 +54,13 @@ class DayMomentCell: UICollectionViewCell {
                         Dialog.presentRemove(detailVC, moment: moment) {
                             detailVC.dismiss(animated: false)
                             guard let navigation = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.rootViewController as? UINavigationController else { return }
-                            let currentDate = Date()
-                            let monthlyCount = Repository.instance.moments.value.filter {
-                                (currentDate.year == $0.year) && (currentDate.month == $0.month)
-                            }.count
-                            if monthlyCount <= 0 {
+                            if Repository.instance.isEmpty.value {
                                 if !navigation.popToVC(InitVC.self, animated: true) {
                                     navigation.pushViewController(Route.getVC(.initVC), animated: false)
+                                }
+                            } else if Repository.instance.isMonthEmpty.value {
+                                if !navigation.popToVC(NewMonthVC.self, animated: true) {
+                                    navigation.pushViewController(Route.getVC(.newMonthVC), animated: false)
                                 }
                             }
                         }

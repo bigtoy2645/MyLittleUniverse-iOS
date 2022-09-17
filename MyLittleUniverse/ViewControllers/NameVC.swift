@@ -130,9 +130,14 @@ class NameVC: UIViewController {
     
     /* 등록된 감정 개수에 따라 다음 화면 표시 */
     private func pushNextVC() {
-        let date = Date()
-        let isMonthEmpty = Repository.instance.moments.value.filter { ($0.year == date.year) && ($0.month == date.month) }.isEmpty
-        let nextViewId: Route.ViewId = isMonthEmpty ? .initVC : .monthlyVC
+        var nextViewId: Route.ViewId = .monthlyVC
+        
+        if Repository.instance.isEmpty.value {
+            nextViewId = .initVC
+        } else if Repository.instance.isMonthEmpty.value {
+            nextViewId = .newMonthVC
+        }
+        
         let nextVC = Route.getVC(nextViewId)
         self.navigationController?.pushViewController(nextVC, animated: false)
         

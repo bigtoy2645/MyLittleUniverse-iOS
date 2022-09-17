@@ -15,6 +15,9 @@ class Repository: NSObject {
     public private(set) var userName: String = ""
     public private(set) var moments = BehaviorRelay<[Moment]>(value: [])
     
+    public private(set) var isEmpty = BehaviorRelay<Bool>(value: true)
+    public private(set) var isMonthEmpty = BehaviorRelay<Bool>(value: true)
+    
     private var user = BehaviorRelay<User>(value: User(name: ""))
     private let disposeBag = DisposeBag()
     
@@ -36,6 +39,18 @@ class Repository: NSObject {
             .subscribe(onNext: { [weak self] in
                 self?.saveData(data: $0, key: Key.moments.rawValue)
             })
+            .disposed(by: disposeBag)
+        
+        moments.map { $0.isEmpty }
+            .subscribe(onNext: isEmpty.accept(_:))
+            .disposed(by: disposeBag)
+        
+        moments
+            .map {
+                let date = Date()
+                return $0.filter({ ($0.year == date.year) && ($0.month == date.month) }).isEmpty
+            }
+            .subscribe(onNext: isMonthEmpty.accept(_:))
             .disposed(by: disposeBag)
     }
     

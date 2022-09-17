@@ -12,6 +12,7 @@ class Route {
         case splashVC = "splashView"
         case nickNameVC = "nickNameView"
         case initVC = "initView"
+        case newMonthVC = "newMonthView"
         case alertVC = "alertView"
         case monthlyVC = "homeView"
         case monthlyEmotionVC = "detailView"

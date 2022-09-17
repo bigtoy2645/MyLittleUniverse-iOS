@@ -12,6 +12,7 @@ import FSCalendar
 
 class MyPageVC: UIViewController {
     let viewModel = MyPageViewModel()
+    var isLastMonth = false
     private let datePicker = UIDatePicker()
     private var toolBar = UIToolbar()
     private var oldSelectedDate: Date?
@@ -58,6 +59,14 @@ class MyPageVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.overrideUserInterfaceStyle = .light
+        if isLastMonth {
+            moveCalendarPage(moveUp: false)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isLastMonth = false
     }
     
     /* Binding */
@@ -190,6 +199,7 @@ class MyPageVC: UIViewController {
            page.timeIntervalSinceReferenceDate > installMonth.timeIntervalSinceReferenceDate {
             calendar.setCurrentPage(page, animated: true)
             calendar.select(page)
+            viewModel.currentPage.accept(page)
         }
     }
     
