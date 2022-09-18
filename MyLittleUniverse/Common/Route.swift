@@ -38,6 +38,27 @@ class Route {
         return storyboard.instantiateViewController(withIdentifier: viewId.rawValue)
     }
     
+    /* 감정 선택 화면으로 이동 */
+    static func popToSelectStatusViewController(_ vc: UIViewController) {
+        guard let navigationController = vc.navigationController,
+              !(vc is SelectStatusVC) else {
+            return
+        }
+        
+        var isExists = false
+        for controller in navigationController.viewControllers {
+            if controller is SelectStatusVC {
+                navigationController.popToViewController(controller, animated: false)
+                isExists = true
+                break
+            }
+        }
+        if !isExists {
+            let selectVC = Route.getVC(.selectStatusVC)
+            navigationController.pushViewController(selectVC, animated: false)
+        }
+    }
+    
     static func switchHome() {
         let homeVC = Route.getVC(.monthlyVC)
         UIApplication.shared.windows.first?.rootViewController = UINavigationController(rootViewController: homeVC)

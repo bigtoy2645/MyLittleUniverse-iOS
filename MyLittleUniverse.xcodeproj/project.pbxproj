@@ -60,6 +60,7 @@
 		1AC1AF2228CF4A1B000FB56A /* ColorWellCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC1AF2128CF4A1B000FB56A /* ColorWellCell.swift */; };
 		1AC1AF2428D5E89B000FB56A /* NewMonthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC1AF2328D5E89A000FB56A /* NewMonthVC.swift */; };
 		1AC1AF2628D6093B000FB56A /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC1AF2528D6093A000FB56A /* UILabel+Extension.swift */; };
+		1AC1AF2828D72029000FB56A /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC1AF2728D72028000FB56A /* UIApplication+Extension.swift */; };
 		1ACFA3062740F7E400821337 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA3052740F7E400821337 /* GoogleService-Info.plist */; };
 		1ACFA30827410ED600821337 /* MonthlyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFA30727410ED600821337 /* MonthlyVC.swift */; };
 		1AD64EB827CE0F0100E07EF5 /* Sticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EB727CE0F0100E07EF5 /* Sticker.swift */; };
@@ -138,6 +139,7 @@
 		1AC1AF2128CF4A1B000FB56A /* ColorWellCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorWellCell.swift; sourceTree = "<group>"; };
 		1AC1AF2328D5E89A000FB56A /* NewMonthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMonthVC.swift; sourceTree = "<group>"; };
 		1AC1AF2528D6093A000FB56A /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		1AC1AF2728D72028000FB56A /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		1ACFA3052740F7E400821337 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1ACFA30727410ED600821337 /* MonthlyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyVC.swift; sourceTree = "<group>"; };
 		1AD64EB727CE0F0100E07EF5 /* Sticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sticker.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				1A01FBDE28438CCE00457D84 /* UINavigationController+Extension.swift */,
 				1A01FBE62843AC3900457D84 /* UIViewController+Extension.swift */,
 				1AC1AF2528D6093A000FB56A /* UILabel+Extension.swift */,
+				1AC1AF2728D72028000FB56A /* UIApplication+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -578,6 +581,7 @@
 				1A4616AD27AE909100D2A090 /* ColorChipCell.swift in Sources */,
 				1AAA1C02281841180054CB5F /* InitVC.swift in Sources */,
 				1A8D9B64273AAA7400A1BA53 /* SceneDelegate.swift in Sources */,
+				1AC1AF2828D72029000FB56A /* UIApplication+Extension.swift in Sources */,
 				1AD64EBA27CE528D00E07EF5 /* UICollectionView+Extension.swift in Sources */,
 				1AAA1C0E28240B5F0054CB5F /* Route.swift in Sources */,
 				1AE216F827CA8440002E945E /* StickerEdgeView.swift in Sources */,

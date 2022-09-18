@@ -109,8 +109,7 @@ class NameVC: UIViewController {
                 alertVC.addCancelButton() { self.dismiss(animated: false) }
                 alertVC.addRunButton(color: UIColor.errorRed) {
                     self.dismiss(animated: false)
-                    UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { exit(0) }
+                    UIApplication.shared.terminate()
                 }
                 
                 self.present(alertVC, animated: false)

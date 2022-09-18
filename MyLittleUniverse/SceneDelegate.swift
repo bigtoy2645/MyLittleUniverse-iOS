@@ -25,10 +25,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
     }
-
+    
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        // 꾸미기 중 날짜 변경된 경우 감정 선택 화면으로 이동
+        if let paintListVC = UIApplication.topViewController() as? PaintEmotionListVC {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "YYYY.MM.dd"
+            
+            let paintTimeString = formatter.string(from: paintListVC.vm.timeStamp.value)
+            let currentTimeString = formatter.string(from: Date())
+            if paintTimeString != currentTimeString {
+                Route.popToSelectStatusViewController(paintListVC)
+            }
+        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -49,4 +58,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
-

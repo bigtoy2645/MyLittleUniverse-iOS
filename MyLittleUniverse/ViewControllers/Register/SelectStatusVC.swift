@@ -18,10 +18,6 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY. MM. dd. EEE. hh:mm a"
-        lblDate.text = formatter.string(from: timeStamp.value)
-        
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         SelectStatusVC.parentView = navigationController?.previousViewController
         
@@ -32,6 +28,7 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         super.viewWillAppear(animated)
         
         collectionView.isUserInteractionEnabled = true
+        timeStamp.accept(Date())
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,6 +51,14 @@ class SelectStatusVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             }
             .disposed(by: disposeBag)
         
+        timeStamp.map {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "YYYY. MM. dd. EEE. hh:mm a"
+            return formatter.string(from: $0)
+        }
+        .bind(to: lblDate.rx.text)
+        .disposed(by: disposeBag)
+         
         // 감정 선택
         collectionView.rx.itemSelected
             .observe(on: MainScheduler.instance)
