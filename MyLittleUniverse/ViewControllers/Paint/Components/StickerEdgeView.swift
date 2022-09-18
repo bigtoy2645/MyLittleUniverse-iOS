@@ -139,12 +139,16 @@ class StickerEdgeView: UIView {
     func changeButtonImage(_ image: UIImage?, position: ButtonPosition) {
         switch position {
         case .leftTop:
+            self.btnLeftTop.isEnabled = (image != nil)
             self.btnLeftTop.setImage(image, for: .normal)
         case .leftBottom:
+            self.btnLeftBottom.isEnabled = (image != nil)
             self.btnLeftBottom.setImage(image, for: .normal)
         case .rightTop:
+            self.btnRightTop.isEnabled = (image != nil)
             self.btnRightTop.setImage(image, for: .normal)
         case .rightBottom:
+            self.btnRightBottom.isEnabled = (image != nil)
             self.btnRightBottom.setImage(image, for: .normal)
         }
     }

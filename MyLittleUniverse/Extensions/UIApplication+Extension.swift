@@ -5,7 +5,7 @@
 //  Created by yurim on 2022/09/18.
 //
 
-import Foundation
+import UIKit
 
 extension UIApplication {
     class func topViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {

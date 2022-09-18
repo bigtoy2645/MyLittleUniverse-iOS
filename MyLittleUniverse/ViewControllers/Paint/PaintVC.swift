@@ -132,9 +132,12 @@ class PaintVC: UIViewController {
                 NSLayoutConstraint.activate(self.edgeConstraint)
                 self.edgeView.layoutSubviews()
                 self.edgeView.stickerView = stickerView
-                if self.oldSticker?.sticker.value.type != sticker.sticker.value.type {
-                    let image: UIImage? = sticker.sticker.value.type == .picture ? .editOff : .colorOff
-                    self.edgeView.changeButtonImage(image, position: .rightTop)
+                let stickerType = sticker.sticker.value.type
+                if self.oldSticker?.sticker.value.type != stickerType {
+                    let rightTopImage: UIImage? = stickerType == .picture ? .editOff : .colorOff
+                    self.edgeView.changeButtonImage(rightTopImage, position: .rightTop)
+                    let leftBottomImage: UIImage? = stickerType == .text ? nil : .cloneOff
+                    self.edgeView.changeButtonImage(leftBottomImage, position: .leftBottom)
                 }
                 self.oldSticker = sticker
             }
