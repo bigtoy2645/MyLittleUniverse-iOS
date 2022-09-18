@@ -10,6 +10,7 @@ import UIKit
 class Route {
     enum ViewId: String {
         case splashVC = "splashView"
+        case loginVC = "loginView"
         case nickNameVC = "nickNameView"
         case initVC = "initView"
         case newMonthVC = "newMonthView"

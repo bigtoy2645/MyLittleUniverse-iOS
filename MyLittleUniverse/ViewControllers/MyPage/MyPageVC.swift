@@ -125,11 +125,28 @@ class MyPageVC: UIViewController {
             .bind(to: btnCount.rx.title(for: .normal))
             .disposed(by: disposeBag)
         
-        // 기록 보관하기
-        backUpView.rx
+        // 로그아웃
+        logoutView.rx
             .tapGesture()
             .when(.recognized)
-            .subscribe(onNext: { _ in Dialog.presentTBD(self) })
+            .subscribe(onNext: { _ in
+                guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
+                
+                alertVC.modalPresentationStyle = .overFullScreen
+                let alert = Alert(title: "정말 로그아웃 하시겠어요?",
+                                  runButtonTitle: "로그아웃",
+                                  cancelButtonTitle: "취소")
+                alertVC.vm.alert.accept(alert)
+                alertVC.addCancelButton() {
+                    self.dismiss(animated: false)
+                }
+                alertVC.addRunButton(color: UIColor.errorRed) {
+                    self.dismiss(animated: false)
+                    // 로그인 화면으로 이동
+                }
+                
+                self.present(alertVC, animated: false)
+            })
             .disposed(by: disposeBag)
         
         viewModel.selectedMoments
@@ -232,7 +249,7 @@ class MyPageVC: UIViewController {
     @IBOutlet weak var btnLeft: UIButton!
     @IBOutlet weak var btnRight: UIButton!
     @IBOutlet weak var calendar: FSCalendar!
-    @IBOutlet weak var backUpView: UIView!
+    @IBOutlet weak var logoutView: UIView!
     @IBOutlet weak var tabView: TabBarView!
     
     @IBOutlet weak var cardView: UIView!

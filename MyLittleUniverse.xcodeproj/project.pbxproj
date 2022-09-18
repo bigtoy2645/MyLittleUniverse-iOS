@@ -61,6 +61,8 @@
 		1AC1AF2428D5E89B000FB56A /* NewMonthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC1AF2328D5E89A000FB56A /* NewMonthVC.swift */; };
 		1AC1AF2628D6093B000FB56A /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC1AF2528D6093A000FB56A /* UILabel+Extension.swift */; };
 		1AC1AF2828D72029000FB56A /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC1AF2728D72028000FB56A /* UIApplication+Extension.swift */; };
+		1AC1AF2A28D73B36000FB56A /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC1AF2928D73B36000FB56A /* LoginVC.swift */; };
+		1AC1AF2C28D73EC2000FB56A /* AppleLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC1AF2B28D73EC2000FB56A /* AppleLogin.swift */; };
 		1ACFA3062740F7E400821337 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ACFA3052740F7E400821337 /* GoogleService-Info.plist */; };
 		1ACFA30827410ED600821337 /* MonthlyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFA30727410ED600821337 /* MonthlyVC.swift */; };
 		1AD64EB827CE0F0100E07EF5 /* Sticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD64EB727CE0F0100E07EF5 /* Sticker.swift */; };
@@ -140,6 +142,8 @@
 		1AC1AF2328D5E89A000FB56A /* NewMonthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMonthVC.swift; sourceTree = "<group>"; };
 		1AC1AF2528D6093A000FB56A /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		1AC1AF2728D72028000FB56A /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
+		1AC1AF2928D73B36000FB56A /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		1AC1AF2B28D73EC2000FB56A /* AppleLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleLogin.swift; sourceTree = "<group>"; };
 		1ACFA3052740F7E400821337 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1ACFA30727410ED600821337 /* MonthlyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyVC.swift; sourceTree = "<group>"; };
 		1AD64EB727CE0F0100E07EF5 /* Sticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sticker.swift; sourceTree = "<group>"; };
@@ -352,6 +356,7 @@
 				1AAA1C0D28240B5F0054CB5F /* Route.swift */,
 				1AE62E6D28262F7900B9C9D4 /* Repository.swift */,
 				1A01FBF7285F33B000457D84 /* ImageSaver.swift */,
+				1AC1AF2B28D73EC2000FB56A /* AppleLogin.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -360,6 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				1AD71612287463420056452C /* SplashVC.swift */,
+				1AC1AF2928D73B36000FB56A /* LoginVC.swift */,
 				1A8D9B65273AAA7400A1BA53 /* NameVC.swift */,
 				1AAA1C01281841180054CB5F /* InitVC.swift */,
 				1AC1AF2328D5E89A000FB56A /* NewMonthVC.swift */,
@@ -577,6 +583,7 @@
 				1AE11D5F2836693C0050AA31 /* MyPageVC.swift in Sources */,
 				1A4616A527A51C8D00D2A090 /* PaintEmotionListVC.swift in Sources */,
 				1AD64EBC27D510E100E07EF5 /* AlertVC.swift in Sources */,
+				1AC1AF2C28D73EC2000FB56A /* AppleLogin.swift in Sources */,
 				1A46169F279B04A000D2A090 /* PaintVC.swift in Sources */,
 				1A4616AD27AE909100D2A090 /* ColorChipCell.swift in Sources */,
 				1AAA1C02281841180054CB5F /* InitVC.swift in Sources */,
@@ -587,6 +594,7 @@
 				1AE216F827CA8440002E945E /* StickerEdgeView.swift in Sources */,
 				1A01FBF0284E32B700457D84 /* MyWordCell.swift in Sources */,
 				1A4616B427B8EDEF00D2A090 /* ShapeStickerCell.swift in Sources */,
+				1AC1AF2A28D73B36000FB56A /* LoginVC.swift in Sources */,
 				1A01FBF8285F33B100457D84 /* ImageSaver.swift in Sources */,
 				1A01FBEE284E324C00457D84 /* MyWordsCell.swift in Sources */,
 				1A01FBE22843913400457D84 /* CardVC.swift in Sources */,

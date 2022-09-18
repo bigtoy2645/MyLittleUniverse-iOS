@@ -1129,6 +1129,75 @@
             </objects>
             <point key="canvasLocation" x="8421.7391304347839" y="103.79464285714285"/>
         </scene>
+        <!--LoginVC-->
+        <scene sceneID="Sxg-Tg-8hN">
+            <objects>
+                <viewController storyboardIdentifier="loginView" id="2Mq-rQ-tMO" customClass="LoginVC" customModule="MyLittleUniverse" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rd5-6P-Icz">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="fdJ-VB-jxy">
+                                <rect key="frame" x="30" y="191" width="354" height="263"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tHs-7E-zfV">
+                                        <rect key="frame" x="0.0" y="0.0" width="354" height="143.5"/>
+                                        <string key="text">감정이
+태도가
+되지 않도록</string>
+                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="40"/>
+                                        <color key="textColor" name="PointPurple"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvC-xu-4dS">
+                                        <rect key="frame" x="0.0" y="167.5" width="354" height="95.5"/>
+                                        <string key="text">나의 감정을
+꾸준히 발견해요</string>
+                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="40"/>
+                                        <color key="textColor" name="PointPurple"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="Y6U-1Y-ybE">
+                                <rect key="frame" x="199" y="84" width="16" height="43"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="MWR-O2-07k">
+                                <rect key="frame" x="140.5" y="742" width="133" height="32"/>
+                                <subviews>
+                                    <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jvn-W6-evT">
+                                        <rect key="frame" x="0.0" y="0.0" width="133" height="32"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="로그인 없이 둘러보기">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="sUt-5d-A1i"/>
+                        <color key="backgroundColor" name="BackgroundGreen"/>
+                        <constraints>
+                            <constraint firstItem="Y6U-1Y-ybE" firstAttribute="top" secondItem="sUt-5d-A1i" secondAttribute="top" constant="40" id="6aP-nq-hBI"/>
+                            <constraint firstItem="fdJ-VB-jxy" firstAttribute="leading" secondItem="sUt-5d-A1i" secondAttribute="leading" constant="30" id="LKL-Sh-Dvz"/>
+                            <constraint firstItem="MWR-O2-07k" firstAttribute="centerX" secondItem="rd5-6P-Icz" secondAttribute="centerX" id="Maf-qb-gGS"/>
+                            <constraint firstItem="fdJ-VB-jxy" firstAttribute="centerX" secondItem="rd5-6P-Icz" secondAttribute="centerX" id="XIO-AP-MZt"/>
+                            <constraint firstItem="Y6U-1Y-ybE" firstAttribute="centerX" secondItem="rd5-6P-Icz" secondAttribute="centerX" id="eS1-Cf-8OQ"/>
+                            <constraint firstItem="sUt-5d-A1i" firstAttribute="bottom" secondItem="MWR-O2-07k" secondAttribute="bottom" constant="88" id="uBD-l3-pR7"/>
+                            <constraint firstItem="fdJ-VB-jxy" firstAttribute="top" secondItem="Y6U-1Y-ybE" secondAttribute="bottom" constant="64" id="xVs-WX-ZJ3"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="6Vz-DX-o1K"/>
+                    <connections>
+                        <outlet property="btnGuest" destination="Jvn-W6-evT" id="fwk-YB-lsc"/>
+                        <outlet property="stackEnter" destination="MWR-O2-07k" id="XOw-iD-zss"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Db1-EM-6Pd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-9" y="-613"/>
+        </scene>
         <!--My UniverseVC-->
         <scene sceneID="DgI-cb-J36">
             <objects>
@@ -2014,26 +2083,22 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d54-Ol-3GG">
                                                 <rect key="frame" x="0.0" y="920" width="414" height="56"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="기록 보관하기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DjF-mf-kOi">
-                                                        <rect key="frame" x="30" y="16" width="87" height="24"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="로그아웃" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DjF-mf-kOi">
+                                                        <rect key="frame" x="0.0" y="0.0" width="109" height="56"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="109" id="bsv-9q-peO"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                                        <color key="textColor" name="MainBlack"/>
+                                                        <color key="textColor" name="MediumGray"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChevronRight_16" translatesAutoresizingMaskIntoConstraints="NO" id="YQq-tP-bo2">
-                                                        <rect key="frame" x="368" y="20" width="16" height="16"/>
-                                                        <color key="tintColor" name="MainBlack"/>
-                                                    </imageView>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstItem="YQq-tP-bo2" firstAttribute="centerY" secondItem="d54-Ol-3GG" secondAttribute="centerY" id="3Fb-dQ-bfA"/>
-                                                    <constraint firstItem="DjF-mf-kOi" firstAttribute="top" secondItem="d54-Ol-3GG" secondAttribute="top" constant="16" id="CV6-Uf-sdg"/>
-                                                    <constraint firstItem="YQq-tP-bo2" firstAttribute="centerY" secondItem="DjF-mf-kOi" secondAttribute="centerY" id="JGB-pc-dlH"/>
-                                                    <constraint firstItem="DjF-mf-kOi" firstAttribute="centerY" secondItem="d54-Ol-3GG" secondAttribute="centerY" id="M9a-uK-1ny"/>
-                                                    <constraint firstItem="YQq-tP-bo2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DjF-mf-kOi" secondAttribute="trailing" constant="8" symbolic="YES" id="Yju-fU-KcB"/>
-                                                    <constraint firstAttribute="trailing" secondItem="YQq-tP-bo2" secondAttribute="trailing" constant="30" id="f9q-kV-seF"/>
-                                                    <constraint firstItem="DjF-mf-kOi" firstAttribute="leading" secondItem="d54-Ol-3GG" secondAttribute="leading" constant="30" id="nAQ-Ue-UM7"/>
+                                                    <constraint firstItem="DjF-mf-kOi" firstAttribute="top" secondItem="d54-Ol-3GG" secondAttribute="top" id="CV6-Uf-sdg"/>
+                                                    <constraint firstAttribute="bottom" secondItem="DjF-mf-kOi" secondAttribute="bottom" id="h2M-Pq-lrF"/>
+                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DjF-mf-kOi" secondAttribute="trailing" symbolic="YES" id="mJJ-Xg-Vhc"/>
+                                                    <constraint firstItem="DjF-mf-kOi" firstAttribute="leading" secondItem="d54-Ol-3GG" secondAttribute="leading" id="nAQ-Ue-UM7"/>
                                                     <constraint firstAttribute="height" constant="56" id="ohv-Is-c1Z"/>
                                                 </constraints>
                                             </view>
@@ -2193,7 +2258,6 @@
                     <navigationItem key="navigationItem" id="TwA-L5-J6E"/>
                     <size key="freeformSize" width="414" height="1200"/>
                     <connections>
-                        <outlet property="backUpView" destination="d54-Ol-3GG" id="zZt-Mg-xlL"/>
                         <outlet property="btnCount" destination="3u0-A8-S9C" id="rSD-hd-Q6M"/>
                         <outlet property="btnLeft" destination="SM6-VT-tNH" id="kAf-BM-clS"/>
                         <outlet property="btnRight" destination="LPo-oP-oGM" id="h7g-Gz-YkN"/>
@@ -2204,6 +2268,7 @@
                         <outlet property="dotView" destination="gjX-l9-wLG" id="Ce0-dL-DLV"/>
                         <outlet property="lblDate" destination="jn3-ou-EzZ" id="3Oz-zx-nnd"/>
                         <outlet property="lblUser" destination="F8l-3r-9Zp" id="pBk-qr-arD"/>
+                        <outlet property="logoutView" destination="d54-Ol-3GG" id="zZt-Mg-xlL"/>
                         <outlet property="scrollView" destination="ccn-Yq-FyF" id="q6U-sx-ykj"/>
                         <outlet property="tabView" destination="wbN-KU-lFi" id="BeY-og-snZ"/>
                     </connections>
@@ -2351,7 +2416,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FdQ-DG-tgS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="793" y="-613"/>
+            <point key="canvasLocation" x="945" y="-613"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dgO-rC-T9g">
@@ -2820,6 +2885,23 @@
             </objects>
             <point key="canvasLocation" x="793" y="-1341"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Ukx-03-Ya6">
+            <objects>
+                <navigationController storyboardIdentifier="navLogin" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="yIJ-Cq-vu8" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rg2-Hn-0WZ">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="2Mq-rQ-tMO" kind="relationship" relationship="rootViewController" id="R0c-OP-FAr"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LpS-sB-BlC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-739" y="-613"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Add_40" width="40" height="40"/>
@@ -2837,6 +2919,7 @@
         <image name="Fill-Shape-Off_24" width="24" height="24"/>
         <image name="InitBackground" width="327" height="704"/>
         <image name="Line-Shape-Off_24" width="24" height="24"/>
+        <image name="Logo" width="16" height="43"/>
         <image name="Paint_24" width="24" height="24"/>
         <image name="Photo-Off_24" width="24" height="24"/>
         <image name="Redo-Off_24" width="24" height="24"/>
