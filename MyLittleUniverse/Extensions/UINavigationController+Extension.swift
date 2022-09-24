@@ -7,19 +7,7 @@
 
 import UIKit
 
-extension UINavigationController {
-    func popToVC(_ vc: AnyClass, animated: Bool = false) -> Bool {
-        var isContain = false
-        for controller in viewControllers {
-            if controller.isKind(of: vc) {
-                popToViewController(controller, animated: false)
-                isContain = true
-                break
-            }
-        }
-        return isContain
-    }
-    
+extension UINavigationController {    
     func searchVC(_ vc: AnyClass) -> UIViewController? {
         for controller in viewControllers {
             if controller.isKind(of: vc) {
