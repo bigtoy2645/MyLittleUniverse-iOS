@@ -163,6 +163,7 @@
 		1AE216F727CA8440002E945E /* StickerEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerEdgeView.swift; sourceTree = "<group>"; };
 		1AE216F927CA8456002E945E /* StickerEdgeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StickerEdgeView.xib; sourceTree = "<group>"; };
 		1AE572F828DF30F800A75B48 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		1AE572FA28DF37F100A75B48 /* MyLittleUniverse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyLittleUniverse.entitlements; sourceTree = "<group>"; };
 		1AE62E6D28262F7900B9C9D4 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		1F4EFFE17AD84DD3D0F6EFDC /* Pods_MyLittleUniverse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyLittleUniverse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF768548D43ADD10F60DC76E /* Pods-MyLittleUniverse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyLittleUniverse.debug.xcconfig"; path = "Target Support Files/Pods-MyLittleUniverse/Pods-MyLittleUniverse.debug.xcconfig"; sourceTree = "<group>"; };
@@ -328,6 +329,7 @@
 		1A8D9B60273AAA7400A1BA53 /* MyLittleUniverse */ = {
 			isa = PBXGroup;
 			children = (
+				1AE572FA28DF37F100A75B48 /* MyLittleUniverse.entitlements */,
 				1AAA1C0B28240B3A0054CB5F /* Common */,
 				1A46168E2787118F00D2A090 /* Models */,
 				1A46168F2787119600D2A090 /* ViewModels */,
@@ -767,7 +769,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = MyLittleUniverse/MyLittleUniverse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
@@ -791,7 +793,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = MyLittleUniverse/MyLittleUniverse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 8L5GQUP5L4;
