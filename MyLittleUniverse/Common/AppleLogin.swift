@@ -9,6 +9,8 @@ import UIKit
 import AuthenticationServices
 
 class AppleLogin: NSObject, ASAuthorizationControllerDelegate {
+    static var session: Session?
+    
     let button = ASAuthorizationAppleIDButton(type: .signIn, style: .whiteOutline)
     var completion: (() -> Void)? = nil
     
@@ -17,6 +19,7 @@ class AppleLogin: NSObject, ASAuthorizationControllerDelegate {
         button.addTarget(self, action: #selector(handleAppleIdRequest), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        button.cornerRadius = 0
         self.completion = completion
     }
     

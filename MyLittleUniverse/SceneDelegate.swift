@@ -35,7 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let paintTimeString = formatter.string(from: paintListVC.vm.timeStamp.value)
             let currentTimeString = formatter.string(from: Date())
             if paintTimeString != currentTimeString {
-                Route.popToSelectStatusViewController(paintListVC)
+                Route.pushVC(.selectStatusVC, from: paintListVC)
             }
         }
     }
