@@ -11,7 +11,7 @@ import AuthenticationServices
 class AppleLogin: NSObject, ASAuthorizationControllerDelegate {
     static var session: Session?
     
-    let button = ASAuthorizationAppleIDButton(type: .signIn, style: .whiteOutline)
+    let button = ASAuthorizationAppleIDButton(type: .signIn, style: .white)
     var completion: (() -> Void)? = nil
     
     /* Apple 로그인 버튼 설정 */
@@ -33,39 +33,19 @@ class AppleLogin: NSObject, ASAuthorizationControllerDelegate {
         authorizationController.performRequests()
     }
     
-    /* Apple 로그인 정보 저장 */
-    func saveAppleLogin(identifier: String, email: String) {
-        // ID 변경 > 계정 변경 > ID,이메일 업데이트
-        // ID 동일 > 이메일 가리기/보이기에 의한 변동 > 이메일 업데이트
-//        let oldIdentifier = UserDefaults.standard.value(forKey: DefaultsKey.appleId) as? String ?? ""
-//        if identifier != oldIdentifier {
-//            UserDefaults.standard.setValue(identifier, forKey: DefaultsKey.appleId)
-//            UserDefaults.standard.setValue(email, forKey: DefaultsKey.appleEmail)
-//        } else {
-//            UserDefaults.standard.setValue(email, forKey: DefaultsKey.appleEmail)
-//        }
-//
-//        Session.identifier = identifier
-//        Session.email = email
-    }
-    
     /* Apple 로그인 완료 */
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        guard let credential = authorization.credential as?  ASAuthorizationAppleIDCredential else { return }
+        guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
         
         let userIdentifier = credential.user
-        var email = credential.email
+        let email = credential.email
         
         NSLog("Apple login completed. identifier = \(userIdentifier), email = \(email ?? ""))")
         
-//        if let credentialEmail = credential.email {
-//            UserDefaults.standard.setValue(credentialEmail, forKey: DefaultsKey.appleEmail)
-//            email = credentialEmail
-//        } else {
-//            email = UserDefaults.standard.value(forKey: DefaultsKey.appleEmail) as? String
-//        }
-        
-        saveAppleLogin(identifier: userIdentifier, email: email ?? "")
+        if let identifierData = userIdentifier.data(using: .utf8) {
+            Repository.instance.openSession(Session(identifier: identifierData.base64EncodedString(),
+                                                    email: email))
+        }
         
         completion?()
     }

@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct Session {
+struct Session: Codable {
     let identifier: String
-    let name: String
-    let email: String
+    let email: String?
 }

@@ -110,7 +110,7 @@ class SelectEmotionsVC: UIViewController,
         // 선택 완료
         btnDone.rx.tap
             .bind {
-                if AppleLogin.session == nil {
+                if Repository.instance.isLogin.value == false {
                     guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
                     
                     alertVC.modalPresentationStyle = .overFullScreen

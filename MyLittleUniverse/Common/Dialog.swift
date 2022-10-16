@@ -121,7 +121,7 @@ class Dialog {
         }
         alertVC.addRunButton(color: UIColor.errorRed) {
             viewController.dismiss(animated: false)
-            AppleLogin.session = nil
+            Repository.instance.closeSession()
             Route.pushVC(.loginVC, from: viewController)
         }
         

@@ -17,12 +17,20 @@ class Repository: NSObject {
     
     public private(set) var isEmpty = BehaviorRelay<Bool>(value: true)
     public private(set) var isMonthEmpty = BehaviorRelay<Bool>(value: true)
+    public private(set) var isLogin = BehaviorRelay<Bool>(value: false)
     
+    private let session = BehaviorRelay<Session?>(value: nil)
+    private let db = DataManager()
     private var user = BehaviorRelay<User>(value: User(name: ""))
     private let disposeBag = DisposeBag()
     
     override init() {
         super.init()
+        
+        session
+            .map { $0 != nil }
+            .subscribe(onNext: isLogin.accept(_:))
+            .disposed(by: disposeBag)
         
         // 데이터 불러오기
         loadData()
@@ -52,6 +60,13 @@ class Repository: NSObject {
             }
             .subscribe(onNext: isMonthEmpty.accept(_:))
             .disposed(by: disposeBag)
+        
+        // 세션 정보 변경 시 DB에 정보 업데이트 및 불러오기
+        session
+            .subscribe(onNext: { [weak self] in
+                self?.saveData(data: $0, key: Key.session.rawValue)
+            })
+            .disposed(by: disposeBag)
     }
     
     /* 감정 추가 */
@@ -77,18 +92,61 @@ class Repository: NSObject {
         user.accept(User(name: userName))
     }
     
+    /* 로그인 */
+    func openSession(_ session: Session) {
+        self.session.accept(session)
+        
+        db.updateSession(session)
+        db.loadMoments { moments in
+            if moments.isEmpty {
+                // UserDefaults 정보 있을 경우 업데이트
+                if !self.moments.value.isEmpty {
+                    self.db.updateMoments(self.moments.value)
+                }
+            } else {
+                self.moments.accept(moments)
+            }
+        }
+        
+        db.loadUserName { userName in
+            if let userName = userName {
+                self.user.accept(User(name: userName))
+            } else {
+                // UserDefaults 정보 있을 경우 업데이트
+                if !self.userName.isEmpty {
+                    self.db.updateUserName(self.userName)
+                }
+            }
+        }
+    }
+    
+    /* 로그아웃 */
+    func closeSession() {
+        //user.accept(User(name: ""))
+        //moments.accept([])
+        session.accept(nil)
+    }
+    
+    // MARK: - UserDefaults Data Processing
+    
     enum Key: String {
         case user = "User"
         case moments = "Moments"
+        case session = "Session"
     }
-    
-    // MARK: - Data Processing
     
     /* 데이터 불러오기 */
     private func loadData() {
         let userDefaults = UserDefaults.standard
         let decoder = JSONDecoder()
         
+        // 세션
+        if let jsonString = userDefaults.value(forKey: Key.session.rawValue) as? String {
+            if let jsonData = jsonString.data(using: .utf8),
+               let userData = try? decoder.decode(Session.self, from: jsonData) {
+                session.accept(userData)
+            }
+        }
         // 닉네임
         if let jsonString = userDefaults.value(forKey: Key.user.rawValue) as? String {
             if let jsonData = jsonString.data(using: .utf8),

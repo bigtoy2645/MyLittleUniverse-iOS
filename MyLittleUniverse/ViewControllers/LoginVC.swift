@@ -17,7 +17,7 @@ class LoginVC: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
 
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        
+                
         stackEnter.insertArrangedSubview(appleLogin.button, at: 0)
         appleLogin.configure {
             // 기존 사용자 : 연결 완료 후, 등록 화면으로 이동
@@ -27,6 +27,11 @@ class LoginVC: UIViewController, UIGestureRecognizerDelegate {
         }
         
         setupBindings()
+        
+        if Repository.instance.isLogin.value {
+            let nextVC = Route.getVC(.nameVC)
+            self.navigationController?.pushViewController(nextVC, animated: false)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
