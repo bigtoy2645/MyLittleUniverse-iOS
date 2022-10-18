@@ -29,16 +29,27 @@ class DataManager: NSObject {
         guard let session = session else { return }
         
         let ref = Database.database().reference()
+        // 단일 응답 크기 제한 : 256MB
+        // 단일 쓰기 크기 제한 : 16MB
         ref.child("users/\(session.identifier)/moments").observeSingleEvent(of: .value) { snapshot in
-            guard let values = snapshot.value as? [String: Any] else {
+            guard let dateValues = snapshot.value as? [String: Dictionary<String, String>] else {
                 completion?([])
                 return
             }
             
-            // TODO - moments > [Moment]
-            for value in values {
-                
+            let decoder = JSONDecoder()
+            var moments: [Moment] = []
+
+            // moments/202210/timestamp
+            for dateValue in dateValues.values {
+                for jsonString in dateValue.values {
+                    if let jsonData = jsonString.data(using: .utf8),
+                       let momentsData = try? decoder.decode(Moment.self, from: jsonData) {
+                        moments.append(momentsData)
+                    }
+                }
             }
+            completion?(moments)
         }
     }
     
@@ -77,7 +88,7 @@ class DataManager: NSObject {
             if let jsonData = try? encoder.encode(moment),
                let jsonString = String(data: jsonData, encoding: .utf8) {
                 let yearMonth = String(format: "%04d%02d", moment.year, moment.month)
-                let momentPath = "users/\(session.identifier)/moments/\(yearMonth)/\(moment.day)/\(Int(moment.timeStamp))"
+                let momentPath = "users/\(session.identifier)/moments/\(yearMonth)/\(Int(moment.timeStamp))"
                 let refMoments = ref.child(momentPath)
                 refMoments.setValue(jsonString)
             }
