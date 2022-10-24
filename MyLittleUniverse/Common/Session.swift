@@ -9,5 +9,4 @@ import Foundation
 
 struct Session: Codable {
     let identifier: String
-    let email: String?
 }

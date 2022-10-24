@@ -8,9 +8,7 @@
 import UIKit
 import AuthenticationServices
 
-class AppleLogin: NSObject, ASAuthorizationControllerDelegate {
-    static var session: Session?
-    
+class AppleLogin: NSObject, ASAuthorizationControllerDelegate {    
     let button = ASAuthorizationAppleIDButton(type: .signIn, style: .white)
     var completion: (() -> Void)? = nil
     
@@ -27,7 +25,7 @@ class AppleLogin: NSObject, ASAuthorizationControllerDelegate {
     @objc func handleAppleIdRequest() {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.email]
+        request.requestedScopes = []
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
         authorizationController.performRequests()
@@ -38,13 +36,11 @@ class AppleLogin: NSObject, ASAuthorizationControllerDelegate {
         guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
         
         let userIdentifier = credential.user
-        let email = credential.email
         
-        NSLog("Apple login completed. identifier = \(userIdentifier), email = \(email ?? ""))")
+        NSLog("Apple login completed. identifier = \(userIdentifier)")
         
         if let identifierData = userIdentifier.data(using: .utf8) {
-            Repository.instance.openSession(Session(identifier: identifierData.base64EncodedString(),
-                                                    email: email))
+            Repository.instance.openSession(Session(identifier: identifierData.base64EncodedString()))
         }
         
         completion?()

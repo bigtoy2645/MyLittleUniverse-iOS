@@ -14,12 +14,12 @@ class Repository: NSObject {
     
     public private(set) var userName: String = ""
     public private(set) var moments = BehaviorRelay<[Moment]>(value: [])
+    public private(set) var session = BehaviorRelay<Session?>(value: nil)
     
     public private(set) var isEmpty = BehaviorRelay<Bool>(value: true)
     public private(set) var isMonthEmpty = BehaviorRelay<Bool>(value: true)
     public private(set) var isLogin = BehaviorRelay<Bool>(value: false)
     
-    private let session = BehaviorRelay<Session?>(value: nil)
     private let db = DataManager()
     private var user = BehaviorRelay<User>(value: User(name: ""))
     private let disposeBag = DisposeBag()
@@ -97,7 +97,9 @@ class Repository: NSObject {
         self.session.accept(session)
         
         db.updateSession(session)
-        db.loadMoments { moments in
+        let date = Date()
+        let yearMonth = String(format: "%04d%02d", date.year, date.month)
+        db.loadMoments(month: yearMonth) { moments in
             if moments.isEmpty {
                 // UserDefaults 정보 있을 경우 업데이트
                 if !self.moments.value.isEmpty {

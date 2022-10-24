@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AuthenticationServices
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -36,6 +37,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let currentTimeString = formatter.string(from: Date())
             if paintTimeString != currentTimeString {
                 Route.pushVC(.selectStatusVC, from: paintListVC)
+            }
+        }
+        
+        // 애플 로그인 만료된 경우 로그인 화면으로 이동
+        if let identifier = Repository.instance.session.value?.identifier,
+           let identifierData = Data(base64Encoded: identifier),
+           let userId = String(data: identifierData, encoding: .utf8),
+           let topVC = UIApplication.topViewController() {
+            
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            appleIDProvider.getCredentialState(forUserID: userId) { (credentialState, error) in
+                if credentialState == .revoked {
+                    Repository.instance.closeSession()
+                    DispatchQueue.main.async {
+                        Route.pushVC(.loginVC, from: topVC)
+                    }
+                }
             }
         }
     }
