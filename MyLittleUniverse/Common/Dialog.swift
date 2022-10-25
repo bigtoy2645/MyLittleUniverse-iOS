@@ -127,4 +127,20 @@ class Dialog {
         
         viewController.present(alertVC, animated: false)
     }
+    
+    /* 네트워크 연결 실패 */
+    static func presentNetworkFailure(_ viewController: UIViewController) {
+        guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
+        
+        alertVC.modalPresentationStyle = .overFullScreen
+        let alert = Alert(title: "네트워크 연결에 실패하였습니다.\n잠시 후 다시 시도해주세요.",
+                          imageName: "Caution_32",
+                          runButtonTitle: "확인")
+        alertVC.vm.alert.accept(alert)
+        alertVC.addRunButton(color: .mainBlack) {
+            viewController.dismiss(animated: false)
+        }
+        
+        viewController.present(alertVC, animated: false)
+    }
 }

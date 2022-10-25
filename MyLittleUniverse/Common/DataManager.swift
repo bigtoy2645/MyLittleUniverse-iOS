@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import SystemConfiguration
+
 import FirebaseDatabase
 import RxSwift
 import RxCocoa
@@ -13,6 +15,30 @@ import RxCocoa
 class DataManager: NSObject {
     var session: Session?
     private let disposeBag = DisposeBag()
+    
+    /* 네트워크 체크 */
+    static func isNetworkConnected() -> Bool {
+        var sockAddress = sockaddr_in()
+        sockAddress.sin_len = UInt8(MemoryLayout.size(ofValue: sockAddress))
+        sockAddress.sin_family = sa_family_t(AF_INET)
+        
+        guard let defaultRouteReachability = withUnsafePointer(to: &sockAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                SCNetworkReachabilityCreateWithAddress(nil, $0)
+            }
+        }) else {
+            return false
+        }
+        
+        var flags = SCNetworkReachabilityFlags()
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
+            return false
+        }
+        
+        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
+        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        return (isReachable && !needsConnection)
+    }
     
     /* 사용자명 불러오기 */
     func loadUserName(completion: ((String?) -> Void)?) {
@@ -23,6 +49,11 @@ class DataManager: NSObject {
             completion?(snapshot.value as? String)
         }
     }
+    
+    /// TODO
+    /// 총 감정 개수 업데이트 : 추가 :+1, 삭제:-1
+    /// 나의 세계 감정들 업데이트 : words/자신하는 +2
+    /// 꾸미기/삭제 시 데이터 추가/삭제
     
     /* 감정 정보 불러오기 */
     func loadMoments(month: String, completion: (([Moment]) -> Void)?) {
@@ -48,6 +79,16 @@ class DataManager: NSObject {
                 }
             }
             completion?(moments)
+        }
+    }
+    
+    /* 총 감정 개수 불러오기 */
+    func loadMomentCount(completion: ((Int?) -> Void)?) {
+        guard let session = session else { return }
+        
+        let ref = Database.database().reference()
+        ref.child("users/\(session.identifier)/momentCount").observeSingleEvent(of: .value) { snapshot in
+            completion?(snapshot.value as? Int)
         }
     }
     
