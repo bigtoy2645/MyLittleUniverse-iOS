@@ -17,6 +17,14 @@ struct Moment: Codable {
     var textColor: Int = 0x000000
     var imageData: Data
     var bgColor: Int = 0xFFECC7
+    
+    func jsonString() -> String? {
+        let encoder = JSONEncoder()
+        if let jsonData = try? encoder.encode(self) {
+           return String(data: jsonData, encoding: .utf8)
+        }
+        return nil
+    }
 }
 
 extension Moment: Equatable {

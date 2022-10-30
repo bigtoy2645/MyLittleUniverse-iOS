@@ -40,29 +40,40 @@ class DataManager: NSObject {
         return (isReachable && !needsConnection)
     }
     
-    /* 사용자명 불러오기 */
-    func loadUserName(completion: ((String?) -> Void)?) {
-        guard let session = session else { return }
+    /* Database Reference */
+    func refChild() -> DatabaseReference? {
+        guard let session = session else { return nil }
         
         let ref = Database.database().reference()
-        ref.child("users/\(session.identifier)/name").observeSingleEvent(of: .value) { snapshot in
+        return ref.child("users/\(session.identifier)")
+    }
+    
+    /* Database Reference */
+    func refChild(_ subPath: String) -> DatabaseReference? {
+        guard let session = session else { return nil }
+        
+        let ref = Database.database().reference()
+        return ref.child("users/\(session.identifier)/\(subPath)")
+    }
+    
+    /* Moment Reference 경로 */
+    func childPath(moment: Moment) -> String {
+        let yearMonth = String(format: "%04d%02d", moment.year, moment.month)
+        return "moments/\(yearMonth)/\(Int(moment.timeStamp))-\(moment.emotion.word)"
+    }
+    
+    /* 사용자명 불러오기 */
+    func loadUserName(completion: ((String?) -> Void)?) {
+        refChild("name")?.observeSingleEvent(of: .value) { snapshot in
             completion?(snapshot.value as? String)
         }
     }
     
-    /// TODO
-    /// 총 감정 개수 업데이트 : 추가 :+1, 삭제:-1
-    /// 나의 세계 감정들 업데이트 : words/자신하는 +2
-    /// 꾸미기/삭제 시 데이터 추가/삭제
-    
     /* 감정 정보 불러오기 */
     func loadMoments(month: String, completion: (([Moment]) -> Void)?) {
-        guard let session = session else { return }
-        
-        let ref = Database.database().reference()
         // 단일 응답 크기 제한 : 256MB
         // 단일 쓰기 크기 제한 : 16MB
-        ref.child("users/\(session.identifier)/moments/\(month)").observeSingleEvent(of: .value) { snapshot in
+        refChild("moments/\(month)")?.observeSingleEvent(of: .value) { snapshot in
             guard let dateValues = snapshot.value as? Dictionary<String, String> else {
                 completion?([])
                 return
@@ -83,49 +94,70 @@ class DataManager: NSObject {
     }
     
     /* 총 감정 개수 불러오기 */
-    func loadMomentCount(completion: ((Int?) -> Void)?) {
-        guard let session = session else { return }
-        
-        let ref = Database.database().reference()
-        ref.child("users/\(session.identifier)/momentCount").observeSingleEvent(of: .value) { snapshot in
-            completion?(snapshot.value as? Int)
+    func loadMomentCount(completion: ((Int) -> Void)?) {
+        refChild("momentCount")?.observeSingleEvent(of: .value) { snapshot in
+            completion?(snapshot.value as? Int ?? 0)
+        }
+    }
+    
+    /* 감정 개수 읽기 */
+    func loadWordCount(_ word: String, completion: ((Int) -> Void)?) {
+        refChild("words/\(word)")?.observeSingleEvent(of: .value) { snapshot in
+            completion?(snapshot.value as? Int ?? 0)
         }
     }
     
     /* 세션 정보 업데이트 */
-    func updateSession(_ session: Session) {
-        let ref = Database.database().reference()
-        
-        let refLoginDate = ref.child("users/\(session.identifier)/lastLogin")
-        let lastLoginDate = Date().timeIntervalSinceReferenceDate
-        refLoginDate.setValue(lastLoginDate)
+    func updateSession(_ session: Session?) {
         self.session = session
+        if let refLoginDate = refChild("lastLogin"), session != nil {
+            let lastLoginDate = Date().timeIntervalSinceReferenceDate
+            refLoginDate.setValue(lastLoginDate)
+        }
     }
     
     /* 사용자명 업데이트 */
     func updateUserName(_ name: String) {
-        guard let session = session else { return }
-        
-        let ref = Database.database().reference()
-        let refUser = ref.child("users/\(session.identifier)/name")
-        refUser.setValue(name)
+        refChild("name")?.setValue(name)
     }
     
-    /* 감정 정보 업데이트 */
-    func updateMoments(_ moments: [Moment]) {
-        guard let session = session else { return }
+    /* 감정 추가 */
+    func addMoment(_ moment: Moment, completion: ((Bool) -> Void)? = nil) {
+        guard let ref = refChild(),
+              let jsonString = moment.jsonString() else {
+            completion?(false)
+            return
+        }
         
-        let ref = Database.database().reference()
-        let encoder = JSONEncoder()
+        let word = moment.emotion.word
+        let momentKey = childPath(moment: moment)
         
-        for moment in moments {
-            if let jsonData = try? encoder.encode(moment),
-               let jsonString = String(data: jsonData, encoding: .utf8) {
-                let yearMonth = String(format: "%04d%02d", moment.year, moment.month)
-                let momentPath = "users/\(session.identifier)/moments/\(yearMonth)/\(Int(moment.timeStamp))-\(moment.emotion.word)"
-                let refMoments = ref.child(momentPath)
-                refMoments.setValue(jsonString)
-            }
+        let updates = [
+          "words/\(word)": ServerValue.increment(1),    // 단어
+          "momentCount": ServerValue.increment(1),      // 감정 총 개수
+          momentKey: jsonString,                        // 감정
+        ] as [String : Any]
+        
+        ref.updateChildValues(updates) { error, _ in
+            completion?(error == nil)
+        }
+    }
+    
+    /* 감정 삭제 */
+    func removeMoment(_ moment: Moment, completion: ((Bool) -> Void)? = nil) {
+        guard let ref = refChild() else { return }
+        
+        let word = moment.emotion.word
+        let momentKey = childPath(moment: moment)
+        
+        let updates = [
+          "words/\(word)": ServerValue.increment(-1),   // 단어
+          "momentCount": ServerValue.increment(-1),     // 감정 총 개수
+          momentKey: NSNull(),                          // 감정
+        ] as [String : Any]
+        
+        ref.updateChildValues(updates) { error, _ in
+            completion?(error == nil)
         }
     }
 }

@@ -65,26 +65,37 @@ class Repository: NSObject {
         session
             .subscribe(onNext: { [weak self] in
                 self?.saveData(data: $0, key: Key.session.rawValue)
+                self?.db.updateSession($0)
             })
             .disposed(by: disposeBag)
     }
     
     /* 감정 추가 */
-    func add(moment: Moment) {
-        var newMoments = moments.value
-        if let momentIndex = newMoments.firstIndex(of: moment) {
-            newMoments[momentIndex] = moment
-        } else {
-            newMoments.append(moment)
+    func add(moment: Moment, completion: ((Bool) -> Void)?) {
+        db.addMoment(moment) { result in
+            if result {
+                var newMoments = self.moments.value
+                if let momentIndex = newMoments.firstIndex(of: moment) {
+                    newMoments[momentIndex] = moment
+                } else {
+                    newMoments.append(moment)
+                }
+                self.moments.accept(newMoments)
+            }
+            completion?(result)
         }
-        moments.accept(newMoments)
     }
     
     /* 감정 삭제 */
-    func remove(moment: Moment) {
-        var newMoments = moments.value
-        newMoments = newMoments.filter { $0 != moment }
-        moments.accept(newMoments)
+    func remove(moment: Moment, completion: ((Bool) -> Void)?) {
+        db.removeMoment(moment) { result in
+            if result {
+                var newMoments = self.moments.value
+                newMoments = newMoments.filter { $0 != moment }
+                self.moments.accept(newMoments)
+            }
+            completion?(result)
+        }
     }
     
     /* 사용자 이름 등록 */
@@ -96,15 +107,12 @@ class Repository: NSObject {
     func openSession(_ session: Session) {
         self.session.accept(session)
         
-        db.updateSession(session)
         let date = Date()
         let yearMonth = String(format: "%04d%02d", date.year, date.month)
         db.loadMoments(month: yearMonth) { moments in
             if moments.isEmpty {
                 // UserDefaults 정보 있을 경우 업데이트
-                if !self.moments.value.isEmpty {
-                    self.db.updateMoments(self.moments.value)
-                }
+                self.moments.value.forEach { self.db.addMoment($0) }
             } else {
                 self.moments.accept(moments)
             }

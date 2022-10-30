@@ -163,8 +163,14 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegateFlowLayout, 
         
         btnSaveAll.rx.tap
             .bind {
+                if !DataManager.isNetworkConnected() {
+                    Dialog.presentNetworkFailure(self)
+                    return
+                }
                 if self.vm.moments.value.count == self.vm.emotions.value.count {
-                    self.presentSavedAlert()
+                    DispatchQueue.global().async {
+                        self.saveMoments()
+                    }
                 } else {
                     guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
                     
@@ -176,7 +182,9 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegateFlowLayout, 
                     alertVC.addCancelButton() { self.dismiss(animated: false) }
                     alertVC.addRunButton(color: UIColor.mainBlack) {
                         self.dismiss(animated: false)
-                        self.presentSavedAlert()
+                        DispatchQueue.global().async {
+                            self.saveMoments()
+                        }
                     }
                     alertVC.modalPresentationStyle = .overFullScreen
                     self.present(alertVC, animated: false)
@@ -278,10 +286,43 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegateFlowLayout, 
         self.present(alertVC, animated: false)
     }
     
-    /* 감정 저장 다이얼로그 */
-    func presentSavedAlert() {
-        self.vm.moments.value.forEach { Repository.instance.add(moment: $0) }
+    /* 감정 저장 */
+    func saveMoments() {
+        let group = DispatchGroup()
+        var allSaved = true
+        var hasSaved = false
+        let savedIndex = vm.savedIndex.value
+        for (index, moment) in self.vm.moments.value.enumerated() {
+            if index <= savedIndex { continue }
+            group.enter()
+            Repository.instance.add(moment: moment) { result in
+                if result {
+                    self.vm.savedIndex.accept(index)
+                    hasSaved = true
+                }
+                group.leave()
+            }
+            
+            // 저장될 때까지 대기
+            let waitResult = group.wait(timeout: .now() + 10)
+            if hasSaved == false || waitResult == .timedOut {
+                allSaved = false
+                break
+            }
+        }
         
+        DispatchQueue.main.async {
+            if !allSaved {
+                Dialog.presentTempError(self)
+                return
+            }
+            
+            self.presentAllSaved()
+        }
+    }
+    
+    /* 감정 저장 다이얼로그 */
+    func presentAllSaved() {
         guard let alertToast = Route.getVC(.alertVC) as? AlertVC else { return }
         
         let alert = Alert(title: "오늘의 감정이 모두 저장되었습니다.", imageName: "Union")

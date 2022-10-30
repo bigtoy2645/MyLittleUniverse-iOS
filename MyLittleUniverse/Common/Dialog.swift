@@ -46,6 +46,11 @@ class Dialog {
     
     /* 삭제 전 */
     static func presentRemove(_ viewController: UIViewController, moment: Moment, completion: (() -> Void)? = nil) {
+        if !DataManager.isNetworkConnected() {
+            Dialog.presentNetworkFailure(viewController)
+            return
+        }
+        
         guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
         
         alertVC.modalPresentationStyle = .overFullScreen
@@ -58,8 +63,13 @@ class Dialog {
         }
         alertVC.addRunButton(color: UIColor.errorRed) {
             viewController.dismiss(animated: false)
-            Repository.instance.remove(moment: moment)
-            Dialog.presentRemoveToast(viewController, completion: completion)
+            Repository.instance.remove(moment: moment) { result in
+                if result {
+                    Dialog.presentRemoveToast(viewController, completion: completion)
+                } else {
+                    Dialog.presentTempError(viewController)
+                }
+            }
         }
         
         viewController.present(alertVC, animated: false)
@@ -134,6 +144,22 @@ class Dialog {
         
         alertVC.modalPresentationStyle = .overFullScreen
         let alert = Alert(title: "네트워크 연결에 실패하였습니다.\n잠시 후 다시 시도해주세요.",
+                          imageName: "Caution_32",
+                          runButtonTitle: "확인")
+        alertVC.vm.alert.accept(alert)
+        alertVC.addRunButton(color: .mainBlack) {
+            viewController.dismiss(animated: false)
+        }
+        
+        viewController.present(alertVC, animated: false)
+    }
+    
+    /* 일시적 오류 발생 */
+    static func presentTempError(_ viewController: UIViewController) {
+        guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
+        
+        alertVC.modalPresentationStyle = .overFullScreen
+        let alert = Alert(title: "일시적인 오류가 발생하였습니다.\n잠시 후 다시 시도해주세요.",
                           imageName: "Caution_32",
                           runButtonTitle: "확인")
         alertVC.vm.alert.accept(alert)
