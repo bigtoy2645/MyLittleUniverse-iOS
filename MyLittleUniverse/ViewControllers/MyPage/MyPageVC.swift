@@ -120,8 +120,8 @@ class MyPageVC: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        Repository.instance.moments
-            .map { String($0.count) }
+        Repository.instance.momentsCount
+            .map { String($0) }
             .bind(to: btnCount.rx.title(for: .normal))
             .disposed(by: disposeBag)
         

@@ -13,6 +13,7 @@ class Repository: NSObject {
     static let instance = Repository()
     
     public private(set) var userName: String = ""
+    public private(set) var momentsCount = BehaviorRelay<Int>(value: 0)
     public private(set) var moments = BehaviorRelay<[Moment]>(value: [])
     public private(set) var session = BehaviorRelay<Session?>(value: nil)
     
@@ -61,6 +62,12 @@ class Repository: NSObject {
             .subscribe(onNext: isMonthEmpty.accept(_:))
             .disposed(by: disposeBag)
         
+        _ = momentsCount
+            .subscribe(onNext: {
+                UserDefaults.standard.setValue($0, forKey: Key.momentsCount.rawValue)
+            })
+            .disposed(by: disposeBag)
+        
         // 세션 정보 변경 시 DB에 정보 업데이트 및 불러오기
         session
             .subscribe(onNext: { [weak self] in
@@ -74,6 +81,7 @@ class Repository: NSObject {
     func add(moment: Moment, completion: ((Bool) -> Void)?) {
         db.addMoment(moment) { result in
             if result {
+                self.momentsCount.accept(self.momentsCount.value + 1)
                 var newMoments = self.moments.value
                 if let momentIndex = newMoments.firstIndex(of: moment) {
                     newMoments[momentIndex] = moment
@@ -90,6 +98,7 @@ class Repository: NSObject {
     func remove(moment: Moment, completion: ((Bool) -> Void)?) {
         db.removeMoment(moment) { result in
             if result {
+                self.momentsCount.accept(self.momentsCount.value - 1)
                 var newMoments = self.moments.value
                 newMoments = newMoments.filter { $0 != moment }
                 self.moments.accept(newMoments)
@@ -107,17 +116,22 @@ class Repository: NSObject {
     func openSession(_ session: Session) {
         self.session.accept(session)
         
-        let date = Date()
-        let yearMonth = String(format: "%04d%02d", date.year, date.month)
-        db.loadMoments(month: yearMonth) { moments in
-            if moments.isEmpty {
-                // UserDefaults 정보 있을 경우 업데이트
+        // 이 달 감정 불러오기
+        db.loadMomentCount { count in
+            if count == 0 { // UserDefaults 정보 있을 경우 업데이트
                 self.moments.value.forEach { self.db.addMoment($0) }
+                self.momentsCount.accept(self.moments.value.count)
             } else {
-                self.moments.accept(moments)
+                let date = Date()
+                let yearMonth = String(format: "%04d%02d", date.year, date.month)
+                self.db.loadMoments(month: yearMonth) { moments in
+                    self.moments.accept(moments)
+                }
+                self.momentsCount.accept(count)
             }
         }
         
+        // 사용자명 불러오기
         db.loadUserName { userName in
             if let userName = userName {
                 self.user.accept(User(name: userName))
@@ -142,6 +156,7 @@ class Repository: NSObject {
     enum Key: String {
         case user = "User"
         case moments = "Moments"
+        case momentsCount = "MomentsCount"
         case session = "Session"
     }
     
@@ -170,6 +185,10 @@ class Repository: NSObject {
                let momentsData = try? decoder.decode([Moment].self, from: jsonData) {
                 moments.accept(momentsData)
             }
+        }
+        // 감정 개수
+        if let momentsCountValue = userDefaults.value(forKey: Key.momentsCount.rawValue) as? Int {
+            momentsCount.accept(momentsCountValue)
         }
     }
     
