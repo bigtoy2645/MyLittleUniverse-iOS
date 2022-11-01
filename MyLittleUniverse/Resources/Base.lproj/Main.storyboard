@@ -1350,6 +1350,9 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="XHU-6r-pW4">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="C8a-vK-Q6k"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1357,12 +1360,15 @@
                             <constraint firstItem="hWd-HO-u6l" firstAttribute="leading" secondItem="C8a-vK-Q6k" secondAttribute="leading" id="1UH-ZV-VXX"/>
                             <constraint firstAttribute="bottom" secondItem="hWd-HO-u6l" secondAttribute="bottom" id="3Se-eq-Ufq"/>
                             <constraint firstItem="hWd-HO-u6l" firstAttribute="top" secondItem="C8a-vK-Q6k" secondAttribute="top" id="Pv9-eL-wbJ"/>
+                            <constraint firstItem="XHU-6r-pW4" firstAttribute="centerX" secondItem="IPM-zr-inl" secondAttribute="centerX" id="axc-Bf-SK1"/>
+                            <constraint firstItem="XHU-6r-pW4" firstAttribute="centerY" secondItem="IPM-zr-inl" secondAttribute="centerY" id="mNj-0J-VXg"/>
                             <constraint firstItem="hWd-HO-u6l" firstAttribute="trailing" secondItem="C8a-vK-Q6k" secondAttribute="trailing" id="nXv-Z6-Uq6"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lF4-Ja-lff"/>
                     <connections>
                         <outlet property="btnBack" destination="XxJ-NP-BHa" id="KEW-bP-du9"/>
+                        <outlet property="indicator" destination="XHU-6r-pW4" id="xVh-4G-2qY"/>
                         <outlet property="tblWords" destination="hWd-HO-u6l" id="dtX-v6-Mdy"/>
                     </connections>
                 </viewController>

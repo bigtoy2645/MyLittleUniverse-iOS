@@ -100,7 +100,23 @@ class DataManager: NSObject {
         }
     }
     
-    /* 감정 개수 읽기 */
+    /* 감정 종류 불러오기 */
+    func loadWordList(completion: (([String]) -> Void)?) {
+        refChild("words")?.observeSingleEvent(of: .value) { snapshot in
+            guard let wordValues = snapshot.value as? Dictionary<String, Int> else {
+                completion?([])
+                return
+            }
+            
+            var words: [String] = []
+            for word in wordValues {
+                if word.value > 0 { words.append(word.key) }
+            }
+            completion?(words)
+        }
+    }
+    
+    /* 감정 개수 불러오기 */
     func loadWordCount(_ word: String, completion: ((Int) -> Void)?) {
         refChild("words/\(word)")?.observeSingleEvent(of: .value) { snapshot in
             completion?(snapshot.value as? Int ?? 0)

@@ -151,6 +151,13 @@ class Repository: NSObject {
         session.accept(nil)
     }
     
+    /* 감정 종류 불러오기 */
+    func wordList(completion: (([String]) -> Void)?) {
+        db.loadWordList { words in
+            completion?(words)
+        }
+    }
+    
     // MARK: - UserDefaults Data Processing
     
     enum Key: String {
