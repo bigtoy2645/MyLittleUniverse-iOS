@@ -27,7 +27,7 @@ class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate, UITableViewDe
         setupBindings()
         
         // 감정 단어 불러오기
-        Repository.instance.wordList { words in
+        Repository.instance.db.loadWordList { words in
             self.words.accept(words)
             self.indicator.stopAnimating()
         }

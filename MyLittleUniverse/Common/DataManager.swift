@@ -70,10 +70,11 @@ class DataManager: NSObject {
     }
     
     /* 감정 정보 불러오기 */
-    func loadMoments(month: String, completion: (([Moment]) -> Void)?) {
+    func loadMoments(year: Int, month: Int, completion: (([Moment]) -> Void)?) {
         // 단일 응답 크기 제한 : 256MB
         // 단일 쓰기 크기 제한 : 16MB
-        refChild("moments/\(month)")?.observeSingleEvent(of: .value) { snapshot in
+        let yearMonth = String(format: "%04d%02d", year, month)
+        refChild("moments/\(yearMonth)")?.observeSingleEvent(of: .value) { snapshot in
             guard let dateValues = snapshot.value as? Dictionary<String, String> else {
                 completion?([])
                 return

@@ -21,6 +21,10 @@ class NewMonthVC: UIViewController, UIGestureRecognizerDelegate {
         
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         btnLastMonth.titleLabel?.setUnderline(range: NSRange(location: 0, length: btnLastMonth.currentTitle?.count ?? 0))
+        
+        // 이전 달 정보 삭제
+        let monthlyMoments = Repository.instance.monthlyMoments.value
+        Repository.instance.moments.accept(monthlyMoments)
     }
     
     override func viewDidAppear(_ animated: Bool) {

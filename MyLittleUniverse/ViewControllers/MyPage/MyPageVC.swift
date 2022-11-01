@@ -141,6 +141,22 @@ class MyPageVC: UIViewController {
         cardVC?.height
             .bind(to: cardViewHeight.rx.constant)
             .disposed(by: disposeBag)
+        
+        viewModel.currentPage
+            .bind { date in
+                let oldMoments = self.viewModel.moments.value
+                let currentPageMoments = oldMoments.filter { ($0.year == date.year) && ($0.month == date.month) }
+                if currentPageMoments.count == 0 {
+                    Repository.instance.db.loadMoments(year: date.year, month: date.month) { moments in
+                        if !moments.isEmpty {
+                            var newMoments = oldMoments
+                            newMoments.append(contentsOf: moments)
+                            Repository.instance.moments.accept(newMoments)
+                        }
+                    }
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     /* 달력 설정 */
@@ -201,7 +217,6 @@ class MyPageVC: UIViewController {
            page.timeIntervalSinceReferenceDate > installMonth.timeIntervalSinceReferenceDate {
             calendar.setCurrentPage(page, animated: true)
             calendar.select(page)
-            viewModel.currentPage.accept(page)
         }
     }
     

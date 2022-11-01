@@ -15,13 +15,14 @@ class Repository: NSObject {
     public private(set) var userName: String = ""
     public private(set) var momentsCount = BehaviorRelay<Int>(value: 0)
     public private(set) var moments = BehaviorRelay<[Moment]>(value: [])
+    public private(set) var monthlyMoments = BehaviorRelay<[Moment]>(value: [])
     public private(set) var session = BehaviorRelay<Session?>(value: nil)
     
     public private(set) var isEmpty = BehaviorRelay<Bool>(value: true)
     public private(set) var isMonthEmpty = BehaviorRelay<Bool>(value: true)
     public private(set) var isLogin = BehaviorRelay<Bool>(value: false)
     
-    private let db = DataManager()
+    let db = DataManager()
     private var user = BehaviorRelay<User>(value: User(name: ""))
     private let disposeBag = DisposeBag()
     
@@ -50,15 +51,20 @@ class Repository: NSObject {
             })
             .disposed(by: disposeBag)
         
-        moments.map { $0.isEmpty }
+        momentsCount.map { $0 == 0 }
             .subscribe(onNext: isEmpty.accept(_:))
             .disposed(by: disposeBag)
         
         moments
             .map {
                 let date = Date()
-                return $0.filter({ ($0.year == date.year) && ($0.month == date.month) }).isEmpty
+                return $0.filter({ ($0.year == date.year) && ($0.month == date.month) })
             }
+            .subscribe(onNext: monthlyMoments.accept(_:))
+            .disposed(by: disposeBag)
+        
+        monthlyMoments
+            .map { $0.isEmpty }
             .subscribe(onNext: isMonthEmpty.accept(_:))
             .disposed(by: disposeBag)
         
@@ -71,8 +77,10 @@ class Repository: NSObject {
         // 세션 정보 변경 시 DB에 정보 업데이트 및 불러오기
         session
             .subscribe(onNext: { [weak self] in
-                self?.saveData(data: $0, key: Key.session.rawValue)
-                self?.db.updateSession($0)
+                guard let self = self else { return }
+                
+                self.saveData(data: $0, key: Key.session.rawValue)
+                self.db.updateSession($0)
             })
             .disposed(by: disposeBag)
     }
@@ -113,49 +121,60 @@ class Repository: NSObject {
     }
     
     /* 로그인 */
-    func openSession(_ session: Session) {
+    func openSession(_ session: Session, completion: (() -> Void)?) {
         self.session.accept(session)
         
+        let group = DispatchGroup()
+        // 감정, 사용자명 불러올 때까지 대기
         // 이 달 감정 불러오기
+        group.enter()
         db.loadMomentCount { count in
             if count == 0 { // UserDefaults 정보 있을 경우 업데이트
                 self.moments.value.forEach { self.db.addMoment($0) }
                 self.momentsCount.accept(self.moments.value.count)
-            } else {
+                group.leave()
+            } else if count != self.momentsCount.value {
                 let date = Date()
-                let yearMonth = String(format: "%04d%02d", date.year, date.month)
-                self.db.loadMoments(month: yearMonth) { moments in
-                    self.moments.accept(moments)
-                }
                 self.momentsCount.accept(count)
+                self.db.loadMoments(year: date.year, month: date.month) { moments in
+                    var newMoments = self.moments.value.filter { ($0.year != date.year) || ($0.month != date.month) }
+                    newMoments.append(contentsOf: moments)
+                    self.moments.accept(newMoments)
+                    group.leave()
+                }
+            } else {
+                group.leave()
             }
         }
         
         // 사용자명 불러오기
-        db.loadUserName { userName in
-            if let userName = userName {
-                self.user.accept(User(name: userName))
-            } else {
-                // UserDefaults 정보 있을 경우 업데이트
-                if !self.userName.isEmpty {
-                    self.db.updateUserName(self.userName)
+        if userName.isEmpty {
+            group.enter()
+            self.db.loadUserName { userName in
+                if let userName = userName {
+                    self.user.accept(User(name: userName))
+                } else {
+                    // UserDefaults 정보 있을 경우 업데이트
+                    if !self.userName.isEmpty {
+                        self.db.updateUserName(self.userName)
+                    }
                 }
+                group.leave()
             }
+        }
+        
+        // 대기
+        if completion != nil {
+            _ = group.wait(timeout: .now() + 10)
+            completion?()
         }
     }
     
     /* 로그아웃 */
     func closeSession() {
-        //user.accept(User(name: ""))
-        //moments.accept([])
+        user.accept(User(name: ""))
+        moments.accept([])
         session.accept(nil)
-    }
-    
-    /* 감정 종류 불러오기 */
-    func wordList(completion: (([String]) -> Void)?) {
-        db.loadWordList { words in
-            completion?(words)
-        }
     }
     
     // MARK: - UserDefaults Data Processing
@@ -176,7 +195,7 @@ class Repository: NSObject {
         if let jsonString = userDefaults.value(forKey: Key.session.rawValue) as? String {
             if let jsonData = jsonString.data(using: .utf8),
                let userData = try? decoder.decode(Session.self, from: jsonData) {
-                session.accept(userData)
+                openSession(userData, completion: nil)
             }
         }
         // 닉네임
@@ -196,6 +215,8 @@ class Repository: NSObject {
         // 감정 개수
         if let momentsCountValue = userDefaults.value(forKey: Key.momentsCount.rawValue) as? Int {
             momentsCount.accept(momentsCountValue)
+        } else {
+            momentsCount.accept(moments.value.count)
         }
     }
     

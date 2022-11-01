@@ -22,8 +22,10 @@ class LoginVC: UIViewController, UIGestureRecognizerDelegate {
         appleLogin.configure {
             // 기존 사용자 : 연결 완료 후, 등록 화면으로 이동
             // 신규 사용자 : 연결 완료 후, 이름 설정 화면으로 이동
-            let nextVC = Route.getVC(.nameVC)
-            self.navigationController?.pushViewController(nextVC, animated: false)
+            DispatchQueue.main.async {
+                let nextVC = Route.getVC(.nameVC)
+                self.navigationController?.pushViewController(nextVC, animated: false)
+            }
         }
         
         setupBindings()

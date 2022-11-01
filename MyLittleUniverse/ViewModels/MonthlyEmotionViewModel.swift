@@ -23,12 +23,8 @@ class MonthlyEmotionViewModel {
     init(emotion: Emotion) {
         let date = Date()
         
-        Repository.instance.moments
-            .map { $0.filter {
-                $0.year == $0.year &&
-                $0.month == date.month &&
-                $0.emotion == emotion }
-            }
+        Repository.instance.monthlyMoments
+            .map { $0.filter { $0.emotion == emotion } }
             .subscribe(onNext: moments.accept(_:))
             .disposed(by: disposeBag)
         

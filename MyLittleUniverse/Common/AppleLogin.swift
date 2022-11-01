@@ -40,9 +40,13 @@ class AppleLogin: NSObject, ASAuthorizationControllerDelegate {
         NSLog("Apple login completed. identifier = \(userIdentifier)")
         
         if let identifierData = userIdentifier.data(using: .utf8) {
-            Repository.instance.openSession(Session(identifier: identifierData.base64EncodedString()))
+            DispatchQueue.global().async {
+                Repository.instance.openSession(Session(identifier: identifierData.base64EncodedString())) {
+                    self.completion?()
+                }
+            }
+        } else {
+            completion?()
         }
-        
-        completion?()
     }
 }
