@@ -42,6 +42,9 @@ class Repository: NSObject {
             .subscribe(onNext: { [weak self] in
                 self?.saveData(data: $0, key: Key.user.rawValue)
                 self?.userName = $0.name
+                if !$0.name.isEmpty {
+                    self?.db.updateUserName($0.name)
+                }
             })
             .disposed(by: disposeBag)
         
@@ -80,7 +83,6 @@ class Repository: NSObject {
                 guard let self = self else { return }
                 
                 self.saveData(data: $0, key: Key.session.rawValue)
-                self.db.updateSession($0)
             })
             .disposed(by: disposeBag)
     }
@@ -122,6 +124,7 @@ class Repository: NSObject {
     
     /* 로그인 */
     func openSession(_ session: Session, completion: (() -> Void)?) {
+        db.updateSession(session)
         self.session.accept(session)
         
         let group = DispatchGroup()
@@ -148,19 +151,17 @@ class Repository: NSObject {
         }
         
         // 사용자명 불러오기
-        if userName.isEmpty {
-            group.enter()
-            self.db.loadUserName { userName in
-                if let userName = userName {
-                    self.user.accept(User(name: userName))
-                } else {
-                    // UserDefaults 정보 있을 경우 업데이트
-                    if !self.userName.isEmpty {
-                        self.db.updateUserName(self.userName)
-                    }
+        group.enter()
+        db.loadUserName { userName in
+            if let userName = userName, self.userName != userName {
+                self.user.accept(User(name: userName))
+            } else {
+                // UserDefaults 정보 있을 경우 업데이트
+                if !self.userName.isEmpty {
+                    self.db.updateUserName(self.userName)
                 }
-                group.leave()
             }
+            group.leave()
         }
         
         // 대기
@@ -195,7 +196,9 @@ class Repository: NSObject {
         if let jsonString = userDefaults.value(forKey: Key.session.rawValue) as? String {
             if let jsonData = jsonString.data(using: .utf8),
                let userData = try? decoder.decode(Session.self, from: jsonData) {
-                openSession(userData, completion: nil)
+                DispatchQueue.global().async {
+                    self.openSession(userData, completion: nil)
+                }
             }
         }
         // 닉네임

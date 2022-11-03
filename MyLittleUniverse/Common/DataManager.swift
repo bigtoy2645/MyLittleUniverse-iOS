@@ -7,14 +7,11 @@
 
 import Foundation
 import SystemConfiguration
-
 import FirebaseDatabase
-import RxSwift
-import RxCocoa
 
 class DataManager: NSObject {
     var session: Session?
-    private let disposeBag = DisposeBag()
+    let ref = Database.database().reference()
     
     /* 네트워크 체크 */
     static func isNetworkConnected() -> Bool {
@@ -44,7 +41,6 @@ class DataManager: NSObject {
     func refChild() -> DatabaseReference? {
         guard let session = session else { return nil }
         
-        let ref = Database.database().reference()
         return ref.child("users/\(session.identifier)")
     }
     
@@ -52,7 +48,6 @@ class DataManager: NSObject {
     func refChild(_ subPath: String) -> DatabaseReference? {
         guard let session = session else { return nil }
         
-        let ref = Database.database().reference()
         return ref.child("users/\(session.identifier)/\(subPath)")
     }
     
@@ -64,7 +59,11 @@ class DataManager: NSObject {
     
     /* 사용자명 불러오기 */
     func loadUserName(completion: ((String?) -> Void)?) {
-        refChild("name")?.observeSingleEvent(of: .value) { snapshot in
+        guard let ref = refChild("name") else {
+            completion?(nil)
+            return
+        }
+        ref.observeSingleEvent(of: .value) { snapshot in
             completion?(snapshot.value as? String)
         }
     }
@@ -74,7 +73,12 @@ class DataManager: NSObject {
         // 단일 응답 크기 제한 : 256MB
         // 단일 쓰기 크기 제한 : 16MB
         let yearMonth = String(format: "%04d%02d", year, month)
-        refChild("moments/\(yearMonth)")?.observeSingleEvent(of: .value) { snapshot in
+        guard let refChild = refChild("moments/\(yearMonth)") else {
+            completion?([])
+            return
+        }
+        
+        refChild.observeSingleEvent(of: .value) { snapshot in
             guard let dateValues = snapshot.value as? Dictionary<String, String> else {
                 completion?([])
                 return
@@ -96,14 +100,24 @@ class DataManager: NSObject {
     
     /* 총 감정 개수 불러오기 */
     func loadMomentCount(completion: ((Int) -> Void)?) {
-        refChild("momentCount")?.observeSingleEvent(of: .value) { snapshot in
+        guard let refChild = refChild("momentCount") else {
+            completion?(0)
+            return
+        }
+        
+        refChild.observeSingleEvent(of: .value) { snapshot in
             completion?(snapshot.value as? Int ?? 0)
         }
     }
     
     /* 감정 종류 불러오기 */
     func loadWordList(completion: (([String]) -> Void)?) {
-        refChild("words")?.observeSingleEvent(of: .value) { snapshot in
+        guard let refChild = refChild("words") else {
+            completion?([])
+            return
+        }
+        
+        refChild.observeSingleEvent(of: .value) { snapshot in
             guard let wordValues = snapshot.value as? Dictionary<String, Int> else {
                 completion?([])
                 return
@@ -119,7 +133,12 @@ class DataManager: NSObject {
     
     /* 감정 개수 불러오기 */
     func loadWordCount(_ word: String, completion: ((Int) -> Void)?) {
-        refChild("words/\(word)")?.observeSingleEvent(of: .value) { snapshot in
+        guard let refChild = refChild("words/\(word)") else {
+            completion?(0)
+            return
+        }
+        
+        refChild.observeSingleEvent(of: .value) { snapshot in
             completion?(snapshot.value as? Int ?? 0)
         }
     }
@@ -140,7 +159,7 @@ class DataManager: NSObject {
     
     /* 감정 추가 */
     func addMoment(_ moment: Moment, completion: ((Bool) -> Void)? = nil) {
-        guard let ref = refChild(),
+        guard let refChild = refChild(),
               let jsonString = moment.jsonString() else {
             completion?(false)
             return
@@ -155,14 +174,17 @@ class DataManager: NSObject {
           momentKey: jsonString,                        // 감정
         ] as [String : Any]
         
-        ref.updateChildValues(updates) { error, _ in
+        refChild.updateChildValues(updates) { error, _ in
             completion?(error == nil)
         }
     }
     
     /* 감정 삭제 */
     func removeMoment(_ moment: Moment, completion: ((Bool) -> Void)? = nil) {
-        guard let ref = refChild() else { return }
+        guard let refChild = refChild() else {
+            completion?(false)
+            return
+        }
         
         let word = moment.emotion.word
         let momentKey = childPath(moment: moment)
@@ -173,7 +195,7 @@ class DataManager: NSObject {
           momentKey: NSNull(),                          // 감정
         ] as [String : Any]
         
-        ref.updateChildValues(updates) { error, _ in
+        refChild.updateChildValues(updates) { error, _ in
             completion?(error == nil)
         }
     }
