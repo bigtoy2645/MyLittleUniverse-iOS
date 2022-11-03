@@ -163,8 +163,10 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegateFlowLayout, 
         
         btnSaveAll.rx.tap
             .bind {
+                self.btnSaveAll.isEnabled = false
                 if !DataManager.isNetworkConnected() {
                     Dialog.presentNetworkFailure(self)
+                    self.btnSaveAll.isEnabled = true
                     return
                 }
                 if self.vm.moments.value.count == self.vm.emotions.value.count {
@@ -312,6 +314,7 @@ class PaintEmotionListVC: UIViewController, UICollectionViewDelegateFlowLayout, 
         }
         
         DispatchQueue.main.async {
+            self.btnSaveAll.isEnabled = true
             if !allSaved {
                 Dialog.presentTempError(self)
                 return
