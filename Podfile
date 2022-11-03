@@ -12,4 +12,6 @@ target 'MyLittleUniverse' do
   pod 'Alamofire'
   pod 'FSCalendar'
   pod 'DropDown'
+  
+  pod 'FirebaseDatabase'
 end

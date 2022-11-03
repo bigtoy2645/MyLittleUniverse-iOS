@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 
 class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate {
+    let words = BehaviorRelay<[String]>(value: [])
     let moments = BehaviorRelay<[[String]]>(value: [])
     let consonantList = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"]
     private let disposeBag = DisposeBag()
@@ -24,6 +25,12 @@ class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate, UITableViewDe
         tblWords.delegate = self
         
         setupBindings()
+        
+        // 감정 단어 불러오기
+        Repository.instance.db.loadWordList { words in
+            self.words.accept(words)
+            self.indicator.stopAnimating()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -41,12 +48,12 @@ class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate, UITableViewDe
             }
             .disposed(by: disposeBag)
         
-        Repository.instance.moments
+        words
             .map {
                 var setWords = Set<String>()
                 var section = Array(repeating: [String](), count: self.consonantList.count)
                 
-                $0.forEach { setWords.insert($0.emotion.word) }
+                $0.forEach { setWords.insert($0) }
                 for word in setWords {
                     let index = self.getConsonantIndex(word)
                     section[index].append(word)
@@ -100,4 +107,5 @@ class MyUniverseVC: UIViewController, UIGestureRecognizerDelegate, UITableViewDe
     
     @IBOutlet weak var tblWords: UITableView!
     @IBOutlet weak var btnBack: UIButton!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
 }

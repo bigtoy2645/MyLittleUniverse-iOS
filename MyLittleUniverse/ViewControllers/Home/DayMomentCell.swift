@@ -53,15 +53,11 @@ class DayMomentCell: UICollectionViewCell {
                     DispatchQueue.main.async {
                         Dialog.presentRemove(detailVC, moment: moment) {
                             detailVC.dismiss(animated: false)
-                            guard let navigation = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.rootViewController as? UINavigationController else { return }
+                            guard let rootVC = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.rootViewController else { return }
                             if Repository.instance.isEmpty.value {
-                                if !navigation.popToVC(InitVC.self, animated: true) {
-                                    navigation.pushViewController(Route.getVC(.initVC), animated: false)
-                                }
+                                Route.pushVC(.initVC, from: rootVC)
                             } else if Repository.instance.isMonthEmpty.value {
-                                if !navigation.popToVC(NewMonthVC.self, animated: true) {
-                                    navigation.pushViewController(Route.getVC(.newMonthVC), animated: false)
-                                }
+                                Route.pushVC(.newMonthVC, from: rootVC)
                             }
                         }
                     }

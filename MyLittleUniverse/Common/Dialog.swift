@@ -16,7 +16,6 @@ class Dialog {
         alertVC.modalPresentationStyle = .overFullScreen
         let alert = Alert(title: "열심히 준비 중입니다.\n업데이트가 완료되면 알려드릴게요!")
         alertVC.vm.alert.accept(alert)
-        alertVC.vm.alert.accept(alert)
         viewController.present(alertVC, animated: false) {
             DispatchQueue.main.async {
                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
@@ -47,6 +46,11 @@ class Dialog {
     
     /* 삭제 전 */
     static func presentRemove(_ viewController: UIViewController, moment: Moment, completion: (() -> Void)? = nil) {
+        if !DataManager.isNetworkConnected() {
+            Dialog.presentNetworkFailure(viewController)
+            return
+        }
+        
         guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
         
         alertVC.modalPresentationStyle = .overFullScreen
@@ -59,8 +63,13 @@ class Dialog {
         }
         alertVC.addRunButton(color: UIColor.errorRed) {
             viewController.dismiss(animated: false)
-            Repository.instance.remove(moment: moment)
-            Dialog.presentRemoveToast(viewController, completion: completion)
+            Repository.instance.remove(moment: moment) { result in
+                if result {
+                    Dialog.presentRemoveToast(viewController, completion: completion)
+                } else {
+                    Dialog.presentTempError(viewController)
+                }
+            }
         }
         
         viewController.present(alertVC, animated: false)
@@ -103,6 +112,59 @@ class Dialog {
                     NSLog("Settings opened: \(success)")
                 })
             }
+        }
+        
+        viewController.present(alertVC, animated: false)
+    }
+    
+    /* 로그아웃 */
+    static func presentLogout(_ viewController: UIViewController, completion: (() -> Void)? = nil) {
+        guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
+        
+        alertVC.modalPresentationStyle = .overFullScreen
+        let alert = Alert(title: "정말 로그아웃 하시겠어요?",
+                          runButtonTitle: "로그아웃",
+                          cancelButtonTitle: "취소")
+        alertVC.vm.alert.accept(alert)
+        alertVC.addCancelButton() {
+            viewController.dismiss(animated: false)
+        }
+        alertVC.addRunButton(color: UIColor.errorRed) {
+            viewController.dismiss(animated: false)
+            Repository.instance.closeSession()
+            Route.pushVC(.loginVC, from: viewController)
+        }
+        
+        viewController.present(alertVC, animated: false)
+    }
+    
+    /* 네트워크 연결 실패 */
+    static func presentNetworkFailure(_ viewController: UIViewController) {
+        guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
+        
+        alertVC.modalPresentationStyle = .overFullScreen
+        let alert = Alert(title: "네트워크 연결에 실패하였습니다.\n잠시 후 다시 시도해주세요.",
+                          imageName: "Caution_32",
+                          runButtonTitle: "확인")
+        alertVC.vm.alert.accept(alert)
+        alertVC.addRunButton(color: .mainBlack) {
+            viewController.dismiss(animated: false)
+        }
+        
+        viewController.present(alertVC, animated: false)
+    }
+    
+    /* 일시적 오류 발생 */
+    static func presentTempError(_ viewController: UIViewController) {
+        guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
+        
+        alertVC.modalPresentationStyle = .overFullScreen
+        let alert = Alert(title: "일시적인 오류가 발생하였습니다.\n잠시 후 다시 시도해주세요.",
+                          imageName: "Caution_32",
+                          runButtonTitle: "확인")
+        alertVC.vm.alert.accept(alert)
+        alertVC.addRunButton(color: .mainBlack) {
+            viewController.dismiss(animated: false)
         }
         
         viewController.present(alertVC, animated: false)

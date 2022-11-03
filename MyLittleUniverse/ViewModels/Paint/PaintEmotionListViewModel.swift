@@ -16,6 +16,7 @@ class PaintEmotionListViewModel {
     let moments = BehaviorRelay<[Moment]>(value: [])
     let saveEnabled = BehaviorRelay<Bool>(value: false)
     let saveAllEnabled = BehaviorRelay<Bool>(value: false)
+    let savedIndex = BehaviorRelay<Int>(value: -1)
     
     private let disposeBag = DisposeBag()
     

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>473547658230-7hsfeljikdbaqv1u5o39a0vmc1skl1uf.apps.googleusercontent.com</string>
+	<string>473547658230-sbcg9jbfgngtl5k98ec8qkcljo32r382.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.473547658230-7hsfeljikdbaqv1u5o39a0vmc1skl1uf</string>
+	<string>com.googleusercontent.apps.473547658230-sbcg9jbfgngtl5k98ec8qkcljo32r382</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCWm1-YigY4QwYXOtjx1xeZeB0PMBkHclQ</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.yurim.MyLittleUniverse</string>
+	<string>com.youyoung.MyLittleUniverse</string>
 	<key>PROJECT_ID</key>
 	<string>my-little-universe</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:473547658230:ios:a253d8e89363618c182dd7</string>
+	<string>1:473547658230:ios:e09334d7b8249469182dd7</string>
 </dict>
 </plist>

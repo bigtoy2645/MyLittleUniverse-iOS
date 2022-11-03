@@ -120,16 +120,18 @@ class MyPageVC: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        Repository.instance.moments
-            .map { String($0.count) }
+        Repository.instance.momentsCount
+            .map { String($0) }
             .bind(to: btnCount.rx.title(for: .normal))
             .disposed(by: disposeBag)
         
-        // 기록 보관하기
-        backUpView.rx
+        // 로그아웃
+        logoutView.rx
             .tapGesture()
             .when(.recognized)
-            .subscribe(onNext: { _ in Dialog.presentTBD(self) })
+            .subscribe(onNext: { _ in
+                Dialog.presentLogout(self)
+            })
             .disposed(by: disposeBag)
         
         viewModel.selectedMoments
@@ -138,6 +140,22 @@ class MyPageVC: UIViewController {
         
         cardVC?.height
             .bind(to: cardViewHeight.rx.constant)
+            .disposed(by: disposeBag)
+        
+        viewModel.currentPage
+            .bind { date in
+                let oldMoments = self.viewModel.moments.value
+                let currentPageMoments = oldMoments.filter { ($0.year == date.year) && ($0.month == date.month) }
+                if currentPageMoments.count == 0 {
+                    Repository.instance.db.loadMoments(year: date.year, month: date.month) { moments in
+                        if !moments.isEmpty {
+                            var newMoments = oldMoments
+                            newMoments.append(contentsOf: moments)
+                            Repository.instance.moments.accept(newMoments)
+                        }
+                    }
+                }
+            }
             .disposed(by: disposeBag)
     }
     
@@ -199,7 +217,6 @@ class MyPageVC: UIViewController {
            page.timeIntervalSinceReferenceDate > installMonth.timeIntervalSinceReferenceDate {
             calendar.setCurrentPage(page, animated: true)
             calendar.select(page)
-            viewModel.currentPage.accept(page)
         }
     }
     
@@ -232,7 +249,7 @@ class MyPageVC: UIViewController {
     @IBOutlet weak var btnLeft: UIButton!
     @IBOutlet weak var btnRight: UIButton!
     @IBOutlet weak var calendar: FSCalendar!
-    @IBOutlet weak var backUpView: UIView!
+    @IBOutlet weak var logoutView: UIView!
     @IBOutlet weak var tabView: TabBarView!
     
     @IBOutlet weak var cardView: UIView!

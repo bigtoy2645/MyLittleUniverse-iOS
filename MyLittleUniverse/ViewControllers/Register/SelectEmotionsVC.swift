@@ -110,11 +110,26 @@ class SelectEmotionsVC: UIViewController,
         // 선택 완료
         btnDone.rx.tap
             .bind {
-                guard let paintListVC = Route.getVC(.paintEmotionListVC) as? PaintEmotionListVC else { return }
-                // 선택한 Emotion 전달
-                paintListVC.vm.timeStamp.accept(self.timeStamp.value)
-                paintListVC.vm.emotions.accept(self.selectedEmotions.value)
-                self.navigationController?.pushViewController(paintListVC, animated: false)
+                if Repository.instance.isLogin.value == false {
+                    guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
+                    
+                    alertVC.modalPresentationStyle = .overFullScreen
+                    let alert = Alert(title: "로그인이 필요한 서비스입니다.\n로그인 후 다시 이용해주세요.",
+                                      runButtonTitle: "확인")
+                    alertVC.vm.alert.accept(alert)
+                    // 로그인 화면으로 이동
+                    alertVC.addRunButton(color: .mainBlack) {
+                        self.dismiss(animated: false)
+                        Route.pushVC(.loginVC, from: self)
+                    }
+                    self.present(alertVC, animated: false)
+                } else {
+                    guard let paintListVC = Route.getVC(.paintEmotionListVC) as? PaintEmotionListVC else { return }
+                    // 선택한 Emotion 전달
+                    paintListVC.vm.timeStamp.accept(self.timeStamp.value)
+                    paintListVC.vm.emotions.accept(self.selectedEmotions.value)
+                    self.navigationController?.pushViewController(paintListVC, animated: false)
+                }
             }
             .disposed(by: disposeBag)
         

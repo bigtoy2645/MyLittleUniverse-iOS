@@ -31,8 +31,7 @@ class MonthlyViewModel {
         let date = Date()
         
         // 이달의 감정 목록
-        Repository.instance.moments
-            .map { $0.filter { ($0.year == date.year) && ($0.month == date.month) } }
+        Repository.instance.monthlyMoments
             .subscribe(onNext: moments.accept(_:))
             .disposed(by: disposeBag)
         

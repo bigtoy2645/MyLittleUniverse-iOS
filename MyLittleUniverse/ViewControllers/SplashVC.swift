@@ -54,7 +54,7 @@ class SplashVC: UIViewController {
     
     /* 다음 화면으로 이동 */
     func pushNextViewController() {
-        let nextVC = Route.getVC(.nickNameVC)
+        let nextVC = Route.getVC(.loginVC)
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
     

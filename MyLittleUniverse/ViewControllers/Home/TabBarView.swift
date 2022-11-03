@@ -47,20 +47,10 @@ class TabBarView: UIView {
                     return
                 }
                 
-                guard let navigation = self.vc?.navigationController else { return }
-                
                 if Repository.instance.isMonthEmpty.value {
-                    if navigation.viewControllers.filter({ $0 is NewMonthVC }).isEmpty {
-                        navigation.pushViewController(Route.getVC(.newMonthVC), animated: false)
-                    } else {
-                        _ = navigation.popToVC(NewMonthVC.self)
-                    }
+                    Route.pushVC(.newMonthVC, from: vc)
                 } else {
-                    if navigation.viewControllers.filter({ $0 is MonthlyVC }).isEmpty {
-                        navigation.pushViewController(Route.getVC(.monthlyVC), animated: false)
-                    } else {
-                        _ = navigation.popToVC(MonthlyVC.self)
-                    }
+                    Route.pushVC(.monthlyVC, from: vc)
                 }
             }
             .disposed(by: disposeBag)
@@ -83,14 +73,7 @@ class TabBarView: UIView {
                     myPageVC.scrollView.setContentOffset(.zero, animated: true)
                     return
                 }
-                
-                guard let navigation = self.vc?.navigationController else { return }
-                
-                if navigation.viewControllers.filter({ $0 is MyPageVC }).isEmpty {
-                    navigation.pushViewController(Route.getVC(.myPageVC), animated: false)
-                } else {
-                    _ = navigation.popToVC(MyPageVC.self)
-                }
+                Route.pushVC(.myPageVC, from: vc)
             }
             .disposed(by: disposeBag)
     }
