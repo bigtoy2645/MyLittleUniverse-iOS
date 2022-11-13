@@ -14,4 +14,5 @@ target 'MyLittleUniverse' do
   pod 'DropDown'
   
   pod 'FirebaseDatabase'
+  pod 'FirebaseAuth'
 end

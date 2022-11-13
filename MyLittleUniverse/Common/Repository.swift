@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import FirebaseAuth
 
 class Repository: NSObject {
     static let instance = Repository()
@@ -176,6 +177,13 @@ class Repository: NSObject {
         user.accept(User(name: ""))
         moments.accept([])
         session.accept(nil)
+        
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
     }
     
     // MARK: - UserDefaults Data Processing
