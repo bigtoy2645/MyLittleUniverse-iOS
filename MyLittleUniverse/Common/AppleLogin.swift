@@ -75,17 +75,18 @@ class AppleLogin: NSObject, ASAuthorizationControllerDelegate {
                 return
             }
             
-            let userIdentifier = appleCredential.user
-            NSLog("Apple login completed. identifier = \(userIdentifier), token = \(idTokenString)")
-            
-            if let identifierData = userIdentifier.data(using: .utf8) {
-                DispatchQueue.global().async {
-                    Repository.instance.openSession(Session(identifier: identifierData.base64EncodedString())) {
-                        self.completion?()
-                    }
-                }
-            } else {
+            guard let currentUser = Auth.auth().currentUser else {
+                NSLog("Firebase authenticated user not found.")
                 self.completion?()
+                return
+            }
+            
+            NSLog("Apple login completed. identifier = \(currentUser.uid), token = \(idTokenString)")
+            
+            DispatchQueue.global().async {
+                Repository.instance.openSession(Session(identifier: currentUser.uid)) {
+                    self.completion?()
+                }
             }
         }
     }
