@@ -199,4 +199,16 @@ class DataManager: NSObject {
             completion?(error == nil)
         }
     }
+    
+    /* 계정 탈퇴 */
+    func removeUser(completion: ((Bool) -> Void)? = nil) {
+        guard let refChild = refChild() else {
+            completion?(false)
+            return
+        }
+        
+        refChild.removeValue { error, _ in
+            completion?(error == nil)
+        }
+    }
 }

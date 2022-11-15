@@ -176,13 +176,23 @@ class Repository: NSObject {
     func closeSession() {
         user.accept(User(name: ""))
         moments.accept([])
+        momentsCount.accept(0)
         session.accept(nil)
         
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
         } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
+            NSLog("Error signing out: %@", signOutError)
+        }
+    }
+    
+    /* 계정 탈퇴 */
+    func resignSession(completion: (() -> Void)?) {
+        closeSession()
+        db.removeUser { result in
+            NSLog("Delete user. Result: \(result)")
+            completion?()
         }
     }
     

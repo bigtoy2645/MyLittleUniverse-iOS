@@ -134,6 +134,15 @@ class MyPageVC: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        // 탈퇴
+        stackResign.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                Dialog.presentResign(self)
+            })
+            .disposed(by: disposeBag)
+        
         viewModel.selectedMoments
             .bind { self.cardVC?.moments.accept($0) }
             .disposed(by: disposeBag)
@@ -250,6 +259,7 @@ class MyPageVC: UIViewController {
     @IBOutlet weak var btnRight: UIButton!
     @IBOutlet weak var calendar: FSCalendar!
     @IBOutlet weak var logoutView: UIView!
+    @IBOutlet weak var stackResign: UIStackView!
     @IBOutlet weak var tabView: TabBarView!
     
     @IBOutlet weak var cardView: UIView!

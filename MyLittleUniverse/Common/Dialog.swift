@@ -138,6 +138,32 @@ class Dialog {
         viewController.present(alertVC, animated: false)
     }
     
+    /* 탈퇴 */
+    static func presentResign(_ viewController: UIViewController, completion: (() -> Void)? = nil) {
+        guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
+        
+        alertVC.modalPresentationStyle = .overFullScreen
+        let alert = Alert(title: "추후 동일한 계정으로 재가입하더라도\n감정 기록 복구가 불가합니다.\n계정을 삭제하시겠어요?",
+                          runButtonTitle: "삭제",
+                          cancelButtonTitle: "취소")
+        alertVC.vm.alert.accept(alert)
+        alertVC.addCancelButton() {
+            viewController.dismiss(animated: false)
+        }
+        alertVC.addRunButton(color: UIColor.errorRed) {
+            viewController.dismiss(animated: false)
+            if !DataManager.isNetworkConnected() {
+                Dialog.presentNetworkFailure(viewController)
+                return
+            }
+            Repository.instance.resignSession {
+                Route.pushVC(.loginVC, from: viewController)
+            }
+        }
+        
+        viewController.present(alertVC, animated: false)
+    }
+    
     /* 네트워크 연결 실패 */
     static func presentNetworkFailure(_ viewController: UIViewController) {
         guard let alertVC = Route.getVC(.alertVC) as? AlertVC else { return }
