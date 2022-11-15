@@ -26,14 +26,14 @@ class ImageSaver: NSObject {
     }
     
     /* 이미지 저장 후 */
-    @objc func imageSaved(image: UIImage, didFinishSavingWithError error: Error, contextInfo: UnsafeMutableRawPointer?) {
-        if error == nil {
-            imageSavedHandler?()
-        } else {
+    @objc func imageSaved(image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
             NSLog("Failed to save image. Error = \(error.localizedDescription)")
             if showSetting, let vc = viewController {
                 Dialog.presentPhotoPermission(vc)
             }
+        } else {
+            imageSavedHandler?()
         }
     }
     
@@ -45,6 +45,6 @@ class ImageSaver: NSObject {
         } else {
             status = PHPhotoLibrary.authorizationStatus()
         }
-        showSetting = status == .notDetermined
+        showSetting = status == .denied
     }
 }
