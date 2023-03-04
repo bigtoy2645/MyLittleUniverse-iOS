@@ -16,7 +16,7 @@ extension UILabel {
         self.attributedText = attributedString
     }
     
-    /* 텍스트 구간 폰트 변경 */
+    /* 텍스트 구간 볼드 폰트 변경 */
     func setBoldFont(_ boldFontName: String, range: NSRange) {
         guard let font = self.font,
               let boldFont = UIFont(name: boldFontName, size: font.pointSize) else {
@@ -52,7 +52,7 @@ extension UILabel {
     func setUnderline(range: NSRange) {
         guard let attributedString = self.mutableAttributedString() else { return }
         
-        attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range: range)
+        attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
         self.attributedText = attributedString
     }
     
