@@ -25,6 +25,8 @@ class PaintVC: UIViewController {
     let canRedo = BehaviorRelay<Bool>(value: false)
     let undoHandler = UndoManager()
     let redoHandler = UndoManager()
+    let textAlignment = BehaviorRelay<NSTextAlignment>(value: .center)
+    let textAlignEdgeImage = BehaviorRelay<UIImage?>(value: .textAlignCenterOff)
     private var lastScale: CGFloat = 1.0
     private var lastSize: CGSize = .zero
     private var lastPoint: CGPoint = .zero
@@ -78,6 +80,21 @@ class PaintVC: UIViewController {
         canRedo.map { $0 ? UIImage.redoOn : UIImage.redoOff }
             .bind(to: btnRedo.rx.image())
             .disposed(by: disposeBag)
+        
+        textAlignment.map {
+            if $0 == .center { return .textAlignCenterOff }
+            else if $0 == .left { return .textAlignLeftOff }
+            else if $0 == .right { return .textAlignRightOff }
+            return .textAlignCenterOff
+        }.bind(to: textAlignEdgeImage)
+            .disposed(by: disposeBag)
+        
+        textAlignment.subscribe(onNext: {
+            if let labelView = self.labelSticker.view as? UILabel {
+                labelView.textAlignment = $0
+                self.edgeView.changeButtonImage(self.textAlignEdgeImage.value, position: .leftBottom)
+            }
+        }).disposed(by: disposeBag)
     }
     
     override func viewDidLayoutSubviews() {
@@ -136,7 +153,7 @@ class PaintVC: UIViewController {
                 if self.oldSticker?.sticker.value.type != stickerType {
                     let rightTopImage: UIImage? = stickerType == .picture ? .editOff : .colorOff
                     self.edgeView.changeButtonImage(rightTopImage, position: .rightTop)
-                    let leftBottomImage: UIImage? = stickerType == .text ? nil : .cloneOff
+                    let leftBottomImage: UIImage? = stickerType == .text ? self.textAlignEdgeImage.value : .cloneOff
                     self.edgeView.changeButtonImage(leftBottomImage, position: .leftBottom)
                 }
                 self.oldSticker = sticker
@@ -547,14 +564,24 @@ extension PaintVC: UIGestureRecognizerDelegate {
             }
         }
         
-        // 스티커 복제
+        // 스티커 복제/텍스트 스티커 정렬 변경
         edgeView.setLeftBottomButton {
             guard let focusSticker = self.vm.focusSticker.value else { return }
-            
-            let centerPos = CGPoint(x: focusSticker.view.center.x + 26,
-                                    y: focusSticker.view.center.y + 26)
-            
-            self.createSticker(focusSticker.sticker.value, size: focusSticker.view.bounds.size, centerPos: centerPos, transform: focusSticker.view.transform)
+            let stickerType = focusSticker.sticker.value.type
+            if stickerType == .text {
+                if self.textAlignment.value == .center {
+                    self.textAlignment.accept(.left)
+                } else if self.textAlignment.value == .left {
+                    self.textAlignment.accept(.right)
+                } else if self.textAlignment.value == .right {
+                    self.textAlignment.accept(.center)
+                }
+            } else {
+                let centerPos = CGPoint(x: focusSticker.view.center.x + 26,
+                                        y: focusSticker.view.center.y + 26)
+                
+                self.createSticker(focusSticker.sticker.value, size: focusSticker.view.bounds.size, centerPos: centerPos, transform: focusSticker.view.transform)
+            }
         }
         
         // 스티커 색상/모양 변경
@@ -698,7 +725,7 @@ extension PaintVC: UIGestureRecognizerDelegate {
             edgeView.transform = .identity
             labelView.numberOfLines = 0
             labelView.textColor = .black
-            labelView.textAlignment = .center
+            labelView.textAlignment = textAlignment.value
             labelView.lineBreakMode = .byClipping
             labelView.isUserInteractionEnabled = true
             labelView.adjustsFontSizeToFitWidth = true
