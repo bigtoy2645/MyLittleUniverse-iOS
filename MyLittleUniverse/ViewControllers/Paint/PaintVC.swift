@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 import RxSwift
 import RxGesture
 import RxCocoa
@@ -27,6 +28,9 @@ class PaintVC: UIViewController {
     let redoHandler = UndoManager()
     let textAlignment = BehaviorRelay<NSTextAlignment>(value: .center)
     let textAlignEdgeImage = BehaviorRelay<UIImage?>(value: .textAlignCenterOff)
+    var horizontalGridLine: UIView!
+    var verticalGridLine: UIView!
+    
     private var lastScale: CGFloat = 1.0
     private var lastSize: CGSize = .zero
     private var lastPoint: CGPoint = .zero
@@ -55,6 +59,16 @@ class PaintVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         initStickerVC()
+        
+        horizontalGridLine = UIView(frame: CGRect(x: 0, y: 0, width: paintView.frame.width, height: 1))
+        verticalGridLine = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: paintView.frame.height))
+        
+        drawDottedLine(view: horizontalGridLine)
+        drawDottedLine(view: verticalGridLine)
+        paintView.addSubview(horizontalGridLine)
+        paintView.addSubview(verticalGridLine)
+        horizontalGridLine.isHidden = true
+        verticalGridLine.isHidden = true
         
         paintView.addSubview(edgeView)
         edgeView.bounds.size = CGSize(width: view.frame.width / 3 + 32,
@@ -526,6 +540,21 @@ class PaintVC: UIViewController {
         canUndo.accept(true)
     }
     
+    /* 그리드 선 그리기 */
+    func drawDottedLine(view: UIView) {
+        let p0 = CGPoint(x: view.bounds.minX, y: view.bounds.minY)
+        let p1 = CGPoint(x: view.bounds.maxX, y: view.bounds.maxY)
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.strokeColor = UIColor.pointPurple.cgColor
+        shapeLayer.lineWidth = 1
+        shapeLayer.lineDashPattern = [5, 5]
+
+        let path = CGMutablePath()
+        path.addLines(between: [p0, p1])
+        shapeLayer.path = path
+        view.layer.addSublayer(shapeLayer)
+    }
+    
     // MARK: - InterfaceBuilder Links
     
     @IBOutlet weak var stackBackground: UIStackView!
@@ -760,15 +789,35 @@ extension PaintVC: UIGestureRecognizerDelegate {
     @objc func handlePanGesture(recognizer: UIPanGestureRecognizer) {
         guard let focusView = recognizer.view else { return }
         let translation = recognizer.translation(in: view)
-        let nextCenter = CGPoint(x: lastPoint.x + translation.x,
+        var nextCenter = CGPoint(x: lastPoint.x + translation.x,
                                  y: lastPoint.y + translation.y)
         
         switch recognizer.state {
         case .began:
+            horizontalGridLine.isHidden = true
+            verticalGridLine.isHidden = true
             lastPoint = focusView.center
         case .changed:
+            if (nextCenter.x - 10...nextCenter.x + 10).contains(paintView.center.x) {
+                nextCenter.x = paintView.center.x
+                verticalGridLine.frame.origin = CGPoint(x: edgeView.center.x, y: 0)
+                verticalGridLine.isHidden = false
+            } else {
+                verticalGridLine.isHidden = true
+            }
+            if (nextCenter.y - 10...nextCenter.y + 10).contains(paintView.center.y) {
+                nextCenter.y = paintView.center.y
+                horizontalGridLine.frame.origin = CGPoint(x: 0, y: edgeView.center.y)
+                horizontalGridLine.isHidden = false
+            } else {
+                horizontalGridLine.isHidden = true
+            }
+            // TODO - Vibrate
+            // AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
             focusView.center = nextCenter
         case .ended:
+            horizontalGridLine.isHidden = true
+            verticalGridLine.isHidden = true
             if let focusSticker = self.vm.focusSticker.value {
                 self.changeStickerPosition(focusSticker, center: nextCenter, lastCenter: lastPoint)
             }
